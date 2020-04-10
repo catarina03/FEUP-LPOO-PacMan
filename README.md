@@ -1,1 +1,2 @@
-# lpoo-2020-g11
+# PAC_MAN Lanterna WIP
+
