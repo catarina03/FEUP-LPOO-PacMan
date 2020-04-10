@@ -1,8 +1,13 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
-group 'org.example'
+application {
+    mainClassName = 'Application'
+}
+
+group 'org.g11.lpoo-2020-g11'
 version '1.0-SNAPSHOT'
 
 repositories {
