@@ -55,6 +55,7 @@ eeeee#c##e########e##c#eeeee\
 ############################\
 ```
 ### Notas
+Each of the four ghosts have their own unique, distinct artificial intelligence (A.I.), or "personalities"; Blinky gives direct chase to Pac-Man, Pinky and Inky try to position themselves in front of Pac-Man, usually by cornering him, and Clyde will switch between chasing Pac-Man and fleeing from him.
 
 [Pac-Man wiki pt](https://pt.wikipedia.org/wiki/Pac-Man)\
 [Pac-Man wiki eng](https://en.wikipedia.org/wiki/Pac-Man)
