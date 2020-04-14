@@ -1,5 +1,6 @@
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
 import javafx.stage.Screen;
 
 public class PacMan {
@@ -37,6 +38,22 @@ public class PacMan {
         this.y = y;
     }
 
+    public void moveUp(){
+        this.y = getY()-1;
+    }
+
+    public void moveDown(){
+        this.y = getY()+1;
+    }
+
+    public void moveRight(){
+        this.x = getX()+1;
+    }
+
+    public void moveLeft(){
+        this.x = getX()-1;
+    }
+
     public void moveDirection(){
         switch (direction){
             case 'N':
@@ -54,22 +71,6 @@ public class PacMan {
         }
     }
 
-    public void moveUp(){
-        this.y = getY()-1;
-    }
-
-    public void moveDown(){
-        this.y = getY()+1;
-    }
-
-    public void moveRight(){
-        this.x = getX()+1;
-    }
-
-    public void moveLeft(){
-        this.x = getX()-1;
-    }
-
     public void draw(TextGraphics graphics){
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
@@ -85,6 +86,27 @@ public class PacMan {
                 break;
             case 'W':
                 graphics.setCharacter(getX(), getY(), Symbols.ARROW_LEFT);
+                break;
+        }
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.enableModifiers(SGR.BOLD);
+    }
+
+    public void processKey(KeyStroke key){
+        switch (key.getKeyType()){
+            case ArrowUp:
+                this.setDirection('N');
+                break;
+            case ArrowDown:
+                this.setDirection('S');
+                break;
+            case ArrowLeft:
+                this.setDirection('W');
+                break;
+            case ArrowRight:
+                this.setDirection('E');
+                break;
+            default:
                 break;
         }
     }
