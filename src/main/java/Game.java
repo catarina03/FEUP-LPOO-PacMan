@@ -26,7 +26,7 @@ public class Game {
             terminal = terminalFactory.createTerminal();
             screen = new TerminalScreen(terminal);
 
-            pacMan = new PacMan(10,10);
+            pacMan = new PacMan(25,26);
 
             screen.setCursorPosition(null);   // we don't need a cursor
             screen.startScreen();             // screens must be started
@@ -39,7 +39,7 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        //drawMap();
+        drawMap();
         drawGameStats();
         pacMan.draw(screen.newTextGraphics());
         screen.refresh();
@@ -97,29 +97,29 @@ public class Game {
     }
 
     public void run() throws IOException {
-        pacMan.setX(25);
-        pacMan.setY(26);
-
         long startTime = System.currentTimeMillis();
         boolean alreadyin = false;
         // ciclo de jogo
         while(true) {
             // Ler Esc para sair de ciclo
             KeyStroke keyStroke = screen.pollInput();
-            if(keyStroke != null && (keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF)) {
-                break;
+            if(keyStroke != null ){
+                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF) {
+                    break;
+                }
+                else{
+                    processKey(keyStroke);
+                    //pacMan.moveDirection();
+                }
             }
+            //Detetar keystrokes de setas e mudar direção de pacman
             // taxa de atualização a cada meio segundo
             if ((System.currentTimeMillis() - startTime) % 250 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
                     System.out.println(System.currentTimeMillis() - startTime);
-                    if(System.currentTimeMillis() - startTime < 5000)
-                        pacMan.moveRight();
-                    else
-                        pacMan.moveUp();
+                    pacMan.moveDirection();
                     draw();
-
                     alreadyin = true;
                 }
             }
@@ -131,6 +131,25 @@ public class Game {
         }
         if (screen != null)
             screen.close();
+    }
+
+    public void processKey(KeyStroke key){
+        switch (key.getKeyType()){
+            case ArrowUp:
+                pacMan.setDirection('N');
+                break;
+            case ArrowDown:
+                pacMan.setDirection('S');
+                break;
+            case ArrowLeft:
+                pacMan.setDirection('W');
+                break;
+            case ArrowRight:
+                pacMan.setDirection('E');
+                break;
+            default:
+                break;
+        }
     }
 
 }
