@@ -24,7 +24,7 @@ eeeeeeeeee#c####e################e####c#eeeeeeeeee
 #$ecec#######cecececececeMcececececec#######cece$#
 #####c#######c######c########c######c#######c#####
 #####c#######c######c########c######c#######c#####
-#cecececececec######ecec##cece######eccececececec#
+#cecececececec######ecec##cece######cecececececec#
 #c#####################c##c#####################c#
 #c#####################c##c#####################c#
 #cecececececececececececeecececececececececececec#
