@@ -57,12 +57,10 @@ public class Game {
             // Ler Esc para sair de ciclo
             KeyStroke keyStroke = screen.pollInput();
             if(keyStroke != null ){
-                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF) {
+                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF)
                     break;
-                }
-                else{
+                else
                     pacMan.processKey(keyStroke);
-                }
             }
             // taxa de atualização
             if ((System.currentTimeMillis() - startTime) % 250 == 0){

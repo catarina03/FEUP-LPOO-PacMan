@@ -4,7 +4,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Clyde extends MapComponent{
+public class Clyde extends MapComponent implements Drawable{
     public Clyde(int x, int y) {
         super(x,y);
     }

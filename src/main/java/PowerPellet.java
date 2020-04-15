@@ -3,7 +3,7 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class PowerPellet extends MapComponent{
+public class PowerPellet extends MapComponent implements Drawable{
 
     public PowerPellet(int x, int y) {
         super(x,y);

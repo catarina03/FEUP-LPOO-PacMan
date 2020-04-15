@@ -3,7 +3,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Wall extends MapComponent {
+public class Wall extends MapComponent{
     public Wall(int x, int y) {
         super(x,y);
     }

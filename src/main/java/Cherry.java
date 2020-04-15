@@ -4,7 +4,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Cherry extends MapComponent {
+public class Cherry extends MapComponent implements Drawable{
     public Cherry(int x, int y) {
         super(x,y);
     }

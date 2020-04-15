@@ -3,7 +3,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import javafx.stage.Screen;
 
-public class PacMan extends MapComponent{
+public class PacMan extends MapComponent implements Drawable{
     char direction;
 
     public PacMan(int x, int y) {

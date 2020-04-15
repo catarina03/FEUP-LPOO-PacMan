@@ -3,7 +3,7 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Blinky extends MapComponent {
+public class Blinky extends MapComponent implements Drawable {
     public Blinky(int x, int y) {
         super(x,y);
     }

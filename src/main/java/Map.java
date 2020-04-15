@@ -6,13 +6,11 @@ import java.util.ArrayList;
 
 public class Map {
     private ArrayList<String> map;
-    private ArrayList<Wall> walls;
     private ArrayList<MapComponent> mapComponents;
 
     public Map() {
         ReadFile readFile = new ReadFile();
         map = new ArrayList<>();
-        walls = new ArrayList<>();
         mapComponents = new ArrayList<>();
 
         int x; // entre 0 e 27
@@ -23,8 +21,7 @@ public class Map {
             x=0;
             for (char ch : string.toCharArray()){
                 if (ch == '#'){
-                    Wall wall = new Wall(x, y);
-                    walls.add(new Wall(x, y));
+                    MapComponent wall = new Wall(x, y);
                     mapComponents.add(wall);
                 }
                 else if(ch == 'e'){
@@ -58,8 +55,14 @@ public class Map {
     }
 
     public void draw(TextGraphics textGraphics){
-        int x=0;
+        int x;
         int y=3;
+
+        /* TODO: Ter este ciclo for a funcionar
+        for (MapComponent mapc : mapComponents){
+            mapc.draw();
+        }*/
+
         for (String string : map){
             x=0;
             for (char ch : string.toCharArray()){

@@ -3,7 +3,7 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Inky extends MapComponent{
+public class Inky extends MapComponent implements Drawable{
     public Inky(int x, int y) {
         super(x,y);
     }
