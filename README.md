@@ -16,10 +16,10 @@ Ficariamos com a seguinte configuração 28x31 (Ver em formato Raw para ter linh
  - g gate
  - e empty
  - M Pac-Man
- - B Blinky (Red Ghost)
- - P Pinky (Pink Ghost)
- - I Inky (Blue Ghost)
- - K Clyde (Orange Ghost)
+ - B Elements.Blinky (Red Elements.Ghost)
+ - P Elements.Pinky (Pink Elements.Ghost)
+ - I Elements.Inky (Blue Elements.Ghost)
+ - K Elements.Clyde (Orange Elements.Ghost)
  - \ endline delimiter
 ```c
 ############################\
@@ -55,7 +55,7 @@ eeeee#c##e########e##c#eeeee\
 ############################\
 ```
 ### Notas
-Each of the four ghosts have their own unique, distinct artificial intelligence (A.I.), or "personalities"; Blinky gives direct chase to Pac-Man, Pinky and Inky try to position themselves in front of Pac-Man, usually by cornering him, and Clyde will switch between chasing Pac-Man and fleeing from him.
+Each of the four ghosts have their own unique, distinct artificial intelligence (A.I.), or "personalities"; Elements.Blinky gives direct chase to Pac-Man, Elements.Pinky and Elements.Inky try to position themselves in front of Pac-Man, usually by cornering him, and Elements.Clyde will switch between chasing Pac-Man and fleeing from him.
 
 [Pac-Man wiki pt](https://pt.wikipedia.org/wiki/Pac-Man)\
 [Pac-Man wiki eng](https://en.wikipedia.org/wiki/Pac-Man)

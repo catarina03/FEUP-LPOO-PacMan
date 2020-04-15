@@ -1,10 +1,11 @@
-import com.googlecode.lanterna.SGR;
+package Elements;
+
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Cherry extends MapComponent implements Drawable{
+public class Cherry extends Fixed implements Drawable{
     public Cherry(int x, int y) {
         super(x,y);
     }

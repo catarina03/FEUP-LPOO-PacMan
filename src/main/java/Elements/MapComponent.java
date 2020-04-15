@@ -1,3 +1,5 @@
+package Elements;
+
 public abstract class MapComponent {
     private int x;
     private int y;

@@ -1,9 +1,10 @@
-import com.googlecode.lanterna.SGR;
+package Elements;
+
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class PowerPellet extends MapComponent implements Drawable{
+public class PowerPellet extends Fixed implements Drawable{
 
     public PowerPellet(int x, int y) {
         super(x,y);

@@ -1,3 +1,4 @@
+import Elements.*;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -6,12 +7,18 @@ import java.util.ArrayList;
 
 public class Map {
     private ArrayList<String> map;
-    private ArrayList<MapComponent> mapComponents;
+    private ArrayList<Wall> walls;
+    private ArrayList<EmptySpace> emptySpaces;
+    private ArrayList<Coin> coins;
+    private ArrayList<PowerPellet> powerPellets;
 
     public Map() {
         ReadFile readFile = new ReadFile();
         map = new ArrayList<>();
-        mapComponents = new ArrayList<>();
+        walls = new ArrayList<>();
+        emptySpaces = new ArrayList<>();
+        coins = new ArrayList<>();
+        powerPellets = new ArrayList<>();
 
         int x; // entre 0 e 27
         int y = 3; // entre 4 e 34
@@ -21,14 +28,13 @@ public class Map {
             x=0;
             for (char ch : string.toCharArray()){
                 if (ch == '#'){
-                    MapComponent wall = new Wall(x, y);
-                    mapComponents.add(wall);
+                    walls.add(new Wall(x, y));
                 }
                 else if(ch == 'e'){
-                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(new EmptySpace(x, y));
                 }
                 else if (ch == 'c'){
-                    Coin coin = new Coin(x, y);
+                    coins.add( new Coin(x, y));
                 }
                 else if (ch == 'B'){
                     Blinky blinky = new Blinky(x, y);
@@ -43,7 +49,7 @@ public class Map {
                     Clyde clyde = new Clyde(x, y);
                 }
                 else if (ch == '$'){
-                    PowerPellet powerPellet = new PowerPellet(x, y);
+                    powerPellets.add(new PowerPellet(x, y));
                 }
                 else if(ch == 'M'){
                     Cherry cherry = new Cherry(x, y);
@@ -59,7 +65,7 @@ public class Map {
         int y=3;
 
         /* TODO: Ter este ciclo for a funcionar
-        for (MapComponent mapc : mapComponents){
+        for (Elements.MapComponent mapc : mapComponents){
             mapc.draw();
         }*/
 
