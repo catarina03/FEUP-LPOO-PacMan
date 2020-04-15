@@ -84,6 +84,30 @@ public class Game {
                     Coin coin = new Coin(x, y);
                     coin.draw(textGraphics);
                 }
+                else if (ch == 'B'){
+                    Blinky blinky = new Blinky(x, y);
+                    blinky.draw(textGraphics);
+                }
+                else if (ch == 'I'){
+                    Inky inky = new Inky(x, y);
+                    inky.draw(textGraphics);
+                }
+                else if (ch == 'P'){
+                    Pinky pinky = new Pinky(x, y);
+                    pinky.draw(textGraphics);
+                }
+                else if (ch == 'K'){
+                    Clyde clyde = new Clyde(x, y);
+                    clyde.draw(textGraphics);
+                }
+                else if (ch == '$'){
+                    PowerPellet powerPellet = new PowerPellet(x, y);
+                    powerPellet.draw(textGraphics);
+                }
+                else if (ch == 'M'){
+                    Cherry cherry = new Cherry(x, y);
+                    cherry.draw(textGraphics);
+                }
                 else{
                     textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
                     textGraphics.putString(x, y, String.valueOf(ch), SGR.BOLD);

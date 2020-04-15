@@ -4,11 +4,11 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Coin {
+public class Clyde {
     int x;
     int y;
 
-    public Coin(int x, int y) {
+    public Clyde(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -30,7 +30,7 @@ public class Coin {
     }
 
     public void draw(TextGraphics textGraphics){
-        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        textGraphics.setCharacter(x, y, Symbols.BULLET);
+        textGraphics.setForegroundColor(TextColor.ANSI.GREEN); //Should be orange
+        textGraphics.setCharacter(x, y, Symbols.SINGLE_LINE_T_UP);
     }
 }

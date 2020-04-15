@@ -4,11 +4,11 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Coin {
+public class Blinky {
     int x;
     int y;
 
-    public Coin(int x, int y) {
+    public Blinky(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -30,7 +30,7 @@ public class Coin {
     }
 
     public void draw(TextGraphics textGraphics){
-        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        textGraphics.setCharacter(x, y, Symbols.BULLET);
+        textGraphics.setForegroundColor(TextColor.ANSI.RED);
+        textGraphics.setCharacter(x, y, Symbols.TRIANGLE_UP_POINTING_BLACK);
     }
 }
