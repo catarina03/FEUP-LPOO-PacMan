@@ -70,6 +70,5 @@ public class Map {
         for (Coin coin : coins) coin.draw(textGraphics);
         for (PowerPellet pp : powerPellets) pp.draw(textGraphics);
 
-
     }
 }
