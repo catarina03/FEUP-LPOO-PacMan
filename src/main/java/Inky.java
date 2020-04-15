@@ -10,6 +10,6 @@ public class Inky extends MapComponent implements Drawable{
 
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.CYAN);
-        textGraphics.setCharacter(getX(), getY(), Symbols.SINGLE_LINE_T_DOUBLE_UP);
+        textGraphics.setCharacter(getX(), getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
     }
 }

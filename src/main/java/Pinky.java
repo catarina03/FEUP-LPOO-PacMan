@@ -11,6 +11,6 @@ public class Pinky extends MapComponent implements Drawable{
 
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-        textGraphics.setCharacter(getX(), getY(), Symbols.DOUBLE_LINE_T_UP);
+        textGraphics.setCharacter(getX(), getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
     }
 }

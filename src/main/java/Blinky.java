@@ -3,6 +3,10 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
+/**
+ * Red Ghost
+ * Personality : Direct Chase to PacMan
+ */
 public class Blinky extends MapComponent implements Drawable {
     public Blinky(int x, int y) {
         super(x,y);

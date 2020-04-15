@@ -10,6 +10,7 @@ public class Coin extends MapComponent implements Drawable{
 
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        textGraphics.enableModifiers(SGR.BOLD);
         textGraphics.setCharacter(getX(), getY(), Symbols.BULLET);
     }
 }

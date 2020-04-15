@@ -63,7 +63,7 @@ public class Game {
                     pacMan.processKey(keyStroke);
             }
             // taxa de atualização
-            if ((System.currentTimeMillis() - startTime) % 250 == 0){
+            if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
                     pacMan.moveDirection();
