@@ -3,34 +3,13 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-
-public class Blinky {
-    int x;
-    int y;
-
+public class Blinky extends MapComponent {
     public Blinky(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        super(x,y);
     }
 
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.setCharacter(x, y, Symbols.TRIANGLE_UP_POINTING_BLACK);
+        textGraphics.setCharacter(getX(), getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
     }
 }

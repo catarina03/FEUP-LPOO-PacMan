@@ -4,33 +4,13 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Clyde {
-    int x;
-    int y;
-
+public class Clyde extends MapComponent{
     public Clyde(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        super(x,y);
     }
 
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.GREEN); //Should be orange
-        textGraphics.setCharacter(x, y, Symbols.SINGLE_LINE_T_UP);
+        textGraphics.setCharacter(getX(), getY(), Symbols.SINGLE_LINE_T_UP);
     }
 }
