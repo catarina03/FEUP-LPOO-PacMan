@@ -73,16 +73,16 @@ public class Game {
             x=0;
             for (char ch : string.toCharArray()){
                 if (ch == '#'){
-                    textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-                    textGraphics.putString(x, y, " ", SGR.BOLD);
+                    Wall wall = new Wall(x, y);
+                    wall.draw(textGraphics);
                 }
                 else if(ch == 'e'){
-                    textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                    textGraphics.putString(x, y, " ", SGR.BOLD);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpace.draw(textGraphics);
                 }
                 else if (ch == 'c'){
-                    textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-                    textGraphics.putString(x, y, "o", SGR.BOLD);
+                    Coin coin = new Coin(x, y);
+                    coin.draw(textGraphics);
                 }
                 else{
                     textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);

@@ -3,11 +3,11 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Wall {
+public class Coin {
     int x;
     int y;
 
-    public Wall(int x, int y) {
+    public Coin(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -29,7 +29,7 @@ public class Wall {
     }
 
     public void draw(TextGraphics textGraphics){
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-        textGraphics.putString(x, y, " ", SGR.BOLD);
+        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        textGraphics.putString(x, y, "o", SGR.BOLD);
     }
 }
