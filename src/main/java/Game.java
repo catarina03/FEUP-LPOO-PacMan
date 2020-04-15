@@ -17,8 +17,10 @@ import java.util.ArrayList;
 public class Game {
     private Screen screen;
     private Terminal terminal;
-    private ArrayList<String> map;
+    private Map map;
+    private GameStats gameStats;
     private PacMan pacMan;
+
     public Game() {
         try {
             TerminalSize terminalsize = new TerminalSize(50,36);
@@ -26,6 +28,8 @@ public class Game {
             terminal = terminalFactory.createTerminal();
             screen = new TerminalScreen(terminal);
 
+            map = new Map();
+            gameStats = new GameStats(7);
             pacMan = new PacMan(25,26);
 
             screen.setCursorPosition(null);   // we don't need a cursor
@@ -39,85 +43,10 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        drawMap();
-        drawGameStats();
+        map.draw(screen.newTextGraphics());
+        gameStats.draw(screen.newTextGraphics());
         pacMan.draw(screen.newTextGraphics());
         screen.refresh();
-    }
-
-    private void drawGameStats(){
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.putString(9, 1, "SCORE", SGR.BOLD);
-        textGraphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
-        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-        textGraphics.putString(13, 2, "0", SGR.BOLD);
-        textGraphics.putString(31, 2, "10000", SGR.BOLD);
-        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        textGraphics.putString(9, 34, "00000", SGR.BOLD);
-        textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.putString(35, 34, "o", SGR.BOLD);
-        //screen.setCharacter(27, 23, new TextCharacter('X'));
-    }
-
-    private void drawMap(){
-        ReadFile readFile = new ReadFile();
-        int x; // entre 0 e 27
-        int y = 3; // entre 4 e 34
-        TextGraphics textGraphics = screen.newTextGraphics();
-
-
-        map = readFile.fileContent();
-        for (String string : map){
-            x=0;
-            for (char ch : string.toCharArray()){
-                if (ch == '#'){
-                    Wall wall = new Wall(x, y);
-                    wall.draw(textGraphics);
-                }
-                else if(ch == 'e'){
-                    EmptySpace emptySpace = new EmptySpace(x, y);
-                    emptySpace.draw(textGraphics);
-                }
-                else if (ch == 'c'){
-                    Coin coin = new Coin(x, y);
-                    coin.draw(textGraphics);
-                }
-                else if (ch == 'B'){
-                    Blinky blinky = new Blinky(x, y);
-                    blinky.draw(textGraphics);
-                }
-                else if (ch == 'I'){
-                    Inky inky = new Inky(x, y);
-                    inky.draw(textGraphics);
-                }
-                else if (ch == 'P'){
-                    Pinky pinky = new Pinky(x, y);
-                    pinky.draw(textGraphics);
-                }
-                else if (ch == 'K'){
-                    Clyde clyde = new Clyde(x, y);
-                    clyde.draw(textGraphics);
-                }
-                else if (ch == '$'){
-                    PowerPellet powerPellet = new PowerPellet(x, y);
-                    powerPellet.draw(textGraphics);
-                }
-                else if (ch == 'M'){
-                    Cherry cherry = new Cherry(x, y);
-                    cherry.draw(textGraphics);
-                }
-                else{
-                    textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                    textGraphics.putString(x, y, String.valueOf(ch), SGR.BOLD);
-                }
-                textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-                textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                x++;
-            }
-            y++;
-        }
     }
 
     public void run() throws IOException {
