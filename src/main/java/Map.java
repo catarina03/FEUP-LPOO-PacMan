@@ -23,6 +23,7 @@ public class Map {
         int x; // entre 0 e 27
         int y = 3; // entre 4 e 34
 
+        // TODO : não está a printar ghosts nem cerejas, no problem for now
         map = readFile.fileContent();
         for (String string : map){
             x=0;
@@ -64,59 +65,11 @@ public class Map {
         int x;
         int y=3;
 
-        /* TODO: Ter este ciclo for a funcionar
-        for (Elements.MapComponent mapc : mapComponents){
-            mapc.draw();
-        }*/
+        for (Wall wall : walls) wall.draw(textGraphics);
+        for (EmptySpace emptySpace : emptySpaces) emptySpace.draw(textGraphics);
+        for (Coin coin : coins) coin.draw(textGraphics);
+        for (PowerPellet pp : powerPellets) pp.draw(textGraphics);
 
-        for (String string : map){
-            x=0;
-            for (char ch : string.toCharArray()){
-                if (ch == '#'){
-                    Wall wall = new Wall(x, y);
-                    wall.draw(textGraphics);
-                }
-                else if(ch == 'e'){
-                    EmptySpace emptySpace = new EmptySpace(x, y);
-                    emptySpace.draw(textGraphics);
-                }
-                else if (ch == 'c'){
-                    Coin coin = new Coin(x, y);
-                    coin.draw(textGraphics);
-                }
-                else if (ch == 'B'){
-                    Blinky blinky = new Blinky(x, y);
-                    blinky.draw(textGraphics);
-                }
-                else if (ch == 'I'){
-                    Inky inky = new Inky(x, y);
-                    inky.draw(textGraphics);
-                }
-                else if (ch == 'P'){
-                    Pinky pinky = new Pinky(x, y);
-                    pinky.draw(textGraphics);
-                }
-                else if (ch == 'K'){
-                    Clyde clyde = new Clyde(x, y);
-                    clyde.draw(textGraphics);
-                }
-                else if (ch == '$'){
-                    PowerPellet powerPellet = new PowerPellet(x, y);
-                    powerPellet.draw(textGraphics);
-                }
-                else if (ch == 'M'){
-                    Cherry cherry = new Cherry(x, y);
-                    cherry.draw(textGraphics);
-                }
-                else{
-                    textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                    textGraphics.putString(x, y, String.valueOf(ch), SGR.BOLD);
-                }
-                textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-                textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-                x++;
-            }
-            y++;
-        }
+
     }
 }
