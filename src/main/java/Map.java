@@ -13,6 +13,26 @@ public class Map {
     private ArrayList<PowerPellet> powerPellets;
     private ArrayList<MapComponent> mapComponents;
 
+    public ArrayList<String> getMap() {
+        return map;
+    }
+
+    public ArrayList<Wall> getWalls() {
+        return walls;
+    }
+
+    public ArrayList<EmptySpace> getEmptySpaces() {
+        return emptySpaces;
+    }
+
+    public ArrayList<Coin> getCoins() {
+        return coins;
+    }
+
+    public ArrayList<PowerPellet> getPowerPellets() {
+        return powerPellets;
+    }
+
     public Map() {
         ReadFile readFile = new ReadFile();
         map = new ArrayList<>();
