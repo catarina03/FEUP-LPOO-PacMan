@@ -16,10 +16,10 @@ Ficariamos com a seguinte configuração 28x31 (Ver em formato Raw para ter linh
  - g gate
  - e empty
  - M Pac-Man
- - B Blinky (Red Ghost)
- - P Pinky (Pink Ghost)
- - I Inky (Blue Ghost)
- - K Clyde (Orange Ghost)
+ - B Blinky (Red Elements.Ghost)
+ - P Pinky (Pink Elements.Ghost)
+ - I Inky (Blue Elements.Ghost)
+ - K Clyde (Orange Elements.Ghost)
  - \ endline delimiter
 ```c
 ############################\
@@ -59,6 +59,4 @@ Each of the four ghosts have their own unique, distinct artificial intelligence 
 
 [Pac-Man wiki pt](https://pt.wikipedia.org/wiki/Pac-Man)\
 [Pac-Man wiki eng](https://en.wikipedia.org/wiki/Pac-Man)
-
-
 

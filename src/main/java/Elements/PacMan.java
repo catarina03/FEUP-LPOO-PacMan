@@ -1,16 +1,14 @@
+package Elements;
+
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import javafx.stage.Screen;
 
-public class PacMan {
-    int x;
-    int y;
+public class PacMan extends Moveable implements Drawable{
     char direction;
 
     public PacMan(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x,y);
         this.direction = 'W';
     }
 
@@ -22,36 +20,18 @@ public class PacMan {
         this.direction = direction;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void moveUp(){
-        this.y = getY()-1;
-    }
+    public void moveUp(){ setY(getY()-1); }
 
     public void moveDown(){
-        this.y = getY()+1;
+        setY(getY()+1);
     }
 
     public void moveRight(){
-        this.x = getX()+1;
+        setX(getX()+1);
     }
 
     public void moveLeft(){
-        this.x = getX()-1;
+        setX(getX()-1);
     }
 
     public void moveDirection(){
