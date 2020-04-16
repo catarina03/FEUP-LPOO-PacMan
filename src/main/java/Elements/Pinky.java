@@ -14,8 +14,4 @@ public class Pinky extends Ghost{
         super(x,y);
     }
 
-    public void draw(TextGraphics textGraphics){
-        textGraphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-        textGraphics.setCharacter(getX(), getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-    }
 }

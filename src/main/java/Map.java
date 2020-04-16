@@ -13,6 +13,10 @@ public class Map {
     private ArrayList<PowerPellet> powerPellets;
     private ArrayList<MapComponent> mapComponents;
 
+    public ArrayList<MapComponent> getMapComponents() {
+        return mapComponents;
+    }
+
     public ArrayList<String> getMap() {
         return map;
     }

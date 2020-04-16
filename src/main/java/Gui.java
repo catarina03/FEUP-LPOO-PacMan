@@ -1,7 +1,9 @@
 import Elements.*;
 import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -38,36 +40,88 @@ public class Gui {
         drawPacMan();
         drawGameStats();
 
-        for (Drawable element : game.getAllElements()) drawElement(element);
+        for (Drawable element : game.getMap().getMapComponents()) drawElement(element);
+        for (Ghost ghost : game.)
 
         screen.refresh();
     }
 
-    private void drawMap() {
-        int x;
-        int y=3;
 
-        for (Wall wall : game.getMap().getWalls()) {
-            textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-            textGraphics.putString(getX(), getY(), " ", SGR.BOLD);
+    private void drawPacMan(){
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.enableModifiers(SGR.BOLD);
+        switch (this.game.getPacMan().getDirection()){
+            case 'N':
+                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_UP);
+                break;
+            case 'E':
+                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_RIGHT);
+                break;
+            case 'S':
+                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_DOWN);
+                break;
+            case 'W':
+                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_LEFT);
+                break;
         }
-        for (EmptySpace emptySpace : emptySpaces) emptySpace.draw(textGraphics);
-        for (Coin coin : coins) coin.draw(textGraphics);
-        for (PowerPellet pp : powerPellets) pp.draw(textGraphics);
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.enableModifiers(SGR.BOLD);
     }
+
 
     private void drawGameStats() {
-        this.game.getGameStats().draw(screen.newTextGraphics());
+        TextGraphics textGraphics = screen.newTextGraphics();
+        textGraphics.setForegroundColor(TextColor.ANSI.RED);
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        textGraphics.putString(9, 1, "SCORE", SGR.BOLD);
+        textGraphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
+        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+        textGraphics.putString(13, 2, String.valueOf(game.getGameStats().getScore()), SGR.BOLD);
+        textGraphics.putString(31, 2, "10000", SGR.BOLD);
+        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        textGraphics.putString(9, 34, "00000", SGR.BOLD);
+        textGraphics.setForegroundColor(TextColor.ANSI.RED);
+        textGraphics.putString(35, 34, "o", SGR.BOLD);
     }
 
-    private void drawElement(Element element) {
-        if (element instanceof Ghost) drawCharacter(element.getPosition(), "H", "#FFFFFF");
-        if (element instanceof Enemy) drawCharacter(element.getPosition(), "E", "#FF0000");
+    private void drawElement(MapComponent element) {
+        if (element instanceof Ghost) drawGhost(element);
+        if (element instanceof Cherry) drawCharacter(element.getPosition(), "E", "#FF0000");
         if (element instanceof Wall) drawCharacter(element.getPosition(), "#", "#FFFFFF");
         if (element instanceof Coin) drawCharacter(element.getPosition(), "O", "#FFFF00");
+        if (element instanceof EmptySpace) drawCharacter(element.getPosition(), "O", "#FFFF00");
+        if (element instanceof PowerPellet) drawCharacter(element.getPosition(), "O", "#FFFF00");
     }
 
-    private void drawCharacter(Position position, String character, String color) {
+    private void drawGhost(MapComponent element){
+        TextGraphics textGraphics = screen.newTextGraphics();
+        if (element instanceof Blinky){
+            textGraphics.setForegroundColor(TextColor.ANSI.RED);
+            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        }
+        if (element instanceof Clyde){
+            textGraphics.setForegroundColor(TextColor.Factory.fromString("#FFA500")); //Should be orange
+            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        }
+        if (element instanceof Inky){
+            textGraphics.setForegroundColor(TextColor.ANSI.CYAN);
+            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        }
+        if (element instanceof Pinky){
+            textGraphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        }
+    }
+
+
+
+
+
+
+
+
+    private void drawCharacter(Position position, static char character, String color) {
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.setForegroundColor(TextColor.Factory.fromString(color));
@@ -75,6 +129,7 @@ public class Gui {
         graphics.putString(position.getX(), position.getY(), character);
     }
 
+    /*
     public Command getNextCommand() throws IOException {
         KeyStroke input = screen.readInput();
 
@@ -87,6 +142,5 @@ public class Gui {
 
         return new DoNothingCommand();
     }
-
-
+    */
 }

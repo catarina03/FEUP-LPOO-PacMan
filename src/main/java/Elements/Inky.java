@@ -13,8 +13,4 @@ public class Inky extends Ghost{
         super(x,y);
     }
 
-    public void draw(TextGraphics textGraphics){
-        textGraphics.setForegroundColor(TextColor.ANSI.CYAN);
-        textGraphics.setCharacter(getX(), getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-    }
 }

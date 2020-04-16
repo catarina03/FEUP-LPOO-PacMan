@@ -9,6 +9,10 @@ public class GameStats {
         this.score = initialscore;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
         textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
