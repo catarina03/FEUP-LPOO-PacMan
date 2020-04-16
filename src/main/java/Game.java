@@ -36,6 +36,18 @@ public class Game {
         }
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public GameStats getGameStats() {
+        return gameStats;
+    }
+
+    public PacMan getPacMan() {
+        return pacMan;
+    }
+
     private void draw() throws IOException {
         screen.clear();
         map.draw(screen.newTextGraphics());
