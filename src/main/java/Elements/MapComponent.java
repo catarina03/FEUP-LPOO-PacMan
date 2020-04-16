@@ -1,6 +1,6 @@
 package Elements;
 
-public abstract class MapComponent {
+public abstract class MapComponent implements Drawable {
     private int x;
     private int y;
 

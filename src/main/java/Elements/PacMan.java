@@ -4,7 +4,7 @@ import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 
-public class PacMan extends Moveable implements Drawable{
+public class PacMan extends Moveable{
     char direction;
 
     public PacMan(int x, int y) {

@@ -5,7 +5,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
-public class Wall extends Fixed implements Drawable{
+public class Wall extends Fixed {
     public Wall(int x, int y) {
         super(x,y);
     }
