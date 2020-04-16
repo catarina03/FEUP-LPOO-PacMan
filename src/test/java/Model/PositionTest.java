@@ -3,11 +3,9 @@ package Model;
 import Others.Position;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PositionTest {
 
@@ -43,10 +41,10 @@ public class PositionTest {
         assertEquals(positionleft, position.left());
         assertEquals(positionright, position.right());
 
-        assertEquals(true, position.up().equals(positionup));
-        assertEquals(true, position.down().equals(positiondown));
-        assertEquals(true, position.left().equals(positionleft));
-        assertEquals(true, position.right().equals(positionright));
+        assertTrue(position.up().equals(positionup));
+        assertTrue(position.down().equals(positiondown));
+        assertTrue(position.left().equals(positionleft));
+        assertTrue(position.right().equals(positionright));
     }
 
     @Test
@@ -59,8 +57,28 @@ public class PositionTest {
         Position position2 = new Position(x,y);
 
         assertEquals(position1, position2);
-        assertEquals(true, position1.equals(position2));
+        assertTrue(position1.equals(position2));
 
         assertEquals(position1.hashCode(), position2.hashCode());
+    }
+
+    @Test
+    public void PositionEquals() {
+        Random r = new Random();
+        int x = r.nextInt((20) + 1);
+        int y = r.nextInt((20) + 1);
+        int xx = r.nextInt((40-21) + 1) + 21;
+        int yy = r.nextInt((40-21) + 1) + 21;
+
+        Position position1 = new Position(x,y);
+        Position position2 = new Position(xx,yy);
+        Position position3 = new Position(x,y);
+
+
+        assertFalse(position1.equals(position2));
+        assertNotEquals(position1, position2);
+
+        assertTrue(position1.equals(position3));
+        assertEquals(position1, position3);
     }
 }
