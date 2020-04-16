@@ -117,12 +117,6 @@ public class Gui {
     }
 
 
-
-
-
-
-
-
     private void drawCharacter(Position position, static char character, String color) {
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));

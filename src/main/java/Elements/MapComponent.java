@@ -6,8 +6,7 @@ public abstract class MapComponent implements Drawable {
     private Position position;
 
     public MapComponent(int x, int y) {
-        this.position.setX(x);
-        this.position.setY(y);
+        this.position = new Position(x, y);
     }
 
     public MapComponent(Position position) {
@@ -18,14 +17,14 @@ public abstract class MapComponent implements Drawable {
         return position.getX();
     }
 
-    public void setX(int x) { this.position.setX(x); }
+    public void setX(int x) { this.position = new Position(x, this.position.getY()); }
 
     public int getY() {
         return position.getY();
     }
 
     public void setY(int y) {
-        this.position.setY(y);
+        this.position = new Position(this.position.getX(),y );
     }
 
     public Position getPosition() { return position; }

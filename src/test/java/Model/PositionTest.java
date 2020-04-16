@@ -13,6 +13,7 @@ public class PositionTest {
     * Random r = new Random();
 	* return r.nextInt((max - min) + 1) + min;
     */
+
     @Test
     public void PositionValuesCreation() {
         Random r = new Random();
