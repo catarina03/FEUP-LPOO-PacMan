@@ -1,3 +1,5 @@
+package Others;
+
 import Elements.PacMan;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;

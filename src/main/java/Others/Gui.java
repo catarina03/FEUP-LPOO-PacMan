@@ -1,3 +1,5 @@
+package Others;
+
 import Elements.*;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
