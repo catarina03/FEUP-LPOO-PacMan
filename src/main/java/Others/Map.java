@@ -100,7 +100,10 @@ public class Map {
         }
     }
 
+    /*
     public void draw(TextGraphics textGraphics){
         for (MapComponent mp : mapComponents) mp.draw(textGraphics);
     }
+
+     */
 }

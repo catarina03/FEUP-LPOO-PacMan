@@ -50,6 +50,7 @@ public class Game {
         return pacMan;
     }
 
+    /*
     private void draw() throws IOException {
         screen.clear();
         map.draw(screen.newTextGraphics());
@@ -57,6 +58,7 @@ public class Game {
         pacMan.draw(screen.newTextGraphics());
         screen.refresh();
     }
+    */
 
     public void run() throws IOException {
         long startTime = System.currentTimeMillis();
@@ -74,7 +76,7 @@ public class Game {
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
                     pacMan.moveDirection();
-                    draw();
+                    //gui.draw(); //NEEDS FIXING
                     alreadyin = true;
                 }
             }

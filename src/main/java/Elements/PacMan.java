@@ -51,6 +51,7 @@ public class PacMan extends Moveable{
         }
     }
 
+    /*
     public void draw(TextGraphics graphics){
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
@@ -71,6 +72,8 @@ public class PacMan extends Moveable{
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
         graphics.enableModifiers(SGR.BOLD);
     }
+
+     */
 
     public void processKey(KeyStroke key){
         switch (key.getKeyType()){

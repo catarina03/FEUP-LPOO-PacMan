@@ -10,8 +10,4 @@ public class Cherry extends Fixed{
         super(x,y);
     }
 
-    public void draw(TextGraphics textGraphics){
-        textGraphics.setForegroundColor(TextColor.ANSI.RED); //Should be orange
-        textGraphics.setCharacter(getX(), getY(), Symbols.CLUB);
-    }
 }

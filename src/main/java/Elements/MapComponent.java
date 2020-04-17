@@ -2,7 +2,7 @@ package Elements;
 
 import Others.Position;
 
-public abstract class MapComponent implements Drawable {
+public abstract class MapComponent {
     private Position position;
 
     public MapComponent(int x, int y) {

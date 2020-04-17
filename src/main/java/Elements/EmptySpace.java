@@ -9,8 +9,4 @@ public class EmptySpace extends Fixed{
         super(x,y);
     }
 
-    public void draw(TextGraphics textGraphics){
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.putString(getX(), getY(), " ", SGR.BOLD);
-    }
 }
