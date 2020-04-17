@@ -2,6 +2,7 @@ package View;
 
 import Model.Elements.*;
 import Controller.Game;
+import Model.GameData;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalSize;
@@ -15,21 +16,19 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Gui {
-    private Game game;
+    private Terminal terminal;
     private Screen screen;
 
-    public Gui(Game game) {
+    public Gui() {
         try {
             TerminalSize terminalsize = new TerminalSize(50,36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            Terminal terminal = terminalFactory.createTerminal();
+            terminal = terminalFactory.createTerminal();
             screen = new TerminalScreen(terminal);
 
             screen.setCursorPosition(null);   // we don't need a cursor
             screen.startScreen();             // screens must be started
             screen.doResizeIfNecessary();     // resize screen if necessary
-
-            this.game = game;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,34 +36,34 @@ public class Gui {
     }
 
 
-    public void draw() throws IOException {
+    public void draw(GameData gameData) throws IOException {
         screen.clear();
 
-        for (MapComponent element : game.getMap().getMapComponents()) drawElement(element);
+        for (MapComponent element : gameData.getMap().getMapComponents()) drawElement(element);
 
-        drawPacMan();
-        drawGameStats();
+        drawPacMan(gameData);
+        drawGameStats(gameData);
 
         screen.refresh();
     }
 
 
-    private void drawPacMan(){
+    private void drawPacMan(GameData gameData){
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
-        switch (this.game.getPacMan().getDirection()){
+        switch (gameData.getPacMan().getDirection()){
             case 'N':
-                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_UP);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
                 break;
             case 'E':
-                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_RIGHT);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
                 break;
             case 'S':
-                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_DOWN);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
                 break;
             case 'W':
-                graphics.setCharacter(this.game.getPacMan().getX(), this.game.getPacMan().getY(), Symbols.ARROW_LEFT);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
                 break;
         }
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
@@ -72,14 +71,14 @@ public class Gui {
     }
 
 
-    private void drawGameStats() {
+    private void drawGameStats(GameData gameData) {
         TextGraphics textGraphics = screen.newTextGraphics();
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
         textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
         textGraphics.putString(9, 1, "SCORE", SGR.BOLD);
         textGraphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
         textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-        textGraphics.putString(13, 2, String.valueOf(game.getGameStats().getScore()), SGR.BOLD);
+        textGraphics.putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
         textGraphics.putString(31, 2, "10000", SGR.BOLD);
         textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
         textGraphics.putString(9, 34, "00000", SGR.BOLD);
