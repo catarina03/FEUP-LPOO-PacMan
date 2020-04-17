@@ -1,10 +1,8 @@
-package Elements;
+package Model.Elements;
 
-import com.googlecode.lanterna.*;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 
-public class PacMan extends Moveable implements Drawable{
+public class PacMan extends Moveable{
     char direction;
 
     public PacMan(int x, int y) {
@@ -51,6 +49,7 @@ public class PacMan extends Moveable implements Drawable{
         }
     }
 
+    /*
     public void draw(TextGraphics graphics){
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
@@ -71,6 +70,8 @@ public class PacMan extends Moveable implements Drawable{
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
         graphics.enableModifiers(SGR.BOLD);
     }
+
+     */
 
     public void processKey(KeyStroke key){
         switch (key.getKeyType()){

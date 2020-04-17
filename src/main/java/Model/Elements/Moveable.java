@@ -1,4 +1,4 @@
-package Elements;
+package Model.Elements;
 
 public abstract class Moveable extends MapComponent {
     public Moveable(int x, int y) {
