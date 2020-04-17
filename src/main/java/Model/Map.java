@@ -1,7 +1,7 @@
-package Others;
+package Model;
 
-import Elements.*;
-import com.googlecode.lanterna.graphics.TextGraphics;
+import Model.Elements.*;
+import Controller.ReadFile;
 
 import java.util.ArrayList;
 

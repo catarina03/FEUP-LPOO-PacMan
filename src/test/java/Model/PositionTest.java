@@ -1,6 +1,5 @@
 package Model;
 
-import Others.Position;
 import org.junit.Test;
 
 import java.util.Random;
@@ -42,10 +41,6 @@ public class PositionTest {
         assertEquals(positionleft, position.left());
         assertEquals(positionright, position.right());
 
-        assertTrue(position.up().equals(positionup));
-        assertTrue(position.down().equals(positiondown));
-        assertTrue(position.left().equals(positionleft));
-        assertTrue(position.right().equals(positionright));
     }
 
     @Test
@@ -58,7 +53,6 @@ public class PositionTest {
         Position position2 = new Position(x,y);
 
         assertEquals(position1, position2);
-        assertTrue(position1.equals(position2));
 
         assertEquals(position1.hashCode(), position2.hashCode());
     }
@@ -75,11 +69,7 @@ public class PositionTest {
         Position position2 = new Position(xx,yy);
         Position position3 = new Position(x,y);
 
-
-        assertFalse(position1.equals(position2));
         assertNotEquals(position1, position2);
-
-        assertTrue(position1.equals(position3));
         assertEquals(position1, position3);
     }
 }

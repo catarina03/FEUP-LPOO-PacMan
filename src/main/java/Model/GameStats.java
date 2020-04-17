@@ -1,4 +1,4 @@
-package Others;
+package Model;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;

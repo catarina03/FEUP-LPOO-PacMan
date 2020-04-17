@@ -1,6 +1,7 @@
-package Others;
+package View;
 
-import Elements.*;
+import Model.Elements.*;
+import Controller.Game;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalSize;
@@ -17,7 +18,7 @@ public class Gui {
     private Game game;
     private Screen screen;
 
-    public Gui(Game game) throws IOException {
+    public Gui(Game game) {
         try {
             TerminalSize terminalsize = new TerminalSize(50,36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
@@ -39,10 +40,10 @@ public class Gui {
     public void draw() throws IOException {
         screen.clear();
 
+        for (MapComponent element : game.getMap().getMapComponents()) drawElement(element);
+
         drawPacMan();
         drawGameStats();
-
-        for (MapComponent element : game.getMap().getMapComponents()) drawElement(element);
 
         screen.refresh();
     }

@@ -1,6 +1,8 @@
-package Others;
+package Controller;
 
-import Elements.PacMan;
+import Model.Elements.PacMan;
+import Model.GameStats;
+import Model.Map;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;

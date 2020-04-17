@@ -1,8 +1,4 @@
-package Elements;
-
-import com.googlecode.lanterna.Symbols;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
+package Model.Elements;
 
 /**
  * Orange Elements.Ghost

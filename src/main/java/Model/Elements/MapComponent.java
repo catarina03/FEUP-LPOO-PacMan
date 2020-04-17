@@ -1,6 +1,6 @@
-package Elements;
+package Model.Elements;
 
-import Others.Position;
+import Model.Position;
 
 public abstract class MapComponent {
     private Position position;

@@ -1,7 +1,5 @@
-package Elements;
+package Model.Elements;
 
-import com.googlecode.lanterna.*;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 
 public class PacMan extends Moveable{
