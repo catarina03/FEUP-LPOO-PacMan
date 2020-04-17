@@ -42,8 +42,7 @@ public class Gui {
         drawPacMan();
         drawGameStats();
 
-        for (Drawable element : game.getMap().getMapComponents()) drawElement(element);
-        for (Ghost ghost : game.)
+        for (MapComponent element : game.getMap().getMapComponents()) drawElement(element);
 
         screen.refresh();
     }
@@ -89,11 +88,11 @@ public class Gui {
 
     private void drawElement(MapComponent element) {
         if (element instanceof Ghost) drawGhost(element);
-        if (element instanceof Cherry) drawCharacter(element.getPosition(), "E", "#FF0000");
-        if (element instanceof Wall) drawCharacter(element.getPosition(), "#", "#FFFFFF");
-        if (element instanceof Coin) drawCharacter(element.getPosition(), "O", "#FFFF00");
-        if (element instanceof EmptySpace) drawCharacter(element.getPosition(), "O", "#FFFF00");
-        if (element instanceof PowerPellet) drawCharacter(element.getPosition(), "O", "#FFFF00");
+        if (element instanceof Cherry) drawCherry(element);
+        if (element instanceof Wall) drawWall(element);
+        if (element instanceof Coin) drawCoin(element);
+        if (element instanceof EmptySpace) drawEmptySpace(element);
+        if (element instanceof PowerPellet) drawPowerPellet(element);
     }
 
     private void drawGhost(MapComponent element){
@@ -116,19 +115,38 @@ public class Gui {
         }
     }
 
+    private void drawCherry(MapComponent element){
+        TextGraphics textGraphics = screen.newTextGraphics();
+        textGraphics.setForegroundColor(TextColor.ANSI.RED);
+        textGraphics.setCharacter(element.getX(), element.getY(), Symbols.CLUB);
+    }
 
+    private void drawWall(MapComponent element){
+        TextGraphics textGraphics = screen.newTextGraphics();
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
+        textGraphics.putString(element.getX(), element.getY(), " ", SGR.BOLD);
+    }
 
+    private void drawCoin(MapComponent element){
+        TextGraphics textGraphics = screen.newTextGraphics();
+        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        textGraphics.enableModifiers(SGR.BOLD);
+        textGraphics.setCharacter(element.getX(), element.getY(), Symbols.BULLET);
+    }
 
+    private void drawEmptySpace(MapComponent element){
+        TextGraphics textGraphics = screen.newTextGraphics();
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        textGraphics.putString(element.getX(), element.getY(), " ", SGR.BOLD);
+    }
 
-
-
-
-    private void drawCharacter(Position position, static char character, String color) {
-        TextGraphics graphics = screen.newTextGraphics();
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
-        graphics.setForegroundColor(TextColor.Factory.fromString(color));
-
-        graphics.putString(position.getX(), position.getY(), character);
+    private void drawPowerPellet(MapComponent element){
+        TextGraphics textGraphics = screen.newTextGraphics();
+        textGraphics.setForegroundColor(TextColor.Factory.fromString("#FFA500")); //Should be orange
+        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        textGraphics.enableModifiers(SGR.BOLD);
+        textGraphics.setCharacter(element.getX(), element.getY(), Symbols.SPADES);
     }
 
     /*

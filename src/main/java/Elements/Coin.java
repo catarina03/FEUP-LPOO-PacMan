@@ -9,11 +9,4 @@ public class Coin extends Fixed{
     public Coin(int x, int y) {
         super(x,y);
     }
-
-    public void draw(TextGraphics textGraphics){
-        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.enableModifiers(SGR.BOLD);
-        textGraphics.setCharacter(getX(), getY(), Symbols.BULLET);
-    }
 }

@@ -2,12 +2,12 @@ package Elements;
 
 import Others.Position;
 
-public abstract class MapComponent implements Drawable {
+public abstract class MapComponent {
     private Position position;
 
     public MapComponent(int x, int y) {
-        this.position.setX(x);
-        this.position.setY(y);
+        Position position = new Position(x, y);
+        this.position = position;
     }
 
     public MapComponent(Position position) {
