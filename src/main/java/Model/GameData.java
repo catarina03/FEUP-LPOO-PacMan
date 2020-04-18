@@ -40,6 +40,4 @@ public class GameData {
         return map;
     }
 
-    // Will have the all the game Info to be process by the controller
-    // Controller will have a intance of Game Data
 }

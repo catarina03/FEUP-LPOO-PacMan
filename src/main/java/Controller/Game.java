@@ -14,16 +14,6 @@ public class Game {
         gameData = new GameData();
     }
 
-    /*
-    private void draw() throws IOException {
-        screen.clear();
-        map.draw(screen.newTextGraphics());
-        gameStats.draw(screen.newTextGraphics());
-        pacMan.draw(screen.newTextGraphics());
-        screen.refresh();
-    }
-    */
-
     public Gui getGui() {
         return gui;
     }
@@ -37,20 +27,12 @@ public class Game {
         boolean alreadyin = false;
         // ciclo de jogo
         while(true) {
-            // Ler Esc para sair de ciclo
-
-            /*KeyStroke keyStroke = screen.pollInput();
-            if(keyStroke != null ){
-                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF) break;
-                else pacMan.processKey(keyStroke);
-            }*/
-
             // taxa de atualização
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
                     gameData.update();
-                    gui.draw(gameData); //NEEDS FIXING
+                    gui.draw(gameData);
                     alreadyin = true;
                 }
             }

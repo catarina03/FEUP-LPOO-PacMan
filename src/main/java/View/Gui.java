@@ -8,6 +8,8 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -35,6 +37,19 @@ public class Gui {
         }
     }
 
+    public void getMove() throws IOException {
+        // Ler Esc para sair de ciclo
+
+        KeyStroke keyStroke = screen.pollInput();
+        if(keyStroke != null ){
+            if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF){
+                // break do ciclo de Run
+            }
+            else {
+                // Controllador processa key
+            }
+        }
+    }
 
     public void draw(GameData gameData) throws IOException {
         screen.clear();
