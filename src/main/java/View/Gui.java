@@ -82,7 +82,7 @@ public class Gui {
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
-        switch (gameData.getPacMan().getDirection()){
+        switch (gameData.getPacMan().getOrientation()){
             case UP:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
                 break;

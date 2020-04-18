@@ -13,7 +13,7 @@ public class GameData {
     private Map map;
 
     public GameData() {
-        pacMan = new PacMan(10,10);
+        pacMan = new PacMan(26,26);
         map = new Map();
         gameStats = new GameStats(4);
         ghosts = new ArrayList<>();

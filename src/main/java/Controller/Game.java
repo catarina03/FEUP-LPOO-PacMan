@@ -1,8 +1,12 @@
 package Controller;
 
+import Model.Elements.Wall;
 import Model.Orientation;
 import Model.GameData;
+import Model.Position;
 import View.Gui;
+
+import java.util.ArrayList;
 
 public class Game {
     private Gui gui;
@@ -33,7 +37,7 @@ public class Game {
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
-                    gameData.update();
+                    Update(gameData);
                     gui.draw(gameData);
                     alreadyin = true;
                 }
@@ -45,6 +49,45 @@ public class Game {
         }
     }
 
+    private void Update(GameData gameData) {
+
+        // Can Pacman move to next position?
+            // Pacman's next position?
+            // Is a wall in the position pacman is about to move to?
+        // yes -> update position
+        // no  -> don't update
+        if (!checkWallColison()){
+            gameData.update();
+        }
+    }
+
+    private Position pacManNextPosition(){
+        Position position = gameData.getPacMan().getPosition();
+        Orientation orientation = gameData.getPacMan().getOrientation();
+        switch (orientation){
+            case UP:
+                return position.up();
+            case DOWN:
+                return position.down();
+            case LEFT:
+                return position.left();
+            case RIGHT:
+                return position.right();
+        }
+        return position;
+    }
+
+    private boolean checkWallColison(){
+        ArrayList<Wall> walls = gameData.getMap().getWalls();
+        Position position = pacManNextPosition();
+        for(Wall wall : walls){
+            if (wall.getPosition().getX() == position.getX() && wall.getPosition().getY() == position.getY()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void processKey(Gui.MOVE move) throws Throwable {
         if (move != null){
             switch (move){
@@ -53,16 +96,16 @@ public class Game {
                     running = false;
                     break;
                 case UP:
-                    gameData.getPacMan().setDirection(Orientation.UP);
+                    gameData.getPacMan().setOrientation(Orientation.UP);
                     break;
                 case DOWN:
-                    gameData.getPacMan().setDirection(Orientation.DOWN);
+                    gameData.getPacMan().setOrientation(Orientation.DOWN);
                     break;
                 case LEFT:
-                    gameData.getPacMan().setDirection(Orientation.LEFT);
+                    gameData.getPacMan().setOrientation(Orientation.LEFT);
                     break;
                 case RIGHT:
-                    gameData.getPacMan().setDirection(Orientation.RIGHT);
+                    gameData.getPacMan().setOrientation(Orientation.RIGHT);
                     break;
             }
         }
