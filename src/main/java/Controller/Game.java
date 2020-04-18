@@ -18,14 +18,6 @@ public class Game {
         gameData = new GameData();
     }
 
-    public Gui getGui() {
-        return gui;
-    }
-
-    public GameData getGameData() {
-        return gameData;
-    }
-
     public void run() throws Throwable {
         running = true;
         long startTime = System.currentTimeMillis();
@@ -56,7 +48,7 @@ public class Game {
             // Is a wall in the position pacman is about to move to?
         // yes -> update position
         // no  -> don't update
-        if (!checkWallColison()){
+        if (!checkWallColison(pacManNextPosition())){
             gameData.update();
         }
     }
@@ -77,16 +69,16 @@ public class Game {
         return position;
     }
 
-    private boolean checkWallColison(){
+    private boolean checkWallColison(Position pmnextpos){
         ArrayList<Wall> walls = gameData.getMap().getWalls();
-        Position position = pacManNextPosition();
         for(Wall wall : walls){
-            if (wall.getPosition().equals(position)) return true;
+            if (wall.getPosition().equals(pmnextpos)) return true;
         }
         return false;
     }
 
     public void processKey(Gui.MOVE move) throws Throwable {
+
         if (move != null){
             switch (move){
                 case ESC:
@@ -94,20 +86,25 @@ public class Game {
                     running = false;
                     break;
                 case UP:
-                    gameData.getPacMan().setOrientation(Orientation.UP);
+                    // check if can change position
+                    if (!checkWallColison(gameData.getPacMan().getPosition().up()))
+                        gameData.getPacMan().setOrientation(Orientation.UP);
                     break;
                 case DOWN:
-                    gameData.getPacMan().setOrientation(Orientation.DOWN);
+                    if (!checkWallColison(gameData.getPacMan().getPosition().down()))
+                        gameData.getPacMan().setOrientation(Orientation.DOWN);
                     break;
                 case LEFT:
-                    gameData.getPacMan().setOrientation(Orientation.LEFT);
+                    if (!checkWallColison(gameData.getPacMan().getPosition().left()))
+                        gameData.getPacMan().setOrientation(Orientation.LEFT);
                     break;
                 case RIGHT:
-                    gameData.getPacMan().setOrientation(Orientation.RIGHT);
+                    if (!checkWallColison(gameData.getPacMan().getPosition().right()))
+                        gameData.getPacMan().setOrientation(Orientation.RIGHT);
                     break;
             }
         }
-
     }
+
 }
 
