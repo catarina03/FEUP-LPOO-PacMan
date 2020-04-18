@@ -1,6 +1,5 @@
 package Model;
 
-import Model.Elements.Blinky;
 import Model.Elements.Ghost;
 import Model.Elements.PacMan;
 
