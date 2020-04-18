@@ -15,7 +15,7 @@ public class GameData {
     public GameData() {
         pacMan = new PacMan(10,10);
         map = new Map();
-        gameStats = new GameStats(4);
+        gameStats = new GameStats(0);
         ghosts = new ArrayList<>();
     }
 
