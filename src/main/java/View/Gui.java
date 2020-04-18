@@ -1,7 +1,6 @@
 package View;
 
 import Model.Elements.*;
-import Controller.Game;
 import Model.GameData;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -37,18 +36,35 @@ public class Gui {
         }
     }
 
-    public void getMove() throws IOException {
-        // Ler Esc para sair de ciclo
+    public void close() throws Throwable {
+        if (screen != null){
+            screen.close();
+        }
+    }
 
+    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
+
+    public MOVE getMove() throws IOException {
+        // Ler Esc para sair de ciclo
         KeyStroke keyStroke = screen.pollInput();
         if(keyStroke != null ){
-            if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF){
-                // break do ciclo de Run
-            }
-            else {
-                // Controllador processa key
+            switch (keyStroke.getKeyType()){
+                case ArrowUp:
+                    return MOVE.UP;
+                case ArrowDown:
+                    return MOVE.DOWN;
+                case ArrowLeft:
+                    return MOVE.LEFT;
+                case ArrowRight:
+                    return MOVE.RIGHT;
+                case Escape:
+                case EOF:
+                    return MOVE.ESC;
+                default:
+                    return null;
             }
         }
+        return null;
     }
 
     public void draw(GameData gameData) throws IOException {
