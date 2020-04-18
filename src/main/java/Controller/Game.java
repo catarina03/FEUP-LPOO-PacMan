@@ -81,9 +81,7 @@ public class Game {
         ArrayList<Wall> walls = gameData.getMap().getWalls();
         Position position = pacManNextPosition();
         for(Wall wall : walls){
-            if (wall.getPosition().getX() == position.getX() && wall.getPosition().getY() == position.getY()){
-                return true;
-            }
+            if (wall.getPosition().equals(position)) return true;
         }
         return false;
     }
