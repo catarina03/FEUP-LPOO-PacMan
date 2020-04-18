@@ -1,21 +1,22 @@
 package Model.Elements;
 
+import Model.Orientation;
 import com.googlecode.lanterna.input.KeyStroke;
 
 public class PacMan extends Moveable{
-    char direction;
+    Orientation orientation;
 
     public PacMan(int x, int y) {
         super(x,y);
-        this.direction = 'W';
+        this.orientation = Orientation.LEFT;
     }
 
-    public char getDirection() {
-        return direction;
+    public Orientation getDirection() {
+        return orientation;
     }
 
-    public void setDirection(char direction) {
-        this.direction = direction;
+    public void setDirection(Orientation or) {
+        this.orientation = or;
     }
 
     public void moveUp(){ setY(getY()-1); }
@@ -33,59 +34,35 @@ public class PacMan extends Moveable{
     }
 
     public void moveDirection(){
-        switch (direction){
-            case 'N':
+        switch (orientation){
+            case UP:
                 moveUp();
                 break;
-            case 'E':
+            case RIGHT:
                 moveRight();
                 break;
-            case 'S':
+            case DOWN:
                 moveDown();
                 break;
-            case 'W':
+            case LEFT:
                 moveLeft();
                 break;
         }
     }
 
-    /*
-    public void draw(TextGraphics graphics){
-        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        graphics.enableModifiers(SGR.BOLD);
-        switch (direction){
-            case 'N':
-                graphics.setCharacter(getX(), getY(), Symbols.ARROW_UP);
-                break;
-            case 'E':
-                graphics.setCharacter(getX(), getY(), Symbols.ARROW_RIGHT);
-                break;
-            case 'S':
-                graphics.setCharacter(getX(), getY(), Symbols.ARROW_DOWN);
-                break;
-            case 'W':
-                graphics.setCharacter(getX(), getY(), Symbols.ARROW_LEFT);
-                break;
-        }
-        graphics.setForegroundColor(TextColor.ANSI.WHITE);
-        graphics.enableModifiers(SGR.BOLD);
-    }
-
-     */
-
     public void processKey(KeyStroke key){
         switch (key.getKeyType()){
             case ArrowUp:
-                this.setDirection('N');
+                this.setDirection(Orientation.UP);
                 break;
             case ArrowDown:
-                this.setDirection('S');
+                this.setDirection(Orientation.DOWN);
                 break;
             case ArrowLeft:
-                this.setDirection('W');
+                this.setDirection(Orientation.LEFT);
                 break;
             case ArrowRight:
-                this.setDirection('E');
+                this.setDirection(Orientation.RIGHT);
                 break;
             default:
                 break;

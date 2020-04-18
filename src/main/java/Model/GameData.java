@@ -1,6 +1,5 @@
 package Model;
 
-import Model.Elements.Blinky;
 import Model.Elements.Ghost;
 import Model.Elements.PacMan;
 
@@ -40,6 +39,4 @@ public class GameData {
         return map;
     }
 
-    // Will have the all the game Info to be process by the controller
-    // Controller will have a intance of Game Data
 }

@@ -1,13 +1,13 @@
 package View;
 
 import Model.Elements.*;
-import Controller.Game;
 import Model.GameData;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -35,6 +35,36 @@ public class Gui {
         }
     }
 
+    public void close() throws Throwable {
+        if (screen != null){
+            screen.close();
+        }
+    }
+
+    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
+
+    public MOVE getMove() throws IOException {
+        // Ler Esc para sair de ciclo
+        KeyStroke keyStroke = screen.pollInput();
+        if(keyStroke != null ){
+            switch (keyStroke.getKeyType()){
+                case ArrowUp:
+                    return MOVE.UP;
+                case ArrowDown:
+                    return MOVE.DOWN;
+                case ArrowLeft:
+                    return MOVE.LEFT;
+                case ArrowRight:
+                    return MOVE.RIGHT;
+                case Escape:
+                case EOF:
+                    return MOVE.ESC;
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
 
     public void draw(GameData gameData) throws IOException {
         screen.clear();
@@ -53,16 +83,16 @@ public class Gui {
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getDirection()){
-            case 'N':
+            case UP:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
                 break;
-            case 'E':
+            case RIGHT:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
                 break;
-            case 'S':
+            case DOWN:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
                 break;
-            case 'W':
+            case LEFT:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
                 break;
         }
