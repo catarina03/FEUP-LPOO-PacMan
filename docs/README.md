@@ -11,7 +11,7 @@
 - Power pellets: quando são comidas pelo Pac-man os fantasmas passam ao "blue mode", ou seja, passam a poder ser comidos pelo Pac-man
 - Continuidade do mapa: caso o Pac-man saia do limite do ecrã, ele reaparecia do lado oposto
 - Personalidade dos fantasmas: um fastasma que persiga o Pac-man
-- Buffer de movimentos do Pac-man  
+- Buffer de movimentos do Pac-man
 
  ## Screencast
-![](docs/res/pac-man.gif)
+![](res/pac-man.gif)
