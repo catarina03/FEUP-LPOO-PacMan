@@ -14,4 +14,4 @@
 - Buffer de movimentos do Pac-man  
 
  ## Screencast
-![](./docs/res/pac-man.gif)
+![](docs/res/pac-man.gif)
