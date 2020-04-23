@@ -47,4 +47,11 @@ public class GameData {
         this.gameStats = gameStats;
     }
 
+    public void setPacMan(PacMan pacMan) {
+        this.pacMan = pacMan;
+    }
+
+    public void setGhosts(List<Ghost> ghosts) {
+        this.ghosts = ghosts;
+    }
 }
