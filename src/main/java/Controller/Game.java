@@ -50,6 +50,7 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         if (!checkWallColison(pacManNextPosition())){
+            coinColison(gameData.getPacMan().getPosition());
             gameData.update();
         }
     }
@@ -59,16 +60,12 @@ public class Game {
         Orientation orientation = gameData.getPacMan().getOrientation();
         switch (orientation){
             case UP:
-                coinColison(gameData.getPacMan().getPosition().up());
                 return position.up();
             case DOWN:
-                coinColison(gameData.getPacMan().getPosition().down());
                 return position.down();
             case LEFT:
-                coinColison(gameData.getPacMan().getPosition().left());
                 return position.left();
             case RIGHT:
-                coinColison(gameData.getPacMan().getPosition().right());
                 return position.right();
         }
         return position;
@@ -82,10 +79,10 @@ public class Game {
         return false;
     }
 
-    private boolean coinColison(Position pmnextpos){
+    private boolean coinColison(Position pos){
         ArrayList<Coin> coins = gameData.getMap().getCoins();
         for(Coin coin : coins){
-            if (coin.getPosition().equals(pmnextpos)){
+            if (coin.getPosition().equals(pos)){
                 ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
                 ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
 
