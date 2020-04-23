@@ -8,16 +8,16 @@ import java.util.ArrayList;
 
 public class MapReader {
     private ArrayList<String> map;
-    private ArrayList<Wall> walls;
-    private ArrayList<EmptySpace> emptySpaces;
-    private ArrayList<Coin> coins;
-    private ArrayList<PowerPellet> powerPellets;
-    private ArrayList<MapComponent> mapComponents;
+    private final ArrayList<Wall> walls;
+    private final ArrayList<EmptySpace> emptySpaces;
+    private final ArrayList<Coin> coins;
+    private final ArrayList<PowerPellet> powerPellets;
+    private final ArrayList<MapComponent> mapComponents;
     private Position pacManposition;
 
     public MapReader() {
 
-        ReadFile readFile = new ReadFile();
+        ReadFile readFile = new ReadFile("mapv2.txt");
         map = new ArrayList<>();
         walls = new ArrayList<>();
         emptySpaces = new ArrayList<>();
@@ -83,6 +83,6 @@ public class MapReader {
     }
 
     public Map getMap() {
-        return new Map(map,walls, emptySpaces, coins, powerPellets, mapComponents );
+        return new Map(map,walls, emptySpaces, coins, powerPellets, mapComponents);
     }
 }
