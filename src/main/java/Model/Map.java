@@ -57,4 +57,16 @@ public class Map {
     public void setMapComponents(ArrayList<MapComponent> mapComponents) {
         this.mapComponents = mapComponents;
     }
+
+    public void setMap(ArrayList<String> map) {
+        this.map = map;
+    }
+
+    public void setWalls(ArrayList<Wall> walls) {
+        this.walls = walls;
+    }
+
+    public void setPowerPellets(ArrayList<PowerPellet> powerPellets) {
+        this.powerPellets = powerPellets;
+    }
 }
