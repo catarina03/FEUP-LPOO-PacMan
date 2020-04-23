@@ -37,6 +37,18 @@ public class Map {
         return powerPellets;
     }
 
+    public void setEmptySpaces(ArrayList<EmptySpace> emptySpaces) {
+        this.emptySpaces = emptySpaces;
+    }
+
+    public void setCoins(ArrayList<Coin> coins) {
+        this.coins = coins;
+    }
+
+    public void setMapComponents(ArrayList<MapComponent> mapComponents) {
+        this.mapComponents = mapComponents;
+    }
+
     public Map() {
         ReadFile readFile = new ReadFile();
         map = new ArrayList<>();
@@ -99,11 +111,4 @@ public class Map {
             y++;
         }
     }
-
-    /*
-    public void draw(TextGraphics textGraphics){
-        for (MapComponent mp : mapComponents) mp.draw(textGraphics);
-    }
-
-     */
 }

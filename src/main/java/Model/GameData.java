@@ -9,6 +9,11 @@ import java.util.List;
 public class GameData {
     private GameStats gameStats;
     private PacMan pacMan;
+
+    public void setGameStats(GameStats gameStats) {
+        this.gameStats = gameStats;
+    }
+
     private List<Ghost> ghosts;
     private Map map;
 
@@ -39,4 +44,7 @@ public class GameData {
         return map;
     }
 
+    public void setMap(Map map) {
+        this.map = map;
+    }
 }
