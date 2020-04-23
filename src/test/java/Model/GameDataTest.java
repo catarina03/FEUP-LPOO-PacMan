@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +33,7 @@ public class GameDataTest {
     }
 
     @Test
-    public void GameDataManipulation() {
+    public void GameDataChange() {
         Ghost ghost1 = Mockito.mock(Ghost.class);
         Ghost ghost2 = Mockito.mock(Ghost.class);
         Ghost ghost3 = Mockito.mock(Ghost.class);

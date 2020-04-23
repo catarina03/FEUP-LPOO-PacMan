@@ -63,7 +63,7 @@ public class MapTest {
     }
 
     @Test
-    public void MapManipulation() {
+    public void MapChange() {
         ArrayList<String> map = new ArrayList<String>();
         String s1 = "#ece#";
         String s2 = "#M$e#";
