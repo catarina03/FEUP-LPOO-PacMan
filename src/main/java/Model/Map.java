@@ -57,7 +57,4 @@ public class Map {
     public void setMapComponents(ArrayList<MapComponent> mapComponents) {
         this.mapComponents = mapComponents;
     }
-
-
-
 }
