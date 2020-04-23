@@ -98,16 +98,14 @@ public class Game {
                 coins.remove(coin);
                 components.remove(coin);
 
-                Map map = gameData.getMap();
-                map.setCoins(coins);
-                map.setEmptySpaces(emptySpace);
-                map.setMapComponents(components);
+                gameData.getMap().setCoins(coins);
+                gameData.getMap().setEmptySpaces(emptySpace);
+                gameData.getMap().setMapComponents(components);
 
                 GameStats stats = gameData.getGameStats();
                 stats.setScore(stats.getScore() + 1);
                 gameData.setGameStats(stats);
 
-                gameData.setMap(map);
                 return true;
             }
         }
