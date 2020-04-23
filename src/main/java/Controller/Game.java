@@ -14,10 +14,10 @@ public class Game {
 
     public Game() {
         gui = new Gui();
-        mapReader = new MapReader();
+        mapReader = new MapReader("mapv2.txt");
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
-                                new ArrayList<>(),
+                                mapReader.ghostList(),
                                 mapReader.getMap());
     }
 

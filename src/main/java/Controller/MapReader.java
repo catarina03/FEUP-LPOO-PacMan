@@ -5,6 +5,7 @@ import Model.Map;
 import Model.Position;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapReader {
     private ArrayList<String> map;
@@ -13,17 +14,18 @@ public class MapReader {
     private final ArrayList<Coin> coins;
     private final ArrayList<PowerPellet> powerPellets;
     private final ArrayList<MapComponent> mapComponents;
+    private final ArrayList<Ghost> ghosts;
     private Position pacManposition;
 
-    public MapReader() {
-
-        ReadFile readFile = new ReadFile("mapv2.txt");
+    public MapReader(String mapname) {
+        ReadFile readFile = new ReadFile(mapname);
         map = new ArrayList<>();
         walls = new ArrayList<>();
         emptySpaces = new ArrayList<>();
         coins = new ArrayList<>();
         powerPellets = new ArrayList<>();
         mapComponents = new ArrayList<>();
+        ghosts = new ArrayList<>();
 
         int x; // entre 0 e 27
         int y = 3; // entre 4 e 34
@@ -50,18 +52,22 @@ public class MapReader {
                 else if (ch == 'B'){
                     Blinky blinky = new Blinky(x, y);
                     mapComponents.add(blinky);
+                    ghosts.add(blinky);
                 }
                 else if (ch == 'I'){
                     Inky inky = new Inky(x, y);
                     mapComponents.add(inky);
+                    ghosts.add(inky);
                 }
                 else if (ch == 'P'){
                     Pinky pinky = new Pinky(x, y);
                     mapComponents.add(pinky);
+                    ghosts.add(pinky);
                 }
                 else if (ch == 'K'){
                     Clyde clyde = new Clyde(x, y);
                     mapComponents.add(clyde);
+                    ghosts.add(clyde);
                 }
                 else if (ch == '$'){
                     PowerPellet powerPellet = new PowerPellet(x,y);
@@ -83,6 +89,10 @@ public class MapReader {
     }
 
     public Map getMap() {
-        return new Map(map,walls, emptySpaces, coins, powerPellets, mapComponents);
+        return new Map(map, walls, emptySpaces, coins, powerPellets, mapComponents);
+    }
+
+    public List<Ghost> ghostList() {
+        return ghosts;
     }
 }
