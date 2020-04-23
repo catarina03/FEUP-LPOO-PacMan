@@ -6,11 +6,4 @@ public class Wall extends Fixed {
         super(x,y);
     }
 
-    /*
-    public void draw(TextGraphics textGraphics){
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-        textGraphics.putString(getX(), getY(), " ", SGR.BOLD);
-    }
-
-     */
 }

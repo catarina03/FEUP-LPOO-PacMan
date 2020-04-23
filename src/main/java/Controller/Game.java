@@ -1,9 +1,10 @@
 package Controller;
 
+import Model.*;
+import Model.Elements.Coin;
+import Model.Elements.EmptySpace;
+import Model.Elements.MapComponent;
 import Model.Elements.Wall;
-import Model.Orientation;
-import Model.GameData;
-import Model.Position;
 import View.Gui;
 
 import java.util.ArrayList;
@@ -58,12 +59,16 @@ public class Game {
         Orientation orientation = gameData.getPacMan().getOrientation();
         switch (orientation){
             case UP:
+                coinColison(gameData.getPacMan().getPosition().up());
                 return position.up();
             case DOWN:
+                coinColison(gameData.getPacMan().getPosition().down());
                 return position.down();
             case LEFT:
+                coinColison(gameData.getPacMan().getPosition().left());
                 return position.left();
             case RIGHT:
+                coinColison(gameData.getPacMan().getPosition().right());
                 return position.right();
         }
         return position;
@@ -73,6 +78,34 @@ public class Game {
         ArrayList<Wall> walls = gameData.getMap().getWalls();
         for(Wall wall : walls){
             if (wall.getPosition().equals(pmnextpos)) return true;
+        }
+        return false;
+    }
+
+    private boolean coinColison(Position pmnextpos){
+        ArrayList<Coin> coins = gameData.getMap().getCoins();
+        for(Coin coin : coins){
+            if (coin.getPosition().equals(pmnextpos)){
+                ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
+                ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
+
+                emptySpace.add(new EmptySpace(coin.getX(), coin.getY()));
+                components.add(new EmptySpace(coin.getX(), coin.getY()));
+                coins.remove(coin);
+                components.remove(coin);
+
+                Map map = gameData.getMap();
+                map.setCoins(coins);
+                map.setEmptySpaces(emptySpace);
+                map.setMapComponents(components);
+
+                GameStats stats = gameData.getGameStats();
+                stats.setScore(stats.getScore() + 1);
+                gameData.setGameStats(stats);
+
+                gameData.setMap(map);
+                return true;
+            }
         }
         return false;
     }
@@ -105,6 +138,8 @@ public class Game {
             }
         }
     }
+
+
 
 }
 
