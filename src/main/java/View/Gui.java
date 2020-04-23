@@ -82,7 +82,7 @@ public class Gui {
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
-        switch (gameData.getPacMan().getDirection()){
+        switch (gameData.getPacMan().getOrientation()){
             case UP:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
                 break;
@@ -178,19 +178,4 @@ public class Gui {
         textGraphics.enableModifiers(SGR.BOLD);
         textGraphics.setCharacter(element.getX(), element.getY(), Symbols.SPADES);
     }
-
-    /*
-    public Command getNextCommand() throws IOException {
-        KeyStroke input = screen.readInput();
-
-        if (input.getKeyType() == KeyType.EOF) return new QuitCommand(arena, screen);
-        if (input.getKeyType() == KeyType.Character && input.getCharacter() == 'q') return new QuitCommand(arena, screen);
-        if (input.getKeyType() == KeyType.ArrowDown) return new MoveHeroDownCommand(arena);
-        if (input.getKeyType() == KeyType.ArrowUp) return new MoveHeroUpCommand(arena);
-        if (input.getKeyType() == KeyType.ArrowLeft) return new MoveHeroLeftCommand(arena);
-        if (input.getKeyType() == KeyType.ArrowRight) return new MoveHeroRightCommand(arena);
-
-        return new DoNothingCommand();
-    }
-    */
 }

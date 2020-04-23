@@ -1,7 +1,4 @@
 import Controller.Game;
-import View.Gui;
-
-import java.io.IOException;
 
 public class Application {
     public static void main(String[] args){

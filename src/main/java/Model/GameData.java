@@ -9,11 +9,16 @@ import java.util.List;
 public class GameData {
     private GameStats gameStats;
     private PacMan pacMan;
+
+    public void setGameStats(GameStats gameStats) {
+        this.gameStats = gameStats;
+    }
+
     private List<Ghost> ghosts;
     private Map map;
 
     public GameData() {
-        pacMan = new PacMan(10,10);
+        pacMan = new PacMan(26,26);
         map = new Map();
         gameStats = new GameStats(0);
         ghosts = new ArrayList<>();
@@ -39,4 +44,7 @@ public class GameData {
         return map;
     }
 
+    public void setMap(Map map) {
+        this.map = map;
+    }
 }

@@ -15,6 +15,10 @@ public class GameStats {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public void draw(TextGraphics textGraphics){
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
         textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -28,4 +32,6 @@ public class GameStats {
         textGraphics.setForegroundColor(TextColor.ANSI.RED);
         textGraphics.putString(35, 34, "o", SGR.BOLD);
     }
+
+
 }

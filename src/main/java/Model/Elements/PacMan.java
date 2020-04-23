@@ -11,11 +11,11 @@ public class PacMan extends Moveable{
         this.orientation = Orientation.LEFT;
     }
 
-    public Orientation getDirection() {
+    public Orientation getOrientation() {
         return orientation;
     }
 
-    public void setDirection(Orientation or) {
+    public void setOrientation(Orientation or) {
         this.orientation = or;
     }
 
@@ -46,25 +46,6 @@ public class PacMan extends Moveable{
                 break;
             case LEFT:
                 moveLeft();
-                break;
-        }
-    }
-
-    public void processKey(KeyStroke key){
-        switch (key.getKeyType()){
-            case ArrowUp:
-                this.setDirection(Orientation.UP);
-                break;
-            case ArrowDown:
-                this.setDirection(Orientation.DOWN);
-                break;
-            case ArrowLeft:
-                this.setDirection(Orientation.LEFT);
-                break;
-            case ArrowRight:
-                this.setDirection(Orientation.RIGHT);
-                break;
-            default:
                 break;
         }
     }

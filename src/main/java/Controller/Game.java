@@ -1,8 +1,13 @@
 package Controller;
 
-import Model.Orientation;
-import Model.GameData;
+import Model.*;
+import Model.Elements.Coin;
+import Model.Elements.EmptySpace;
+import Model.Elements.MapComponent;
+import Model.Elements.Wall;
 import View.Gui;
+
+import java.util.ArrayList;
 
 public class Game {
     private Gui gui;
@@ -12,14 +17,6 @@ public class Game {
     public Game() {
         gui = new Gui();
         gameData = new GameData();
-    }
-
-    public Gui getGui() {
-        return gui;
-    }
-
-    public GameData getGameData() {
-        return gameData;
     }
 
     public void run() throws Throwable {
@@ -33,7 +30,7 @@ public class Game {
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
-                    gameData.update();
+                    Update(gameData);
                     gui.draw(gameData);
                     alreadyin = true;
                 }
@@ -45,7 +42,73 @@ public class Game {
         }
     }
 
+    private void Update(GameData gameData) {
+
+        // Can Pacman move to next position?
+            // Pacman's next position?
+            // Is a wall in the position pacman is about to move to?
+        // yes -> update position
+        // no  -> don't update
+        if (!checkWallColison(pacManNextPosition())){
+            coinColison(gameData.getPacMan().getPosition());
+            gameData.update();
+        }
+    }
+
+    private Position pacManNextPosition(){
+        Position position = gameData.getPacMan().getPosition();
+        Orientation orientation = gameData.getPacMan().getOrientation();
+        switch (orientation){
+            case UP:
+                return position.up();
+            case DOWN:
+                return position.down();
+            case LEFT:
+                return position.left();
+            case RIGHT:
+                return position.right();
+        }
+        return position;
+    }
+
+    private boolean checkWallColison(Position pmnextpos){
+        ArrayList<Wall> walls = gameData.getMap().getWalls();
+        for(Wall wall : walls){
+            if (wall.getPosition().equals(pmnextpos)) return true;
+        }
+        return false;
+    }
+
+    private boolean coinColison(Position pos){
+        ArrayList<Coin> coins = gameData.getMap().getCoins();
+        for(Coin coin : coins){
+            if (coin.getPosition().equals(pos)){
+                ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
+                ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
+
+                emptySpace.add(new EmptySpace(coin.getX(), coin.getY()));
+                components.add(new EmptySpace(coin.getX(), coin.getY()));
+                coins.remove(coin);
+                components.remove(coin);
+
+                Map map = gameData.getMap();
+                map.setCoins(coins);
+                map.setEmptySpaces(emptySpace);
+                map.setMapComponents(components);
+
+                GameStats stats = gameData.getGameStats();
+                stats.setScore(stats.getScore() + 1);
+                gameData.setGameStats(stats);
+
+                gameData.setMap(map);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void processKey(Gui.MOVE move) throws Throwable {
+
         if (move != null){
             switch (move){
                 case ESC:
@@ -53,20 +116,27 @@ public class Game {
                     running = false;
                     break;
                 case UP:
-                    gameData.getPacMan().setDirection(Orientation.UP);
+                    // check if can change position
+                    if (!checkWallColison(gameData.getPacMan().getPosition().up()))
+                        gameData.getPacMan().setOrientation(Orientation.UP);
                     break;
                 case DOWN:
-                    gameData.getPacMan().setDirection(Orientation.DOWN);
+                    if (!checkWallColison(gameData.getPacMan().getPosition().down()))
+                        gameData.getPacMan().setOrientation(Orientation.DOWN);
                     break;
                 case LEFT:
-                    gameData.getPacMan().setDirection(Orientation.LEFT);
+                    if (!checkWallColison(gameData.getPacMan().getPosition().left()))
+                        gameData.getPacMan().setOrientation(Orientation.LEFT);
                     break;
                 case RIGHT:
-                    gameData.getPacMan().setDirection(Orientation.RIGHT);
+                    if (!checkWallColison(gameData.getPacMan().getPosition().right()))
+                        gameData.getPacMan().setOrientation(Orientation.RIGHT);
                     break;
             }
         }
-
     }
+
+
+
 }
 
