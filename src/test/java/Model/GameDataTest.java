@@ -92,5 +92,4 @@ public class GameDataTest {
         data.update();
         Mockito.verify(pacman, Mockito.times(1)).moveDirection();
     }
-
 }
