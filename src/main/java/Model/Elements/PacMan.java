@@ -1,6 +1,7 @@
 package Model.Elements;
 
 import Model.Orientation;
+import Model.Position;
 import com.googlecode.lanterna.input.KeyStroke;
 
 public class PacMan extends Moveable{
@@ -8,6 +9,11 @@ public class PacMan extends Moveable{
 
     public PacMan(int x, int y) {
         super(x,y);
+        this.orientation = Orientation.LEFT;
+    }
+
+    public PacMan(Position position) {
+        super(position);
         this.orientation = Orientation.LEFT;
     }
 

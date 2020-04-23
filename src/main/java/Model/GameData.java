@@ -9,19 +9,14 @@ import java.util.List;
 public class GameData {
     private GameStats gameStats;
     private PacMan pacMan;
-
-    public void setGameStats(GameStats gameStats) {
-        this.gameStats = gameStats;
-    }
-
     private List<Ghost> ghosts;
     private Map map;
 
-    public GameData() {
-        pacMan = new PacMan(26,26);
-        map = new Map();
-        gameStats = new GameStats(0);
-        ghosts = new ArrayList<>();
+    public GameData(GameStats gameStats, PacMan pacMan, List<Ghost> ghosts, Map map) {
+        this.gameStats = gameStats;
+        this.pacMan = pacMan;
+        this.ghosts = ghosts;
+        this.map = map;
     }
 
     public void update() {
@@ -47,4 +42,9 @@ public class GameData {
     public void setMap(Map map) {
         this.map = map;
     }
+
+    public void setGameStats(GameStats gameStats) {
+        this.gameStats = gameStats;
+    }
+
 }
