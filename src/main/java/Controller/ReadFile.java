@@ -1,8 +1,9 @@
 package Controller;
 
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner; // Import the Scanner class to read text files
 
 public class ReadFile {
@@ -28,4 +29,5 @@ public class ReadFile {
         myReader.close();
         return arrayList;
     }
+
 }

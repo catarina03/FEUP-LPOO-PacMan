@@ -1,10 +1,7 @@
 package Controller;
 
 import Model.*;
-import Model.Elements.Coin;
-import Model.Elements.EmptySpace;
-import Model.Elements.MapComponent;
-import Model.Elements.Wall;
+import Model.Elements.*;
 import View.Gui;
 
 import java.util.ArrayList;
@@ -13,10 +10,15 @@ public class Game {
     private Gui gui;
     private GameData gameData;
     private Boolean running;
+    private MapReader mapReader;
 
     public Game() {
         gui = new Gui();
-        gameData = new GameData();
+        mapReader = new MapReader();
+        gameData = new GameData(new GameStats(0),
+                                mapReader.startingPacMan(),
+                                new ArrayList<>(),
+                                mapReader.getMap());
     }
 
     public void run() throws Throwable {
