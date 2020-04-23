@@ -11,6 +11,7 @@ public class Game {
     private GameData gameData;
     private Boolean running;
     private MapReader mapReader;
+    private Gui.MOVE lastmove;
 
     public Game() {
         gui = new Gui();
@@ -19,6 +20,7 @@ public class Game {
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
+        lastmove = Gui.MOVE.LEFT;
     }
 
     public void run() throws Throwable {
@@ -27,7 +29,10 @@ public class Game {
         boolean alreadyin = false;
         // ciclo de jogo
         while(running) {
-            processKey(gui.getMove());
+            Gui.MOVE temp = gui.getMove();
+            if (temp != null)
+                lastmove = temp;
+            processKey(lastmove);
             // taxa de atualização
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
