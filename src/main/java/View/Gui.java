@@ -33,6 +33,9 @@ public class Gui {
         modelDraw = new ModelDraw(screen);
     }
 
+    public void setModelDraw(ModelDraw modelDraw) {
+        this.modelDraw = modelDraw;
+    }
 
     public void setScreen(Screen screen) {
         this.screen = screen;
