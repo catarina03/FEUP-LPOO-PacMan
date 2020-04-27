@@ -35,11 +35,20 @@ public class PositionTest {
         Position positiondown = new Position(x,y+1);
         Position positionleft = new Position(x-1,y);
         Position positionright = new Position(x+1,y);
+        Position positionChange = new Position(x, y);
+
+        int new_x = r.nextInt((20) + 1);
+        int new_y = r.nextInt((20) + 1);
+
+        positionChange.setX(new_x);
+        positionChange.setY(new_y);
 
         assertEquals(positionup, position.up());
         assertEquals(positiondown, position.down());
         assertEquals(positionleft, position.left());
         assertEquals(positionright, position.right());
+        assertEquals(positionChange.getX(), new_x);
+        assertEquals(positionChange.getY(), new_y);
 
     }
 
