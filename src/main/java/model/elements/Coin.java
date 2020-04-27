@@ -1,4 +1,4 @@
-package Model.Elements;
+package model.elements;
 
 public class Coin extends Fixed{
     public Coin(int x, int y) {

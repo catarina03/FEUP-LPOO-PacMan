@@ -1,4 +1,4 @@
-package Model.Elements;
+package model.elements;
 
 public abstract class Ghost extends Moveable {
     public Ghost(int x, int y) {

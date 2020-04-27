@@ -1,7 +1,6 @@
-package Model;
+package model;
 
-import Model.Elements.*;
-import Controller.ReadFile;
+import model.elements.*;
 
 import java.util.ArrayList;
 

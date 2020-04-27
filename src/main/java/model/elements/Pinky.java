@@ -1,4 +1,4 @@
-package Model.Elements;
+package model.elements;
 
 /**
  * Pink Elements.Ghost

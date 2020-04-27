@@ -1,4 +1,4 @@
-package Model.Elements;
+package model.elements;
 
 
 public class Wall extends Fixed {

@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
-import Model.Elements.*;
-import Model.Map;
-import Model.Position;
+import model.elements.*;
+import model.Map;
+import model.Position;
 
 import java.util.ArrayList;
 import java.util.List;

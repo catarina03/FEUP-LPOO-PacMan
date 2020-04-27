@@ -1,7 +1,7 @@
-package View;
+package view;
 
-import Model.Elements.*;
-import Model.GameData;
+import model.elements.*;
+import model.GameData;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;

@@ -1,8 +1,7 @@
-package Model.Elements;
+package model.elements;
 
-import Model.Orientation;
-import Model.Position;
-import com.googlecode.lanterna.input.KeyStroke;
+import model.Orientation;
+import model.Position;
 
 public class PacMan extends Moveable{
     Orientation orientation;

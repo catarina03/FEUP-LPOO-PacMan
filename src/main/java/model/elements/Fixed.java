@@ -1,4 +1,4 @@
-package Model.Elements;
+package model.elements;
 
 public abstract class Fixed extends MapComponent {
     public Fixed(int x, int y) {

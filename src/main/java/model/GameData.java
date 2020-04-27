@@ -1,9 +1,8 @@
-package Model;
+package model;
 
-import Model.Elements.Ghost;
-import Model.Elements.PacMan;
+import model.elements.Ghost;
+import model.elements.PacMan;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameData {
