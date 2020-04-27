@@ -33,6 +33,11 @@ public class Gui {
         modelDraw = new ModelDraw(screen);
     }
 
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
     public void close() throws Throwable {
         if (screen != null){
             screen.close();
