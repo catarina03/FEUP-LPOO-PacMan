@@ -4,6 +4,7 @@ import Controller.Game;
 import Model.Elements.*;
 import Model.GameData;
 import Model.GameStats;
+import Model.Orientation;
 import View.ModelDraw;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -123,5 +124,37 @@ public class ModelDrawTest {
         Mockito.verify(graphics, Mockito.times(1)).putString(9, 34, "00000", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(35, 34, "o", SGR.BOLD);
     }
-    
+
+    @Test
+    public void drawPacman(){
+        PacMan pacman = Mockito.mock(PacMan.class);
+        Mockito.when(pacman.getX()).thenReturn(10);
+        Mockito.when(pacman.getY()).thenReturn(10);
+        GameData gameData = Mockito.mock(GameData.class);
+        Mockito.when(gameData.getPacMan()).thenReturn(pacman);
+
+        Screen screen = Mockito.mock(Screen.class);
+        TextGraphics graphics = Mockito.mock(TextGraphics.class);
+        ModelDraw modelDraw = new ModelDraw(screen);
+        modelDraw.setGraphics(graphics);
+
+        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.UP);
+        modelDraw.drawPacMan(gameData);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
+        Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
+
+        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.RIGHT);
+        modelDraw.drawPacMan(gameData);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
+
+        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.DOWN);
+        modelDraw.drawPacMan(gameData);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
+
+        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.LEFT);
+        modelDraw.drawPacMan(gameData);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
+    }
 }
