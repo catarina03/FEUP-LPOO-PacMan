@@ -1,7 +1,8 @@
 # LPOO_11 - PacMan
 
 O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal Lanterna em Java.
-
+> Template : https://web.fe.up.pt/~arestivo/page/courses/2020/lpoo/template/
+> 
 ## Implemented Features:
 - **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal.
 - **Leitura de mapas** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt e apresentar esse mapa no ecrã.
@@ -20,7 +21,19 @@ O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal L
 
 ## Design
 
-### Model-View-Controller
+### 1. Model-View-Controller
+#### Problem in Context
+#### The Pattern
+#### Implementation
+#### Consequences
+
+### 2. Factory Method (criação de ghosts)
+#### Problem in Context
+#### The Pattern
+#### Implementation
+#### Consequences
+
+### 3. Strategy (Para update do model? https://web.fe.up.pt/~arestivo/presentation/patterns/#31 )
 #### Problem in Context
 #### The Pattern
 #### Implementation
@@ -29,7 +42,7 @@ O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal L
 ## Code Smells
 ### 1. Bloaters - Large CLass
 Class Game was too large
-Solution: Extract Class
+**Solution**: Extract Class
 Foi criada classe CollisionChecker
 
 ### 2. Code Smell 2
