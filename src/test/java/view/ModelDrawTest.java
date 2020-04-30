@@ -1,6 +1,9 @@
 package view;
 
+import Controller.Game;
 import Model.Elements.*;
+import Model.GameData;
+import Model.GameStats;
 import View.ModelDraw;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -96,5 +99,29 @@ public class ModelDrawTest {
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
     }
 
+    @Test
+    public void drawGameStats(){
+        GameData gameData = Mockito.mock(GameData.class);
+        GameStats gameStats = Mockito.mock(GameStats.class);
+        Mockito.when(gameStats.getScore()).thenReturn(100);
+        Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
+
+        Screen screen = Mockito.mock(Screen.class);
+        TextGraphics graphics = Mockito.mock(TextGraphics.class);
+        ModelDraw modelDraw = new ModelDraw(screen);
+        modelDraw.setGraphics(graphics);
+
+        modelDraw.drawGameStats(gameData);
+        Mockito.verify(graphics, Mockito.times(2)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).putString(9, 1, "SCORE", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(29, 1, "HI-SCORE", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
+        Mockito.verify(graphics, Mockito.times(1)).putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(31, 2, "10000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
+        Mockito.verify(graphics, Mockito.times(1)).putString(9, 34, "00000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(35, 34, "o", SGR.BOLD);
+    }
     
 }
