@@ -113,6 +113,7 @@ public class GuiTest {
 
         gui.close();
         Mockito.verify(screen, Mockito.times(1)).close();
+        }
         */
-    }
+
 }

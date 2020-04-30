@@ -1,0 +1,100 @@
+package view;
+
+import Model.Elements.*;
+import View.ModelDraw;
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.Symbols;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+public class ModelDrawTest {
+
+    @Test
+    public void drawElements() {
+        Screen screen = Mockito.mock(Screen.class);
+        TextGraphics graphics = Mockito.mock(TextGraphics.class);
+        ModelDraw modelDraw = new ModelDraw(screen);
+        modelDraw.setGraphics(graphics);
+
+        MapComponent cherry = Mockito.mock(Cherry.class);
+        Mockito.when(cherry.getX()).thenReturn(10);
+        Mockito.when(cherry.getY()).thenReturn(10);
+
+        modelDraw.drawElement(cherry);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(cherry.getX(), cherry.getY(), Symbols.CLUB);
+
+        MapComponent wall = Mockito.mock(Wall.class);
+        Mockito.when(wall.getX()).thenReturn(20);
+        Mockito.when(wall.getY()).thenReturn(20);
+
+        modelDraw.drawElement(wall);
+        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLUE);
+        Mockito.verify(graphics, Mockito.times(1)).putString(wall.getX(), wall.getY(), " ", SGR.BOLD);
+
+        MapComponent coin = Mockito.mock(Coin.class);
+        Mockito.when(coin.getX()).thenReturn(30);
+        Mockito.when(coin.getY()).thenReturn(30);
+
+        modelDraw.drawElement(coin);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
+        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).enableModifiers(SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(coin.getX(), coin.getY(), Symbols.BULLET);
+
+        MapComponent emptySapce = Mockito.mock(EmptySpace.class);
+        Mockito.when(emptySapce.getX()).thenReturn(40);
+        Mockito.when(emptySapce.getY()).thenReturn(40);
+
+        modelDraw.drawElement(emptySapce);
+        Mockito.verify(graphics, Mockito.times(2)).setBackgroundColor(TextColor.ANSI.BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).putString(emptySapce.getX(), emptySapce.getY(), " ", SGR.BOLD);
+
+        MapComponent powerPellet = Mockito.mock(PowerPellet.class);
+        Mockito.when(powerPellet.getX()).thenReturn(50);
+        Mockito.when(powerPellet.getY()).thenReturn(50);
+
+        modelDraw.drawElement(powerPellet);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        Mockito.verify(graphics, Mockito.times(3)).setBackgroundColor(TextColor.ANSI.BLACK);
+        Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(powerPellet.getX(), powerPellet.getY(), Symbols.SPADES);
+
+        MapComponent blinky = Mockito.mock(Blinky.class);
+        Mockito.when(blinky.getX()).thenReturn(60);
+        Mockito.when(blinky.getY()).thenReturn(60);
+
+        modelDraw.drawElement(blinky);
+        Mockito.verify(graphics, Mockito.times(2)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+
+        MapComponent inky = Mockito.mock(Inky.class);
+        Mockito.when(inky.getX()).thenReturn(70);
+        Mockito.when(inky.getY()).thenReturn(70);
+
+        modelDraw.drawElement(inky);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+
+        MapComponent clyde = Mockito.mock(Clyde.class);
+        Mockito.when(clyde.getX()).thenReturn(80);
+        Mockito.when(clyde.getY()).thenReturn(80);
+
+        modelDraw.drawElement(clyde);
+        Mockito.verify(graphics, Mockito.times(2)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+
+        MapComponent pinky = Mockito.mock(Pinky.class);
+        Mockito.when(pinky.getX()).thenReturn(90);
+        Mockito.when(pinky.getY()).thenReturn(90);
+
+        modelDraw.drawElement(pinky);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.MAGENTA);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+    }
+
+    
+}

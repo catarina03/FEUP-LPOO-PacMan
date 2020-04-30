@@ -10,9 +10,27 @@ import com.googlecode.lanterna.screen.Screen;
 
 public class ModelDraw {
     private Screen screen;
+    private TextGraphics graphics;
 
     public ModelDraw(Screen screen) {
         this.screen = screen;
+        this.graphics = screen.newTextGraphics();
+    }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
+    public TextGraphics getGraphics() {
+        return graphics;
+    }
+
+    public void setGraphics(TextGraphics graphics) {
+        this.graphics = graphics;
     }
 
     public void drawElement(MapComponent element) {
@@ -25,7 +43,6 @@ public class ModelDraw {
     }
 
     public void drawPacMan(GameData gameData){
-        TextGraphics graphics = screen.newTextGraphics();
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getOrientation()){
@@ -48,71 +65,64 @@ public class ModelDraw {
 
 
     public void drawGameStats(GameData gameData) {
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.putString(9, 1, "SCORE", SGR.BOLD);
-        textGraphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
-        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-        textGraphics.putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        textGraphics.putString(31, 2, "10000", SGR.BOLD);
-        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        textGraphics.putString(9, 34, "00000", SGR.BOLD);
-        textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.putString(35, 34, "o", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.putString(9, 1, "SCORE", SGR.BOLD);
+        graphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        graphics.putString(31, 2, "10000", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.putString(9, 34, "00000", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.putString(35, 34, "o", SGR.BOLD);
     }
 
     public void drawGhost(MapComponent element){
-        TextGraphics textGraphics = screen.newTextGraphics();
         if (element instanceof Blinky){
-            textGraphics.setForegroundColor(TextColor.ANSI.RED);
-            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setForegroundColor(TextColor.ANSI.RED);
+            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         }
         if (element instanceof Clyde){
-            textGraphics.setForegroundColor(TextColor.Factory.fromString("#FFA500")); //Should be orange
-            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         }
         if (element instanceof Inky){
-            textGraphics.setForegroundColor(TextColor.ANSI.CYAN);
-            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setForegroundColor(TextColor.ANSI.CYAN);
+            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         }
         if (element instanceof Pinky){
-            textGraphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-            textGraphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         }
     }
 
     public void drawCherry(MapComponent element){
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setForegroundColor(TextColor.ANSI.RED);
-        textGraphics.setCharacter(element.getX(), element.getY(), Symbols.CLUB);
+        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.setCharacter(element.getX(), element.getY(), Symbols.CLUB);
     }
 
     public void drawWall(MapComponent element){
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLUE);
-        textGraphics.putString(element.getX(), element.getY(), " ", SGR.BOLD);
+        graphics.setBackgroundColor(TextColor.ANSI.BLUE);
+        graphics.putString(element.getX(), element.getY(), " ", SGR.BOLD);
     }
 
     public void drawCoin(MapComponent element){
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.enableModifiers(SGR.BOLD);
-        textGraphics.setCharacter(element.getX(), element.getY(), Symbols.BULLET);
+        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.setCharacter(element.getX(), element.getY(), Symbols.BULLET);
     }
 
     public void drawEmptySpace(MapComponent element){
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.putString(element.getX(), element.getY(), " ", SGR.BOLD);
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.putString(element.getX(), element.getY(), " ", SGR.BOLD);
     }
 
     public void drawPowerPellet(MapComponent element){
-        TextGraphics textGraphics = screen.newTextGraphics();
-        textGraphics.setForegroundColor(TextColor.Factory.fromString("#FFA500")); //Should be orange
-        textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        textGraphics.enableModifiers(SGR.BOLD);
-        textGraphics.setCharacter(element.getX(), element.getY(), Symbols.SPADES);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.setCharacter(element.getX(), element.getY(), Symbols.SPADES);
     }
 }
