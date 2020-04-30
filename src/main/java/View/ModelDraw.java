@@ -17,17 +17,6 @@ public class ModelDraw {
         this.graphics = screen.newTextGraphics();
     }
 
-    public Screen getScreen() {
-        return screen;
-    }
-
-    public void setScreen(Screen screen) {
-        this.screen = screen;
-    }
-
-    public TextGraphics getGraphics() {
-        return graphics;
-    }
 
     public void setGraphics(TextGraphics graphics) {
         this.graphics = graphics;
