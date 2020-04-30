@@ -23,11 +23,26 @@ O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal L
 
 ### 1. Model-View-Controller
 #### Problem in Context
+Numa fase inicial do projeto, para ter um jogo funcional (a conseguir abrir uma janela) o código estava dividido por classes mas tudo na mesma package e sem distinção sobre o que cada class fazia (PacMan conseguia guardar a sua informação, desenhar-se a si próprio e atualizar a sua posição). Isto viola seriamente o **Single Responsability Principle** e a forma de resolver foi aplicar o padrão arquitetural **Model-View-Controller**.
 #### The Pattern
-#### Implementation
-#### Consequences
+> MVC consists of three kinds of objects. The Model is the application object, the View is its screen presentation, and the Controller defines the way the user interface reacts to user input.
+>
+> GoF, Design Patterns - Elements of Reusable Object-Oriented Software
 
-### 2. Factory Method (criação de ghosts)
+![](https://i.imgur.com/DduITpl.png) [1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
+
+Este padrão arquitetural é habitualmente usado para desenvolver programas que contenham uma interface para o utilizador e consiste em dividir uma aplicação em 3 partes:
+- O **Modelo** representa os dados do programa.
+- A **Vista** mostra os dados do **Modelo** e manda as ações do utilizador para o **Controlador**.
+- O **Controlador** fornece dados do **Modelo** à **Vista** e interpreta as ações do utilizador.
+#### Implementation
+> **_NOTE:_**  Adicionar aqui UML ou algo para mostrar MVC em ação.
+#### Consequences
+- Divisão do código em packages e melhor organização
+- Independência entre módulos possibilita testar cada parte do MVC individualmente
+
+
+### 2. Factory Method (criação de ghosts) **TODO**
 #### Problem in Context
 #### The Pattern
 #### Implementation
@@ -41,10 +56,10 @@ O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal L
 
 ## Code Smells
 ### 1. Bloaters - Large CLass
-Class Game was too large
-**Solution**: Extract Class
-Foi criada classe CollisionChecker
+A meio do Projeto apercebemo-nos que só tinhamos uma classe **Control** que tratava de todo o jogo. Esta tinha demasiados métodos e cada método era demasiado comprido.
 
+**Solution**: Extract Class
+A partir de uma só classe foi possível criar **3** classes: CollisionChecker, MapReader e ReadFile. A class MapReader faz uso de ReadFile e a classe original Game faz uso de MapReader para, _you guessed it_, ler o mapa
 ### 2. Code Smell 2
 ### 3. Code Smell 3
 
