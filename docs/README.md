@@ -1,18 +1,53 @@
-# Documentação 
-## (features, design patterns, code smells, refactorings, testes, ...)
+# LPOO_11 - PacMan
 
+O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal Lanterna em Java.
+> Template : https://web.fe.up.pt/~arestivo/page/courses/2020/lpoo/template/
+> 
 ## Implemented Features:
-- Terminal do jogo
-- Leitura do mapa do ficheiro "mapv2.txt"
-- Movimento do Pac-man
-- Colisão com paredes
-- Colisão com moedas: elas desaparecem e aumentarem a pontuação
+- **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal.
+- **Leitura de mapas** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt e apresentar esse mapa no ecrã.
+- **Movimento do Pac-man** - O PacMan está sempre em movimento constante dependendo da sua direção, apenas parando quando vai contra uma parede. É possível alterar a sua posição com as setas do teclado. 
+- **Buffer de movimentos** - Antes de chegar a uma curva o *player* pode premir uma tecla para alterar a direção e o PacMan alterará a sua posição assim que conseguir.
+- **Colisão com paredes** - O PacMan não consegue passar pelas paredes, só consegue andar em sítios com fundo preto.
+- **Colisão com moedas** - Ao tocar numa moeda o PacMan retira essa moeda do mapa e o score é aumentado em 1.
 
-## Features to be implemented:
-- Power pellets: quando são comidas pelo Pac-man os fantasmas passam ao "blue mode", ou seja, passam a poder ser comidos pelo Pac-man
-- Continuidade do mapa: caso o Pac-man saia do limite do ecrã, ele reaparecia do lado oposto
-- Personalidade dos fantasmas: um fastasma que persiga o Pac-man
-- Buffer de movimentos do Pac-man
-
- ## Screencast
 ![](res/pac-man_coins.gif)
+
+## Planned Features:
+- **Power Pellets** - Quando são comidas pelo Pac-man os fantasmas passam para "blue mode", ou seja, passam a poder ser comidos pelo Pac-man
+- **Continuidade do mapa** - Caso o Pac-man saia do limite do ecrã, ele reaparecerá no lado oposto
+- **Personalidade dos fantasmas** - Cada fantasma terá uma personalidade distinta relativamente à forma como persegue o PacMan.
+
+
+## Design
+
+### 1. Model-View-Controller
+#### Problem in Context
+#### The Pattern
+#### Implementation
+#### Consequences
+
+### 2. Factory Method (criação de ghosts)
+#### Problem in Context
+#### The Pattern
+#### Implementation
+#### Consequences
+
+### 3. Strategy (Para update do model? https://web.fe.up.pt/~arestivo/presentation/patterns/#31 )
+#### Problem in Context
+#### The Pattern
+#### Implementation
+#### Consequences
+
+## Code Smells
+### 1. Bloaters - Large CLass
+Class Game was too large
+**Solution**: Extract Class
+Foi criada classe CollisionChecker
+
+### 2. Code Smell 2
+### 3. Code Smell 3
+
+## Self-Evaluation
+- André Gomes: x %
+- Catarina Fernades: y %
