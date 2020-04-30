@@ -2,15 +2,13 @@ package view;
 
 import Model.Elements.*;
 import Model.GameData;
+import Model.GameStats;
 import Model.Map;
 import View.Gui;
 import View.ModelDraw;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.terminal.swing.TerminalScrollController;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -65,55 +63,42 @@ public class GuiTest {
         Mockito.verify(screen, Mockito.times(8)).pollInput();
     }
 
-    /*
     @Test
     public void draw() throws Throwable {
-        GameData gamedata = Mockito.mock(GameData.class);
-        Map map = Mockito.mock(Map.class);
+        Gui gui = new Gui();
+        Screen screen = Mockito.mock(Screen.class);
+        gui.setScreen(screen);
+        GameData gameData = Mockito.mock(GameData.class);
+        GameStats gameStats = Mockito.mock(GameStats.class);
         ModelDraw modelDraw = Mockito.mock(ModelDraw.class);
-        PacMan pacman = Mockito.mock(PacMan.class);
-
-        gamedata.setPacMan(pacman);
+        gui.setModelDraw(modelDraw);
 
         ArrayList<MapComponent> mc = new ArrayList<MapComponent>();
-
         Wall wall = Mockito.mock(Wall.class);
         EmptySpace es = Mockito.mock(EmptySpace.class);
-        Coin coin  = Mockito.mock(Coin.class);
+        Coin coin = Mockito.mock(Coin.class);
         PowerPellet pp = Mockito.mock(PowerPellet.class);
-
         mc.add(wall);
         mc.add(es);
         mc.add(coin);
         mc.add(pp);
 
-        map.setMapComponents(mc);
-        gamedata.setMap(map);
+        Map map = Mockito.mock(Map.class);
+        Mockito.when(map.getMapComponents()).thenReturn(mc);
+        Mockito.when(gameData.getMap()).thenReturn(map);
+        PacMan pacman = Mockito.mock(PacMan.class);
+        Mockito.when(gameData.getPacMan()).thenReturn(pacman);
+        Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
 
-        Gui gui = new Gui();
-        gui.setModelDraw(modelDraw);
-        gui.draw(gamedata);
+        gui.draw(gameData);
 
-        Mockito.verify(modelDraw, Mockito.times(1)).drawElement(pacman);
-        
-     */
-
-        /*
+        Mockito.verify(screen, Mockito.times(1)).clear();
         Mockito.verify(modelDraw, Mockito.times(1)).drawElement(wall);
         Mockito.verify(modelDraw, Mockito.times(1)).drawElement(es);
         Mockito.verify(modelDraw, Mockito.times(1)).drawElement(coin);
         Mockito.verify(modelDraw, Mockito.times(1)).drawElement(pp);
-
-         */
-
-        /*
-        Mockito.verify(modelDraw, Mockito.times(4)).drawElemen
-        Screen screen = Mockito.mock(Screen.class);
-        gui.setScreen(screen);
-
-        gui.close();
-        Mockito.verify(screen, Mockito.times(1)).close();
-        }
-        */
-
+        Mockito.verify(modelDraw, Mockito.times(1)).drawPacMan(gameData);
+        Mockito.verify(modelDraw, Mockito.times(1)).drawGameStats(gameData);
+        Mockito.verify(screen, Mockito.times(1)).refresh();
+    }
 }

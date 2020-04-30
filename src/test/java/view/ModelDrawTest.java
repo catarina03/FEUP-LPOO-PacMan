@@ -1,6 +1,5 @@
 package view;
 
-import Controller.Game;
 import Model.Elements.*;
 import Model.GameData;
 import Model.GameStats;
