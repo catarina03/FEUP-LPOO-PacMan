@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'info.solidsoft.pitest' version '1.4.6'
 }
 
 application {
@@ -9,7 +10,7 @@ application {
 
 sourceCompatibility = 1.8
 
-group 'org.g11.lpoo-2020-g11'
+group 'g11'
 version '1.0-SNAPSHOT'
 
 repositories {
