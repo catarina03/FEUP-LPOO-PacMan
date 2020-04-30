@@ -23,6 +23,7 @@ O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal L
 
 ### 1. Model-View-Controller
 #### Problem in Context
+Numa fase inicial do projeto, para ter um jogo funcional (a conseguir abrir uma janela) o código estava dividido por classes mas tudo na mesma package e sem distinção sobre o que cada class fazia (PacMan conseguia guardar a sua informação, desenhar-se a si próprio e atualizar a sua posição). Isto viola seriamente o **Single Responsability Principle** e a forma de resolver foi aplicar o padrão arquitetural **
 #### The Pattern
 #### Implementation
 #### Consequences
