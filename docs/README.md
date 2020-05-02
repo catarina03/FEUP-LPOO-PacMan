@@ -40,25 +40,27 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 
 ![](https://i.imgur.com/IQbc6C3.png)
 
-| Controller                           | Model                                | View                                 |
-|--------------------------------------|--------------------------------------|--------------------------------------|
+| Controller  | Model | View  |
+|-------------|-------|-------|
 | ![](https://i.imgur.com/IohGNNh.png) | ![](https://i.imgur.com/nyhMT7H.png) | ![](https://i.imgur.com/CRAHbgJ.png) |
-
 
 #### Consequences
 - Divisão do código em packages e melhor organização
 - Independência entre módulos possibilita testar cada parte do MVC individualmente
 
-### 2. Factory Method (criação de ghosts) **TODO**
+### 2. Factory Method
 #### Problem in Context
+Será preciso criar ghosts que serão todos semelhantes, excepto a sua forma ao apresentar no ecrã e as suas _personalidades_ (o método que usam para perseguir o PacMan). Em vez de ter uma classe para cada Ghost e definirmos para cada ghost que controlador usará, criaremos uma classe **Creator** para os controladores de cada Ghost, assim torna-se mais fácil definir para cada ghost o seuc controlador e quando for preciso atualizar as posições podemos chamar o método _update()_ de cada controlador.
 #### The Pattern
 #### Implementation
+![](https://i.imgur.com/AAsRYrU.png)
 #### Consequences
 
-### 3. Strategy (Para update do model? https://web.fe.up.pt/~arestivo/presentation/patterns/#31 )
+### 3. Strategy 
 #### Problem in Context
 #### The Pattern
 #### Implementation
+![](https://i.imgur.com/4QbkouQ.png)
 #### Consequences
 
 ## Code Smells
@@ -66,8 +68,58 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 A meio do Projeto apercebemo-nos que só tinhamos uma classe **Control** que tratava de todo o jogo. Esta tinha demasiados métodos e cada método era demasiado comprido.
 
 **Solution**: Extract Class
+
 A partir de uma só classe foi possível criar **3** classes: CollisionChecker, MapReader e ReadFile. A class MapReader faz uso de ReadFile e a classe original Game faz uso de MapReader para, _you guessed it_, ler o mapa
-### 2. Code Smell 2
+### 2. Comments
+Os controladores são a parte que vai receber mais trabalho na segunda fase deste projeto, mas por enquanto estão complicados de entender, para isso há métodos que têm demasiados comentários que vão ter de ser removidos antes da entrega final, temos como exemplo o método update do controlador principal:
+
+```java
+ private void update(GameData gameData) {
+        // Can Pacman move to next position?
+            // Pacman's next position?
+            // Is a wall in the position pacman is about to move to?
+        // yes -> update position
+        // no  -> don't update
+        if (!checkWallColison(pacManNextPosition())){
+            coinColison(gameData.getPacMan().getPosition());
+            gameData.update();
+        }
+    }
+```
+
+e o método run, também de Game:
+```java
+   public void run() throws IOException {
+        long startTime = System.currentTimeMillis();
+        boolean alreadyin = false;
+        // ciclo de jogo
+        while(true) {
+            // Ler Esc para sair de ciclo
+            KeyStroke keyStroke = screen.pollInput();
+            if(keyStroke != null ){
+                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF) {break;}
+                else{processKey(keyStroke);
+                    //pacMan.moveDirection();}
+            }
+            //Detetar keystrokes de setas e mudar direção de pacman
+            // taxa de atualização a cada meio segundo
+            if ((System.currentTimeMillis() - startTime) % 250 == 0){
+                // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
+                if (!alreadyin){
+                    System.out.println(System.currentTimeMillis() - startTime);
+                    pacMan.moveDirection();
+                    draw();
+                    alreadyin = true;}
+            }
+            else{
+                // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
+                alreadyin = false;
+            }
+        }
+        if (screen != null)
+            screen.close();
+    }
+```
 ### 3. Code Smell 3
 
 ## Self-Evaluation
