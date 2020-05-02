@@ -50,18 +50,24 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 
 ### 2. Factory Method
 #### Problem in Context
-Será preciso criar ghosts que serão todos semelhantes, excepto a sua forma ao apresentar no ecrã e as suas _personalidades_ (o método que usam para perseguir o PacMan). Em vez de ter uma classe para cada Ghost e definirmos para cada ghost que controlador usará, criaremos uma classe **Creator** para os controladores de cada Ghost, assim torna-se mais fácil definir para cada ghost o seuc controlador e quando for preciso atualizar as posições podemos chamar o método _update()_ de cada controlador.
+Será preciso criar ghosts que serão todos semelhantes, excepto a sua forma ao apresentar no ecrã e as suas _personalidades_ (o método que usam para perseguir o PacMan). Em vez de ter uma classe para cada Ghost e definirmos para cada ghost que controlador usará, criaremos uma classe **Creator** para os controladores de cada Ghost.
 #### The Pattern
+O padrão _Factory Method_ permite que se criem objetos sem especificar explicitamente a classe do objeto que se quer criar. Isto é feito ao chamar o método de fabrico da classe criadora em vez de chamar o construtor da classe do objeto que se pretende criar.
 #### Implementation
 ![](https://i.imgur.com/AAsRYrU.png)
 #### Consequences
-
+Ao aplicar este _design pattern_ torna-se mais fácil definir a personalidade para cada Ghost e a criação de controladores especificos para cada Ghost.
 ### 3. Strategy 
 #### Problem in Context
+Seguindo o _design pattern_ acima apresentado, iremos implementar o DP _Strategy_ para que quando seja preciso atualizar o **Model** a partir dos controladores de _Ghosts_ o controlador principal não tenha de se preocupar com qual controlador é que está a lidar.
 #### The Pattern
+O objetivo deste DP é encapsular algoritmos e fazê-los permutáveis para poder processar um a um. Conseguimos captar a partir da classe abstrata o comum a todas as subclasses e com isto podemos implementar os detalhes apenas nas classes derivadas.
+
+Com este DP também tocamos no **Open-Closed Principle** já que _GhostController_ fica aberto para extensão mas fechado para modificação, apenas aplicável ás subclasses. 
 #### Implementation
 ![](https://i.imgur.com/4QbkouQ.png)
 #### Consequences
+- Facilidade para adicionar mais controladores 
 
 ## Code Smells
 ### 1. Bloaters - Large CLass
@@ -69,7 +75,9 @@ A meio do Projeto apercebemo-nos que só tinhamos uma classe **Control** que tra
 
 **Solution**: Extract Class
 
-A partir de uma só classe foi possível criar **3** classes: CollisionChecker, MapReader e ReadFile. A class MapReader faz uso de ReadFile e a classe original Game faz uso de MapReader para, _you guessed it_, ler o mapa
+A partir de uma só classe foi possível criar **3** classes: CollisionChecker, MapReader e ReadFile. A class MapReader faz uso de ReadFile e a classe original Game faz uso de MapReader para, _you guessed it_, ler o mapa.
+
+![](https://i.imgur.com/IohGNNh.png)
 ### 2. Comments
 Os controladores são a parte que vai receber mais trabalho na segunda fase deste projeto, mas por enquanto estão complicados de entender, para isso há métodos que têm demasiados comentários que vão ter de ser removidos antes da entrega final, temos como exemplo o método update do controlador principal:
 
