@@ -36,11 +36,18 @@ Este padrão arquitetural é habitualmente usado para desenvolver programas que 
 - A **Vista** mostra os dados do **Modelo** e manda as ações do utilizador para o **Controlador**.
 - O **Controlador** fornece dados do **Modelo** à **Vista** e interpreta as ações do utilizador.
 #### Implementation
-> **_NOTE:_**  Adicionar aqui UML ou algo para mostrar MVC em ação.
+A estrutura do código está dividida de forma a haver 3 packages, cada package referente a um ponto do _MVC_ e uma classe _Application_ que serve como executável e que contém o método _main()_. Cada package de MVC tem dentro as classes referentes ao seu perfil.
+
+![](https://i.imgur.com/IQbc6C3.png)
+
+| Controller                           | Model                                | View                                 |
+|--------------------------------------|--------------------------------------|--------------------------------------|
+| ![](https://i.imgur.com/IohGNNh.png) | ![](https://i.imgur.com/nyhMT7H.png) | ![](https://i.imgur.com/CRAHbgJ.png) |
+
+
 #### Consequences
 - Divisão do código em packages e melhor organização
 - Independência entre módulos possibilita testar cada parte do MVC individualmente
-
 
 ### 2. Factory Method (criação de ghosts) **TODO**
 #### Problem in Context
