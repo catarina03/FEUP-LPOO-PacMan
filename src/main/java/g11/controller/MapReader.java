@@ -17,8 +17,7 @@ public class MapReader {
     private final ArrayList<Ghost> ghosts;
     private Position pacManposition;
 
-    public MapReader(String mapname) {
-        ReadFile readFile = new ReadFile(mapname);
+    public MapReader(ReadFile readFile) {
         map = new ArrayList<>();
         walls = new ArrayList<>();
         emptySpaces = new ArrayList<>();
@@ -83,6 +82,9 @@ public class MapReader {
         }
     }
 
+    public Position getPacManposition() {
+        return pacManposition;
+    }
 
     public PacMan startingPacMan() {
         return new PacMan(pacManposition);
@@ -94,5 +96,9 @@ public class MapReader {
 
     public List<Ghost> ghostList() {
         return ghosts;
+    }
+
+    public void setPacManposition(Position pacManposition) {
+        this.pacManposition = pacManposition;
     }
 }
