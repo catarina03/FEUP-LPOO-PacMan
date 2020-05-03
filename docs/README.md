@@ -40,10 +40,9 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 
 ![](https://i.imgur.com/IQbc6C3.png)
 
-| Controller  | Model | View  |
+| [Controller Package](../src/main/java/g11/controller)  | [Model Package](../src/main/java/g11/model) | [View Package](../src/main/java/g11/view)  |
 |-------------|-------|-------|
 | ![](https://i.imgur.com/IohGNNh.png) | ![](https://i.imgur.com/nyhMT7H.png) | ![](https://i.imgur.com/CRAHbgJ.png) |
-|[Controller Package](../src/main/java/g11/controller)|[Model Package](../src/main/java/g11/model)|[View Package](../src/main/java/g11/view)|
 
 
 #### Consequences
@@ -57,8 +56,10 @@ Será preciso criar ghosts que serão todos semelhantes, excepto a sua forma ao 
 O padrão _Factory Method_ permite que se criem objetos sem especificar explicitamente a classe do objeto que se quer criar. Isto é feito ao chamar o método de fabrico da classe criadora em vez de chamar o construtor da classe do objeto que se pretende criar.
 #### Implementation
 ![](https://i.imgur.com/AAsRYrU.png)
+> **_NOTE:_**  Classes não têm links associados porque ainda vão ser criadas.
 #### Consequences
 Ao aplicar este _design pattern_ torna-se mais fácil definir a personalidade para cada Ghost e a criação de controladores especificos para cada Ghost.
+
 ### 3. Strategy 
 #### Problem in Context
 Seguindo o _design pattern_ acima apresentado, iremos implementar o DP _Strategy_ para que quando seja preciso atualizar o **Model** a partir dos controladores de _Ghosts_ o controlador principal não tenha de se preocupar com qual controlador é que está a lidar.
@@ -68,6 +69,9 @@ O objetivo deste DP é encapsular algoritmos e fazê-los permutáveis para poder
 Com este DP também tocamos no **Open-Closed Principle** já que _GhostController_ fica aberto para extensão mas fechado para modificação, apenas aplicável ás subclasses. 
 #### Implementation
 ![](https://i.imgur.com/4QbkouQ.png)
+
+> **_NOTE:_**  Classes não têm links associados porque ainda vão ser criadas. Excepto [Game](../src/main/java/g11/controller/Game.java).
+
 #### Consequences
 - Facilidade para adicionar mais controladores 
 - Facilidade para executar _update()_ para cada controlador
@@ -131,7 +135,50 @@ e o método run, também de Game:
             screen.close();
     }
 ```
-### 3. Code Smell 3
+### 3. Switch Statements
+Na classe [Gui.java](../src/main/java/g11/view/Gui.java) é declarado um enum: `public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}`, tal como em [Orientation.java](../src/main/java/g11/model/Orientation.java): `public enum Orientation {UP, DOWN, LEFT, RIGHT}` .
+
+Devido a estes enums surgem ao longo do programa switch cases para selecionar o que fazer dependendo do valor de uma variável enum:
+
+Em [checkWallCollision() e orientationToMove()](../src/main/java/g11/controller/CollisionChecker.java):
+```java
+switch (direction){
+    case UP:
+        pacmannextpos = gameData.getPacMan().getPosition().up();
+        break;
+    case DOWN:
+        pacmannextpos = gameData.getPacMan().getPosition().down();
+        break;
+    case LEFT:
+        pacmannextpos = gameData.getPacMan().getPosition().left();
+        break;
+    case RIGHT:
+        pacmannextpos = gameData.getPacMan().getPosition().right();
+        break;
+}
+...
+switch (orientation){
+            case UP:
+                return Gui.MOVE.UP;
+            case DOWN:
+                return Gui.MOVE.DOWN;
+            case LEFT:
+                return Gui.MOVE.LEFT;
+            case RIGHT:
+                return Gui.MOVE.RIGHT;
+        }
+        return Gui.MOVE.ESC;
+```
+
+Mesmo sendo necessários e executando simples operações podem ser considerados um _code smell_ caso comecem a ser demasiado proeminentes ao longo do código. O refactoring **Replace Type Code with Subclasses** já foi usado para criar a classe [Moveable](../src/main/java/g11/model/Elements/Moveable.java) para esta ser a única que será a _parent class_ dos objetos móveis e com isto [Pacman]() e os futuros Ghosts apenas precisam de fazer _extend_ a esta classe.
+
+![](https://i.imgur.com/k07Y7nn.png)
+
+## Testing
+
+[Code Coverage](../build/reports/coverage/index.html)
+[Unit Testing](../build/reports/tests/test/index.html)
+[PiTest](../build/reports/pitest/202004301858/g11/index.html)
 
 ## Self-Evaluation
 - André Gomes: x %
