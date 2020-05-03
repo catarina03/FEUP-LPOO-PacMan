@@ -29,7 +29,7 @@ Numa fase inicial do projeto, para ter um jogo funcional (a conseguir abrir uma 
 >
 > GoF, Design Patterns - Elements of Reusable Object-Oriented Software
 
-![](https://i.imgur.com/DduITpl.png) [1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
+![](https://i.imgur.com/DduITpl.png) [Fig. 1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
 
 Este padrão arquitetural é habitualmente usado para desenvolver programas que contenham uma interface para o utilizador e consiste em dividir uma aplicação em 3 partes:
 - O **Modelo** representa os dados do programa.
