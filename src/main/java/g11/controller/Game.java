@@ -38,10 +38,6 @@ public class Game {
         this.gameData = gameData;
     }
 
-    public GameData getGameData() {
-        return gameData;
-    }
-
     public void run() throws Throwable {
         running = true;
         long startTime = System.currentTimeMillis();
