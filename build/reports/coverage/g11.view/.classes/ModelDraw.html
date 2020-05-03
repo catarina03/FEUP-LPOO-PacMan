@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModelDraw</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">g11.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModelDraw (g11.view)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModelDraw</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (70/ 70)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ModelDraw$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (71/ 71)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package g11.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import g11.model.Elements.*;
+<i>4</i>&nbsp;import g11.model.GameData;
+<i>5</i>&nbsp;import com.googlecode.lanterna.SGR;
+<i>6</i>&nbsp;import com.googlecode.lanterna.Symbols;
+<i>7</i>&nbsp;import com.googlecode.lanterna.TextColor;
+<i>8</i>&nbsp;import com.googlecode.lanterna.graphics.TextGraphics;
+<i>9</i>&nbsp;import com.googlecode.lanterna.screen.Screen;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class ModelDraw {
+<i>12</i>&nbsp;    private Screen screen;
+<i>13</i>&nbsp;    private TextGraphics graphics;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public ModelDraw(Screen screen) {</b>
+<b class="fc"><i>16</i>&nbsp;        this.screen = screen;</b>
+<b class="fc"><i>17</i>&nbsp;        this.graphics = screen.newTextGraphics();</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public void setGraphics(TextGraphics graphics) {
+<b class="fc"><i>22</i>&nbsp;        this.graphics = graphics;</b>
+<b class="fc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public void drawElement(MapComponent element) {
+<b class="fc"><i>26</i>&nbsp;        if (element instanceof Ghost) drawGhost(element);</b>
+<b class="fc"><i>27</i>&nbsp;        if (element instanceof Cherry) drawCherry(element);</b>
+<b class="fc"><i>28</i>&nbsp;        if (element instanceof Wall) drawWall(element);</b>
+<b class="fc"><i>29</i>&nbsp;        if (element instanceof Coin) drawCoin(element);</b>
+<b class="fc"><i>30</i>&nbsp;        if (element instanceof EmptySpace) drawEmptySpace(element);</b>
+<b class="fc"><i>31</i>&nbsp;        if (element instanceof PowerPellet) drawPowerPellet(element);</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public void drawPacMan(GameData gameData){
+<b class="fc"><i>35</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.YELLOW);</b>
+<b class="fc"><i>36</i>&nbsp;        graphics.enableModifiers(SGR.BOLD);</b>
+<b class="fc"><i>37</i>&nbsp;        switch (gameData.getPacMan().getOrientation()){</b>
+<i>38</i>&nbsp;            case UP:
+<b class="fc"><i>39</i>&nbsp;                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);</b>
+<b class="fc"><i>40</i>&nbsp;                break;</b>
+<i>41</i>&nbsp;            case RIGHT:
+<b class="fc"><i>42</i>&nbsp;                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);</b>
+<b class="fc"><i>43</i>&nbsp;                break;</b>
+<i>44</i>&nbsp;            case DOWN:
+<b class="fc"><i>45</i>&nbsp;                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);</b>
+<b class="fc"><i>46</i>&nbsp;                break;</b>
+<i>47</i>&nbsp;            case LEFT:
+<b class="fc"><i>48</i>&nbsp;                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);</b>
+<i>49</i>&nbsp;                break;
+<i>50</i>&nbsp;        }
+<b class="fc"><i>51</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.WHITE);</b>
+<b class="fc"><i>52</i>&nbsp;        graphics.enableModifiers(SGR.BOLD);</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public void drawGameStats(GameData gameData) {
+<b class="fc"><i>57</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.RED);</b>
+<b class="fc"><i>58</i>&nbsp;        graphics.setBackgroundColor(TextColor.ANSI.BLACK);</b>
+<b class="fc"><i>59</i>&nbsp;        graphics.putString(9, 1, &quot;SCORE&quot;, SGR.BOLD);</b>
+<b class="fc"><i>60</i>&nbsp;        graphics.putString(29, 1, &quot;HI-SCORE&quot;, SGR.BOLD);</b>
+<b class="fc"><i>61</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.WHITE);</b>
+<b class="fc"><i>62</i>&nbsp;        graphics.putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);</b>
+<b class="fc"><i>63</i>&nbsp;        graphics.putString(31, 2, &quot;10000&quot;, SGR.BOLD);</b>
+<b class="fc"><i>64</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.YELLOW);</b>
+<b class="fc"><i>65</i>&nbsp;        graphics.putString(9, 34, &quot;00000&quot;, SGR.BOLD);</b>
+<b class="fc"><i>66</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.RED);</b>
+<b class="fc"><i>67</i>&nbsp;        graphics.putString(35, 34, &quot;o&quot;, SGR.BOLD);</b>
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    public void drawGhost(MapComponent element){
+<b class="fc"><i>71</i>&nbsp;        if (element instanceof Blinky){</b>
+<b class="fc"><i>72</i>&nbsp;            graphics.setForegroundColor(TextColor.ANSI.RED);</b>
+<b class="fc"><i>73</i>&nbsp;            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);</b>
+<i>74</i>&nbsp;        }
+<b class="fc"><i>75</i>&nbsp;        if (element instanceof Clyde){</b>
+<b class="fc"><i>76</i>&nbsp;            graphics.setForegroundColor(TextColor.Factory.fromString(&quot;#FFA500&quot;));</b>
+<b class="fc"><i>77</i>&nbsp;            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);</b>
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        if (element instanceof Inky){</b>
+<b class="fc"><i>80</i>&nbsp;            graphics.setForegroundColor(TextColor.ANSI.CYAN);</b>
+<b class="fc"><i>81</i>&nbsp;            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);</b>
+<i>82</i>&nbsp;        }
+<b class="fc"><i>83</i>&nbsp;        if (element instanceof Pinky){</b>
+<b class="fc"><i>84</i>&nbsp;            graphics.setForegroundColor(TextColor.ANSI.MAGENTA);</b>
+<b class="fc"><i>85</i>&nbsp;            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);</b>
+<i>86</i>&nbsp;        }
+<b class="fc"><i>87</i>&nbsp;    }</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public void drawCherry(MapComponent element){
+<b class="fc"><i>90</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.RED);</b>
+<b class="fc"><i>91</i>&nbsp;        graphics.setCharacter(element.getX(), element.getY(), Symbols.CLUB);</b>
+<b class="fc"><i>92</i>&nbsp;    }</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    public void drawWall(MapComponent element){
+<b class="fc"><i>95</i>&nbsp;        graphics.setBackgroundColor(TextColor.ANSI.BLUE);</b>
+<b class="fc"><i>96</i>&nbsp;        graphics.putString(element.getX(), element.getY(), &quot; &quot;, SGR.BOLD);</b>
+<b class="fc"><i>97</i>&nbsp;    }</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public void drawCoin(MapComponent element){
+<b class="fc"><i>100</i>&nbsp;        graphics.setForegroundColor(TextColor.ANSI.YELLOW);</b>
+<b class="fc"><i>101</i>&nbsp;        graphics.setBackgroundColor(TextColor.ANSI.BLACK);</b>
+<b class="fc"><i>102</i>&nbsp;        graphics.enableModifiers(SGR.BOLD);</b>
+<b class="fc"><i>103</i>&nbsp;        graphics.setCharacter(element.getX(), element.getY(), Symbols.BULLET);</b>
+<b class="fc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    public void drawEmptySpace(MapComponent element){
+<b class="fc"><i>107</i>&nbsp;        graphics.setBackgroundColor(TextColor.ANSI.BLACK);</b>
+<b class="fc"><i>108</i>&nbsp;        graphics.putString(element.getX(), element.getY(), &quot; &quot;, SGR.BOLD);</b>
+<b class="fc"><i>109</i>&nbsp;    }</b>
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    public void drawPowerPellet(MapComponent element){
+<b class="fc"><i>112</i>&nbsp;        graphics.setForegroundColor(TextColor.Factory.fromString(&quot;#FFA500&quot;));</b>
+<b class="fc"><i>113</i>&nbsp;        graphics.setBackgroundColor(TextColor.ANSI.BLACK);</b>
+<b class="fc"><i>114</i>&nbsp;        graphics.enableModifiers(SGR.BOLD);</b>
+<b class="fc"><i>115</i>&nbsp;        graphics.setCharacter(element.getX(), element.getY(), Symbols.SPADES);</b>
+<b class="fc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-03 17:27</div>
+</div>
+</body>
+</html>

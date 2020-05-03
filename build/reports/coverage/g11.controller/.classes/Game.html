@@ -1,0 +1,256 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">g11.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (g11.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 70)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Game$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 72)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package g11.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import g11.model.*;
+<i>4</i>&nbsp;import g11.model.Elements.*;
+<i>5</i>&nbsp;import g11.view.Gui;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Game {
+<i>10</i>&nbsp;    private Gui gui;
+<i>11</i>&nbsp;    private GameData gameData;
+<i>12</i>&nbsp;    private Boolean running;
+<i>13</i>&nbsp;    private MapReader mapReader;
+<i>14</i>&nbsp;    private Gui.MOVE lastmove;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;    public Game() {</b>
+<b class="nc"><i>17</i>&nbsp;        gui = new Gui();</b>
+<b class="nc"><i>18</i>&nbsp;        mapReader = new MapReader(&quot;mapv2.txt&quot;);</b>
+<b class="nc"><i>19</i>&nbsp;        gameData = new GameData(new GameStats(0),</b>
+<b class="nc"><i>20</i>&nbsp;                                mapReader.startingPacMan(),</b>
+<b class="nc"><i>21</i>&nbsp;                                mapReader.ghostList(),</b>
+<b class="nc"><i>22</i>&nbsp;                                mapReader.getMap());</b>
+<b class="nc"><i>23</i>&nbsp;        lastmove = Gui.MOVE.LEFT;</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public void run() throws Throwable {
+<b class="nc"><i>27</i>&nbsp;        running = true;</b>
+<b class="nc"><i>28</i>&nbsp;        long startTime = System.currentTimeMillis();</b>
+<b class="nc"><i>29</i>&nbsp;        boolean alreadyin = false;</b>
+<i>30</i>&nbsp;        // ciclo de jogo
+<b class="nc"><i>31</i>&nbsp;        while(running) {</b>
+<b class="nc"><i>32</i>&nbsp;            Gui.MOVE temp = gui.getMove();</b>
+<b class="nc"><i>33</i>&nbsp;            if (temp != null)</b>
+<b class="nc"><i>34</i>&nbsp;                lastmove = temp;</b>
+<b class="nc"><i>35</i>&nbsp;            processKey(lastmove);</b>
+<i>36</i>&nbsp;            // taxa de atualização
+<b class="nc"><i>37</i>&nbsp;            if ((System.currentTimeMillis() - startTime) % 200 == 0){</b>
+<i>38</i>&nbsp;                // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
+<b class="nc"><i>39</i>&nbsp;                if (!alreadyin){</b>
+<b class="nc"><i>40</i>&nbsp;                    Update(gameData);</b>
+<b class="nc"><i>41</i>&nbsp;                    gui.draw(gameData);</b>
+<b class="nc"><i>42</i>&nbsp;                    alreadyin = true;</b>
+<i>43</i>&nbsp;                }
+<i>44</i>&nbsp;            }
+<i>45</i>&nbsp;            else{
+<i>46</i>&nbsp;                // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
+<b class="nc"><i>47</i>&nbsp;                alreadyin = false;</b>
+<i>48</i>&nbsp;            }
+<b class="nc"><i>49</i>&nbsp;        }</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    private void Update(GameData gameData) {
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;        // Can Pacman move to next position?
+<i>55</i>&nbsp;            // Pacman&#39;s next position?
+<i>56</i>&nbsp;            // Is a wall in the position pacman is about to move to?
+<i>57</i>&nbsp;        // yes -&gt; update position
+<i>58</i>&nbsp;        // no  -&gt; don&#39;t update
+<b class="nc"><i>59</i>&nbsp;        if (!checkWallColison(pacManNextPosition())){</b>
+<b class="nc"><i>60</i>&nbsp;            coinColison(gameData.getPacMan().getPosition());</b>
+<b class="nc"><i>61</i>&nbsp;            gameData.update();</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    private Position pacManNextPosition(){
+<b class="nc"><i>66</i>&nbsp;        Position position = gameData.getPacMan().getPosition();</b>
+<b class="nc"><i>67</i>&nbsp;        Orientation orientation = gameData.getPacMan().getOrientation();</b>
+<b class="nc"><i>68</i>&nbsp;        switch (orientation){</b>
+<i>69</i>&nbsp;            case UP:
+<b class="nc"><i>70</i>&nbsp;                return position.up();</b>
+<i>71</i>&nbsp;            case DOWN:
+<b class="nc"><i>72</i>&nbsp;                return position.down();</b>
+<i>73</i>&nbsp;            case LEFT:
+<b class="nc"><i>74</i>&nbsp;                return position.left();</b>
+<i>75</i>&nbsp;            case RIGHT:
+<b class="nc"><i>76</i>&nbsp;                return position.right();</b>
+<i>77</i>&nbsp;        }
+<b class="nc"><i>78</i>&nbsp;        return position;</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    private boolean checkWallColison(Position pmnextpos){
+<b class="nc"><i>82</i>&nbsp;        ArrayList&lt;Wall&gt; walls = gameData.getMap().getWalls();</b>
+<b class="nc"><i>83</i>&nbsp;        for(Wall wall : walls){</b>
+<b class="nc"><i>84</i>&nbsp;            if (wall.getPosition().equals(pmnextpos)) return true;</b>
+<b class="nc"><i>85</i>&nbsp;        }</b>
+<b class="nc"><i>86</i>&nbsp;        return false;</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    private boolean coinColison(Position pos){
+<b class="nc"><i>90</i>&nbsp;        ArrayList&lt;Coin&gt; coins = gameData.getMap().getCoins();</b>
+<b class="nc"><i>91</i>&nbsp;        for(Coin coin : coins){</b>
+<b class="nc"><i>92</i>&nbsp;            if (coin.getPosition().equals(pos)){</b>
+<b class="nc"><i>93</i>&nbsp;                ArrayList&lt;EmptySpace&gt; emptySpace = gameData.getMap().getEmptySpaces();</b>
+<b class="nc"><i>94</i>&nbsp;                ArrayList&lt;MapComponent&gt; components = gameData.getMap().getMapComponents();</b>
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;                emptySpace.add(new EmptySpace(coin.getX(), coin.getY()));</b>
+<b class="nc"><i>97</i>&nbsp;                components.add(new EmptySpace(coin.getX(), coin.getY()));</b>
+<b class="nc"><i>98</i>&nbsp;                coins.remove(coin);</b>
+<b class="nc"><i>99</i>&nbsp;                components.remove(coin);</b>
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;                gameData.getMap().setCoins(coins);</b>
+<b class="nc"><i>102</i>&nbsp;                gameData.getMap().setEmptySpaces(emptySpace);</b>
+<b class="nc"><i>103</i>&nbsp;                gameData.getMap().setMapComponents(components);</b>
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;                GameStats stats = gameData.getGameStats();</b>
+<b class="nc"><i>106</i>&nbsp;                stats.setScore(stats.getScore() + 1);</b>
+<b class="nc"><i>107</i>&nbsp;                gameData.setGameStats(stats);</b>
+<i>108</i>&nbsp;
+<b class="nc"><i>109</i>&nbsp;                return true;</b>
+<i>110</i>&nbsp;            }
+<b class="nc"><i>111</i>&nbsp;        }</b>
+<b class="nc"><i>112</i>&nbsp;        return false;</b>
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    public void processKey(Gui.MOVE move) throws Throwable {
+<i>116</i>&nbsp;
+<b class="nc"><i>117</i>&nbsp;        if (move != null){</b>
+<b class="nc"><i>118</i>&nbsp;            switch (move){</b>
+<i>119</i>&nbsp;                case ESC:
+<b class="nc"><i>120</i>&nbsp;                    gui.close();</b>
+<b class="nc"><i>121</i>&nbsp;                    running = false;</b>
+<b class="nc"><i>122</i>&nbsp;                    break;</b>
+<i>123</i>&nbsp;                case UP:
+<i>124</i>&nbsp;                    // check if can change position
+<b class="nc"><i>125</i>&nbsp;                    if (!checkWallColison(gameData.getPacMan().getPosition().up()))</b>
+<b class="nc"><i>126</i>&nbsp;                        gameData.getPacMan().setOrientation(Orientation.UP);</b>
+<i>127</i>&nbsp;                    break;
+<i>128</i>&nbsp;                case DOWN:
+<b class="nc"><i>129</i>&nbsp;                    if (!checkWallColison(gameData.getPacMan().getPosition().down()))</b>
+<b class="nc"><i>130</i>&nbsp;                        gameData.getPacMan().setOrientation(Orientation.DOWN);</b>
+<i>131</i>&nbsp;                    break;
+<i>132</i>&nbsp;                case LEFT:
+<b class="nc"><i>133</i>&nbsp;                    if (!checkWallColison(gameData.getPacMan().getPosition().left()))</b>
+<b class="nc"><i>134</i>&nbsp;                        gameData.getPacMan().setOrientation(Orientation.LEFT);</b>
+<i>135</i>&nbsp;                    break;
+<i>136</i>&nbsp;                case RIGHT:
+<b class="nc"><i>137</i>&nbsp;                    if (!checkWallColison(gameData.getPacMan().getPosition().right()))</b>
+<b class="nc"><i>138</i>&nbsp;                        gameData.getPacMan().setOrientation(Orientation.RIGHT);</b>
+<i>139</i>&nbsp;                    break;
+<i>140</i>&nbsp;            }
+<i>141</i>&nbsp;        }
+<i>142</i>&nbsp;    }
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;}
+<i>147</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-03 17:27</div>
+</div>
+</body>
+</html>

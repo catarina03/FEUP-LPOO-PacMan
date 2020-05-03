@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="g11.view.ModelDrawTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-05-03T16:25:53" hostname="BESTA-DO-TRABAL" time="0.406">
+  <properties/>
+  <testcase name="drawEmptySpace" classname="g11.view.ModelDrawTest" time="0.16"/>
+  <testcase name="drawCoin" classname="g11.view.ModelDrawTest" time="0.003"/>
+  <testcase name="drawWall" classname="g11.view.ModelDrawTest" time="0.002"/>
+  <testcase name="drawCherry" classname="g11.view.ModelDrawTest" time="0.026"/>
+  <testcase name="drawGhosts" classname="g11.view.ModelDrawTest" time="0.157"/>
+  <testcase name="drawPacman" classname="g11.view.ModelDrawTest" time="0.048"/>
+  <testcase name="drawPowerPellet" classname="g11.view.ModelDrawTest" time="0.003"/>
+  <testcase name="drawGameStats" classname="g11.view.ModelDrawTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

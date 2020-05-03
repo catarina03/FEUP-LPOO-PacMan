@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="g11.model.PositionTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-05-03T16:25:53" hostname="BESTA-DO-TRABAL" time="0.003">
+  <properties/>
+  <testcase name="PositionHash" classname="g11.model.PositionTest" time="0.001"/>
+  <testcase name="PositionChange" classname="g11.model.PositionTest" time="0.0"/>
+  <testcase name="PositionEquals" classname="g11.model.PositionTest" time="0.001"/>
+  <testcase name="PositionValuesCreation" classname="g11.model.PositionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
