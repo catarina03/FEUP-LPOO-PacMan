@@ -4,8 +4,6 @@ import g11.model.Orientation;
 import g11.model.Position;
 
 public class PacMan extends Moveable{
-    Orientation orientation;
-
     public PacMan(int x, int y) {
         super(x,y);
         this.orientation = Orientation.LEFT;
