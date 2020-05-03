@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 public class GuiTest {
 
-    /*@Test
+    @Test
     public void close() throws Throwable {
         Gui gui = new Gui(1);
         Screen screen = Mockito.mock(Screen.class);
@@ -71,7 +71,7 @@ public class GuiTest {
         ModelDraw modelDraw = Mockito.mock(ModelDraw.class);
         gui.setModelDraw(modelDraw);
 
-        ArrayList<MapComponent> mc = new ArrayList<MapComponent>();
+        ArrayList<MapComponent> mc = new ArrayList<>();
         Wall wall = Mockito.mock(Wall.class);
         EmptySpace es = Mockito.mock(EmptySpace.class);
         Coin coin = Mockito.mock(Coin.class);
@@ -98,5 +98,7 @@ public class GuiTest {
         Mockito.verify(modelDraw, Mockito.times(1)).drawPacMan(gameData);
         Mockito.verify(modelDraw, Mockito.times(1)).drawGameStats(gameData);
         Mockito.verify(screen, Mockito.times(1)).refresh();
-    }*/
+    }
+
+
 }

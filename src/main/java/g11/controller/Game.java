@@ -1,10 +1,7 @@
 package g11.controller;
 
 import g11.model.*;
-import g11.model.Elements.*;
 import g11.view.Gui;
-
-import java.util.ArrayList;
 
 public class Game {
     private Gui gui;
@@ -25,6 +22,26 @@ public class Game {
         lastmove = Gui.MOVE.LEFT;
     }
 
+    public void setCchecker(CollisionChecker cchecker) {
+        this.cchecker = cchecker;
+    }
+
+    public void setGui(Gui gui) {
+        this.gui = gui;
+    }
+
+    public Boolean getRunning() {
+        return running;
+    }
+
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
     public void run() throws Throwable {
         running = true;
         long startTime = System.currentTimeMillis();
@@ -39,7 +56,7 @@ public class Game {
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
-                    Update(gameData);
+                    update(gameData);
                     gui.draw(gameData);
                     alreadyin = true;
                 }
@@ -51,7 +68,7 @@ public class Game {
         }
     }
 
-    private void Update(GameData gameData) {
+    public void update(GameData gameData) {
 
         // Can Pacman move to next position?
             // Pacman's next position?

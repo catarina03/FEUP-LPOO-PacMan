@@ -37,8 +37,9 @@ public class Gui {
         try {
             TerminalSize terminalsize = new TerminalSize(50,36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            terminal = terminalFactory.createTerminal();
+            Terminal terminal = terminalFactory.createTerminal();
             screen = new TerminalScreen(terminal);
+            screen.close();
 
         } catch (IOException e) {
             e.printStackTrace();

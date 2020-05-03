@@ -1,6 +1,5 @@
 package g11.controller;
 
-import g11.model.Map;
 import g11.model.Position;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class MpReaderTest {
+public class MapReaderTest {
 
     @Test
     public void pacmanPositionTest(){
