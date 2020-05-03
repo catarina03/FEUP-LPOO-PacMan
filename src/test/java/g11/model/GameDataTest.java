@@ -16,7 +16,7 @@ public class GameDataTest {
         Ghost ghost1 = Mockito.mock(Ghost.class);
         Ghost ghost2 = Mockito.mock(Ghost.class);
         Ghost ghost3 = Mockito.mock(Ghost.class);
-        ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
+        ArrayList<Ghost> ghosts = new ArrayList<>();
         ghosts.add(ghost1);
         ghosts.add(ghost2);
         ghosts.add(ghost3);
