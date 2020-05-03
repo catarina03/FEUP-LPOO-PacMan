@@ -62,7 +62,7 @@ Ao aplicar este _design pattern_ torna-se mais fácil definir a personalidade pa
 
 ### 3. Strategy 
 #### Problem in Context
-Seguindo o _design pattern_ acima apresentado, iremos implementar o DP _Strategy_ para que quando seja preciso atualizar o **Model** a partir dos controladores de _Ghosts_ o controlador principal não tenha de se preocupar com qual controlador é que está a lidar.
+Seguindo o _design pattern_ acima apresentado, iremos implementar o DP _Strategy_ para que quando seja preciso atualizar o **Model** a partir dos controladores de _Ghosts_, o controlador principal não tenha de se preocupar com qual controlador é que está a lidar.
 #### The Pattern
 O objetivo deste DP é encapsular algoritmos e fazê-los permutáveis para poder processar um a um. Conseguimos captar a partir da classe abstrata o comum a todas as subclasses e com isto podemos implementar os detalhes apenas nas classes derivadas.
 
@@ -170,7 +170,11 @@ switch (orientation){
         return Gui.MOVE.ESC;
 ```
 
-Mesmo sendo necessários e executando simples operações podem ser considerados um _code smell_ caso comecem a ser demasiado proeminentes ao longo do código. O refactoring **Replace Type Code with Subclasses** já foi usado para criar a classe [Moveable](../src/main/java/g11/model/Elements/Moveable.java) para esta ser a única que será a _parent class_ dos objetos móveis e com isto [Pacman]() e os futuros Ghosts apenas precisam de fazer _extend_ a esta classe.
+Mesmo sendo necessários e executando simples operações podem ser considerados um _code smell_ caso comecem a ser demasiado proeminentes ao longo do código. 
+
+**Solution**: Replace Type Code with Subclasses
+
+O refactoring **Replace Type Code with Subclasses** já foi usado para criar a classe [Moveable](../src/main/java/g11/model/Elements/Moveable.java) para esta ser a única que será a _parent class_ dos objetos móveis e com isto [Pacman]() e os futuros Ghosts apenas precisam de fazer _extend_ a esta classe.
 
 ![](https://i.imgur.com/k07Y7nn.png)
 
