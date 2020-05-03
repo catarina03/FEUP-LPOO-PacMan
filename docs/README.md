@@ -43,6 +43,8 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 | Controller  | Model | View  |
 |-------------|-------|-------|
 | ![](https://i.imgur.com/IohGNNh.png) | ![](https://i.imgur.com/nyhMT7H.png) | ![](https://i.imgur.com/CRAHbgJ.png) |
+|[Controller Package](../src/main/java/g11/controller)|[Model Package](../src/main/java/g11/model)|[View Package](../src/main/java/g11/view)|
+
 
 #### Consequences
 - Divisão do código em packages e melhor organização
@@ -68,6 +70,7 @@ Com este DP também tocamos no **Open-Closed Principle** já que _GhostControlle
 ![](https://i.imgur.com/4QbkouQ.png)
 #### Consequences
 - Facilidade para adicionar mais controladores 
+- Facilidade para executar _update()_ para cada controlador
 
 ## Code Smells
 ### 1. Bloaters - Large CLass
