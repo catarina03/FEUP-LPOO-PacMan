@@ -1,8 +1,7 @@
 # LPOO_11 - PacMan
 
 O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal Lanterna em Java.
-> Template : https://web.fe.up.pt/~arestivo/page/courses/2020/lpoo/template/
-> 
+
 ## Implemented Features:
 - **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal.
 - **Leitura de mapas** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt e apresentar esse mapa no ecrã.
@@ -186,8 +185,9 @@ O refactoring **Replace Type Code with Subclasses** já foi usado para criar a c
 
 ![PiTest](https://i.imgur.com/CukfIXQ.png)
 
-> **_NOTE:_**  Para PiTest não estamos a ter em conta os testes de [Gui](../src/test/java/g11/view/GuiTest.java) e de [Game](../src/test/java/g11/controller/GameTest.java) pois ambos abrem um _Screen_ que faz com que os testes sofram de **Build Error**
+> **_NOTE:_**  Para PiTest não estamos a ter em conta os testes de [Gui](../src/test/java/g11/view/GuiTest.java) e de [Game](../src/test/java/g11/controller/GameTest.java) pois ambos abrem um _Screen_ que faz com que `gradlew pitest` origine um **Build Error**
 
 ## Self-Evaluation
-- André Gomes: x %
-- Catarina Fernades: y %
+Quando à divisão do trabalho foram criados ao longo desta primeira parte vários [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) para cada ponto a trabalhar e cada elemento do grupo foi implementando melhorias, refactorings, testes ou funcionalidades do jogo em branches separados que depois ficavam sujeitos a [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls) e eram implementados no master. Até agora o trabalho foi bem organizado e dividido entre os membros do grupo, tendo ambos feito um esforço semelhante para a concretização do projeto.
+- André Gomes: 50 %
+- Catarina Fernades: 50 %
