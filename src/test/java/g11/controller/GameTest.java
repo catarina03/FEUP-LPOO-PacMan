@@ -1,21 +1,16 @@
 package g11.controller;
 
-import g11.model.Elements.Coin;
 import g11.model.Elements.PacMan;
 import g11.model.Elements.Wall;
 import g11.model.GameData;
 import g11.model.Map;
-import g11.model.Orientation;
 import g11.model.Position;
 import g11.view.Gui;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static g11.model.Orientation.UP;
 import static g11.view.Gui.MOVE.*;
 import static org.junit.Assert.assertEquals;
 

@@ -4,7 +4,6 @@ import g11.model.*;
 import g11.model.Elements.*;
 import g11.view.Gui;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class CollisionCheckerTest {
         assertEquals(Gui.MOVE.LEFT, collisionChecker.orientationToMove(orientation));
     }
 
-    /*
+
     @Test
     public void updateCoinCollisionTest(){ //NEEDS FIXING
         CollisionChecker collisionChecker = new CollisionChecker();
@@ -94,7 +93,6 @@ public class CollisionCheckerTest {
         Position position = Mockito.mock(Position.class);
         Mockito.when(position.getX()).thenReturn(10);
         Mockito.when(position.getY()).thenReturn(11);
-
         Coin coin = Mockito.mock(Coin.class);
         Mockito.when(coin.getPosition()).thenReturn(position);
         ArrayList<Coin> coins = new ArrayList<>();
@@ -103,32 +101,22 @@ public class CollisionCheckerTest {
         emptySpaces.clear();
         ArrayList<MapComponent> mapComponents = new ArrayList<>();
         mapComponents.add(coin);
-
-     */
-
-        /*
         int score = 0;
         gameStats.setScore(score);
-        gameData.setGameStats(gameStats);
 
-         */
-
-        /*
         Mockito.when(pacman.getPosition()).thenReturn(position);
         Mockito.when(map.getCoins()).thenReturn(coins);
         Mockito.when(map.getEmptySpaces()).thenReturn(emptySpaces);
         Mockito.when(map.getMapComponents()).thenReturn(mapComponents);
         Mockito.when(gameData.getPacMan()).thenReturn(pacman);
         Mockito.when(gameData.getMap()).thenReturn(map);
-        //Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
+        Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
 
         GameData result = collisionChecker.updateCoinCollison(gameData);
 
         assertEquals(0, result.getMap().getCoins().size());
         assertEquals(1, result.getMap().getEmptySpaces().size());
         assertEquals(1, result.getMap().getMapComponents().size());
-        //assertEquals(1, result.getGameStats().getScore());
+        Mockito.verify(gameStats, Mockito.times(1)).setScore(gameStats.getScore() + 1);
     }
-
-         */
 }
