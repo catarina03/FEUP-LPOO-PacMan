@@ -176,9 +176,11 @@ Mesmo sendo necessários e executando simples operações podem ser considerados
 
 ## Testing
 
-[Code Coverage](../build/reports/coverage/index.html)
-[Unit Testing](../build/reports/tests/test/index.html)
-[PiTest](../build/reports/pitest/202004301858/g11/index.html)
+[Code Coverage](insert image here)
+
+[Unit Testing](insert image here)
+
+[PiTest](insert image here)
 
 ## Self-Evaluation
 - André Gomes: x %

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="g11.model.GameDataTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-05-03T16:25:51" hostname="BESTA-DO-TRABAL" time="1.371">
-  <properties/>
-  <testcase name="GameDataCreation" classname="g11.model.GameDataTest" time="1.326"/>
-  <testcase name="GameDataChange" classname="g11.model.GameDataTest" time="0.0"/>
-  <testcase name="GameDataUpdate" classname="g11.model.GameDataTest" time="0.043"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
