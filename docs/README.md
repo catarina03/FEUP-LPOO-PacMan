@@ -180,11 +180,13 @@ O refactoring **Replace Type Code with Subclasses** já foi usado para criar a c
 
 ## Testing
 
-[Code Coverage](insert image here)
+![Code Coverage](https://i.imgur.com/ZikaxRv.png)
 
-[Unit Testing](insert image here)
+![Unit Testing](https://i.imgur.com/hYZc5SR.png)
 
-[PiTest](insert image here)
+![PiTest](https://i.imgur.com/CukfIXQ.png)
+
+> **_NOTE:_**  Para PiTest não estamos a ter em conta os testes de [Gui](../src/test/java/g11/view/GuiTest.java) e de [Game](../src/test/java/g11/controller/GameTest.java) pois ambos abrem um _Screen_ que faz com que os testes sofram de **Build Error**
 
 ## Self-Evaluation
 - André Gomes: x %
