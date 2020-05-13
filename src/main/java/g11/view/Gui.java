@@ -46,6 +46,11 @@ public class Gui {
         }
         modelDraw = new ModelDraw(screen);
     }
+
+    public Terminal getTerminal() {
+        return terminal;
+    }
+
     public void setModelDraw(ModelDraw modelDraw) {
         this.modelDraw = modelDraw;
     }

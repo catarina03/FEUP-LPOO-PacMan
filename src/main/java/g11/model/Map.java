@@ -10,14 +10,16 @@ public class Map {
     private ArrayList<EmptySpace> emptySpaces;
     private ArrayList<Coin> coins;
     private ArrayList<PowerPellet> powerPellets;
+    private ArrayList<Gate> gates;
     private ArrayList<MapComponent> mapComponents;
 
-    public Map(ArrayList<String> map, ArrayList<Wall> walls, ArrayList<EmptySpace> emptySpaces, ArrayList<Coin> coins, ArrayList<PowerPellet> powerPellets, ArrayList<MapComponent> mapComponents) {
+    public Map(ArrayList<String> map, ArrayList<Wall> walls, ArrayList<EmptySpace> emptySpaces, ArrayList<Coin> coins, ArrayList<PowerPellet> powerPellets, ArrayList<Gate> gates ,ArrayList<MapComponent> mapComponents) {
         this.map = map;
         this.walls = walls;
         this.emptySpaces = emptySpaces;
         this.coins = coins;
         this.powerPellets = powerPellets;
+        this.gates = gates;
         this.mapComponents = mapComponents;
     }
 
@@ -45,6 +47,8 @@ public class Map {
         return powerPellets;
     }
 
+    public ArrayList<Gate> getGates() { return gates; }
+
     public void setEmptySpaces(ArrayList<EmptySpace> emptySpaces) {
         this.emptySpaces = emptySpaces;
     }
@@ -68,4 +72,6 @@ public class Map {
     public void setPowerPellets(ArrayList<PowerPellet> powerPellets) {
         this.powerPellets = powerPellets;
     }
+
+    public void setGates(ArrayList<Gate> gates) { this.gates = gates; }
 }

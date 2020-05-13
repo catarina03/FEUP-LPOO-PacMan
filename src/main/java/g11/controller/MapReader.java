@@ -13,6 +13,7 @@ public class MapReader {
     private final ArrayList<EmptySpace> emptySpaces;
     private final ArrayList<Coin> coins;
     private final ArrayList<PowerPellet> powerPellets;
+    private final ArrayList<Gate> gates;
     private final ArrayList<MapComponent> mapComponents;
     private final ArrayList<Ghost> ghosts;
     private Position pacManposition;
@@ -23,6 +24,7 @@ public class MapReader {
         emptySpaces = new ArrayList<>();
         coins = new ArrayList<>();
         powerPellets = new ArrayList<>();
+        gates = new ArrayList<>();
         mapComponents = new ArrayList<>();
         ghosts = new ArrayList<>();
 
@@ -76,6 +78,11 @@ public class MapReader {
                 else if(ch == 'M'){
                     pacManposition = new Position(x,y);
                 }
+                else if(ch == 'g'){
+                    Gate gate = new Gate(x,y);
+                    gates.add(gate);
+                    mapComponents.add(gate);
+                }
                 x++;
             }
             y++;
@@ -93,7 +100,7 @@ public class MapReader {
     }
 
     public Map getMap() {
-        return new Map(map, walls, emptySpaces, coins, powerPellets, mapComponents);
+        return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents);
     }
 
     public List<Ghost> ghostList() {

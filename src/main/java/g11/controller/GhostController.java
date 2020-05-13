@@ -7,6 +7,7 @@ import g11.model.Elements.Ghost;
 import g11.model.GameData;
 import g11.model.GhostState;
 import g11.model.Orientation;
+import g11.model.Position;
 
 import java.util.ArrayList;
 
@@ -16,11 +17,11 @@ public class GhostController {
     private GhostState state;
 
     public GhostController() {
-        this.state = GhostState.CHASE;
+        this.state = GhostState.SCATTER;
     }
 
     public void update(GameData gameData, long elapsedtime) {
-        state = setStatetime(elapsedtime);
+        //state = setStatetime(elapsedtime);
         switch (state){
             case SCATTER:
                 // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
@@ -45,25 +46,24 @@ public class GhostController {
                 // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
                 for (Ghost ghost : gameData.getGhosts()){
                     // atualiza posição de target
-                    if (ghost instanceof Blinky) {
-                        ghost.setTarget(gameData.getPacMan().getPosition());
+                    ghost.setTarget(gameData.getPacMan().getPosition());
 
 
-                        ArrayList<Orientation> availableOris = getAvailableOrientations(gameData, ghost);
-                        if (availableOris.size() > 0) {
-                            Orientation tochange = DOWN;
-                            double distance = 1000.0;
-                            for (Orientation orientation : availableOris) {
-                                double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
-                                if (tempdistance < distance) {
-                                    tochange = orientation;
-                                    distance = tempdistance;
-                                }
+                    ArrayList<Orientation> availableOris = getAvailableOrientations(gameData, ghost);
+                    if (availableOris.size() > 0) {
+                        Orientation tochange = DOWN;
+                        double distance = 1000.0;
+                        for (Orientation orientation : availableOris) {
+                            double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
+                            if (tempdistance < distance) {
+                                tochange = orientation;
+                                distance = tempdistance;
                             }
-                            ghost.setOrientation(tochange);
                         }
-                        ghost.moveDirection();
+                        ghost.setOrientation(tochange);
                     }
+                    ghost.moveDirection();
+
                 }
                 break;
         }
@@ -81,8 +81,10 @@ public class GhostController {
     }
 
     private ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost) {
-        // cima
         ArrayList<Orientation> returning = new ArrayList<Orientation>();
+        /*if (ghost.getPosition().equals(new Position(24,16)) || ghost.getPosition().equals(new Position(24,16))){
+            returning.add(UP);
+        }*/
         for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()){
             if (emptySpace.getPosition().equals(ghost.getPosition().up())){
                 if (ghost.getOrientation().getOpposite() != UP){

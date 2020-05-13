@@ -28,6 +28,13 @@ public class ModelDraw {
         if (element instanceof Coin) drawCoin(element);
         if (element instanceof EmptySpace) drawEmptySpace(element);
         if (element instanceof PowerPellet) drawPowerPellet(element);
+        if (element instanceof Gate) drawGate(element);
+    }
+
+    private void drawGate(MapComponent element) {
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(element.getX(), element.getY(), "-", SGR.BOLD);
     }
 
     public void drawPacMan(GameData gameData){

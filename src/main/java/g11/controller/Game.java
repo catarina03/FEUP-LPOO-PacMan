@@ -1,6 +1,7 @@
 package g11.controller;
 
 import g11.model.*;
+import g11.model.Elements.Ghost;
 import g11.view.Gui;
 
 public class Game {
@@ -68,7 +69,7 @@ public class Game {
         }
     }
 
-    public void update(GameData gameData, long elapsedTime) {
+    public void update(GameData gameData, long elapsedTime) throws Throwable {
 
         // Can Pacman move to next position?
             // Pacman's next position?
@@ -85,6 +86,11 @@ public class Game {
         ghostController.update(gameData, elapsedTime);
 
         // verificar colisão com Pacman
+        for (Ghost ghost : gameData.getGhosts()){
+            if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
+                gui.getTerminal().bell();
+            }
+        }
     }
 
     public void processKey(Gui.MOVE move) throws Throwable {
