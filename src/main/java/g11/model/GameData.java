@@ -1,6 +1,7 @@
 package g11.model;
 
 import g11.model.Elements.Ghost;
+import g11.model.Elements.Inky;
 import g11.model.Elements.PacMan;
 
 import java.util.List;
@@ -16,10 +17,6 @@ public class GameData {
         this.pacMan = pacMan;
         this.ghosts = ghosts;
         this.map = map;
-    }
-
-    public void update() {
-        pacMan.moveDirection();
     }
 
     public GameStats getGameStats() {

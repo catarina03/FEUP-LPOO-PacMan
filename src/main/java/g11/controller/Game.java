@@ -10,16 +10,20 @@ public class Game {
     private MapReader mapReader;
     private Gui.MOVE lastmove;
     private CollisionChecker cchecker;
+    private GhostController ghostController;
 
     public Game() {
         gui = new Gui();
         mapReader = new MapReader(new ReadFile("mapv2.txt"));
+        ghostController = new GhostController();
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
         lastmove = Gui.MOVE.LEFT;
+
+        mapReader = null; // limpar a informação aqui guardada
     }
 
     public void setCchecker(CollisionChecker cchecker) {
@@ -42,29 +46,29 @@ public class Game {
         running = true;
         long startTime = System.currentTimeMillis();
         boolean alreadyin = false;
+
         // ciclo de jogo
         while(running) {
+
             Gui.MOVE temp = gui.getMove();
             if (temp != null)
                 lastmove = temp;
             processKey(lastmove);
-            // taxa de atualização
+
+            // taxa de atualização (a cada 200 ms)
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
-                    update(gameData);
+                    long elapsedtime = System.currentTimeMillis() - startTime;
+                    update(gameData, elapsedtime);
                     gui.draw(gameData);
-                    alreadyin = true;
-                }
+                    alreadyin = true; }
             }
-            else{
-                // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
-                alreadyin = false;
-            }
+            else{ alreadyin = false; } // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
         }
     }
 
-    public void update(GameData gameData) {
+    public void update(GameData gameData, long elapsedTime) {
 
         // Can Pacman move to next position?
             // Pacman's next position?
@@ -73,8 +77,14 @@ public class Game {
         // no  -> don't update
         this.gameData = cchecker.updateCoinCollison(gameData);
         if (!cchecker.checkWallCollision(gameData, Gui.MOVE.ESC)){
-            gameData.update();
+            gameData.getPacMan().moveDirection();
         }
+
+        //Ghosts
+            //mover fantasmas
+        ghostController.update(gameData, elapsedTime);
+
+        // verificar colisão com Pacman
     }
 
     public void processKey(Gui.MOVE move) throws Throwable {

@@ -1,7 +1,25 @@
 package g11.model.Elements;
 
+import g11.model.GhostState;
+import g11.model.Position;
+
 public abstract class Ghost extends Moveable {
-    public Ghost(int x, int y) {
+    Position target;
+    Position scatterTarget;
+
+    public Ghost(int x, int y, Position scatterTarget) {
         super(x, y);
+        this.scatterTarget = target;
+        this.target = new Position(0,0);
     }
+
+    public Position getTarget() {
+        return target;
+    }
+
+    public void setTarget(Position target) {
+        this.target = target;
+    }
+
+    public Position getScatterTarget() { return scatterTarget; }
 }

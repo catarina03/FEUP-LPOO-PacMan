@@ -80,6 +80,8 @@ public class MapReader {
             }
             y++;
         }
+
+
     }
 
     public Position getPacManposition() {

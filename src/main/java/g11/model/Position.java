@@ -43,6 +43,11 @@ public class Position {
         return new Position(x, y + 1);
     }
 
+    public float distance(Position a){
+
+        return 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
