@@ -9,7 +9,7 @@ public abstract class Ghost extends Moveable {
 
     public Ghost(int x, int y, Position scatterTarget) {
         super(x, y);
-        this.scatterTarget = target;
+        this.scatterTarget = scatterTarget;
         this.target = new Position(0,0);
     }
 
