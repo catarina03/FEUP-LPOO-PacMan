@@ -90,6 +90,8 @@ public class Gui {
 
         for (MapComponent element : gameData.getMap().getMapComponents()) modelDraw.drawElement(element);
 
+
+        modelDraw.drawGhost(gameData);
         modelDraw.drawPacMan(gameData);
         modelDraw.drawGameStats(gameData);
 

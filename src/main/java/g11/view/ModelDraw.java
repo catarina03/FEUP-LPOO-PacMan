@@ -23,7 +23,6 @@ public class ModelDraw {
     }
 
     public void drawElement(MapComponent element) {
-        if (element instanceof Ghost) drawGhost(element);
         if (element instanceof Cherry) drawCherry(element);
         if (element instanceof Wall) drawWall(element);
         if (element instanceof Coin) drawCoin(element);
@@ -67,22 +66,25 @@ public class ModelDraw {
         graphics.putString(35, 34, "o", SGR.BOLD);
     }
 
-    public void drawGhost(MapComponent element){
-        if (element instanceof Blinky){
-            graphics.setForegroundColor(TextColor.ANSI.RED);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-        }
-        if (element instanceof Clyde){
-            graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-        }
-        if (element instanceof Inky){
-            graphics.setForegroundColor(TextColor.ANSI.CYAN);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-        }
-        if (element instanceof Pinky){
-            graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+    public void drawGhost(GameData gameData){
+
+        for (Ghost element : gameData.getGhosts()){
+            if (element instanceof Blinky){
+                graphics.setForegroundColor(TextColor.ANSI.RED);
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
+            if (element instanceof Clyde){
+                graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
+            if (element instanceof Inky){
+                graphics.setForegroundColor(TextColor.ANSI.CYAN);
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
+            if (element instanceof Pinky){
+                graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
         }
     }
 

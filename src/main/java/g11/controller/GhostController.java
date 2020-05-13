@@ -1,5 +1,6 @@
 package g11.controller;
 
+import g11.model.Elements.Blinky;
 import g11.model.Elements.Coin;
 import g11.model.Elements.EmptySpace;
 import g11.model.Elements.Ghost;
@@ -9,24 +10,19 @@ import g11.model.Orientation;
 
 import java.util.ArrayList;
 
-import static g11.model.Orientation.DOWN;
-import static g11.model.Orientation.UP;
+import static g11.model.Orientation.*;
 
 public class GhostController {
     private GhostState state;
 
     public GhostController() {
-        this.state = GhostState.SCATTER;
+        this.state = GhostState.CHASE;
     }
 
     public void update(GameData gameData, long elapsedtime) {
         switch (state){
             case SCATTER:
-                // está em ponto de cruzamento?
-                    // sim -> atualiza direção
-                    // não -> skip a atualização da direção
-                // update da posição
-
+                // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
                 for (Ghost ghost : gameData.getGhosts()){
                     ArrayList<Orientation> availableOris = getAvailableOrientations(gameData, ghost);
                     if (availableOris.size() > 0){
@@ -43,9 +39,31 @@ public class GhostController {
                     }
                     ghost.moveDirection();
                 }
-
                 break;
             case CHASE:
+                // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
+                for (Ghost ghost : gameData.getGhosts()){
+                    // atualiza posição de target
+                    if (ghost instanceof Blinky) {
+                        ghost.setTarget(gameData.getPacMan().getPosition());
+
+
+                        ArrayList<Orientation> availableOris = getAvailableOrientations(gameData, ghost);
+                        if (availableOris.size() > 0) {
+                            Orientation tochange = DOWN;
+                            double distance = 1000.0;
+                            for (Orientation orientation : availableOris) {
+                                double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
+                                if (tempdistance < distance) {
+                                    tochange = orientation;
+                                    distance = tempdistance;
+                                }
+                            }
+                            ghost.setOrientation(tochange);
+                        }
+                        ghost.moveDirection();
+                    }
+                }
                 break;
         }
     }
@@ -65,13 +83,13 @@ public class GhostController {
                 }
             }
             else if (emptySpace.getPosition().equals(ghost.getPosition().left())){
-                if (ghost.getOrientation().getOpposite() != Orientation.LEFT){
-                    returning.add(Orientation.LEFT);
+                if (ghost.getOrientation().getOpposite() != LEFT){
+                    returning.add(LEFT);
                 }
             }
             else if (emptySpace.getPosition().equals(ghost.getPosition().right())){
-                if (ghost.getOrientation().getOpposite() != Orientation.RIGHT){
-                    returning.add(Orientation.RIGHT);
+                if (ghost.getOrientation().getOpposite() != RIGHT){
+                    returning.add(RIGHT);
                 }
             }
         }
@@ -87,13 +105,13 @@ public class GhostController {
                 }
             }
             else if (emptySpace.getPosition().equals(ghost.getPosition().left())){
-                if (ghost.getOrientation().getOpposite() != Orientation.LEFT){
-                    returning.add(Orientation.LEFT);
+                if (ghost.getOrientation().getOpposite() != LEFT){
+                    returning.add(LEFT);
                 }
             }
             else if (emptySpace.getPosition().equals(ghost.getPosition().right())){
-                if (ghost.getOrientation().getOpposite() != Orientation.RIGHT){
-                    returning.add(Orientation.RIGHT);
+                if (ghost.getOrientation().getOpposite() != RIGHT){
+                    returning.add(RIGHT);
                 }
             }
         }

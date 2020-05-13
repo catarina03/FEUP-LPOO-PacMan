@@ -1,6 +1,5 @@
 package g11.model.Elements;
 
-import g11.model.GhostState;
 import g11.model.Position;
 
 public abstract class Ghost extends Moveable {
