@@ -20,6 +20,7 @@ public class GhostController {
     }
 
     public void update(GameData gameData, long elapsedtime) {
+        state = setStatetime(elapsedtime);
         switch (state){
             case SCATTER:
                 // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
@@ -66,6 +67,17 @@ public class GhostController {
                 }
                 break;
         }
+    }
+
+    private GhostState setStatetime(long elapsedtime) {
+        // 7 secs scatter -> 20 secs chase
+        // 7 secs scatter -> 20 secs chase
+        // 5 secs scatter -> 20 secs chase
+        // 5 secs scatter -> inf secs chase
+        if (elapsedtime > 0 && elapsedtime <= 7000 || elapsedtime > 27000 && elapsedtime <= 34000 || elapsedtime > 54000 && elapsedtime <= 59000 || elapsedtime > 79000 && elapsedtime <= 84000)
+            return GhostState.SCATTER;
+        else
+            return GhostState.CHASE;
     }
 
     private ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost) {
