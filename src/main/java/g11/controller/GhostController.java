@@ -65,6 +65,7 @@ public abstract class GhostController {
                 }
             }
         }
+        
         for (Coin emptySpace : gameData.getMap().getCoins()){
             if (emptySpace.getPosition().equals(ghost.getPosition().up())){
                 if (ghost.getOrientation().getOpposite() != UP){

@@ -54,21 +54,34 @@ public class MapReader {
                     Blinky blinky = new Blinky(x, y);
                     mapComponents.add(blinky);
                     ghosts.add(blinky);
+                    // Depois de o Blinky sair do sitio tem de ficar um espaço vazio atrás
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == 'I'){
                     Inky inky = new Inky(x, y);
                     mapComponents.add(inky);
                     ghosts.add(inky);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == 'P'){
                     Pinky pinky = new Pinky(x, y);
                     mapComponents.add(pinky);
                     ghosts.add(pinky);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == 'K'){
                     Clyde clyde = new Clyde(x, y);
                     mapComponents.add(clyde);
                     ghosts.add(clyde);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == '$'){
                     PowerPellet powerPellet = new PowerPellet(x,y);
@@ -77,6 +90,9 @@ public class MapReader {
                 }
                 else if(ch == 'M'){
                     pacManposition = new Position(x,y);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if(ch == 'g'){
                     Gate gate = new Gate(x,y);
