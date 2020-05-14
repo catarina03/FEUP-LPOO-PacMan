@@ -1,5 +1,6 @@
 package g11.controller;
 
+import g11.model.Position;
 import g11.model.elements.Ghost;
 import g11.model.GameData;
 import g11.model.GhostState;
@@ -26,40 +27,28 @@ public class GhostControllerBlinky extends GhostController {
                 // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     availableOris = getAvailableOrientations(gameData, ghost, false);
                     if (availableOris.size() > 0){
-                        Orientation tochange = UP;
-                        double distance = 1000.0;
-                        for (Orientation orientation : availableOris){
-                            double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget());
-                            if(tempdistance < distance) {
-                                tochange = orientation;
-                                distance = tempdistance;
-                            }
-                        }
-                        ghost.setOrientation(tochange);
+                        ghost.setOrientation(chooseOrientation(availableOris, ghost, true));
                     }
                     ghost.moveDirection();
                 break;
             case CHASE:
                 // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                 // atualiza posição de target
-                ghost.setTarget(gameData.getPacMan().getPosition());
+                ghost.setTarget(getTarget(gameData));
 
                 availableOris = getAvailableOrientations(gameData, ghost, false);
                 if (availableOris.size() > 0) {
-                    Orientation tochange = DOWN;
-                    double distance = 1000.0;
-                    for (Orientation orientation : availableOris) {
-                        double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
-                        if (tempdistance < distance) {
-                            tochange = orientation;
-                            distance = tempdistance;
-                        }
-                    }
-                    ghost.setOrientation(tochange);
+                    ghost.setOrientation(chooseOrientation(availableOris, ghost, false));
                 }
                 ghost.moveDirection();
 
             break;
         }
     }
+
+    @Override
+    public Position getTarget(GameData gameData) {
+        return gameData.getPacMan().getPosition();
+    }
+
 }

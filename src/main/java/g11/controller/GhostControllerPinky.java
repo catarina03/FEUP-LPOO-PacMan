@@ -37,16 +37,7 @@ public class GhostControllerPinky extends GhostController {
                 // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                 availableOris = getAvailableOrientations(gameData, ghost, false);
                 if (availableOris.size() > 0){
-                    Orientation tochange = UP;
-                    double distance = 1000.0;
-                    for (Orientation orientation : availableOris){
-                        double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget());
-                        if(tempdistance < distance) {
-                            tochange = orientation;
-                            distance = tempdistance;
-                        }
-                    }
-                    ghost.setOrientation(tochange);
+                    ghost.setOrientation(chooseOrientation(availableOris, ghost, true));
                 }
                 ghost.moveDirection();
                 break;
@@ -56,25 +47,33 @@ public class GhostControllerPinky extends GhostController {
                 if (starting)
                     ghost.setTarget(new Position(24,14));
                 else
-                    ghost.setTarget(gameData.getPacMan().getPosition());
+                    ghost.setTarget(getTarget(gameData));
 
                 availableOris = getAvailableOrientations(gameData, ghost, true);
                 if (availableOris.size() > 0) {
-                    Orientation tochange = DOWN;
-                    double distance = 1000.0;
-                    for (Orientation orientation : availableOris) {
-                        double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
-                        if (tempdistance < distance) {
-                            tochange = orientation;
-                            distance = tempdistance;
-                        }
-                    }
-                    ghost.setOrientation(tochange);
+                    ghost.setOrientation(chooseOrientation(availableOris, ghost, false));
                 }
                 ghost.moveDirection();
 
                 break;
 
         }
+    }
+
+    @Override
+    public Position getTarget(GameData gameData) {
+        Position pacman = gameData.getPacMan().getPosition();
+        Orientation pacmanori = gameData.getPacMan().getOrientation();
+        switch (pacmanori) {
+            case UP:
+                return new Position(pacman.getX() - 2, pacman.getY() - 2);
+            case DOWN:
+                return new Position(pacman.getX(), pacman.getY() + 2);
+            case LEFT:
+                return new Position(pacman.getX() - 2, pacman.getY());
+            case RIGHT:
+                return new Position(pacman.getX() + 2, pacman.getY());
+        }
+        return null;
     }
 }
