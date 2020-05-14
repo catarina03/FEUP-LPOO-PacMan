@@ -60,18 +60,21 @@ public class GhostControllerInky extends GhostController {
 
     @Override
     public Position getTarget(GameData gameData) {
-        Position pacman = gameData.getPacMan().getPosition();
-        Orientation pacmanori = gameData.getPacMan().getOrientation();
-        switch (pacmanori) {
+        Position pacmanPos = gameData.getPacMan().getPosition();
+        Position blinkyPos = gameData.getGhosts().get(0).getPosition();
+        Orientation pacmanOri = gameData.getPacMan().getOrientation();
+        Position tempPos = new Position(0,0);
+        switch (pacmanOri) {
             case UP:
-                return new Position(pacman.getX() - 2, pacman.getY() - 2);
+                tempPos =  new Position(pacmanPos.getX() - 2, pacmanPos.getY() - 2);
             case DOWN:
-                return new Position(pacman.getX(), pacman.getY() + 2);
+                tempPos = new Position(pacmanPos.getX(), pacmanPos.getY() + 2);
             case LEFT:
-                return new Position(pacman.getX() - 2, pacman.getY());
+                tempPos =  new Position(pacmanPos.getX() - 2, pacmanPos.getY());
             case RIGHT:
-                return new Position(pacman.getX() + 2, pacman.getY());
+                tempPos = new Position(pacmanPos.getX() + 2, pacmanPos.getY());
         }
+        // TODO calculo da posição
         return null;
     }
 }

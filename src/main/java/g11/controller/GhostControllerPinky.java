@@ -66,13 +66,13 @@ public class GhostControllerPinky extends GhostController {
         Orientation pacmanori = gameData.getPacMan().getOrientation();
         switch (pacmanori) {
             case UP:
-                return new Position(pacman.getX() - 2, pacman.getY() - 2);
+                return new Position(pacman.getX() - 4, pacman.getY() - 4);
             case DOWN:
-                return new Position(pacman.getX(), pacman.getY() + 2);
+                return new Position(pacman.getX(), pacman.getY() + 4);
             case LEFT:
-                return new Position(pacman.getX() - 2, pacman.getY());
+                return new Position(pacman.getX() - 4, pacman.getY());
             case RIGHT:
-                return new Position(pacman.getX() + 2, pacman.getY());
+                return new Position(pacman.getX() + 4, pacman.getY());
         }
         return null;
     }
