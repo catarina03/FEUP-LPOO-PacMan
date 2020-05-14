@@ -1,8 +1,7 @@
 package g11.model;
 
-import g11.model.Elements.Ghost;
-import g11.model.Elements.Inky;
-import g11.model.Elements.PacMan;
+import g11.model.elements.Ghost;
+import g11.model.elements.PacMan;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package g11.view;
 
-import g11.model.Elements.*;
+import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;

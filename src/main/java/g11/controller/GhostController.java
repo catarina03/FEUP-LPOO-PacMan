@@ -1,75 +1,23 @@
 package g11.controller;
 
-import g11.model.Elements.Blinky;
-import g11.model.Elements.Coin;
-import g11.model.Elements.EmptySpace;
-import g11.model.Elements.Ghost;
+import g11.model.elements.Coin;
+import g11.model.elements.EmptySpace;
+import g11.model.elements.Gate;
+import g11.model.elements.Ghost;
 import g11.model.GameData;
 import g11.model.GhostState;
 import g11.model.Orientation;
-import g11.model.Position;
 
 import java.util.ArrayList;
 
 import static g11.model.Orientation.*;
+import static g11.model.Orientation.RIGHT;
 
-public class GhostController {
-    private GhostState state;
+public abstract class GhostController {
 
-    public GhostController() {
-        this.state = GhostState.SCATTER;
-    }
+    public abstract void update(GameData gameData, long elapsedTime);
 
-    public void update(GameData gameData, long elapsedtime) {
-        //state = setStatetime(elapsedtime);
-        switch (state){
-            case SCATTER:
-                // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
-                for (Ghost ghost : gameData.getGhosts()){
-                    ArrayList<Orientation> availableOris = getAvailableOrientations(gameData, ghost);
-                    if (availableOris.size() > 0){
-                        Orientation tochange = UP;
-                        double distance = 1000.0;
-                        for (Orientation orientation : availableOris){
-                            double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget());
-                            if(tempdistance < distance) {
-                                tochange = orientation;
-                                distance = tempdistance;
-                            }
-                        }
-                        ghost.setOrientation(tochange);
-                    }
-                    ghost.moveDirection();
-                }
-                break;
-            case CHASE:
-                // Para cada ghost -> vê as direções possiveis que pode tomar -> para cada possição vê a melhor -> muda a direção -> atualiza posição
-                for (Ghost ghost : gameData.getGhosts()){
-                    // atualiza posição de target
-                    ghost.setTarget(gameData.getPacMan().getPosition());
-
-
-                    ArrayList<Orientation> availableOris = getAvailableOrientations(gameData, ghost);
-                    if (availableOris.size() > 0) {
-                        Orientation tochange = DOWN;
-                        double distance = 1000.0;
-                        for (Orientation orientation : availableOris) {
-                            double tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
-                            if (tempdistance < distance) {
-                                tochange = orientation;
-                                distance = tempdistance;
-                            }
-                        }
-                        ghost.setOrientation(tochange);
-                    }
-                    ghost.moveDirection();
-
-                }
-                break;
-        }
-    }
-
-    private GhostState setStatetime(long elapsedtime) {
+    public GhostState setStatetime(long elapsedtime) {
         // 7 secs scatter -> 20 secs chase
         // 7 secs scatter -> 20 secs chase
         // 5 secs scatter -> 20 secs chase
@@ -80,7 +28,7 @@ public class GhostController {
             return GhostState.CHASE;
     }
 
-    private ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost) {
+    public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost, boolean exitGhostHouse) {
         ArrayList<Orientation> returning = new ArrayList<Orientation>();
         /*if (ghost.getPosition().equals(new Position(24,16)) || ghost.getPosition().equals(new Position(24,16))){
             returning.add(UP);
@@ -129,9 +77,16 @@ public class GhostController {
                 }
             }
         }
-
+        // Gates abertos, pode sair
+        if (exitGhostHouse){
+            for (Gate gate : gameData.getMap().getGates()){
+                if (gate.getPosition().equals(ghost.getPosition().up())){
+                    if (ghost.getOrientation().getOpposite() != UP){
+                        returning.add(UP);
+                    }
+                }
+            }
+        }
         return returning;
     }
-
-
 }

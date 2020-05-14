@@ -1,8 +1,10 @@
 package g11.controller;
 
 import g11.model.*;
-import g11.model.Elements.Ghost;
+import g11.model.elements.Ghost;
 import g11.view.Gui;
+
+import java.util.ArrayList;
 
 public class Game {
     private Gui gui;
@@ -11,12 +13,14 @@ public class Game {
     private MapReader mapReader;
     private Gui.MOVE lastmove;
     private CollisionChecker cchecker;
-    private GhostController ghostController;
+    private ArrayList<GhostController> ghostControllers;
 
     public Game() {
         gui = new Gui();
         mapReader = new MapReader(new ReadFile("mapv2.txt"));
-        ghostController = new GhostController();
+        ghostControllers = new ArrayList<>();
+        ghostControllers.add(new GhostControllerBlinky());
+        ghostControllers.add(new GhostControllerPinky());
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
@@ -81,16 +85,25 @@ public class Game {
             gameData.getPacMan().moveDirection();
         }
 
-        //Ghosts
-            //mover fantasmas
-        ghostController.update(gameData, elapsedTime);
-
         // verificar colisão com Pacman
         for (Ghost ghost : gameData.getGhosts()){
             if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
                 gui.getTerminal().bell();
             }
         }
+
+        //Ghosts
+            //mover fantasmas
+        for (GhostController ghostController : ghostControllers){
+            ghostController.update(gameData, elapsedTime);
+            // verificar colisão com Pacman
+            for (Ghost ghost : gameData.getGhosts()){
+                if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
+                    gui.getTerminal().bell();
+                }
+            }
+        }
+
     }
 
     public void processKey(Gui.MOVE move) throws Throwable {

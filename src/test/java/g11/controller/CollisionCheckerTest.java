@@ -1,7 +1,7 @@
 package g11.controller;
 
 import g11.model.*;
-import g11.model.Elements.*;
+import g11.model.elements.*;
 import g11.view.Gui;
 import org.junit.Test;
 import org.mockito.Mockito;

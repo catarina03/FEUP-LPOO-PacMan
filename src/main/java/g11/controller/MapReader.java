@@ -1,6 +1,6 @@
 package g11.controller;
 
-import g11.model.Elements.*;
+import g11.model.elements.*;
 import g11.model.Map;
 import g11.model.Position;
 
