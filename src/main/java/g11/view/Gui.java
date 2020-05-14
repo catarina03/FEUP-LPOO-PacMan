@@ -4,7 +4,7 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorColorConfiguration;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorDeviceConfiguration;
-import g11.model.Elements.*;
+import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -25,7 +25,9 @@ public class Gui {
     public Gui() {
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            File font =  new File("/home/catarina03/Documents/FEUP/lpoo-2020-g11/res/square.ttf");
+            File font = new File(
+                    getClass().getClassLoader().getResource("square.ttf").getFile()
+            );
             Font square = Font.createFont(Font.TRUETYPE_FONT, font);
             ge.registerFont(square);
             SwingTerminalFontConfiguration fontConfiguration = SwingTerminalFontConfiguration.newInstance(square);

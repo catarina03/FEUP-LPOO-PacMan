@@ -1,4 +1,4 @@
-package g11.model.Elements;
+package g11.model.elements;
 
 
 public class Cherry extends Fixed{

@@ -1,7 +1,7 @@
 package g11.controller;
 
-import g11.model.Elements.PacMan;
-import g11.model.Elements.Wall;
+import g11.model.elements.PacMan;
+import g11.model.elements.Wall;
 import g11.model.GameData;
 import g11.model.Map;
 import g11.model.Position;
