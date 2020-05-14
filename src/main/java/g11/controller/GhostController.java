@@ -10,7 +10,6 @@ import g11.model.GhostState;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import static g11.model.Orientation.*;
 import static g11.model.Orientation.RIGHT;
@@ -104,19 +103,57 @@ public abstract class GhostController {
     public Orientation chooseOrientation(ArrayList<Orientation> availableOris, Ghost ghost, boolean scatter){
         Orientation tochange = UP;
         double tempdistance;
-        double distance = 1000.0;
-        for (Orientation orientation : availableOris){
-            if (scatter)
-                tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget());
-            else
-                tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
+        double minDistance = 1000.0, equaldistance = 1000.0;
+        int i = 0, itosend = 0;
 
-            if(tempdistance < distance) {
-                tochange = orientation;
-                distance = tempdistance;
+        if (availableOris.size() == 1)
+            return availableOris.get(0);
+        else {
+            for (Orientation orientation : availableOris) {
+                tempdistance = scatter ? ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget()) : ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
+                if (tempdistance == minDistance){
+                    itosend = i;
+                    equaldistance = minDistance;
+                }
+                else if (tempdistance < minDistance) {
+                    tochange = orientation;
+                    minDistance = tempdistance;
+                }
+                i++;
             }
         }
+
+        if (minDistance == equaldistance)
+            return scatter ? chooseOrientationPriority(availableOris, ghost, true, itosend, minDistance) : chooseOrientationPriority(availableOris, ghost, false, itosend, minDistance);
         return tochange;
     }
 
+    private Orientation chooseOrientationPriority(ArrayList<Orientation> availableoris, Ghost ghost, boolean scatter, int index, double dist){
+        // index tem valor de uma orientação que tem distancia a target igual a outra orientação
+        Orientation ori1 = availableoris.get(index);
+        Orientation ori2 = UP;
+        double tempdistance;
+
+        if (availableoris.size() == 2)
+            ori2 = availableoris.get(Math.abs(index-1));
+        else{
+            //encontrar ori2
+            int i = 0;
+            for (Orientation ori : availableoris){
+                tempdistance = scatter ? ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getScatterTarget()) : ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getTarget());
+                if (tempdistance == dist && i != index){
+                    ori2 = ori;
+                    break;
+                }
+                i++;
+            }
+        }
+        if (ori1 == UP || ori2 == UP)
+            return UP;
+        if (ori1 == LEFT || ori2 == LEFT)
+            return LEFT;
+        if (ori1 == DOWN || ori2 == DOWN)
+            return DOWN;
+        return UP;
+    }
 }

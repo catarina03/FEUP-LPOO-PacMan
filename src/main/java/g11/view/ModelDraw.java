@@ -38,6 +38,7 @@ public class ModelDraw {
     }
 
     public void drawPacMan(GameData gameData){
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getOrientation()){
@@ -74,7 +75,7 @@ public class ModelDraw {
     }
 
     public void drawGhost(GameData gameData){
-
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         for (Ghost element : gameData.getGhosts()){
             if (element instanceof Blinky){
                 graphics.setForegroundColor(TextColor.ANSI.RED);
