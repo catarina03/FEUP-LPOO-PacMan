@@ -1,5 +1,9 @@
 package g11.view;
 
+import com.googlecode.lanterna.terminal.swing.SwingTerminal;
+import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.googlecode.lanterna.terminal.swing.TerminalEmulatorColorConfiguration;
+import com.googlecode.lanterna.terminal.swing.TerminalEmulatorDeviceConfiguration;
 import g11.model.Elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.TerminalSize;
@@ -9,6 +13,8 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class Gui {
@@ -18,6 +24,26 @@ public class Gui {
 
     public Gui() {
         try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            File font =  new File("/home/catarina03/Documents/FEUP/lpoo-2020-g11/res/square.ttf");
+            Font square = Font.createFont(Font.TRUETYPE_FONT, font);
+            ge.registerFont(square);
+            SwingTerminalFontConfiguration fontConfiguration = SwingTerminalFontConfiguration.newInstance(square);
+            TerminalSize terminalsize = new TerminalSize(50,36);
+            Terminal terminal = new SwingTerminal(terminalsize, TerminalEmulatorDeviceConfiguration.getDefault(), fontConfiguration, TerminalEmulatorColorConfiguration.getDefault());
+
+            //terminal.enterPrivateMode();
+            screen = new TerminalScreen(terminal);
+
+            screen.setCursorPosition(null);   // we don't need a cursor
+            screen.startScreen();             // screens must be started
+            screen.doResizeIfNecessary();     // resize screen if necessary
+        } catch (IOException | FontFormatException | IllegalArgumentException e) {
+            //Handle exception
+            e.printStackTrace();
+            //System.out.println("Error in SquareFont");
+        }
+        /*try {
             TerminalSize terminalsize = new TerminalSize(50,36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
             terminal = terminalFactory.createTerminal();
@@ -30,6 +56,15 @@ public class Gui {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+        /*
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font., new File("A.ttf")));
+        } catch (IOException| FontFormatException e) {
+            //Handle exception
+        }
+        */
         modelDraw = new ModelDraw(screen);
     }
 
