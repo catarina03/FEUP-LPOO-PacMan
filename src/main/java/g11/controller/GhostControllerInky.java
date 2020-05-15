@@ -75,6 +75,6 @@ public class GhostControllerInky extends GhostController {
                 tempPos = new Position(pacmanPos.getX() + 2, pacmanPos.getY());
         }
         // TODO calculo da posição
-        return null;
+        return new Position(2*tempPos.getX()-blinkyPos.getX(), 2*tempPos.getY()-blinkyPos.getY());
     }
 }

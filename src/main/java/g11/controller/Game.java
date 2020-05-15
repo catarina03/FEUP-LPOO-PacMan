@@ -18,10 +18,13 @@ public class Game {
     public Game() {
         gui = new Gui();
         mapReader = new MapReader(new ReadFile("mapv2.txt"));
+
         ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostControllerBlinky());
         ghostControllers.add(new GhostControllerPinky());
         ghostControllers.add(new GhostControllerInky());
+        ghostControllers.add(new GhostControllerClyde());
+
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
@@ -29,7 +32,7 @@ public class Game {
         cchecker = new CollisionChecker();
         lastmove = Gui.MOVE.LEFT;
 
-        mapReader = null; // limpar a informação aqui guardada
+        mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
 
     public void setCchecker(CollisionChecker cchecker) {

@@ -72,6 +72,17 @@ public class ModelDraw {
         graphics.putString(9, 34, "00000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(35, 34, "o", SGR.BOLD);
+
+
+        // Uncomment to see Targets in Chase mode
+        /* graphics.setForegroundColor(TextColor.ANSI.CYAN);
+        graphics.putString(gameData.getGhosts().get(1).getTarget().getX(), gameData.getGhosts().get(1).getTarget().getY(), "x", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.putString(gameData.getGhosts().get(0).getTarget().getX(), gameData.getGhosts().get(0).getTarget().getY(), "x", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+        graphics.putString(gameData.getGhosts().get(2).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "x", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        graphics.putString(gameData.getGhosts().get(3).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "x", SGR.BOLD);*/
     }
 
     public void drawGhost(GameData gameData){
