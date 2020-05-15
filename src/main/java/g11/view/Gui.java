@@ -31,7 +31,7 @@ public class Gui {
             AWTTerminalFontConfiguration fontConfig = AWTTerminalFontConfiguration.newInstance(loadedFont);
 
             DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-            TerminalSize terminalsize = new TerminalSize(50,36);
+            TerminalSize terminalsize = new TerminalSize(28,36);
 
             defaultTerminalFactory.setForceAWTOverSwing(true);
             defaultTerminalFactory.setTerminalEmulatorFontConfiguration(fontConfig);

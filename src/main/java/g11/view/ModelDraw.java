@@ -36,16 +36,16 @@ public class ModelDraw {
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getOrientation()){
             case UP:
-                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), 'v');
                 break;
             case RIGHT:
-                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '<');
                 break;
             case DOWN:
-                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '^');
                 break;
             case LEFT:
-                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
+                graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '>');
                 break;
         }
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
@@ -56,39 +56,40 @@ public class ModelDraw {
     public void drawGameStats(GameData gameData) {
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        graphics.putString(9, 1, "SCORE", SGR.BOLD);
-        graphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
+        graphics.putString(3, 1, "SCORE", SGR.BOLD);
+        graphics.putString(15, 1, "HI-SCORE", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
-        graphics.putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        graphics.putString(31, 2, "10000", SGR.BOLD);
+        graphics.putString(7, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        graphics.putString(17, 2, "10000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        graphics.putString(9, 34, "00000", SGR.BOLD);
+        graphics.putString(3, 34, "00000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
-        graphics.putString(35, 34, "o", SGR.BOLD);
+        graphics.putString(20, 34, "o", SGR.BOLD);
     }
 
     public void drawGhost(MapComponent element){
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         if (element instanceof Blinky){
             graphics.setForegroundColor(TextColor.ANSI.RED);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setCharacter(element.getX(), element.getY(), '#');
         }
         if (element instanceof Clyde){
             graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setCharacter(element.getX(), element.getY(), '#');
         }
         if (element instanceof Inky){
             graphics.setForegroundColor(TextColor.ANSI.CYAN);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setCharacter(element.getX(), element.getY(), '#');
         }
         if (element instanceof Pinky){
             graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            graphics.setCharacter(element.getX(), element.getY(), '#');
         }
     }
 
     public void drawCherry(MapComponent element){
         graphics.setForegroundColor(TextColor.ANSI.RED);
-        graphics.setCharacter(element.getX(), element.getY(), Symbols.CLUB);
+        graphics.setCharacter(element.getX(), element.getY(), '$');
     }
 
     public void drawWall(MapComponent element){
@@ -100,7 +101,7 @@ public class ModelDraw {
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.enableModifiers(SGR.BOLD);
-        graphics.setCharacter(element.getX(), element.getY(), Symbols.BULLET);
+        graphics.setCharacter(element.getX(), element.getY(), '.');
     }
 
     public void drawEmptySpace(MapComponent element){
@@ -112,6 +113,6 @@ public class ModelDraw {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.enableModifiers(SGR.BOLD);
-        graphics.setCharacter(element.getX(), element.getY(), Symbols.SPADES);
+        graphics.setCharacter(element.getX(), element.getY(), '*');
     }
 }
