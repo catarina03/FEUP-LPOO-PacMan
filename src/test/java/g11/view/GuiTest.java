@@ -19,57 +19,57 @@ public class GuiTest {
 
     @Test
     public void close() throws Throwable {
-        Gui gui = new Gui(1);
+        GuiSquare guiSquare = new GuiSquare(1);
         Screen screen = Mockito.mock(Screen.class);
-        gui.setScreen(screen);
+        guiSquare.setScreen(screen);
 
-        gui.close();
+        guiSquare.close();
         Mockito.verify(screen, Mockito.times(1)).close();
     }
 
     @Test
     public void getMove() throws IOException {
-        Gui gui = new Gui(1);
+        GuiSquare guiSquare = new GuiSquare(1);
         Screen screen = Mockito.mock(Screen.class);
-        gui.setScreen(screen);
+        guiSquare.setScreen(screen);
 
         screen.pollInput();
-        assertEquals(null, gui.getMove());
+        assertEquals(null, guiSquare.getMove());
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowUp));
-        assertEquals(Gui.MOVE.UP, gui.getMove());
+        assertEquals(GuiSquare.MOVE.UP, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(3)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowDown));
-        assertEquals(Gui.MOVE.DOWN, gui.getMove());
+        assertEquals(GuiSquare.MOVE.DOWN, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(4)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowRight));
-        assertEquals(Gui.MOVE.RIGHT, gui.getMove());
+        assertEquals(GuiSquare.MOVE.RIGHT, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(5)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowLeft));
-        assertEquals(Gui.MOVE.LEFT, gui.getMove());
+        assertEquals(GuiSquare.MOVE.LEFT, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(6)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(Escape));
-        assertEquals(Gui.MOVE.ESC, gui.getMove());
+        assertEquals(GuiSquare.MOVE.ESC, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(7)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(Backspace));
-        assertEquals(null, gui.getMove());
+        assertEquals(null, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(8)).pollInput();
     }
 
     @Test
     public void draw() throws Throwable {
-        Gui gui = new Gui(1);
+        GuiSquare guiSquare = new GuiSquare(1);
         Screen screen = Mockito.mock(Screen.class);
-        gui.setScreen(screen);
+        guiSquare.setScreen(screen);
         GameData gameData = Mockito.mock(GameData.class);
         GameStats gameStats = Mockito.mock(GameStats.class);
-        ModelDraw modelDraw = Mockito.mock(ModelDraw.class);
-        gui.setModelDraw(modelDraw);
+        ModelDrawSquare modelDraw = Mockito.mock(ModelDrawSquare.class);
+        guiSquare.setModelDraw(modelDraw);
 
         ArrayList<MapComponent> mc = new ArrayList<>();
         Wall wall = Mockito.mock(Wall.class);
@@ -88,7 +88,7 @@ public class GuiTest {
         Mockito.when(gameData.getPacMan()).thenReturn(pacman);
         Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
 
-        gui.draw(gameData);
+        guiSquare.draw(gameData);
 
         Mockito.verify(screen, Mockito.times(1)).clear();
         Mockito.verify(modelDraw, Mockito.times(1)).drawElement(wall);

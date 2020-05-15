@@ -14,12 +14,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Gui {
+public class GuiSquare {
     private Terminal terminal;
     private Screen screen;
-    private ModelDraw modelDraw;
+    private ModelDrawSquare modelDraw;
 
-    public Gui() {
+    public GuiSquare() {
         try {
             File fontfile = new File(getClass().getClassLoader().getResource("square.ttf").getFile());
             Font font = Font.createFont(Font.TRUETYPE_FONT, fontfile);
@@ -73,10 +73,10 @@ public class Gui {
             //Handle exception
         }
         */
-        modelDraw = new ModelDraw(screen);
+        modelDraw = new ModelDrawSquare(screen);
     }
 
-    public Gui(int no) {
+    public GuiSquare(int no) {
         try {
             TerminalSize terminalsize = new TerminalSize(50,36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
@@ -87,9 +87,9 @@ public class Gui {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        modelDraw = new ModelDraw(screen);
+        modelDraw = new ModelDrawSquare(screen);
     }
-    public void setModelDraw(ModelDraw modelDraw) {
+    public void setModelDraw(ModelDrawSquare modelDraw) {
         this.modelDraw = modelDraw;
     }
 

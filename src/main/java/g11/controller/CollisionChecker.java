@@ -2,7 +2,7 @@ package g11.controller;
 
 import g11.model.*;
 import g11.model.elements.*;
-import g11.view.Gui;
+import g11.view.GuiSquare;
 
 import java.util.ArrayList;
 
@@ -21,8 +21,8 @@ public class CollisionChecker {
      * stuck you pass in Gui.MOVE the direction to which PacMan is trying to turn
      * @return true in case of collision
      */
-    public boolean checkWallCollision(GameData gameData, Gui.MOVE direction){
-        if (direction == Gui.MOVE.ESC){
+    public boolean checkWallCollision(GameData gameData, GuiSquare.MOVE direction){
+        if (direction == GuiSquare.MOVE.ESC){
             direction = orientationToMove(gameData.getPacMan().getOrientation());
         }
         Position pacmannextpos = new Position(0,0);
@@ -48,18 +48,18 @@ public class CollisionChecker {
         return false;
     }
 
-    public Gui.MOVE orientationToMove(Orientation orientation){
+    public GuiSquare.MOVE orientationToMove(Orientation orientation){
         switch (orientation){
             case UP:
-                return Gui.MOVE.UP;
+                return GuiSquare.MOVE.UP;
             case DOWN:
-                return Gui.MOVE.DOWN;
+                return GuiSquare.MOVE.DOWN;
             case LEFT:
-                return Gui.MOVE.LEFT;
+                return GuiSquare.MOVE.LEFT;
             case RIGHT:
-                return Gui.MOVE.RIGHT;
+                return GuiSquare.MOVE.RIGHT;
         }
-        return Gui.MOVE.ESC;
+        return GuiSquare.MOVE.ESC;
     }
 
     public GameData updateCoinCollison(GameData gameData) {

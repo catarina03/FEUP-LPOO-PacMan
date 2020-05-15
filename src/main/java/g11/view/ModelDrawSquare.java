@@ -8,11 +8,11 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
-public class ModelDraw {
+public class ModelDrawSquare {
     private Screen screen;
     private TextGraphics graphics;
 
-    public ModelDraw(Screen screen) {
+    public ModelDrawSquare(Screen screen) {
         this.screen = screen;
         this.graphics = screen.newTextGraphics();
     }
