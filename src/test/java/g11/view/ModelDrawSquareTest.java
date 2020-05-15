@@ -12,16 +12,13 @@ import com.googlecode.lanterna.screen.Screen;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ModelDrawTest {
+public class ModelDrawSquareTest {
 
     @Test
     public void drawCherry() {
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         MapComponent cherry = Mockito.mock(Cherry.class);
@@ -30,14 +27,14 @@ public class ModelDrawTest {
 
         modelDraw.drawElement(cherry);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(cherry.getX(), cherry.getY(), Symbols.CLUB);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(cherry.getX(), cherry.getY(), '$');
     }
 
     @Test
     public void drawWall() {
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         MapComponent wall = Mockito.mock(Wall.class);
@@ -53,7 +50,7 @@ public class ModelDrawTest {
     public void drawCoin() {
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         MapComponent coin = Mockito.mock(Coin.class);
@@ -64,14 +61,14 @@ public class ModelDrawTest {
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
         Mockito.verify(graphics, Mockito.times(1)).enableModifiers(SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(coin.getX(), coin.getY(), Symbols.BULLET);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(coin.getX(), coin.getY(), '.');
     }
 
     @Test
     public void drawEmptySpace() {
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         MapComponent emptySapce = Mockito.mock(EmptySpace.class);
@@ -87,7 +84,7 @@ public class ModelDrawTest {
     public void drawPowerPellet() {
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         MapComponent powerPellet = Mockito.mock(PowerPellet.class);
@@ -98,57 +95,47 @@ public class ModelDrawTest {
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
         Mockito.verify(graphics, Mockito.times(1)).enableModifiers(SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(powerPellet.getX(), powerPellet.getY(), Symbols.SPADES);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(powerPellet.getX(), powerPellet.getY(), '*');
     }
 
     @Test
     public void drawGhosts(){
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
-        GameData gameData = Mockito.mock(GameData.class);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         MapComponent blinky = Mockito.mock(Blinky.class);
         Mockito.when(blinky.getX()).thenReturn(60);
         Mockito.when(blinky.getY()).thenReturn(60);
 
+        modelDraw.drawElement(blinky);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), '#');
+
         MapComponent inky = Mockito.mock(Inky.class);
         Mockito.when(inky.getX()).thenReturn(70);
         Mockito.when(inky.getY()).thenReturn(70);
+
+        modelDraw.drawElement(inky);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), '#');
 
         MapComponent clyde = Mockito.mock(Clyde.class);
         Mockito.when(clyde.getX()).thenReturn(80);
         Mockito.when(clyde.getY()).thenReturn(80);
 
+        modelDraw.drawElement(clyde);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), '#');
+
         MapComponent pinky = Mockito.mock(Pinky.class);
         Mockito.when(pinky.getX()).thenReturn(90);
         Mockito.when(pinky.getY()).thenReturn(90);
 
-        List<Ghost> ghostList = new ArrayList<>();
-        ghostList.add((Ghost) blinky);
-        ghostList.add((Ghost) inky);
-        ghostList.add((Ghost) clyde);
-        ghostList.add((Ghost) pinky);
-        gameData.setGhosts(ghostList);
-
-        modelDraw.drawGhost(gameData);
-
-        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-
-        modelDraw.drawElement(inky);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-
-        modelDraw.drawElement(clyde);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-
         modelDraw.drawElement(pinky);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.MAGENTA);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), '#');
     }
 
     @Test
@@ -160,20 +147,20 @@ public class ModelDrawTest {
 
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         modelDraw.drawGameStats(gameData);
         Mockito.verify(graphics, Mockito.times(2)).setForegroundColor(TextColor.ANSI.RED);
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        Mockito.verify(graphics, Mockito.times(1)).putString(9, 1, "SCORE", SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).putString(29, 1, "HI-SCORE", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 1, "SCORE", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(15, 1, "HI-SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
-        Mockito.verify(graphics, Mockito.times(1)).putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).putString(31, 2, "10000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(7, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(17, 2, "10000", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
-        Mockito.verify(graphics, Mockito.times(1)).putString(9, 34, "00000", SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).putString(35, 34, "o", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 34, "00000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(20, 34, "o", SGR.BOLD);
     }
 
     @Test
@@ -186,26 +173,26 @@ public class ModelDrawTest {
 
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDraw modelDraw = new ModelDraw(screen);
+        ModelDrawSquare modelDraw = new ModelDrawSquare(screen);
         modelDraw.setGraphics(graphics);
 
         Mockito.when(pacman.getOrientation()).thenReturn(Orientation.UP);
         modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
         Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), 'v');
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
 
         Mockito.when(pacman.getOrientation()).thenReturn(Orientation.RIGHT);
         modelDraw.drawPacMan(gameData);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '<');
 
         Mockito.when(pacman.getOrientation()).thenReturn(Orientation.DOWN);
         modelDraw.drawPacMan(gameData);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '^');
 
         Mockito.when(pacman.getOrientation()).thenReturn(Orientation.LEFT);
         modelDraw.drawPacMan(gameData);
-        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '>');
     }
 }
