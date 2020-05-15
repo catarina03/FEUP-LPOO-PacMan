@@ -13,7 +13,7 @@ public class Game {
 
     public Game() {
         gui = new Gui();
-        mapReader = new MapReader(new ReadFile("mapv2.txt"));
+        mapReader = new MapReader(new ReadFile("mapv1.txt"));
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),

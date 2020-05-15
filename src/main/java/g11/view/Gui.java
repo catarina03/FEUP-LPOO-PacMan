@@ -1,9 +1,6 @@
 package g11.view;
 
-import com.googlecode.lanterna.terminal.swing.SwingTerminal;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-import com.googlecode.lanterna.terminal.swing.TerminalEmulatorColorConfiguration;
-import com.googlecode.lanterna.terminal.swing.TerminalEmulatorDeviceConfiguration;
+import com.googlecode.lanterna.terminal.swing.*;
 import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.TerminalSize;
@@ -24,15 +21,24 @@ public class Gui {
 
     public Gui() {
         try {
+            File fontfile = new File(getClass().getClassLoader().getResource("square.ttf").getFile());
+            Font font = Font.createFont(Font.TRUETYPE_FONT, fontfile);
+
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            File font = new File(
-                    getClass().getClassLoader().getResource("square.ttf").getFile()
-            );
-            Font square = Font.createFont(Font.TRUETYPE_FONT, font);
-            ge.registerFont(square);
-            SwingTerminalFontConfiguration fontConfiguration = SwingTerminalFontConfiguration.newInstance(square);
+            ge.registerFont(font);
+
+            Font loadedFont = font.deriveFont(Font.PLAIN, 25);
+            AWTTerminalFontConfiguration fontConfig = AWTTerminalFontConfiguration.newInstance(loadedFont);
+
+            DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
             TerminalSize terminalsize = new TerminalSize(50,36);
-            Terminal terminal = new SwingTerminal(terminalsize, TerminalEmulatorDeviceConfiguration.getDefault(), fontConfiguration, TerminalEmulatorColorConfiguration.getDefault());
+
+            defaultTerminalFactory.setForceAWTOverSwing(true);
+            defaultTerminalFactory.setTerminalEmulatorFontConfiguration(fontConfig);
+            defaultTerminalFactory.setInitialTerminalSize(terminalsize);
+            Terminal terminal = defaultTerminalFactory.createTerminal();
+
+            //Terminal terminal = new SwingTerminal(terminalsize, TerminalEmulatorDeviceConfiguration.getDefault(), fontConfig, TerminalEmulatorColorConfiguration.getDefault());*/
 
             //terminal.enterPrivateMode();
             screen = new TerminalScreen(terminal);
