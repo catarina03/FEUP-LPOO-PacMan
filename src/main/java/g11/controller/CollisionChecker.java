@@ -85,10 +85,38 @@ public class CollisionChecker {
             gameData.getMap().setMapComponents(components);
 
             GameStats stats = gameData.getGameStats();
-            stats.setScore(stats.getScore() + 1);
+            stats.setScore(stats.getScore() + 10);
             gameData.setGameStats(stats);
         }
         return gameData;
     }
 
+    public GameData updatePowerPelletCollison(GameData gameData) {
+        ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
+        PowerPellet toremove = null;
+        for(PowerPellet powerPellet : powerPellets){
+            if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){
+                toremove = powerPellet;
+                break;
+            }
+        }
+        if (toremove != null) {
+            ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
+            ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
+
+            emptySpace.add(new EmptySpace(toremove.getX(), toremove.getY()));
+            components.add(new EmptySpace(toremove.getX(), toremove.getY()));
+            powerPellets.remove(toremove);
+            components.remove(toremove);
+
+            gameData.getMap().setPowerPellets(powerPellets);
+            gameData.getMap().setEmptySpaces(emptySpace);
+            gameData.getMap().setMapComponents(components);
+
+            GameStats stats = gameData.getGameStats();
+            stats.setScore(stats.getScore() + 50);
+            gameData.setGameStats(stats);
+        }
+        return gameData;
+    }
 }

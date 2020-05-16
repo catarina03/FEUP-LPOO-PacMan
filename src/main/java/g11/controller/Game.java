@@ -82,6 +82,7 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         this.gameData = cchecker.updateCoinCollison(gameData);
+        this.gameData = cchecker.updatePowerPelletCollison(gameData);
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
             gameData.getPacMan().moveDirection();
         }

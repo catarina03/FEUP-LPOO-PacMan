@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class GameTest {
 
     @Test
-    public void updateTest(){
+    public void updateTest() throws Throwable {
         Game game = new Game(); //Cria uma tela no GUI, dar fix
 
         GameData gameData = Mockito.mock(GameData.class);
@@ -43,7 +43,7 @@ public class GameTest {
         Mockito.when(map.getWalls()).thenReturn(walls);
         Mockito.when(gameData.getMap()).thenReturn(map);
 
-        game.update(gameData);
+        game.update(gameData, 10);
         Mockito.verify(collisionChecker, Mockito.times(1)).updateCoinCollison(gameData);
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, GuiSquare.MOVE.ESC);
         Mockito.verify(gameData, Mockito.times(1)).update();
