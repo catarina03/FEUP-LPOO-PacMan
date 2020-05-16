@@ -58,4 +58,5 @@ public abstract class Moveable extends MapComponent {
                 break;
         }
     }
+
 }

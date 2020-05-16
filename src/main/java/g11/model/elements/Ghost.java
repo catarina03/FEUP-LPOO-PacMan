@@ -23,4 +23,5 @@ public abstract class Ghost extends Moveable {
     }
 
     public Position getScatterTarget() { return scatterTarget; }
+  
 }

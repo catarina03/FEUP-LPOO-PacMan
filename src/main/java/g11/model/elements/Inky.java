@@ -11,5 +11,4 @@ public class Inky extends Ghost{
     public Inky(int x, int y) {
         super(x,y, new Position(49, 34),  Orientation.UP);
     }
-
 }

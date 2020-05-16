@@ -5,9 +5,9 @@
 ## Objetivo Final:
 Ter um jogo de PacMan classico funcional a partir do terminal lanterna.
  
- Classic             |  Lanterna
- :-------------------------:|:-------------------------:
- ![Classic Pac-man](https://i.imgur.com/g4JHi4Z.jpg)  |  ![lanterna](https://i.imgur.com/UW9AwuK.png)
+ Classic             |  Lanterna     |   Lanterna - Square Font
+ :-------------------------:|:-------------------------:|:-------------------------:
+ ![Classic Pac-man](https://i.imgur.com/g4JHi4Z.jpg)  |  ![lanterna](https://i.imgur.com/UW9AwuK.png)  |  ![lanterna font](https://i.imgur.com/fA6kJYd.png)
  
  
 

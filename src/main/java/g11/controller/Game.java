@@ -2,36 +2,34 @@ package g11.controller;
 
 import g11.model.*;
 import g11.model.elements.Ghost;
-import g11.view.Gui;
+import g11.view.GuiSquare;
 
 import java.util.ArrayList;
 
 public class Game {
-    private Gui gui;
+    private GuiSquare guiSquare;
     private GameData gameData;
     private Boolean running;
     private MapReader mapReader;
-    private Gui.MOVE lastmove;
+    private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
     private ArrayList<GhostController> ghostControllers;
 
     public Game() {
-        gui = new Gui();
-        mapReader = new MapReader(new ReadFile("mapv2.txt"));
-
+        guiSquare = new GuiSquare();
+        mapReader = new MapReader(new ReadFile("mapv1.txt"));
+      
         ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostControllerBlinky());
         ghostControllers.add(new GhostControllerPinky());
         ghostControllers.add(new GhostControllerInky());
         ghostControllers.add(new GhostControllerClyde());
-
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
         lastmove = Gui.MOVE.LEFT;
-
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
 
@@ -39,8 +37,8 @@ public class Game {
         this.cchecker = cchecker;
     }
 
-    public void setGui(Gui gui) {
-        this.gui = gui;
+    public void setGuiSquare(GuiSquare guiSquare) {
+        this.guiSquare = guiSquare;
     }
 
     public Boolean getRunning() {
@@ -58,8 +56,7 @@ public class Game {
 
         // ciclo de jogo
         while(running) {
-
-            Gui.MOVE temp = gui.getMove();
+            GuiSquare.MOVE temp = guiSquare.getMove();
             if (temp != null)
                 lastmove = temp;
             processKey(lastmove);
@@ -85,7 +82,7 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         this.gameData = cchecker.updateCoinCollison(gameData);
-        if (!cchecker.checkWallCollision(gameData, Gui.MOVE.ESC)){
+        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
             gameData.getPacMan().moveDirection();
         }
 
@@ -110,29 +107,29 @@ public class Game {
 
     }
 
-    public void processKey(Gui.MOVE move) throws Throwable {
+    public void processKey(GuiSquare.MOVE move) throws Throwable {
 
         if (move != null){
             switch (move){
                 case ESC:
-                    gui.close();
+                    guiSquare.close();
                     running = false;
                     break;
                 case UP:
                     // check if can change position
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.UP))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.UP))
                         gameData.getPacMan().setOrientation(Orientation.UP);
                     break;
                 case DOWN:
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.DOWN))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN))
                         gameData.getPacMan().setOrientation(Orientation.DOWN);
                     break;
                 case LEFT:
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.LEFT))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT))
                         gameData.getPacMan().setOrientation(Orientation.LEFT);
                     break;
                 case RIGHT:
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.RIGHT))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT))
                         gameData.getPacMan().setOrientation(Orientation.RIGHT);
                     break;
             }

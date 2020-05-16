@@ -2,7 +2,8 @@ package g11.controller;
 
 import g11.model.*;
 import g11.model.elements.*;
-import g11.view.Gui;
+import g11.view.GuiSquare;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -60,24 +61,24 @@ public class CollisionCheckerTest {
         Mockito.when(gameData.getPacMan()).thenReturn(pacman);
         Mockito.when(gameData.getMap()).thenReturn(map);
 
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, Gui.MOVE.ESC));
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, Gui.MOVE.UP));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, Gui.MOVE.RIGHT));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, Gui.MOVE.DOWN));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, Gui.MOVE.LEFT));
+        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC));
+        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.UP));
+        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT));
+        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN));
+        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT));
     }
 
     @Test
     public void orientationToMoveTest(){
         CollisionChecker collisionChecker = new CollisionChecker();
         Orientation orientation = UP;
-        assertEquals(Gui.MOVE.UP, collisionChecker.orientationToMove(orientation));
+        assertEquals(GuiSquare.MOVE.UP, collisionChecker.orientationToMove(orientation));
         orientation = RIGHT;
-        assertEquals(Gui.MOVE.RIGHT, collisionChecker.orientationToMove(orientation));
+        assertEquals(GuiSquare.MOVE.RIGHT, collisionChecker.orientationToMove(orientation));
         orientation = DOWN;
-        assertEquals(Gui.MOVE.DOWN, collisionChecker.orientationToMove(orientation));
+        assertEquals(GuiSquare.MOVE.DOWN, collisionChecker.orientationToMove(orientation));
         orientation = LEFT;
-        assertEquals(Gui.MOVE.LEFT, collisionChecker.orientationToMove(orientation));
+        assertEquals(GuiSquare.MOVE.LEFT, collisionChecker.orientationToMove(orientation));
     }
 
 
