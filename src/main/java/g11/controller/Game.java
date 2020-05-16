@@ -91,8 +91,7 @@ public class Game {
             // Is a wall in the position pacman is about to move to?
         // yes -> update position
         // no  -> don't update
-        this.gameData = cchecker.updateCoinCollison(gameData);
-        this.gameData = cchecker.updatePowerPelletCollison(gameData);
+        this.gameData = cchecker.updateFoodCollison(gameData);
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
             gameData.getPacMan().moveDirection();
         }

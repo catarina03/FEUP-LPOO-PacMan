@@ -62,35 +62,51 @@ public class CollisionChecker {
         return GuiSquare.MOVE.ESC;
     }
 
-    public GameData updateCoinCollison(GameData gameData) {
+    public GameData updateFoodCollison(GameData gameData) {
         ArrayList<Coin> coins = gameData.getMap().getCoins();
-        Coin toremove = null;
+        ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
+        Fixed toremove = null;
         for(Coin coin : coins){
             if (collide(coin.getPosition(), gameData.getPacMan().getPosition())){
                 toremove = coin;
                 break;
             }
         }
+        for(PowerPellet powerPellet : powerPellets){
+            if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){
+                toremove = powerPellet;
+                break;
+            }
+        }
         if (toremove != null) {
             ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
             ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
+            GameStats stats = gameData.getGameStats();
 
             emptySpace.add(new EmptySpace(toremove.getX(), toremove.getY()));
             components.add(new EmptySpace(toremove.getX(), toremove.getY()));
-            coins.remove(toremove);
-            components.remove(toremove);
 
-            gameData.getMap().setCoins(coins);
+            if (toremove instanceof Coin){
+                coins.remove(toremove);
+                components.remove(toremove);
+                gameData.getMap().setCoins(coins);
+                stats.setScore(stats.getScore() + 10);
+            }
+            if (toremove instanceof PowerPellet){
+                powerPellets.remove(toremove);
+                components.remove(toremove);
+                gameData.getMap().setPowerPellets(powerPellets);
+                stats.setScore(stats.getScore() + 50);
+            }
+
             gameData.getMap().setEmptySpaces(emptySpace);
             gameData.getMap().setMapComponents(components);
-
-            GameStats stats = gameData.getGameStats();
-            stats.setScore(stats.getScore() + 10);
             gameData.setGameStats(stats);
         }
         return gameData;
     }
 
+    /*
     public GameData updatePowerPelletCollison(GameData gameData) {
         ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
         PowerPellet toremove = null;
@@ -119,4 +135,6 @@ public class CollisionChecker {
         }
         return gameData;
     }
+
+     */
 }
