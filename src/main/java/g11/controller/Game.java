@@ -1,7 +1,10 @@
 package g11.controller;
 
 import g11.model.*;
+import g11.model.elements.Ghost;
 import g11.view.GuiSquare;
+
+import java.util.ArrayList;
 
 public class Game {
     private GuiSquare guiSquare;
@@ -10,16 +13,24 @@ public class Game {
     private MapReader mapReader;
     private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
+    private ArrayList<GhostController> ghostControllers;
 
     public Game() {
         guiSquare = new GuiSquare();
         mapReader = new MapReader(new ReadFile("mapv1.txt"));
+      
+        ghostControllers = new ArrayList<>();
+        ghostControllers.add(new GhostControllerBlinky());
+        ghostControllers.add(new GhostControllerPinky());
+        ghostControllers.add(new GhostControllerInky());
+        ghostControllers.add(new GhostControllerClyde());
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
         lastmove = GuiSquare.MOVE.LEFT;
+        mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
 
     public void setCchecker(CollisionChecker cchecker) {
@@ -42,29 +53,28 @@ public class Game {
         running = true;
         long startTime = System.currentTimeMillis();
         boolean alreadyin = false;
+
         // ciclo de jogo
         while(running) {
             GuiSquare.MOVE temp = guiSquare.getMove();
             if (temp != null)
                 lastmove = temp;
             processKey(lastmove);
-            // taxa de atualização
+
+            // taxa de atualização (a cada 200 ms)
             if ((System.currentTimeMillis() - startTime) % 200 == 0){
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
-                    update(gameData);
+                    long elapsedtime = System.currentTimeMillis() - startTime;
+                    update(gameData, elapsedtime);
                     guiSquare.draw(gameData);
-                    alreadyin = true;
-                }
+                    alreadyin = true; }
             }
-            else{
-                // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
-                alreadyin = false;
-            }
+            else{ alreadyin = false; } // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
         }
     }
 
-    public void update(GameData gameData) {
+    public void update(GameData gameData, long elapsedTime) throws Throwable {
 
         // Can Pacman move to next position?
             // Pacman's next position?
@@ -73,8 +83,28 @@ public class Game {
         // no  -> don't update
         this.gameData = cchecker.updateCoinCollison(gameData);
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
-            gameData.update();
+            gameData.getPacMan().moveDirection();
         }
+
+        // verificar colisão com Pacman
+        for (Ghost ghost : gameData.getGhosts()){
+            if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
+                guiSquare.getTerminal().bell();
+            }
+        }
+
+        //Ghosts
+            //mover fantasmas
+        for (GhostController ghostController : ghostControllers){
+            ghostController.update(gameData, elapsedTime);
+            // verificar colisão com Pacman
+            for (Ghost ghost : gameData.getGhosts()){
+                if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
+                    guiSquare.getTerminal().bell();
+                }
+            }
+        }
+
     }
 
     public void processKey(GuiSquare.MOVE move) throws Throwable {

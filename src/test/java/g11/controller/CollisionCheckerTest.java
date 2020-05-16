@@ -3,6 +3,7 @@ package g11.controller;
 import g11.model.*;
 import g11.model.elements.*;
 import g11.view.GuiSquare;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 

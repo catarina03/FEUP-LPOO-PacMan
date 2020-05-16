@@ -13,6 +13,7 @@ public class MapReader {
     private final ArrayList<EmptySpace> emptySpaces;
     private final ArrayList<Coin> coins;
     private final ArrayList<PowerPellet> powerPellets;
+    private final ArrayList<Gate> gates;
     private final ArrayList<MapComponent> mapComponents;
     private final ArrayList<Ghost> ghosts;
     private Position pacManposition;
@@ -23,6 +24,7 @@ public class MapReader {
         emptySpaces = new ArrayList<>();
         coins = new ArrayList<>();
         powerPellets = new ArrayList<>();
+        gates = new ArrayList<>();
         mapComponents = new ArrayList<>();
         ghosts = new ArrayList<>();
 
@@ -49,24 +51,45 @@ public class MapReader {
                     mapComponents.add(coin);
                 }
                 else if (ch == 'B'){
-                    Blinky blinky = new Blinky(x, y);
+                    Blinky blinky = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                        new Blinky(x, y, new Position(25,0)) :
+                        new Blinky(x, y, new Position(45,2));
                     mapComponents.add(blinky);
                     ghosts.add(blinky);
+                    // Depois de o Blinky sair do sitio tem de ficar um espaço vazio atrás
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == 'I'){
-                    Inky inky = new Inky(x, y);
+                    Inky inky = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                            new Inky(x, y, new Position(27,34)) :
+                            new Inky(x, y, new Position(49,34));
                     mapComponents.add(inky);
                     ghosts.add(inky);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == 'P'){
-                    Pinky pinky = new Pinky(x, y);
+                    Pinky pinky = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                            new Pinky(x, y, new Position(2,0)) :
+                            new Pinky(x, y, new Position(3,2));
                     mapComponents.add(pinky);
                     ghosts.add(pinky);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == 'K'){
-                    Clyde clyde = new Clyde(x, y);
+                    Clyde clyde = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                            new Clyde(x, y, new Position(0,34)) :
+                            new Clyde(x, y, new Position(0,34));
                     mapComponents.add(clyde);
                     ghosts.add(clyde);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
                 }
                 else if (ch == '$'){
                     PowerPellet powerPellet = new PowerPellet(x,y);
@@ -75,11 +98,21 @@ public class MapReader {
                 }
                 else if(ch == 'M'){
                     pacManposition = new Position(x,y);
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
+                }
+                else if(ch == 'g'){
+                    Gate gate = new Gate(x,y);
+                    gates.add(gate);
+                    mapComponents.add(gate);
                 }
                 x++;
             }
             y++;
         }
+
+
     }
 
     public Position getPacManposition() {
@@ -91,7 +124,7 @@ public class MapReader {
     }
 
     public Map getMap() {
-        return new Map(map, walls, emptySpaces, coins, powerPellets, mapComponents);
+        return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents);
     }
 
     public List<Ghost> ghostList() {

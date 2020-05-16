@@ -17,10 +17,7 @@ public class ModelDraw {
         this.graphics = screen.newTextGraphics();
     }
 
-
-    public void setGraphics(TextGraphics graphics) {
-        this.graphics = graphics;
-    }
+    public void setGraphics(TextGraphics graphics) { this.graphics = graphics; }
 
     public void drawElement(MapComponent element) {
         if (element instanceof Cherry) drawCherry(element);
@@ -28,7 +25,7 @@ public class ModelDraw {
         if (element instanceof Coin) drawCoin(element);
         if (element instanceof EmptySpace) drawEmptySpace(element);
         if (element instanceof PowerPellet) drawPowerPellet(element);
-        //if (element instanceof Gate) drawGate(element);
+        if (element instanceof Gate) drawGate(element);
     }
 
     private void drawGate(MapComponent element) {

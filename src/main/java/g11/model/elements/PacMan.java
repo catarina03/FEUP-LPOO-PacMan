@@ -14,6 +14,7 @@ public class PacMan extends Moveable{
         this.orientation = Orientation.LEFT;
     }
 
+
     public Orientation getOrientation() {
         return orientation;
     }

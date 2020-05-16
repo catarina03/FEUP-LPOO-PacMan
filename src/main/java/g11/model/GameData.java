@@ -18,10 +18,6 @@ public class GameData {
         this.map = map;
     }
 
-    public void update() {
-        pacMan.moveDirection();
-    }
-
     public GameStats getGameStats() {
         return gameStats;
     }

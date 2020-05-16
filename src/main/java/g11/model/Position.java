@@ -1,5 +1,8 @@
 package g11.model;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import javafx.geometry.Pos;
+
 import java.util.Objects;
 
 public class Position {
@@ -9,6 +12,11 @@ public class Position {
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Position(Position position) {
+        this.x = position.getX();
+        this.y = position.getY();
     }
 
     public int getX() {
@@ -41,6 +49,24 @@ public class Position {
 
     public Position down() {
         return new Position(x, y + 1);
+    }
+
+    public double distance(Position a){
+        return Math.sqrt( Math.pow(this.x - a.getX(),2) + Math.pow(this.y - a.getY(),2) );
+    }
+
+    public Position nextPositionWithOrientation(Orientation orientation){
+        switch (orientation){
+            case UP:
+                return new Position(this.up());
+            case DOWN:
+                return new Position(this.down());
+            case RIGHT:
+                return new Position(this.right());
+            case LEFT:
+                return new Position(this.left());
+        }
+        return null;
     }
 
     @Override

@@ -5,25 +5,24 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class ReadFile {
-    private File myObj;
+    private File file;
 
     // get file from classpath, resources folder
     ReadFile(String fileName) {
-
         ClassLoader classLoader = getClass().getClassLoader();
 
         URL resource = classLoader.getResource(fileName);
         if (resource == null) {
             throw new IllegalArgumentException("file is not found!");
         } else {
-            myObj = new File(resource.getFile());
+            file = new File(resource.getFile());
         }
 
     }
 
     public ArrayList<String> fileContent() {
         ArrayList<String> arrayList = new ArrayList<>();
-        try (FileReader reader = new FileReader(myObj);
+        try (FileReader reader = new FileReader(file);
              BufferedReader br = new BufferedReader(reader)) {
 
             String line;
@@ -34,5 +33,9 @@ public class ReadFile {
             e.printStackTrace();
         }
         return arrayList;
+    }
+
+    public File getFile() {
+        return file;
     }
 }
