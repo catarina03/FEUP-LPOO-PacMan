@@ -17,18 +17,23 @@ public class ModelDrawSquare {
         this.graphics = screen.newTextGraphics();
     }
 
-
     public void setGraphics(TextGraphics graphics) {
         this.graphics = graphics;
     }
 
     public void drawElement(MapComponent element) {
-        if (element instanceof Ghost) drawGhost(element);
         if (element instanceof Cherry) drawCherry(element);
         if (element instanceof Wall) drawWall(element);
         if (element instanceof Coin) drawCoin(element);
         if (element instanceof EmptySpace) drawEmptySpace(element);
         if (element instanceof PowerPellet) drawPowerPellet(element);
+        if (element instanceof Gate) drawGate(element);
+    }
+
+    private void drawGate(MapComponent element) {
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(element.getX(), element.getY(), "-", SGR.BOLD);
     }
 
     public void drawPacMan(GameData gameData){
@@ -67,23 +72,25 @@ public class ModelDrawSquare {
         graphics.putString(20, 34, "o", SGR.BOLD);
     }
 
-    public void drawGhost(MapComponent element){
+    public void drawGhost(GameData gameData){
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        if (element instanceof Blinky){
-            graphics.setForegroundColor(TextColor.ANSI.RED);
-            graphics.setCharacter(element.getX(), element.getY(), '#');
-        }
-        if (element instanceof Clyde){
-            graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-            graphics.setCharacter(element.getX(), element.getY(), '#');
-        }
-        if (element instanceof Inky){
-            graphics.setForegroundColor(TextColor.ANSI.CYAN);
-            graphics.setCharacter(element.getX(), element.getY(), '#');
-        }
-        if (element instanceof Pinky){
-            graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-            graphics.setCharacter(element.getX(), element.getY(), '#');
+        for (Ghost element : gameData.getGhosts()) {
+            if (element instanceof Blinky) {
+                graphics.setForegroundColor(TextColor.ANSI.RED);
+                graphics.setCharacter(element.getX(), element.getY(), '#');
+            }
+            if (element instanceof Clyde) {
+                graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+                graphics.setCharacter(element.getX(), element.getY(), '#');
+            }
+            if (element instanceof Inky) {
+                graphics.setForegroundColor(TextColor.ANSI.CYAN);
+                graphics.setCharacter(element.getX(), element.getY(), '#');
+            }
+            if (element instanceof Pinky) {
+                graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+                graphics.setCharacter(element.getX(), element.getY(), '#');
+            }
         }
     }
 

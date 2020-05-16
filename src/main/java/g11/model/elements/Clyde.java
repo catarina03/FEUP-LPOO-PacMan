@@ -7,8 +7,8 @@ import g11.model.Position;
  * Personality : Switching between direct Chase to Elements.PacMan and fleeing
  */
 public class Clyde extends Ghost{
-    public Clyde(int x, int y) {
-        super(x,y, new Position(0, 34), Orientation.UP);
+    public Clyde(int x, int y, Position scatterTarget) {
+        super(x,y, scatterTarget, Orientation.UP);
     }
 
 }

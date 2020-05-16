@@ -51,7 +51,9 @@ public class MapReader {
                     mapComponents.add(coin);
                 }
                 else if (ch == 'B'){
-                    Blinky blinky = new Blinky(x, y);
+                    Blinky blinky = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                        new Blinky(x, y, new Position(25,0)) :
+                        new Blinky(x, y, new Position(45,2));
                     mapComponents.add(blinky);
                     ghosts.add(blinky);
                     // Depois de o Blinky sair do sitio tem de ficar um espaço vazio atrás
@@ -60,7 +62,9 @@ public class MapReader {
                     mapComponents.add(emptySpace);
                 }
                 else if (ch == 'I'){
-                    Inky inky = new Inky(x, y);
+                    Inky inky = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                            new Inky(x, y, new Position(27,34)) :
+                            new Inky(x, y, new Position(49,34));
                     mapComponents.add(inky);
                     ghosts.add(inky);
                     EmptySpace emptySpace = new EmptySpace(x, y);
@@ -68,7 +72,9 @@ public class MapReader {
                     mapComponents.add(emptySpace);
                 }
                 else if (ch == 'P'){
-                    Pinky pinky = new Pinky(x, y);
+                    Pinky pinky = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                            new Pinky(x, y, new Position(2,0)) :
+                            new Pinky(x, y, new Position(3,2));
                     mapComponents.add(pinky);
                     ghosts.add(pinky);
                     EmptySpace emptySpace = new EmptySpace(x, y);
@@ -76,7 +82,9 @@ public class MapReader {
                     mapComponents.add(emptySpace);
                 }
                 else if (ch == 'K'){
-                    Clyde clyde = new Clyde(x, y);
+                    Clyde clyde = readFile.getFile().getName().equals(new String("mapv1.txt")) ?
+                            new Clyde(x, y, new Position(0,34)) :
+                            new Clyde(x, y, new Position(0,34));
                     mapComponents.add(clyde);
                     ghosts.add(clyde);
                     EmptySpace emptySpace = new EmptySpace(x, y);

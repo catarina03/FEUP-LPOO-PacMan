@@ -8,6 +8,7 @@ import g11.model.Position;
  * Personality : Direct Chase to Elements.PacMan
  */
 public class Blinky extends Ghost {
-    public Blinky(int x, int y) {
-        super(x,y, new Position(45, 2), Orientation.LEFT);
+    public Blinky(int x, int y, Position scatterTarget) {
+        super(x, y, scatterTarget, Orientation.LEFT);
+    }
 }

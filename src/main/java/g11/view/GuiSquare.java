@@ -36,12 +36,10 @@ public class GuiSquare {
             defaultTerminalFactory.setForceAWTOverSwing(true);
             defaultTerminalFactory.setTerminalEmulatorFontConfiguration(fontConfig);
             defaultTerminalFactory.setInitialTerminalSize(terminalsize);
-            Terminal terminal = defaultTerminalFactory.createTerminal();
+            Terminal defterminal = defaultTerminalFactory.createTerminal();
 
-            //Terminal terminal = new SwingTerminal(terminalsize, TerminalEmulatorDeviceConfiguration.getDefault(), fontConfig, TerminalEmulatorColorConfiguration.getDefault());*/
-
-            //terminal.enterPrivateMode();
-            screen = new TerminalScreen(terminal);
+            terminal = defterminal;
+            screen = new TerminalScreen(defterminal);
 
             screen.setCursorPosition(null);   // we don't need a cursor
             screen.startScreen();             // screens must be started
@@ -49,31 +47,14 @@ public class GuiSquare {
         } catch (IOException | FontFormatException | IllegalArgumentException e) {
             //Handle exception
             e.printStackTrace();
-            //System.out.println("Error in SquareFont");
         }
-        /*try {
-            TerminalSize terminalsize = new TerminalSize(50,36);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            terminal = terminalFactory.createTerminal();
-            screen = new TerminalScreen(terminal);
 
-            screen.setCursorPosition(null);   // we don't need a cursor
-            screen.startScreen();             // screens must be started
-            screen.doResizeIfNecessary();     // resize screen if necessary
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-        /*
-        try {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font., new File("A.ttf")));
-        } catch (IOException| FontFormatException e) {
-            //Handle exception
-        }
-        */
         modelDraw = new ModelDrawSquare(screen);
+    }
+
+    public Terminal getTerminal() {
+        return terminal;
     }
 
     public GuiSquare(int no) {
@@ -133,6 +114,7 @@ public class GuiSquare {
 
         for (MapComponent element : gameData.getMap().getMapComponents()) modelDraw.drawElement(element);
 
+        modelDraw.drawGhost(gameData);
         modelDraw.drawPacMan(gameData);
         modelDraw.drawGameStats(gameData);
 

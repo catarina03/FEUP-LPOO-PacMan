@@ -21,7 +21,7 @@ public class GhostControllerInky extends GhostController {
         ArrayList<Orientation> availableOris;
         Ghost ghost = gameData.getGhosts().get(1);
 
-        if (ghost.getPosition().equals(new Position(24,14)))
+        if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
             starting = false;
 
         if (starting)
@@ -43,7 +43,7 @@ public class GhostControllerInky extends GhostController {
                 // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                 // atualiza posição de target
                 if (starting)
-                    ghost.setTarget(new Position(24,14));
+                    ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (13, 14) ; v1 (13, 14)
                 else
                     ghost.setTarget(getTarget(gameData));
 

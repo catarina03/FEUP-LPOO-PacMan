@@ -17,10 +17,7 @@ public class ModelDraw {
         this.graphics = screen.newTextGraphics();
     }
 
-
-    public void setGraphics(TextGraphics graphics) {
-        this.graphics = graphics;
-    }
+    public void setGraphics(TextGraphics graphics) { this.graphics = graphics; }
 
     public void drawElement(MapComponent element) {
         if (element instanceof Cherry) drawCherry(element);

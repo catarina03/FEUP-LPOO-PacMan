@@ -29,7 +29,7 @@ public class Game {
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
-        lastmove = Gui.MOVE.LEFT;
+        lastmove = GuiSquare.MOVE.LEFT;
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
 
@@ -67,7 +67,7 @@ public class Game {
                 if (!alreadyin){
                     long elapsedtime = System.currentTimeMillis() - startTime;
                     update(gameData, elapsedtime);
-                    gui.draw(gameData);
+                    guiSquare.draw(gameData);
                     alreadyin = true; }
             }
             else{ alreadyin = false; } // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
@@ -89,7 +89,7 @@ public class Game {
         // verificar colisão com Pacman
         for (Ghost ghost : gameData.getGhosts()){
             if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                gui.getTerminal().bell();
+                guiSquare.getTerminal().bell();
             }
         }
 
@@ -100,7 +100,7 @@ public class Game {
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()){
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                    gui.getTerminal().bell();
+                    guiSquare.getTerminal().bell();
                 }
             }
         }
