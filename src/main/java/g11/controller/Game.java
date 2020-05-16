@@ -1,33 +1,33 @@
 package g11.controller;
 
 import g11.model.*;
-import g11.view.Gui;
+import g11.view.GuiSquare;
 
 public class Game {
-    private Gui gui;
+    private GuiSquare guiSquare;
     private GameData gameData;
     private Boolean running;
     private MapReader mapReader;
-    private Gui.MOVE lastmove;
+    private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
 
     public Game() {
-        gui = new Gui();
-        mapReader = new MapReader(new ReadFile("mapv2.txt"));
+        guiSquare = new GuiSquare();
+        mapReader = new MapReader(new ReadFile("mapv1.txt"));
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
-        lastmove = Gui.MOVE.LEFT;
+        lastmove = GuiSquare.MOVE.LEFT;
     }
 
     public void setCchecker(CollisionChecker cchecker) {
         this.cchecker = cchecker;
     }
 
-    public void setGui(Gui gui) {
-        this.gui = gui;
+    public void setGuiSquare(GuiSquare guiSquare) {
+        this.guiSquare = guiSquare;
     }
 
     public Boolean getRunning() {
@@ -44,7 +44,7 @@ public class Game {
         boolean alreadyin = false;
         // ciclo de jogo
         while(running) {
-            Gui.MOVE temp = gui.getMove();
+            GuiSquare.MOVE temp = guiSquare.getMove();
             if (temp != null)
                 lastmove = temp;
             processKey(lastmove);
@@ -53,7 +53,7 @@ public class Game {
                 // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
                 if (!alreadyin){
                     update(gameData);
-                    gui.draw(gameData);
+                    guiSquare.draw(gameData);
                     alreadyin = true;
                 }
             }
@@ -72,34 +72,34 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         this.gameData = cchecker.updateCoinCollison(gameData);
-        if (!cchecker.checkWallCollision(gameData, Gui.MOVE.ESC)){
+        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
             gameData.update();
         }
     }
 
-    public void processKey(Gui.MOVE move) throws Throwable {
+    public void processKey(GuiSquare.MOVE move) throws Throwable {
 
         if (move != null){
             switch (move){
                 case ESC:
-                    gui.close();
+                    guiSquare.close();
                     running = false;
                     break;
                 case UP:
                     // check if can change position
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.UP))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.UP))
                         gameData.getPacMan().setOrientation(Orientation.UP);
                     break;
                 case DOWN:
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.DOWN))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN))
                         gameData.getPacMan().setOrientation(Orientation.DOWN);
                     break;
                 case LEFT:
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.LEFT))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT))
                         gameData.getPacMan().setOrientation(Orientation.LEFT);
                     break;
                 case RIGHT:
-                    if (!cchecker.checkWallCollision(gameData, Gui.MOVE.RIGHT))
+                    if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT))
                         gameData.getPacMan().setOrientation(Orientation.RIGHT);
                     break;
             }

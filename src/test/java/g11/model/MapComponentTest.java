@@ -1,6 +1,6 @@
 package g11.model;
 
-import g11.model.Elements.*;
+import g11.model.elements.*;
 import org.junit.Test;
 import org.mockito.Mockito;
 

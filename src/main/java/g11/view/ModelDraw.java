@@ -1,6 +1,6 @@
 package g11.view;
 
-import g11.model.Elements.*;
+import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -23,15 +23,22 @@ public class ModelDraw {
     }
 
     public void drawElement(MapComponent element) {
-        if (element instanceof Ghost) drawGhost(element);
         if (element instanceof Cherry) drawCherry(element);
         if (element instanceof Wall) drawWall(element);
         if (element instanceof Coin) drawCoin(element);
         if (element instanceof EmptySpace) drawEmptySpace(element);
         if (element instanceof PowerPellet) drawPowerPellet(element);
+        //if (element instanceof Gate) drawGate(element);
+    }
+
+    private void drawGate(MapComponent element) {
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(element.getX(), element.getY(), "-", SGR.BOLD);
     }
 
     public void drawPacMan(GameData gameData){
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getOrientation()){
@@ -65,24 +72,38 @@ public class ModelDraw {
         graphics.putString(9, 34, "00000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(35, 34, "o", SGR.BOLD);
+
+
+        // Uncomment to see Targets in Chase mode
+        /* graphics.setForegroundColor(TextColor.ANSI.CYAN);
+        graphics.putString(gameData.getGhosts().get(1).getTarget().getX(), gameData.getGhosts().get(1).getTarget().getY(), "x", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.putString(gameData.getGhosts().get(0).getTarget().getX(), gameData.getGhosts().get(0).getTarget().getY(), "x", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+        graphics.putString(gameData.getGhosts().get(2).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "x", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        graphics.putString(gameData.getGhosts().get(3).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "x", SGR.BOLD);*/
     }
 
-    public void drawGhost(MapComponent element){
-        if (element instanceof Blinky){
-            graphics.setForegroundColor(TextColor.ANSI.RED);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-        }
-        if (element instanceof Clyde){
-            graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-        }
-        if (element instanceof Inky){
-            graphics.setForegroundColor(TextColor.ANSI.CYAN);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-        }
-        if (element instanceof Pinky){
-            graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-            graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+    public void drawGhost(GameData gameData){
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        for (Ghost element : gameData.getGhosts()){
+            if (element instanceof Blinky){
+                graphics.setForegroundColor(TextColor.ANSI.RED);
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
+            if (element instanceof Clyde){
+                graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
+            if (element instanceof Inky){
+                graphics.setForegroundColor(TextColor.ANSI.CYAN);
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
+            if (element instanceof Pinky){
+                graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            }
         }
     }
 
