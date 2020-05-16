@@ -50,54 +50,36 @@ public class Game {
     }
 
     public void run() throws Throwable {
-        // FIXME ciclo de jogo, particularidades:
-        // - Dependendo do estado dos ghosts, dará update com intervalos diferentes
-        //  - Eaten - mais rápido, Frightened - mais lento, Chase e Scatter - mesma velocidade que pacman
-        // - sempre que dá update, dá render
-
         // TODO Por uma taxa de atualização a cada 50 ms
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
 
-        /* TENTATIVA de TESTE
-        double previous = System.currentTimeMillis();
-        double lag = 0.0;
-        while(true){
-            double current = System.currentTimeMillis();
-            double elapsed = current - previous;
-            previous = current;
-            lag += elapsed;
-
-            processInput();
-
-            while (lag >= MS_PER_UPDATE) {
-                update();
-                lag -= MS_PER_UPDATE;
-            }
-            render(lag/MS_PER_UPDATE);
-        } */
-
+        // TENTATIVA de TESTE
         running = true;
         long startTime = System.currentTimeMillis();
-        boolean alreadyin = false;
+        int step = 0;
 
-        // ciclo de jogo
-        while(running) {
+        while(running){
+            long current = System.currentTimeMillis();
+
+            // process input
             GuiSquare.MOVE temp = guiSquare.getMove();
-            if (temp != null)
-                lastmove = temp;
+            if (temp != null) lastmove = temp;
             processKey(lastmove);
 
-            // taxa de atualização (a cada 200 ms)
-            if ((System.currentTimeMillis() - startTime) % 200 == 0){
-                // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
-                if (!alreadyin){
-                    long elapsedtime = System.currentTimeMillis() - startTime;
-                    update(gameData, elapsedtime);
-                    guiSquare.draw(gameData);
-                    alreadyin = true; }
-            }
-            else{ alreadyin = false; } // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
+            // update
+            update(gameData, System.currentTimeMillis() - startTime);
+            /*
+            if (step % 4 == 0) pacman.update; ghosts.update;
+            if (step % 5 == 0) frightenedghost.update;
+            if (step % 3 == 0) eaten.update; */
+
+            // render
+            guiSquare.draw(gameData);
+
+            step++;
+            long elapsed = System.currentTimeMillis() - current;
+            Thread.sleep(50 - elapsed);
         }
     }
 
@@ -135,7 +117,6 @@ public class Game {
     }
 
     public void processKey(GuiSquare.MOVE move) throws Throwable {
-
         if (move != null){
             switch (move){
                 case ESC:
