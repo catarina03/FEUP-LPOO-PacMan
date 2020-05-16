@@ -17,44 +17,33 @@ public class GhostControllerInky extends GhostController {
         starting = true;
     }
 
-    public void update(GameData gameData, long elapsedtime) {
+    public void update(GameData gameData, long elapsedtime, int step) {
         ArrayList<Orientation> availableOris;
         Ghost ghost = gameData.getGhosts().get(1);
 
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
             starting = false;
 
-        if (starting)
-            state = GhostState.CHASE;
-        else
-            state = setStatetime(elapsedtime);
+        state = starting ? GhostState.CHASE : setStatetime(elapsedtime);
 
         if (elapsedtime > 5000){
-        switch (state){
-            case SCATTER:
-                // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
-                availableOris = getAvailableOrientations(gameData, ghost, false);
-                if (availableOris.size() > 0){
-                    ghost.setOrientation(chooseOrientation(availableOris, ghost, true));
-                }
-                ghost.moveDirection();
-                break;
-            case CHASE:
-                // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
-                // atualiza posição de target
-                if (starting)
-                    ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (13, 14) ; v1 (13, 14)
-                else
-                    ghost.setTarget(getTarget(gameData));
+            switch (state){
+                case SCATTER:
+                    // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
+                    calculateAndStep(gameData, ghost, false, true, step);
 
-                availableOris = getAvailableOrientations(gameData, ghost, true);
-                if (availableOris.size() > 0) {
-                    ghost.setOrientation(chooseOrientation(availableOris, ghost, false));
-                }
-                ghost.moveDirection();
+                    break;
+                case CHASE:
+                    // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
+                    // atualiza posição de target
+                    if (starting)
+                        ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (13, 14) ; v1 (13, 14)
+                    else
+                        ghost.setTarget(getTarget(gameData));
 
-                break;
-            }
+                    calculateAndStep(gameData, ghost, true, false, step);
+                    break;
+                }
         }
     }
 

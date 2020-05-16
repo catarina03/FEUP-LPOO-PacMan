@@ -17,7 +17,7 @@ public class GhostControllerClyde extends GhostController {
         starting = true;
     }
 
-    public void update(GameData gameData, long elapsedtime) {
+    public void update(GameData gameData, long elapsedtime, int step) {
         ArrayList<Orientation> availableOris;
         Ghost ghost = gameData.getGhosts().get(3);
 
@@ -33,11 +33,7 @@ public class GhostControllerClyde extends GhostController {
             switch (state){
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
-                    availableOris = getAvailableOrientations(gameData, ghost, false);
-                    if (availableOris.size() > 0){
-                        ghost.setOrientation(chooseOrientation(availableOris, ghost, true));
-                    }
-                    ghost.moveDirection();
+                    calculateAndStep(gameData, ghost, false, true, step);
                     break;
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
@@ -47,15 +43,11 @@ public class GhostControllerClyde extends GhostController {
                     else
                         ghost.setTarget(getTarget(gameData));
 
-                    availableOris = getAvailableOrientations(gameData, ghost, true);
-                    if (availableOris.size() > 0) {
-                        ghost.setOrientation(chooseOrientation(availableOris, ghost, false));
-                    }
-                    ghost.moveDirection();
-
+                    calculateAndStep(gameData, ghost, true, false, step);
                     break;
             }
         }
+
     }
 
     @Override
