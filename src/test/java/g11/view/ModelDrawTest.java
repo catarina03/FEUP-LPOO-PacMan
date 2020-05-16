@@ -130,28 +130,19 @@ public class ModelDrawTest {
         ghostList.add((Ghost) inky);
         ghostList.add((Ghost) clyde);
         ghostList.add((Ghost) pinky);
-        gameData.setGhosts(ghostList);
+        Mockito.when(gameData.getGhosts()).thenReturn(ghostList);
 
         modelDraw.drawGhost(gameData);
 
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        //Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
-        //Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-
-        modelDraw.drawElement(inky);
-        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        //Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
-        //Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-
-        modelDraw.drawElement(clyde);
-        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        //Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-        //Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-
-        modelDraw.drawElement(pinky);
-        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        //Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.MAGENTA);
-        //Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.MAGENTA);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
     }
 
     @Test
