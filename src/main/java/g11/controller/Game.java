@@ -50,6 +50,33 @@ public class Game {
     }
 
     public void run() throws Throwable {
+        // FIXME ciclo de jogo, particularidades:
+        // - Dependendo do estado dos ghosts, dará update com intervalos diferentes
+        //  - Eaten - mais rápido, Frightened - mais lento, Chase e Scatter - mesma velocidade que pacman
+        // - sempre que dá update, dá render
+
+        // TODO Por uma taxa de atualização a cada 50 ms
+        // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
+        // o Pacman a cada 200 ms
+
+        /* TENTATIVA de TESTE
+        double previous = System.currentTimeMillis();
+        double lag = 0.0;
+        while(true){
+            double current = System.currentTimeMillis();
+            double elapsed = current - previous;
+            previous = current;
+            lag += elapsed;
+
+            processInput();
+
+            while (lag >= MS_PER_UPDATE) {
+                update();
+                lag -= MS_PER_UPDATE;
+            }
+            render(lag/MS_PER_UPDATE);
+        } */
+
         running = true;
         long startTime = System.currentTimeMillis();
         boolean alreadyin = false;
