@@ -58,6 +58,7 @@ public class GuiSquare {
     }
 
     public GuiSquare(int no) {
+        // TODO modificar esta função
         try {
             TerminalSize terminalsize = new TerminalSize(50,36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
@@ -70,6 +71,7 @@ public class GuiSquare {
         }
         modelDraw = new ModelDrawSquare(screen);
     }
+
     public void setModelDraw(ModelDrawSquare modelDraw) {
         this.modelDraw = modelDraw;
     }
