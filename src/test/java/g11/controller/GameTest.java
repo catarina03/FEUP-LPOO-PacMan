@@ -43,7 +43,7 @@ public class GameTest {
         Mockito.when(map.getWalls()).thenReturn(walls);
         Mockito.when(gameData.getMap()).thenReturn(map);
 
-        game.update(gameData, 10);
+        game.update(gameData);
         Mockito.verify(collisionChecker, Mockito.times(1)).updateCoinCollison(gameData);
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, GuiSquare.MOVE.ESC);
         Mockito.verify(gameData, Mockito.times(1)).update();
