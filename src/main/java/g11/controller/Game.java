@@ -68,7 +68,7 @@ public class Game {
             processKey(lastmove);
 
             // update
-            update(gameData, System.currentTimeMillis() - startTime);
+            update(gameData, System.currentTimeMillis() - startTime, step);
             /*
             if (step % 4 == 0) pacman.update; ghosts.update;
             if (step % 5 == 0) frightenedghost.update;
@@ -83,7 +83,7 @@ public class Game {
         }
     }
 
-    public void update(GameData gameData, long elapsedTime) throws Throwable {
+    public void update(GameData gameData, long elapsedTime, int step) throws Throwable {
 
         // Can Pacman move to next position?
             // Pacman's next position?
@@ -91,7 +91,7 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         this.gameData = cchecker.updateCoinCollison(gameData);
-        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
+        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0){
             gameData.getPacMan().moveDirection();
         }
 
@@ -105,7 +105,7 @@ public class Game {
         //Ghosts
             //mover fantasmas
         for (GhostController ghostController : ghostControllers){
-            ghostController.update(gameData, elapsedTime);
+            ghostController.update(gameData, elapsedTime, step);
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()){
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
