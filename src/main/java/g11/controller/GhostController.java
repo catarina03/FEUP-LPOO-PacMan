@@ -16,7 +16,7 @@ import static g11.model.Orientation.RIGHT;
 
 public abstract class GhostController {
 
-    public abstract void update(GameData gameData, long elapsedTime);
+    public abstract void update(GameData gameData, long elapsedTime, int step);
 
     public abstract Position getTarget(GameData gameData);
 
@@ -34,7 +34,11 @@ public abstract class GhostController {
     public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost, boolean exitGhostHouse) {
         ArrayList<Orientation> returning = new ArrayList<>();
         // se estiverem nos cruzamentos amarelos não podem mudar de direção
-        if (ghost.getPosition().equals(new Position(23,26)) || ghost.getPosition().equals(new Position(26,26))){
+        // TODO valores variam com mapa: v1 (), (), (), () ; v2 (23,26), (26, 26), () e ()
+        if (ghost.getPosition().equals(new Position(12,14)) ||
+                ghost.getPosition().equals(new Position(15,14)) ||
+                ghost.getPosition().equals(new Position(12,26)) ||
+                ghost.getPosition().equals(new Position(15,26))){
             if (ghost.getOrientation().getOpposite() != LEFT){
                 returning.add(LEFT);
             }
@@ -88,6 +92,7 @@ public abstract class GhostController {
                 }
             }
         }
+
         // Gates abertos, pode sair
         if (exitGhostHouse){
             for (Gate gate : gameData.getMap().getGates()){
@@ -156,5 +161,16 @@ public abstract class GhostController {
         if (ori1 == DOWN || ori2 == DOWN)
             return DOWN;
         return UP;
+    }
+
+    public void calculateAndStep(GameData gameData, Ghost ghost, boolean exitingHouse, boolean scater, int step){
+        ArrayList<Orientation> availableOris;
+        if (step % 4 == 0){
+            availableOris = getAvailableOrientations(gameData, ghost, exitingHouse);
+            if (availableOris.size() > 0){
+                ghost.setOrientation(chooseOrientation(availableOris, ghost, scater));
+            }
+            ghost.moveDirection();
+        }
     }
 }
