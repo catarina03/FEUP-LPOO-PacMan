@@ -1,5 +1,8 @@
 package g11.view;
 
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.swing.*;
 import g11.model.elements.*;
 import g11.model.GameData;
@@ -15,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class GuiSquare {
+    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
+
     private Terminal terminal;
     private Screen screen;
     private ModelDrawSquare modelDraw;
@@ -86,7 +91,76 @@ public class GuiSquare {
         }
     }
 
-    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
+    public void presentationScreen() throws IOException {
+        screen.clear();
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        graphics.putString(5, 5, "CHARACTER / NICKNAME", SGR.BOLD);
+        graphics.putString(11, 26, "10 PTS", SGR.BOLD);
+        graphics.putString(11, 27, "50 PTS", SGR.BOLD);
+        graphics.putString(5, 1, "00", SGR.BOLD);
+        graphics.putString(0, 35, "CREDIT 0", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.putString(3, 7, "# -SHADOW    \"BLINKY\" ", SGR.BOLD);
+        graphics.putString(10, 18, "#", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+        graphics.putString(3, 9, "# -SPEEDY    \"PINKY\" ", SGR.BOLD);
+        graphics.putString(12, 18, "#", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.ANSI.CYAN);
+        graphics.putString(3, 11, "# -BASHFUL   \"INKY\" ", SGR.BOLD);
+        graphics.putString(14, 18, "#", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        graphics.putString(3, 13, "# -POKEY     \"CLYDE\" ", SGR.BOLD);
+        graphics.putString(16, 18, "#", SGR.BOLD);
+        graphics.putString(9, 27, "*", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.putString(8, 18, ">", SGR.BOLD);
+        graphics.putString(9, 26, ".", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
+        screen.refresh();
+    }
+
+    public void inicialScreen() throws IOException {
+        screen.clear();
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        graphics.putString(5, 1, "00", SGR.BOLD);
+        graphics.putString(3, 35, "CREDIT 1", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+        graphics.putString(5, 15, "PUSH START BUTTON", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        graphics.putString(7, 19, "1 PLAYER ONLY", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFCEC0"));
+        graphics.putString(1, 23, "BONUS PAC-MAN FOR 1000 PTS", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 27, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        graphics.putString(20, 35, "O", SGR.BOLD);
+
+        screen.refresh();
+    }
+
+    public KeyStroke getKeyStroke() throws IOException {
+        return screen.readInput();
+    }
 
     public MOVE getMove() throws IOException {
         // Ler Esc para sair de ciclo
