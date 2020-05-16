@@ -79,7 +79,8 @@ public class Game {
 
             step++;
             long elapsed = System.currentTimeMillis() - current;
-            Thread.sleep(50 - elapsed);
+
+            if (elapsed < 50) Thread.sleep(50 - elapsed);
         }
     }
 
