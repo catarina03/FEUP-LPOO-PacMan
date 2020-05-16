@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class GameTest {
 
     @Test
-    public void updateTest(){
+    public void updateTest() throws Throwable {
         Game game = new Game(); //Cria uma tela no GUI, dar fix
 
         GameData gameData = Mockito.mock(GameData.class);
