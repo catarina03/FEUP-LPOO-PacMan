@@ -104,24 +104,24 @@ public class GuiSquare {
         graphics.putString(5, 1, "00", SGR.BOLD);
         graphics.putString(0, 35, "CREDIT 0", SGR.BOLD);
 
-        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
         graphics.putString(3, 7, "# -SHADOW    \"BLINKY\" ", SGR.BOLD);
         graphics.putString(10, 18, "#", SGR.BOLD);
 
-        graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
         graphics.putString(3, 9, "# -SPEEDY    \"PINKY\" ", SGR.BOLD);
         graphics.putString(12, 18, "#", SGR.BOLD);
 
-        graphics.setForegroundColor(TextColor.ANSI.CYAN);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
         graphics.putString(3, 11, "# -BASHFUL   \"INKY\" ", SGR.BOLD);
         graphics.putString(14, 18, "#", SGR.BOLD);
 
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
         graphics.putString(3, 13, "# -POKEY     \"CLYDE\" ", SGR.BOLD);
         graphics.putString(16, 18, "#", SGR.BOLD);
         graphics.putString(9, 27, "*", SGR.BOLD);
 
-        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.putString(8, 18, ">", SGR.BOLD);
         graphics.putString(9, 26, ".", SGR.BOLD);
 
