@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import static g11.model.Orientation.*;
 import static g11.model.Orientation.RIGHT;
 
+// TODO Frightened e Eaten States
 public abstract class GhostController {
-
     public abstract void update(GameData gameData, long elapsedTime, int step);
 
     public abstract Position getTarget(GameData gameData);
