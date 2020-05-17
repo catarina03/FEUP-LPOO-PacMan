@@ -32,7 +32,6 @@ public abstract class GhostController {
     }
 
     public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost, boolean exitGhostHouse) {
-        // TODO Fantasmas também têm de obedecer à continuidade do mapa
         ArrayList<Orientation> returning = new ArrayList<>();
         // se estiverem nos cruzamentos amarelos não podem mudar de direção
         // TODO valores variam com mapa: v1 (), (), (), () ; v2 (23,26), (26, 26), () e ()
