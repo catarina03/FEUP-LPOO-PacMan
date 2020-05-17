@@ -93,7 +93,7 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         this.gameData = cchecker.updateFoodCollison(gameData);
-        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC)){
+        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0){
             gameData.getPacMan().moveDirection();
         }
 
