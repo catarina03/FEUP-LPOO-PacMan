@@ -20,14 +20,19 @@ public class GhostControllerBlinky extends GhostController {
         }
         // Entra em FRIGHTENED
         if (ghostState == GhostState.FRIGHTENED){
-            ghost.setState(GhostState.FRIGHTENED);
-            setChangeOrientation(true);
-            setTicksToEndFrightened(160);
+            // só põe frightened se não estiver EATEN, ENTERINGHOUSE, ou exiting
+            if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse()){
+                ghost.setState(GhostState.FRIGHTENED);
+                setChangeOrientation(true);
+                setTicksToEndFrightened(160);}
         }
         // Se estiver em frightened, atualiza o tempo restante
         if (getTicksToEndFrightened() > 0){
             setTicksToEndFrightened(getTicksToEndFrightened()-1);
         }
+        // Se acabar o Tempo e não estiver a meio de um dos outros passos passa para Chase, que depois é atualizado de acordo com o tempo em baixo
+        if (getTicksToEndFrightened() == 0 && ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse())
+            ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         // se estiver em STATE EATEN, não atualiza STATE que vem de ghostState
         // se estiver em ENTERINGHOUSE, também não atualiza o seu state
@@ -44,13 +49,11 @@ public class GhostControllerBlinky extends GhostController {
                     calculateAndStep(gameData, ghost, step);
                     break;
                 case CHASE:
-                    if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    if (isExitingHouse() && ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
                         setExitingHouse(false);
 
-                    if (isExitingHouse())
-                        ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-                    else
-                        ghost.setTarget(getTarget(gameData));
+                    if (isExitingHouse()) ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    else ghost.setTarget(getTarget(gameData));
 
                     calculateAndStep(gameData, ghost, step);
 

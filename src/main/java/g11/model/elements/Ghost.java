@@ -15,7 +15,7 @@ public abstract class Ghost extends Moveable {
         this.scatterTarget = scatterTarget;
         this.orientation = orientation;
         this.target = new Position(0,0);
-        this.state = GhostState.SCATTER;
+        this.state = GhostState.CHASE;
     }
 
     public Position getTarget() {

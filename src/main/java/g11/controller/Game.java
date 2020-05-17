@@ -25,8 +25,8 @@ public class Game {
       
         ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostControllerBlinky());
-        /*ghostControllers.add(new GhostControllerPinky());
-        ghostControllers.add(new GhostControllerInky());
+        ghostControllers.add(new GhostControllerPinky());
+        /*ghostControllers.add(new GhostControllerInky());
         ghostControllers.add(new GhostControllerClyde());*/
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
