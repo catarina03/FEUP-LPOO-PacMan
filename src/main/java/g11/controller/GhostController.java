@@ -10,6 +10,7 @@ import g11.model.GhostState;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static g11.model.Orientation.*;
 import static g11.model.Orientation.RIGHT;
@@ -18,9 +19,10 @@ import static g11.model.Orientation.RIGHT;
 public abstract class GhostController {
     private GhostState state;
     private boolean starting;
+    private boolean changeOri;
 
-    public GhostController(GhostState state) { this.state = state; }
-    public GhostController(GhostState state, boolean starting) { this.state = state; this.starting = starting; }
+    public GhostController(GhostState state) { this.state = state; this.changeOri = false;}
+    public GhostController(GhostState state, boolean starting) { this.state = state; this.starting = starting; this.changeOri = false;}
 
     public GhostState getState() { return state; }
     public void setState(GhostState state) { this.state = state; }
@@ -30,15 +32,23 @@ public abstract class GhostController {
     public abstract void update(GameData gameData, long elapsedTime, int step);
     public abstract Position getTarget(GameData gameData);
 
-    public GhostState setStatetime(long elapsedtime) {
+    public GhostState setStatetime(long elapsedtime, Ghost ghost) {
         // 7 secs scatter -> 20 secs chase
         // 7 secs scatter -> 20 secs chase
         // 5 secs scatter -> 20 secs chase
         // 5 secs scatter -> inf secs chase
-        if (elapsedtime > 0 && elapsedtime <= 7000 || elapsedtime > 27000 && elapsedtime <= 34000 || elapsedtime > 54000 && elapsedtime <= 59000 || elapsedtime > 79000 && elapsedtime <= 84000)
+        if (elapsedtime > 0 && elapsedtime <= 6800)
             return GhostState.SCATTER;
+        else if (elapsedtime > 27000 && elapsedtime <= 34000 || elapsedtime > 54000 && elapsedtime <= 59000 || elapsedtime > 79000 && elapsedtime <= 84000){
+            if (getState() != GhostState.SCATTER)
+                changeOri = true;
+            return GhostState.SCATTER;}
         else
+        { ghost.setOrientation(ghost.getOrientation().getOpposite());
+            if (getState() != GhostState.CHASE)
+                changeOri = true;
             return GhostState.CHASE;
+        }
     }
 
     public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost, boolean exitGhostHouse) {
@@ -175,10 +185,18 @@ public abstract class GhostController {
 
     public void calculateAndStep(GameData gameData, Ghost ghost, boolean exitingHouse, boolean scater, int step){
         ArrayList<Orientation> availableOris;
-        if (step % 4 == 0){
-            availableOris = getAvailableOrientations(gameData, ghost, exitingHouse);
-            if (availableOris.size() > 0){
-                ghost.setOrientation(chooseOrientation(availableOris, ghost, scater));
+        if (step % 4 == 0 && (getState() == GhostState.CHASE || getState() == GhostState.SCATTER)){
+            {
+                if (changeOri) {
+                    ghost.setOrientation(ghost.getOrientation().getOpposite());
+                    changeOri = false;
+                }
+                else {
+                    availableOris = getAvailableOrientations(gameData, ghost, exitingHouse);
+                    if (availableOris.size() > 0) {
+                        ghost.setOrientation(chooseOrientation(availableOris, ghost, scater));
+                    }
+                }
             }
             ghost.moveDirection();
         }

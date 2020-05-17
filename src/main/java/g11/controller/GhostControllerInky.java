@@ -17,7 +17,7 @@ public class GhostControllerInky extends GhostController {
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
             setStarting(false);
 
-        setState( isStarting() ? GhostState.CHASE : setStatetime(elapsedtime));
+        setState( isStarting() ? GhostState.CHASE : setStatetime(elapsedtime, ghost));
 
         if (elapsedtime > 5000 ){
             switch (getState()){
@@ -28,10 +28,8 @@ public class GhostControllerInky extends GhostController {
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     // atualiza posição de target
-                    if (isStarting())
-                        ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (13, 14) ; v1 (13, 14)
-                    else
-                        ghost.setTarget(getTarget(gameData));
+                    if (isStarting()) ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (13, 14) ; v1 (13, 14)
+                    else ghost.setTarget(getTarget(gameData));
 
                     calculateAndStep(gameData, ghost, true, false, step);
                     break;
