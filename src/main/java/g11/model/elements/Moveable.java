@@ -32,13 +32,9 @@ public abstract class Moveable extends MapComponent {
 
     public void moveDown(){ setY((getY()+1 - 3) % 31 + 3); }
 
-    public void moveRight(){
-        setX(getX()+1);
-    }
+    public void moveRight(){ setX((getX()+1) % 28); }
 
-    public void moveLeft(){
-        setX(getX()-1);
-    }
+    public void moveLeft(){ setX((getX()-1 < 0) ? 27 : getX()-1); }
 
     public void moveDirection(){
         switch (orientation){

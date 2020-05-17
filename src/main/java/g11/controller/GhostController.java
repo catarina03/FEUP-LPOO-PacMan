@@ -126,7 +126,7 @@ public abstract class GhostController {
         return returning;
     }
 
-    public Orientation chooseOrientation(ArrayList<Orientation> availableOris, Ghost ghost, boolean scatter){
+    public Orientation chooseOrientation(ArrayList<Orientation> availableOris, Ghost ghost, GhostState ghostState){
         Orientation tochange = UP;
         double tempdistance;
         double minDistance = 1000.0, equaldistance = 1000.0;
@@ -136,7 +136,7 @@ public abstract class GhostController {
             return availableOris.get(0);
         else {
             for (Orientation orientation : availableOris) {
-                tempdistance = scatter ? ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget()) : ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
+                tempdistance = ghostState == GhostState.SCATTER ? ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget()) : ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
                 if (tempdistance == minDistance){
                     itosend = i;
                     equaldistance = minDistance;
@@ -150,7 +150,7 @@ public abstract class GhostController {
         }
 
         if (minDistance == equaldistance)
-            return scatter ? chooseOrientationPriority(availableOris, ghost, true, itosend, minDistance) : chooseOrientationPriority(availableOris, ghost, false, itosend, minDistance);
+            return ghostState == GhostState.SCATTER ? chooseOrientationPriority(availableOris, ghost, true, itosend, minDistance) : chooseOrientationPriority(availableOris, ghost, false, itosend, minDistance);
         return tochange;
     }
 
@@ -183,7 +183,7 @@ public abstract class GhostController {
         return UP;
     }
 
-    public void calculateAndStep(GameData gameData, Ghost ghost, boolean exitingHouse, boolean scater, int step){
+    public void calculateAndStep(GameData gameData, Ghost ghost, boolean exitingHouse, GhostState ghostState, int step){
         ArrayList<Orientation> availableOris;
         if (step % 4 == 0 && (getState() == GhostState.CHASE || getState() == GhostState.SCATTER)){
             {
@@ -194,7 +194,7 @@ public abstract class GhostController {
                 else {
                     availableOris = getAvailableOrientations(gameData, ghost, exitingHouse);
                     if (availableOris.size() > 0) {
-                        ghost.setOrientation(chooseOrientation(availableOris, ghost, scater));
+                        ghost.setOrientation(chooseOrientation(availableOris, ghost, ghostState));
                     }
                 }
             }
