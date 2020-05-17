@@ -20,13 +20,13 @@ public class GhostControllerBlinky extends GhostController {
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     ghost.setTarget(ghost.getScatterTarget());
-                    calculateAndStep(gameData, ghost, false, GhostState.SCATTER, step);
+                    calculateAndStep(gameData, ghost, false, step);
                     break;
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     // atualiza posição de target
                     ghost.setTarget(getTarget(gameData));
-                    calculateAndStep(gameData, ghost, false, GhostState.CHASE, step);
+                    calculateAndStep(gameData, ghost, false, step);
                     break;
                 case FRIGHTENED:
                     break;

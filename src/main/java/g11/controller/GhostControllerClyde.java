@@ -24,7 +24,7 @@ public class GhostControllerClyde extends GhostController {
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     ghost.setTarget(ghost.getScatterTarget());
-                    calculateAndStep(gameData, ghost, false, GhostState.SCATTER, step);
+                    calculateAndStep(gameData, ghost, false, step);
                     break;
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
@@ -32,7 +32,7 @@ public class GhostControllerClyde extends GhostController {
                     if (isStarting()) ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
                     else ghost.setTarget(getTarget(gameData));
 
-                    calculateAndStep(gameData, ghost, true, GhostState.CHASE, step);
+                    calculateAndStep(gameData, ghost, true, step);
                     break;
             }
         }
