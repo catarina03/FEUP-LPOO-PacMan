@@ -26,6 +26,7 @@ public class GhostControllerPinky extends GhostController {
             switch (getState()){
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
+                    ghost.setTarget(ghost.getScatterTarget());
                     calculateAndStep(gameData, ghost, false, GhostState.SCATTER, step);
                     break;
                 case CHASE:

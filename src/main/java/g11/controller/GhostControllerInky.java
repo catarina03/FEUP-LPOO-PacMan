@@ -6,8 +6,6 @@ import g11.model.Orientation;
 import g11.model.Position;
 import g11.model.elements.Ghost;
 
-import java.util.ArrayList;
-
 public class GhostControllerInky extends GhostController {
     public GhostControllerInky() { super(GhostState.SCATTER, true); }
 
@@ -23,6 +21,7 @@ public class GhostControllerInky extends GhostController {
             switch (getState()){
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
+                    ghost.setTarget(ghost.getScatterTarget());
                     calculateAndStep(gameData, ghost, false, GhostState.SCATTER, step);
                     break;
                 case CHASE:

@@ -136,7 +136,7 @@ public abstract class GhostController {
             return availableOris.get(0);
         else {
             for (Orientation orientation : availableOris) {
-                tempdistance = ghostState == GhostState.SCATTER ? ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getScatterTarget()) : ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
+                tempdistance = ghost.getPosition().nextPositionWithOrientation(orientation).distance(ghost.getTarget());
                 if (tempdistance == minDistance){
                     itosend = i;
                     equaldistance = minDistance;
@@ -150,11 +150,11 @@ public abstract class GhostController {
         }
 
         if (minDistance == equaldistance)
-            return ghostState == GhostState.SCATTER ? chooseOrientationPriority(availableOris, ghost, true, itosend, minDistance) : chooseOrientationPriority(availableOris, ghost, false, itosend, minDistance);
+            return chooseOrientationPriority(availableOris, ghost, itosend, minDistance);
         return tochange;
     }
 
-    private Orientation chooseOrientationPriority(ArrayList<Orientation> availableoris, Ghost ghost, boolean scatter, int index, double dist){
+    private Orientation chooseOrientationPriority(ArrayList<Orientation> availableoris, Ghost ghost, int index, double dist){
         // index tem valor de uma orientação que tem distancia a target igual a outra orientação
         Orientation ori1 = availableoris.get(index);
         Orientation ori2 = UP;
@@ -166,7 +166,7 @@ public abstract class GhostController {
             //encontrar ori2
             int i = 0;
             for (Orientation ori : availableoris){
-                tempdistance = scatter ? ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getScatterTarget()) : ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getTarget());
+                tempdistance = ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getTarget());
                 if (tempdistance == dist && i != index){
                     ori2 = ori;
                     break;

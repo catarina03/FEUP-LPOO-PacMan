@@ -55,7 +55,6 @@ public class Game {
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
 
-        // TENTATIVA de TESTE
         running = true;
         long startTime = System.currentTimeMillis();
         int step = 0;
@@ -93,6 +92,7 @@ public class Game {
         // yes -> update position
         // no  -> don't update
         this.gameData = cchecker.updateFoodCollison(gameData);
+
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0){
             gameData.getPacMan().moveDirection();
         }
