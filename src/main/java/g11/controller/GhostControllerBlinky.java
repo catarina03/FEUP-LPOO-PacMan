@@ -8,15 +8,15 @@ import g11.model.GhostState;
 public class GhostControllerBlinky extends GhostController {
     public GhostControllerBlinky() { super(GhostState.SCATTER); }
 
-    public void update(GameData gameData, long elapsedtime, int step) {
+    public void update(GameData gameData, long elapsedtime, int step, boolean frightened) {
         Ghost ghost = gameData.getGhosts().get(0);
 
 
-
-        setState(setStatetime(elapsedtime, ghost));
+        if (frightened) ghost.setState(GhostState.FRIGHTENED);
+        else ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         if (elapsedtime > 0) {
-            switch (getState()) {
+            switch (ghost.getState()) {
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     ghost.setTarget(ghost.getScatterTarget());
@@ -29,6 +29,8 @@ public class GhostControllerBlinky extends GhostController {
                     calculateAndStep(gameData, ghost, false, step);
                     break;
                 case FRIGHTENED:
+                    // não interessa o target
+                    calculateAndStep(gameData, ghost, false, step);
                     break;
                 case EATEN:
                     break;

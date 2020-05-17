@@ -6,24 +6,21 @@ import g11.model.Orientation;
 import g11.model.Position;
 import g11.model.elements.Ghost;
 
-import java.util.ArrayList;
-
-import static g11.model.Orientation.DOWN;
-import static g11.model.Orientation.UP;
-
 public class GhostControllerPinky extends GhostController {
-    public GhostControllerPinky() { super(GhostState.CHASE, true); }
+    public GhostControllerPinky() { super(GhostState.SCATTER, true); }
 
-    public void update(GameData gameData, long elapsedtime, int step) {
+    public void update(GameData gameData, long elapsedtime, int step, boolean frightened) {
         Ghost ghost = gameData.getGhosts().get(2);
 
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
             setStarting(false);
 
-        setState( isStarting() ? GhostState.CHASE : setStatetime(elapsedtime, ghost));
+        if (isStarting()) ghost.setState(GhostState.CHASE);
+        else if (frightened) ghost.setState(GhostState.FRIGHTENED);
+        else ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         if (elapsedtime > 0){
-            switch (getState()){
+            switch (ghost.getState()){
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     ghost.setTarget(ghost.getScatterTarget());
@@ -36,6 +33,9 @@ public class GhostControllerPinky extends GhostController {
                     else ghost.setTarget(getTarget(gameData));
 
                     calculateAndStep(gameData, ghost, true, step);
+                    break;
+                case FRIGHTENED:
+                    calculateAndStep(gameData, ghost, false, step);
                     break;
             }
         }

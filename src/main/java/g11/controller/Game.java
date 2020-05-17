@@ -15,6 +15,9 @@ public class Game {
     private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
     private ArrayList<GhostController> ghostControllers;
+    private int stepsToEnd;
+    private int numberActivePP;
+
 
     public Game() {
         guiSquare = new GuiSquare();
@@ -31,6 +34,8 @@ public class Game {
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
         lastmove = GuiSquare.MOVE.LEFT;
+        stepsToEnd = 0;
+        numberActivePP = gameData.getMap().getPowerPellets().size();
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
 
@@ -104,10 +109,25 @@ public class Game {
             }
         }
 
+        boolean frightened = false;
+        // ve se está em frightened e continua até acabar tempo
+        if (stepsToEnd > 0){
+            stepsToEnd--;
+            frightened = true;
+        }
+        // verifica se entrou em frightened
+        else if (gameData.getMap().getPowerPellets().size() != numberActivePP){
+            numberActivePP--;
+            //changeOri = true;
+            stepsToEnd = 160;
+            frightened = true;
+        }
+
+
         //Ghosts
             //mover fantasmas
         for (GhostController ghostController : ghostControllers){
-            ghostController.update(gameData, elapsedTime, step);
+            ghostController.update(gameData, elapsedTime, step, frightened);
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()){
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
