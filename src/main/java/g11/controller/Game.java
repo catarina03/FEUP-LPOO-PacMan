@@ -4,6 +4,7 @@ import g11.model.*;
 import g11.model.elements.Ghost;
 import g11.view.GuiSquare;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
@@ -146,6 +147,15 @@ public class Game {
     }
 
 
-
+    public void start() throws Throwable {
+        GuiSquare.MOVE temp;
+        guiSquare.presentationScreen();
+        guiSquare.getKeyStroke();
+        guiSquare.inicialScreen();
+        guiSquare.getKeyStroke();
+        guiSquare.draw(gameData);
+        Thread.sleep(3000);
+        run();
+    }
 }
 
