@@ -4,6 +4,7 @@ import g11.model.Position;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -27,19 +28,23 @@ public class MapReaderTest {
     @Test
     public void creationTest(){
         ReadFile readFile = Mockito.mock(ReadFile.class);
+        File file = Mockito.mock(File.class);
 
-        ArrayList<String> file = new ArrayList<>();
-        file.add("#eccBI#");
-        file.add("#$PKM#");
-        Mockito.when(readFile.fileContent()).thenReturn(file);
+        ArrayList<String> fileContent = new ArrayList<>();
+        fileContent.add("#eccBI#");
+        fileContent.add("#$PKMg");
+        Mockito.when(readFile.fileContent()).thenReturn(fileContent);
+        Mockito.when(file.getName()).thenReturn("mapv1.txt");
+        Mockito.when(readFile.getFile()).thenReturn(file);
 
         MapReader mapReader = new MapReader(readFile);
-        assertEquals(4, mapReader.getMap().getWalls().size());
+        assertEquals(3, mapReader.getMap().getWalls().size());
         assertEquals(2, mapReader.getMap().getCoins().size());
-        assertEquals(1, mapReader.getMap().getEmptySpaces().size());
+        assertEquals(6, mapReader.getMap().getEmptySpaces().size());
         assertEquals(1, mapReader.getMap().getPowerPellets().size());
+        assertEquals(1, mapReader.getMap().getGates().size());
         assertEquals(4, mapReader.ghostList().size());
-        assertEquals(12, mapReader.getMap().getMapComponents().size());
+        assertEquals(17, mapReader.getMap().getMapComponents().size());
         assertEquals(4, mapReader.getPacManposition().getX());
         assertEquals(4, mapReader.getPacManposition().getY());
     }
