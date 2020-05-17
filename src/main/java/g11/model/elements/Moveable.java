@@ -28,11 +28,9 @@ public abstract class Moveable extends MapComponent {
         this.orientation = or;
     }
 
-    public void moveUp(){ setY(getY()-1); }
+    public void moveUp(){ setY((getY()-1 < 3) ? 33 : getY()-1); }
 
-    public void moveDown(){
-        setY(getY()+1);
-    }
+    public void moveDown(){ setY((getY()+1 - 3) % 31 + 3); }
 
     public void moveRight(){
         setX(getX()+1);
