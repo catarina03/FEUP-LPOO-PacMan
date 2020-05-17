@@ -1,3 +1,4 @@
+/*
 package g11.controller;
 
 import g11.model.GameData;
@@ -9,14 +10,14 @@ import g11.model.elements.Ghost;
 public class GhostControllerPinky extends GhostController {
     public GhostControllerPinky() { super(GhostState.SCATTER, true); }
 
-    public void update(GameData gameData, long elapsedtime, int step, boolean frightened) {
+    public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
         Ghost ghost = gameData.getGhosts().get(2);
 
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-            setStarting(false);
+            setExitingHouse(false);
 
-        if (isStarting()) ghost.setState(GhostState.CHASE);
-        else if (frightened) ghost.setState(GhostState.FRIGHTENED);
+        if (isExitingHouse()) ghost.setState(GhostState.CHASE);
+        else if (ghostState == GhostState.FRIGHTENED) ghost.setState(GhostState.FRIGHTENED);
         else ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         if (elapsedtime > 0){
@@ -29,7 +30,7 @@ public class GhostControllerPinky extends GhostController {
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     // atualiza posição de target
-                    if (isStarting()) ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    if (isExitingHouse()) ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
                     else ghost.setTarget(getTarget(gameData));
 
                     calculateAndStep(gameData, ghost, true, step);
@@ -58,3 +59,4 @@ public class GhostControllerPinky extends GhostController {
         return null;
     }
 }
+*/

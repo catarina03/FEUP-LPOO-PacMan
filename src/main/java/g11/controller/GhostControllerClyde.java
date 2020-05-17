@@ -1,3 +1,4 @@
+/*
 package g11.controller;
 
 import g11.model.GameData;
@@ -8,14 +9,14 @@ import g11.model.elements.Ghost;
 public class GhostControllerClyde extends GhostController {
     public GhostControllerClyde() { super(GhostState.SCATTER, true); }
 
-    public void update(GameData gameData, long elapsedtime, int step, boolean frightened) {
+    public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
         Ghost ghost = gameData.getGhosts().get(3);
 
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
             setStarting(false);
 
         if (isStarting()) ghost.setState(GhostState.CHASE);
-        else if (frightened) ghost.setState(GhostState.FRIGHTENED);
+        else if (ghostState == GhostState.FRIGHTENED) ghost.setState(GhostState.FRIGHTENED);
         else ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         if (elapsedtime > 10000){
@@ -45,3 +46,4 @@ public class GhostControllerClyde extends GhostController {
         return gameData.getPacMan().getPosition().distance(gameData.getGhosts().get(3).getPosition()) >= 8 ? gameData.getPacMan().getPosition() : gameData.getGhosts().get(3).getScatterTarget();
     }
 }
+*/

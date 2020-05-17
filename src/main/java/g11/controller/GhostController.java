@@ -10,7 +10,6 @@ import g11.model.GhostState;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static g11.model.Orientation.*;
@@ -18,16 +17,21 @@ import static g11.model.Orientation.RIGHT;
 
 // TODO Frightened e Eaten States
 public abstract class GhostController {
-    private boolean starting;
-    private boolean changeOri;
+    private boolean exitingHouse; // está a sair da GhostHouse
+    private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
+    private int ticksToEndFrightened;
 
-    public GhostController(GhostState state) {this.changeOri = false;}
-    public GhostController(GhostState state, boolean starting) {this.starting = starting; this.changeOri = false;}
+    public GhostController(GhostState state) {this.changeOrientation = false; this.exitingHouse = false; this.ticksToEndFrightened = 0;}
+    public GhostController(GhostState state, boolean starting) {this.exitingHouse = starting; this.changeOrientation = false;}
 
-    public boolean isStarting() { return starting; }
-    public void setStarting(boolean starting) { this.starting = starting; }
+    public boolean isExitingHouse() { return exitingHouse; }
+    public void setExitingHouse(boolean exitingHouse) { this.exitingHouse = exitingHouse; }
+    public boolean isChangeOrientation() { return changeOrientation; }
+    public void setChangeOrientation(boolean changeOrientation) { this.changeOrientation = changeOrientation; }
+    public int getTicksToEndFrightened() { return ticksToEndFrightened; }
+    public void setTicksToEndFrightened(int ticksToEndFrightened) { this.ticksToEndFrightened = ticksToEndFrightened; }
 
-    public abstract void update(GameData gameData, long elapsedTime, int step, boolean frightened);
+    public abstract void update(GameData gameData, long elapsedTime, int step, GhostState ghostState);
     public abstract Position getTarget(GameData gameData);
 
     public GhostState setStatetime(long elapsedtime, Ghost ghost, GameData gameData) {
@@ -35,24 +39,23 @@ public abstract class GhostController {
         // 7 secs scatter -> 20 secs chase
         // 5 secs scatter -> 20 secs chase
         // 5 secs scatter -> inf secs chase
-        if (elapsedtime > 0 && elapsedtime <= 6800)
+        if (elapsedtime > 0 && elapsedtime <= 7000)
             return GhostState.SCATTER;
         else if (elapsedtime > 27000 && elapsedtime <= 34000 || elapsedtime > 54000 && elapsedtime <= 59000 || elapsedtime > 79000 && elapsedtime <= 84000){
             if (ghost.getState() != GhostState.SCATTER)
-                changeOri = true;
+                changeOrientation = true;
             return GhostState.SCATTER;}
-        else
-        { ghost.setOrientation(ghost.getOrientation().getOpposite());
+        else {
             if (ghost.getState() != GhostState.CHASE)
-                changeOri = true;
+                changeOrientation = true;
             return GhostState.CHASE;
         }
     }
 
-    public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost, boolean exitGhostHouse) {
+    public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost) {
         ArrayList<Orientation> returning = new ArrayList<>();
         // se estiverem nos cruzamentos amarelos não podem mudar de direção
-        // TODO valores variam com mapa: v1 (), (), (), () ; v2 (23,26), (26, 26), () e ()
+        // TODO valores variam com mapa: v1 (12,14), (15,14), (12,26), (15,26) ; v2 (23,26), (26, 26), () e ()
         if (ghost.getPosition().equals(new Position(12,14)) ||
                 ghost.getPosition().equals(new Position(15,14)) ||
                 ghost.getPosition().equals(new Position(12,26)) ||
@@ -111,12 +114,17 @@ public abstract class GhostController {
             }
         }
 
-        // Gates abertos, pode sair
-        if (exitGhostHouse){
+        // Gates abertos, pode sair/entrar
+        if (isExitingHouse()){
             for (Gate gate : gameData.getMap().getGates()){
                 if (gate.getPosition().equals(ghost.getPosition().up())){
                     if (ghost.getOrientation().getOpposite() != UP){
                         returning.add(UP);
+                    }
+                }
+                if (gate.getPosition().equals(ghost.getPosition().down())){
+                    if (ghost.getOrientation().getOpposite() != DOWN){
+                        returning.add(DOWN);
                     }
                 }
             }
@@ -181,35 +189,48 @@ public abstract class GhostController {
         return UP;
     }
 
-    public void calculateAndStep(GameData gameData, Ghost ghost, boolean exitingHouse, int step){
+    public void calculateAndStep(GameData gameData, Ghost ghost, int step){
         ArrayList<Orientation> availableOris;
-        if (step % 4 == 0 && (ghost.getState() == GhostState.CHASE || ghost.getState() == GhostState.SCATTER)){
-            {
-                if (changeOri) {
-                    ghost.setOrientation(ghost.getOrientation().getOpposite());
-                    changeOri = false;
-                }
-                else {
-                    availableOris = getAvailableOrientations(gameData, ghost, exitingHouse);
-                    if (availableOris.size() > 0) {
-                        ghost.setOrientation(chooseOrientation(availableOris, ghost));
+        if (step % 4 == 0){
+            if ((ghost.getState() == GhostState.CHASE || ghost.getState() == GhostState.SCATTER)){
+                {
+                    if (changeOrientation) {
+                        ghost.setOrientation(ghost.getOrientation().getOpposite());
+                        changeOrientation = false;
+                    }
+                    else {
+                        availableOris = getAvailableOrientations(gameData, ghost);
+                        if (availableOris.size() > 0) {
+                            ghost.setOrientation(chooseOrientation(availableOris, ghost));
+                        }
                     }
                 }
+                ghost.moveDirection();
             }
-            ghost.moveDirection();
+            if (ghost.getState() == GhostState.ENTERINGHOUSE){
+                ghost.setOrientation(DOWN);
+                ghost.moveDirection();
+            }
         }
         else if (step % 5 == 0 && ghost.getState() == GhostState.FRIGHTENED){
-            if (changeOri) {
+            if (changeOrientation) {
                 ghost.setOrientation(ghost.getOrientation().getOpposite());
-                changeOri = false;
+                changeOrientation = false;
             }
             else {
-                availableOris = getAvailableOrientations(gameData, ghost, exitingHouse);
+                availableOris = getAvailableOrientations(gameData, ghost);
                 if (availableOris.size() > 0) {
                     // choose random orientation
                     int randomNum = ThreadLocalRandom.current().nextInt(0, availableOris.size());
                     ghost.setOrientation(availableOris.get(randomNum));
                 }
+            }
+            ghost.moveDirection();
+        }
+        else if (step % 3 == 0 && ghost.getState() == GhostState.EATEN){
+            availableOris = getAvailableOrientations(gameData, ghost);
+            if (availableOris.size() > 0) {
+                ghost.setOrientation(chooseOrientation(availableOris, ghost));
             }
             ghost.moveDirection();
         }

@@ -1,3 +1,4 @@
+/*
 package g11.controller;
 
 import g11.model.GameData;
@@ -9,14 +10,14 @@ import g11.model.elements.Ghost;
 public class GhostControllerInky extends GhostController {
     public GhostControllerInky() { super(GhostState.SCATTER, true); }
 
-    public void update(GameData gameData, long elapsedtime, int step, boolean frightened) {
+    public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
         Ghost ghost = gameData.getGhosts().get(1);
 
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
             setStarting(false);
 
         if (isStarting()) ghost.setState(GhostState.CHASE);
-        else if (frightened) ghost.setState(GhostState.FRIGHTENED);
+        else if (ghostState == GhostState.FRIGHTENED) ghost.setState(GhostState.FRIGHTENED);
         else ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         if (elapsedtime > 5000 ){
@@ -61,3 +62,4 @@ public class GhostControllerInky extends GhostController {
         return new Position(2*tempPos.getX()-blinkyPos.getX(), 2*tempPos.getY()-blinkyPos.getY());
     }
 }
+*/

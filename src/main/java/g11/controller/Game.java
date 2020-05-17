@@ -25,9 +25,9 @@ public class Game {
       
         ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostControllerBlinky());
-        ghostControllers.add(new GhostControllerPinky());
+        /*ghostControllers.add(new GhostControllerPinky());
         ghostControllers.add(new GhostControllerInky());
-        ghostControllers.add(new GhostControllerClyde());
+        ghostControllers.add(new GhostControllerClyde());*/
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
@@ -90,14 +90,20 @@ public class Game {
     }
 
     public void update(GameData gameData, long elapsedTime, int step) throws Throwable {
-
-        // Can Pacman move to next position?
-            // Pacman's next position?
-            // Is a wall in the position pacman is about to move to?
-        // yes -> update position
-        // no  -> don't update
         this.gameData = cchecker.updateFoodCollison(gameData);
 
+        GhostState ghostState = null;
+        // verifica se entrou em frightened
+        if (gameData.getMap().getPowerPellets().size() != numberActivePP){
+            numberActivePP--;
+            ghostState = GhostState.FRIGHTENED;
+        }
+
+        // Can Pacman move to next position?
+        // Pacman's next position?
+        // Is a wall in the position pacman is about to move to?
+        // yes -> update position
+        // no  -> don't update
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0){
             gameData.getPacMan().moveDirection();
         }
@@ -106,32 +112,19 @@ public class Game {
         for (Ghost ghost : gameData.getGhosts()){
             if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
                 guiSquare.getTerminal().bell();
+                ghost.setState(GhostState.EATEN);
             }
         }
-
-        boolean frightened = false;
-        // ve se está em frightened e continua até acabar tempo
-        if (stepsToEnd > 0){
-            stepsToEnd--;
-            frightened = true;
-        }
-        // verifica se entrou em frightened
-        else if (gameData.getMap().getPowerPellets().size() != numberActivePP){
-            numberActivePP--;
-            //changeOri = true;
-            stepsToEnd = 160;
-            frightened = true;
-        }
-
 
         //Ghosts
             //mover fantasmas
         for (GhostController ghostController : ghostControllers){
-            ghostController.update(gameData, elapsedTime, step, frightened);
+            ghostController.update(gameData, elapsedTime, step, ghostState);
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()){
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
                     guiSquare.getTerminal().bell();
+                    ghostState = GhostState.EATEN;
                 }
             }
         }
@@ -175,6 +168,7 @@ public class Game {
         guiSquare.getKeyStroke();
         guiSquare.draw(gameData);
         Thread.sleep(3000);*/
+        guiSquare.draw(gameData);
         run();
     }
 }
