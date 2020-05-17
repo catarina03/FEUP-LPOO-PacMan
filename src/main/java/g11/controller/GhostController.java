@@ -16,8 +16,18 @@ import static g11.model.Orientation.RIGHT;
 
 // TODO Frightened e Eaten States
 public abstract class GhostController {
-    public abstract void update(GameData gameData, long elapsedTime, int step);
+    private GhostState state;
+    private boolean starting;
 
+    public GhostController(GhostState state) { this.state = state; }
+    public GhostController(GhostState state, boolean starting) { this.state = state; this.starting = starting; }
+
+    public GhostState getState() { return state; }
+    public void setState(GhostState state) { this.state = state; }
+    public boolean isStarting() { return starting; }
+    public void setStarting(boolean starting) { this.starting = starting; }
+
+    public abstract void update(GameData gameData, long elapsedTime, int step);
     public abstract Position getTarget(GameData gameData);
 
     public GhostState setStatetime(long elapsedtime) {

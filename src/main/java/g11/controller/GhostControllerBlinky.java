@@ -11,18 +11,13 @@ import java.util.ArrayList;
 import static g11.model.Orientation.*;
 
 public class GhostControllerBlinky extends GhostController {
-
-    private GhostState state;
-
-    public GhostControllerBlinky() {
-        this.state = GhostState.SCATTER;
-    }
+    public GhostControllerBlinky() { super(GhostState.SCATTER); }
 
     public void update(GameData gameData, long elapsedtime, int step) {
-        state = setStatetime(elapsedtime);
+        setState(setStatetime(elapsedtime));
         ArrayList<Orientation> availableOris;
         Ghost ghost = gameData.getGhosts().get(0);
-        switch (state){
+        switch (getState()){
             case SCATTER:
                 // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                 calculateAndStep(gameData, ghost, false, true, step);

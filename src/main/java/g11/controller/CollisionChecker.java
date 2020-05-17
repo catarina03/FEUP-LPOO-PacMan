@@ -93,6 +93,7 @@ public class CollisionChecker {
                 stats.setScore(stats.getScore() + 10);
             }
             if (toremove instanceof PowerPellet){
+                // TODO notificar Ghost controllers
                 powerPellets.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setPowerPellets(powerPellets);

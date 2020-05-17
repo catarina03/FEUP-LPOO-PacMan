@@ -9,41 +9,33 @@ import g11.model.elements.Ghost;
 import java.util.ArrayList;
 
 public class GhostControllerInky extends GhostController {
-    private GhostState state;
-    private boolean starting;
-
-    public GhostControllerInky() {
-        this.state = GhostState.SCATTER;
-        starting = true;
-    }
+    public GhostControllerInky() { super(GhostState.SCATTER, true); }
 
     public void update(GameData gameData, long elapsedtime, int step) {
-        ArrayList<Orientation> availableOris;
         Ghost ghost = gameData.getGhosts().get(1);
 
         if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-            starting = false;
+            setStarting(false);
 
-        state = starting ? GhostState.CHASE : setStatetime(elapsedtime);
+        setState( isStarting() ? GhostState.CHASE : setStatetime(elapsedtime));
 
-        if (elapsedtime > 5000){
-            switch (state){
+        if (elapsedtime > 5000 ){
+            switch (getState()){
                 case SCATTER:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     calculateAndStep(gameData, ghost, false, true, step);
-
                     break;
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     // atualiza posição de target
-                    if (starting)
+                    if (isStarting())
                         ghost.setTarget(new Position(13,14)); // FIXME depende do mapa -> v2 (13, 14) ; v1 (13, 14)
                     else
                         ghost.setTarget(getTarget(gameData));
 
                     calculateAndStep(gameData, ghost, true, false, step);
                     break;
-                }
+            }
         }
     }
 
