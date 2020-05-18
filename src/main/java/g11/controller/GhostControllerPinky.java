@@ -10,7 +10,7 @@ public class GhostControllerPinky extends GhostController {
     public GhostControllerPinky(Ghost ghost) { super(true, ghost); }
 
     public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
-        determineState(gameData, elapsedtime, ghostState);
+        determineState(elapsedtime, ghostState);
         if (elapsedtime > 0){
             stateSwitch(gameData, step);
             }

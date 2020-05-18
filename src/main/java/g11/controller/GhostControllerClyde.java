@@ -9,7 +9,7 @@ public class GhostControllerClyde extends GhostController {
     public GhostControllerClyde(Ghost ghost) { super(true, ghost); }
 
     public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
-        determineState(gameData, elapsedtime, ghostState);
+        determineState(elapsedtime, ghostState);
         if (elapsedtime > 10000){
             stateSwitch(gameData, step);
         }

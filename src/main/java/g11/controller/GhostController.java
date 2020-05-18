@@ -41,12 +41,16 @@ public abstract class GhostController {
 
     public boolean isInsideHouse(Ghost ghost){
         // TODO não está a ter em conta os Gates
-        if (ghost.getPosition().getX() >= 11 && ghost.getPosition().getX()<=16 && ghost.getPosition().getY() >= 16 && ghost.getPosition().getY() <= 18)
-            return true;
-        return false;
+        return ghost.getPosition().getX() >= 11 && ghost.getPosition().getX() <= 16 && ghost.getPosition().getY() >= 16 && ghost.getPosition().getY() <= 18;
     }
 
-    public void determineState(GameData gameData, long elapsedtime, GhostState ghostState){
+    /**
+     * Método partilhado por cada controller especifico
+     * para determinar o estado do Ghost
+     * @param elapsedtime  Parametro para passar ao método setStateTime
+     * @param ghostState  parametro recebido de update de Game() para alertar estados Eaten e Frightened
+     */
+    public void determineState(long elapsedtime, GhostState ghostState){
         // Caso fiquem presos dentro da casa em Chase ou Scatter
         if (isInsideHouse(ghost)){
             setExitingHouse(true);
@@ -74,7 +78,7 @@ public abstract class GhostController {
             }
             // Se acabar o Tempo e não estiver a meio de um dos outros passos passa para Chase, que depois é atualizado de acordo com o tempo em baixo
             if (getTicksToEndFrightened() == 0 && ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse())
-                ghost.setState(setStatetime(elapsedtime, ghost, gameData));
+                ghost.setState(setStatetime(elapsedtime));
 
             // se estiver em STATE EATEN, não atualiza STATE que vem de ghostState
             // se estiver em ENTERINGHOUSE, também não atualiza o seu state
@@ -84,11 +88,17 @@ public abstract class GhostController {
                     ghost.getState() != GhostState.ENTERINGHOUSE &&
                     ghost.getState() != GhostState.FRIGHTENED &&
                     !(isExitingHouse() && ghost.getState() == GhostState.CHASE))
-                ghost.setState(setStatetime(elapsedtime, ghost, gameData));
+                ghost.setState(setStatetime(elapsedtime));
         }
     }
 
-    public GhostState setStatetime(long elapsedtime, Ghost ghost, GameData gameData) {
+    /**
+     * Retorna o GhostState baseado no tempo
+     * Sem Frightened ou Eaten, o State alterna entre Chase e Scatter dependendo do tempo
+     * @param elapsedtime  tempo desde inicio da partida
+     * @return o GhostState de acordo com o tempo desde o inicio do jogo
+     */
+    public GhostState setStatetime(long elapsedtime) {
         // 7 secs scatter -> 20 secs chase
         // 7 secs scatter -> 20 secs chase
         // 5 secs scatter -> 20 secs chase
@@ -106,7 +116,12 @@ public abstract class GhostController {
         }
     }
 
-    public ArrayList<Orientation> getAvailableOrientations(GameData gameData, Ghost ghost) {
+    /**
+     * Determina as orientações disponiveis para o Ghost
+     * @param gameData para obter info sobre os espaços vazios, paredes e gates
+     * @return um Array com as orientações disponiveis
+     */
+    public ArrayList<Orientation> getAvailableOrientations(GameData gameData) {
         ArrayList<Orientation> returning = new ArrayList<>();
         // se estiverem nos cruzamentos amarelos não podem mudar de direção
         // TODO valores variam com mapa: v1 (12,14), (15,14), (12,26), (15,26) ; v2 (23,26), (26, 26), () e ()
@@ -187,7 +202,12 @@ public abstract class GhostController {
         return returning;
     }
 
-    public Orientation chooseOrientation(ArrayList<Orientation> availableOris, Ghost ghost){
+    /**
+     * Escolhe a orientação do Ghost tendo em conta availableOris e a distancia até ao Pac-Man
+     * @param availableOris array com as orientações possiveis
+     * @return A orientação para a qual mudar
+     */
+    public Orientation chooseOrientation(ArrayList<Orientation> availableOris){
         Orientation tochange = UP;
         double tempdistance;
         double minDistance = 1000.0, equaldistance = 1000.0;
@@ -211,22 +231,30 @@ public abstract class GhostController {
         }
 
         if (minDistance == equaldistance)
-            return chooseOrientationPriority(availableOris, ghost, itosend, minDistance);
+            return chooseOrientationPriority(availableOris, itosend, minDistance);
         return tochange;
     }
 
-    private Orientation chooseOrientationPriority(ArrayList<Orientation> availableoris, Ghost ghost, int index, double dist){
+    /**
+     * Método auxiliar de chooseOrientation paradeterminar a orientação caso haja mais do que uma orientação com distancia minima
+     * Encontra as orientações com distancia minima e tendo em conta a preferencia Up, Left, Down escolhe a orientação
+     * @param availableOris array com as orientações possiveis
+     * @param index indice de availableOris da ultima Orientalão que tem distancia minima
+     * @param dist a distancia minima
+     * @return A orientação para a qual mudar
+     */
+    private Orientation chooseOrientationPriority(ArrayList<Orientation> availableOris, int index, double dist){
         // index tem valor de uma orientação que tem distancia a target igual a outra orientação
-        Orientation ori1 = availableoris.get(index);
+        Orientation ori1 = availableOris.get(index);
         Orientation ori2 = UP;
         double tempdistance;
 
-        if (availableoris.size() == 2)
-            ori2 = availableoris.get(Math.abs(index-1));
+        if (availableOris.size() == 2)
+            ori2 = availableOris.get(Math.abs(index-1));
         else{
             //encontrar ori2
             int i = 0;
-            for (Orientation ori : availableoris){
+            for (Orientation ori : availableOris){
                 tempdistance = ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getTarget());
                 if (tempdistance == dist && i != index){
                     ori2 = ori;
@@ -244,7 +272,60 @@ public abstract class GhostController {
         return UP;
     }
 
-    public void calculateAndStep(GameData gameData, Ghost ghost, int step){
+    /**
+     * Método Principal que chama os métodos restantes tendo em conta o state do Ghost
+     * @param gameData Para usar em calculateStep
+     * @param step Para usar em calculateStep
+     */
+    public void stateSwitch(GameData gameData, int step){
+        switch (ghost.getState()){
+            case SCATTER:
+                // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
+                ghost.setTarget(ghost.getScatterTarget());
+                calculateAndStep(gameData, step);
+                break;
+            case CHASE:
+                if (isExitingHouse() && ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    setExitingHouse(false);
+
+                if (isExitingHouse()) ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                else ghost.setTarget(getTarget(gameData));
+
+                calculateAndStep(gameData, step);
+                break;
+            case FRIGHTENED:
+                // não interessa o target
+                calculateAndStep(gameData, step);
+                break;
+            case EATEN:
+                if (ghost.getPosition().equals(new Position(13,14))){
+                    ghost.setState(GhostState.ENTERINGHOUSE); }
+                else{
+                    ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    calculateAndStep(gameData, step);
+                }
+                break;
+            case ENTERINGHOUSE:
+                if (ghost.getPosition().equals(new Position(13,17))){
+                    ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    ghost.setState(GhostState.CHASE);
+                    setExitingHouse(true);}
+                else {
+                    ghost.setTarget(new Position(13, 17));  // FIXME depende do mapa -> v2 (24, 16) ; v1 (13, 16)
+                    calculateAndStep(gameData,  step);
+                }
+                break;
+        }
+    }
+
+    /**
+     * Método auxiliar de StateSwitch que dependendo do estado do fantasma, decide se atualiza a sua posição ou não
+     * Atualizando em alturas diferentes, dependendo do State
+     * @param gameData Para usar em getAvailableOrientations
+     * @param step cada 50 ms corresponde a 1 step, dependedo do step e do State do ghost, irá, ou não, atualizar
+     * @return Atualiza posição do Ghost
+     */
+    public void calculateAndStep(GameData gameData, int step){
         ArrayList<Orientation> availableOris;
         if (step % 4 == 0){
             if ((ghost.getState() == GhostState.CHASE || ghost.getState() == GhostState.SCATTER)){
@@ -254,9 +335,9 @@ public abstract class GhostController {
                         changeOrientation = false;
                     }
                     else {
-                        availableOris = getAvailableOrientations(gameData, ghost);
+                        availableOris = getAvailableOrientations(gameData);
                         if (availableOris.size() > 0) {
-                            ghost.setOrientation(chooseOrientation(availableOris, ghost));
+                            ghost.setOrientation(chooseOrientation(availableOris));
                         }
                     }
                 }
@@ -273,7 +354,7 @@ public abstract class GhostController {
                 changeOrientation = false;
             }
             else {
-                availableOris = getAvailableOrientations(gameData, ghost);
+                availableOris = getAvailableOrientations(gameData);
                 if (availableOris.size() > 0) {
                     // choose random orientation
                     int randomNum = ThreadLocalRandom.current().nextInt(0, availableOris.size());
@@ -283,52 +364,11 @@ public abstract class GhostController {
             ghost.moveDirection();
         }
         else if (step % 3 == 0 && ghost.getState() == GhostState.EATEN){
-            availableOris = getAvailableOrientations(gameData, ghost);
+            availableOris = getAvailableOrientations(gameData);
             if (availableOris.size() > 0) {
-                ghost.setOrientation(chooseOrientation(availableOris, ghost));
+                ghost.setOrientation(chooseOrientation(availableOris));
             }
             ghost.moveDirection();
-        }
-    }
-
-    public void stateSwitch(GameData gameData, int step){
-        switch (ghost.getState()){
-            case SCATTER:
-                // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
-                ghost.setTarget(ghost.getScatterTarget());
-                calculateAndStep(gameData, ghost, step);
-                break;
-            case CHASE:
-                if (isExitingHouse() && ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-                    setExitingHouse(false);
-
-                if (isExitingHouse()) ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-                else ghost.setTarget(getTarget(gameData));
-
-                calculateAndStep(gameData, ghost, step);
-                break;
-            case FRIGHTENED:
-                // não interessa o target
-                calculateAndStep(gameData, ghost, step);
-                break;
-            case EATEN:
-                if (ghost.getPosition().equals(new Position(13,14))){
-                    ghost.setState(GhostState.ENTERINGHOUSE); }
-                else{
-                    ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-                    calculateAndStep(gameData, ghost, step);
-                }
-                break;
-            case ENTERINGHOUSE:
-                if (ghost.getPosition().equals(new Position(13,17))){
-                    ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
-                    ghost.setState(GhostState.CHASE);
-                    setExitingHouse(true);}
-                else {
-                    ghost.setTarget(new Position(13, 17));  // FIXME depende do mapa -> v2 (24, 16) ; v1 (13, 16)
-                    calculateAndStep(gameData, ghost,  step);
-                }
-                break;
         }
     }
 }

@@ -10,8 +10,7 @@ public class GhostControllerInky extends GhostController {
     public GhostControllerInky(Ghost ghost) { super(true, ghost); }
 
     public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
-        determineState(gameData, elapsedtime, ghostState);
-
+        determineState(elapsedtime, ghostState);
         if (elapsedtime > 5000 ){
             stateSwitch(gameData, step);
         }
