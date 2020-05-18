@@ -34,6 +34,13 @@ public abstract class GhostController {
     public abstract void update(GameData gameData, long elapsedTime, int step, GhostState ghostState);
     public abstract Position getTarget(GameData gameData);
 
+    public boolean isInsideHouse(Ghost ghost){
+        // TODO não está a ter em conta os Gates
+        if (ghost.getPosition().getX() >= 11 && ghost.getPosition().getX()<=16 && ghost.getPosition().getY() >= 16 && ghost.getPosition().getY() <= 18)
+            return true;
+        return false;
+    }
+
     public GhostState setStatetime(long elapsedtime, Ghost ghost, GameData gameData) {
         // 7 secs scatter -> 20 secs chase
         // 7 secs scatter -> 20 secs chase

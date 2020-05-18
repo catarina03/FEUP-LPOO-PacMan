@@ -12,23 +12,24 @@ public class GhostControllerClyde extends GhostController {
         Ghost ghost = gameData.getGhosts().get(3);
 
         // Houve colisão, Ou é comido ou acaba jogo
-        if (ghostState == GhostState.EATEN){
-            if (ghost.getState() == GhostState.FRIGHTENED){
+        if (ghostState == GhostState.EATEN) {
+            if (ghost.getState() == GhostState.FRIGHTENED) {
                 ghost.setState(GhostState.EATEN);
                 setTicksToEndFrightened(0);
             }
         }
         // Entra em FRIGHTENED
-        if (ghostState == GhostState.FRIGHTENED){
+        if (ghostState == GhostState.FRIGHTENED) {
             // só põe frightened se não estiver EATEN, ENTERINGHOUSE, ou exiting
-            if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse()){
+            if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse()) {
                 ghost.setState(GhostState.FRIGHTENED);
                 setChangeOrientation(true);
-                setTicksToEndFrightened(160);}
+                setTicksToEndFrightened(160);
+            }
         }
         // Se estiver em frightened, atualiza o tempo restante
-        if (getTicksToEndFrightened() > 0){
-            setTicksToEndFrightened(getTicksToEndFrightened()-1);
+        if (getTicksToEndFrightened() > 0) {
+            setTicksToEndFrightened(getTicksToEndFrightened() - 1);
         }
         // Se acabar o Tempo e não estiver a meio de um dos outros passos passa para Chase, que depois é atualizado de acordo com o tempo em baixo
         if (getTicksToEndFrightened() == 0 && ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse())
@@ -36,9 +37,12 @@ public class GhostControllerClyde extends GhostController {
 
         // se estiver em STATE EATEN, não atualiza STATE que vem de ghostState
         // se estiver em ENTERINGHOUSE, também não atualiza o seu state
-        // se estiver a Sair da Casa, também não atualiza o seu state
         // se estiver em FRIGHTENED, não atualiza com base no tempo
-        if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse() && ghost.getState() != GhostState.FRIGHTENED)
+        // se estiver a Sair da Casa, também não atualiza o seu state
+        if (ghost.getState() != GhostState.EATEN &&
+                ghost.getState() != GhostState.ENTERINGHOUSE &&
+                ghost.getState() != GhostState.FRIGHTENED &&
+                !(isExitingHouse() && ghost.getState() == GhostState.CHASE))
             ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
         if (elapsedtime > 10000){
@@ -51,7 +55,7 @@ public class GhostControllerClyde extends GhostController {
                 case CHASE:
                     // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
                     // atualiza posição de target
-                    if (ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
+                    if (isExitingHouse() && ghost.getPosition().equals(new Position(13,14))) // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)
                         setExitingHouse(false);
 
                     if (isExitingHouse()) ghost.setTarget(new Position(13,14));  // FIXME depende do mapa -> v2 (24, 14) ; v1 (13, 14)

@@ -111,8 +111,9 @@ public class Game {
         // verificar colisão com Pacman
         for (Ghost ghost : gameData.getGhosts()){
             if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                guiSquare.getTerminal().bell();
-                ghost.setState(GhostState.EATEN);
+                System.out.println("Colision");
+                if (ghost.getState() == GhostState.FRIGHTENED)
+                    ghost.setState(GhostState.EATEN);
             }
         }
 
@@ -123,8 +124,9 @@ public class Game {
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()){
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                    guiSquare.getTerminal().bell();
-                    ghostState = GhostState.EATEN;
+                    System.out.println("Colision");
+                    if (ghost.getState() == GhostState.FRIGHTENED)
+                        ghost.setState(GhostState.EATEN);
                 }
             }
         }
