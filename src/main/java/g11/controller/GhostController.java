@@ -53,7 +53,7 @@ public abstract class GhostController {
         // TODO Ainda fica preso na Ghost House
 
         // Caso fiquem presos dentro da casa em Chase ou Scatter
-        if (isInsideHouse(ghost)){
+        if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && isInsideHouse(ghost)){
             setExitingHouse(true);
         }
         else {
