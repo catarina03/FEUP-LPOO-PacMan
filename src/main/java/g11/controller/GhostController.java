@@ -15,7 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import static g11.model.Orientation.*;
 import static g11.model.Orientation.RIGHT;
 
-// TODO Frightened e Eaten States
 public abstract class GhostController {
     Ghost ghost;
     private boolean exitingHouse; // está a sair da GhostHouse
@@ -51,6 +50,8 @@ public abstract class GhostController {
      * @param ghostState  parametro recebido de update de Game() para alertar estados Eaten e Frightened
      */
     public void determineState(long elapsedtime, GhostState ghostState){
+        // TODO Ainda fica preso na Ghost House
+
         // Caso fiquem presos dentro da casa em Chase ou Scatter
         if (isInsideHouse(ghost)){
             setExitingHouse(true);
