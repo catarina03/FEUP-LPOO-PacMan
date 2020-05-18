@@ -97,7 +97,6 @@ public class CollisionChecker {
                 components.remove(toremove);
                 gameData.getMap().setPowerPellets(powerPellets);
                 stats.setScore(stats.getScore() + 50);
-                // TODO notificar Ghost controllers
             }
 
             gameData.getMap().setEmptySpaces(emptySpace);

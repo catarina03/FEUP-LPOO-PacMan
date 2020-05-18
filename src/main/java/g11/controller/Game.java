@@ -15,26 +15,23 @@ public class Game {
     private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
     private ArrayList<GhostController> ghostControllers;
-    private int stepsToEnd;
     private int numberActivePP;
 
 
     public Game() {
         guiSquare = new GuiSquare();
         mapReader = new MapReader(new ReadFile("mapv1.txt"));
-      
-        ghostControllers = new ArrayList<>();
-        ghostControllers.add(new GhostControllerBlinky());
-        ghostControllers.add(new GhostControllerPinky());
-        ghostControllers.add(new GhostControllerInky());
-        ghostControllers.add(new GhostControllerClyde());
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
+        ghostControllers = new ArrayList<>();
+        ghostControllers.add(new GhostControllerBlinky(gameData.getGhosts().get(0)));
+        ghostControllers.add(new GhostControllerPinky(gameData.getGhosts().get(2)));
+        ghostControllers.add(new GhostControllerInky(gameData.getGhosts().get(1)));
+        ghostControllers.add(new GhostControllerClyde(gameData.getGhosts().get(3)));
         lastmove = GuiSquare.MOVE.LEFT;
-        stepsToEnd = 0;
         numberActivePP = gameData.getMap().getPowerPellets().size();
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
