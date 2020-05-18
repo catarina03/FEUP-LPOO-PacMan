@@ -12,39 +12,45 @@ public class GhostControllerInky extends GhostController {
     public void update(GameData gameData, long elapsedtime, int step, GhostState ghostState) {
         Ghost ghost = gameData.getGhosts().get(1);
 
-        // Houve colisão, Ou é comido ou acaba jogo
-        if (ghostState == GhostState.EATEN) {
-            if (ghost.getState() == GhostState.FRIGHTENED) {
-                ghost.setState(GhostState.EATEN);
-                setTicksToEndFrightened(0);
+        // Caso fiquem presos dentro da casa em Chase ou Scatter
+        if (isInsideHouse(ghost)){
+            setExitingHouse(true);
+        }
+        else {
+            // Houve colisão, Ou é comido ou acaba jogo
+            if (ghostState == GhostState.EATEN) {
+                if (ghost.getState() == GhostState.FRIGHTENED) {
+                    ghost.setState(GhostState.EATEN);
+                    setTicksToEndFrightened(0);
+                }
             }
-        }
-        // Entra em FRIGHTENED
-        if (ghostState == GhostState.FRIGHTENED) {
-            // só põe frightened se não estiver EATEN, ENTERINGHOUSE, ou exiting
-            if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse()) {
-                ghost.setState(GhostState.FRIGHTENED);
-                setChangeOrientation(true);
-                setTicksToEndFrightened(160);
+            // Entra em FRIGHTENED
+            if (ghostState == GhostState.FRIGHTENED) {
+                // só põe frightened se não estiver EATEN, ENTERINGHOUSE, ou exiting
+                if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse()) {
+                    ghost.setState(GhostState.FRIGHTENED);
+                    setChangeOrientation(true);
+                    setTicksToEndFrightened(160);
+                }
             }
-        }
-        // Se estiver em frightened, atualiza o tempo restante
-        if (getTicksToEndFrightened() > 0) {
-            setTicksToEndFrightened(getTicksToEndFrightened() - 1);
-        }
-        // Se acabar o Tempo e não estiver a meio de um dos outros passos passa para Chase, que depois é atualizado de acordo com o tempo em baixo
-        if (getTicksToEndFrightened() == 0 && ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse())
-            ghost.setState(setStatetime(elapsedtime, ghost, gameData));
+            // Se estiver em frightened, atualiza o tempo restante
+            if (getTicksToEndFrightened() > 0) {
+                setTicksToEndFrightened(getTicksToEndFrightened() - 1);
+            }
+            // Se acabar o Tempo e não estiver a meio de um dos outros passos passa para Chase, que depois é atualizado de acordo com o tempo em baixo
+            if (getTicksToEndFrightened() == 0 && ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse())
+                ghost.setState(setStatetime(elapsedtime, ghost, gameData));
 
-        // se estiver em STATE EATEN, não atualiza STATE que vem de ghostState
-        // se estiver em ENTERINGHOUSE, também não atualiza o seu state
-        // se estiver em FRIGHTENED, não atualiza com base no tempo
-        // se estiver a Sair da Casa, também não atualiza o seu state
-        if (ghost.getState() != GhostState.EATEN &&
-                ghost.getState() != GhostState.ENTERINGHOUSE &&
-                ghost.getState() != GhostState.FRIGHTENED &&
-                !(isExitingHouse() && ghost.getState() == GhostState.CHASE))
-            ghost.setState(setStatetime(elapsedtime, ghost, gameData));
+            // se estiver em STATE EATEN, não atualiza STATE que vem de ghostState
+            // se estiver em ENTERINGHOUSE, também não atualiza o seu state
+            // se estiver em FRIGHTENED, não atualiza com base no tempo
+            // se estiver a Sair da Casa, também não atualiza o seu state
+            if (ghost.getState() != GhostState.EATEN &&
+                    ghost.getState() != GhostState.ENTERINGHOUSE &&
+                    ghost.getState() != GhostState.FRIGHTENED &&
+                    !(isExitingHouse() && ghost.getState() == GhostState.CHASE))
+                ghost.setState(setStatetime(elapsedtime, ghost, gameData));
+        }
 
         if (elapsedtime > 5000 ){
             switch (ghost.getState()){

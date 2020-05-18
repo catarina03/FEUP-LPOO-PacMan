@@ -17,13 +17,15 @@ import static g11.model.Orientation.RIGHT;
 
 // TODO Frightened e Eaten States
 public abstract class GhostController {
+    Ghost ghost;
     private boolean exitingHouse; // está a sair da GhostHouse
     private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
     private int ticksToEndFrightened;
 
     public GhostController(GhostState state) {this.changeOrientation = false; this.exitingHouse = false; this.ticksToEndFrightened = 0;}
-    public GhostController(GhostState state, boolean starting) {this.exitingHouse = starting; this.changeOrientation = false;}
+    public GhostController(GhostState state, boolean starting) {this.exitingHouse = starting; this.changeOrientation = false; this.exitingHouse = true; this.ticksToEndFrightened = 0;}
 
+    public Ghost getGhost() { return ghost; }
     public boolean isExitingHouse() { return exitingHouse; }
     public void setExitingHouse(boolean exitingHouse) { this.exitingHouse = exitingHouse; }
     public boolean isChangeOrientation() { return changeOrientation; }
