@@ -1,5 +1,6 @@
 package g11.view;
 
+import g11.model.GhostState;
 import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.SGR;
@@ -74,21 +75,31 @@ public class ModelDrawSquare {
     public void drawGhost(GameData gameData){
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         for (Ghost element : gameData.getGhosts()) {
-            if (element instanceof Blinky) {
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
-                graphics.setCharacter(element.getX(), element.getY(), '#');
+            if (element.getState() == GhostState.EATEN || element.getState() == GhostState.ENTERINGHOUSE){
+                graphics.setForegroundColor(TextColor.ANSI.WHITE);
+                graphics.setCharacter(element.getX(), element.getY(), '\"');
             }
-            if (element instanceof Clyde) {
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
-                graphics.setCharacter(element.getX(), element.getY(), '#');
-            }
-            if (element instanceof Inky) {
-                graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
-                graphics.setCharacter(element.getX(), element.getY(), '#');
-            }
-            if (element instanceof Pinky) {
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
-                graphics.setCharacter(element.getX(), element.getY(), '#');
+            else {
+                if (element instanceof Blinky) {
+                    if (element.getState() == GhostState.FRIGHTENED) graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
+                if (element instanceof Clyde) {
+                    if (element.getState() == GhostState.FRIGHTENED) graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
+                if (element instanceof Inky) {
+                    if (element.getState() == GhostState.FRIGHTENED) graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
+                if (element instanceof Pinky) {
+                    if (element.getState() == GhostState.FRIGHTENED) graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
             }
         }
     }

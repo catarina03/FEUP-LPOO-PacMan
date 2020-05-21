@@ -15,22 +15,24 @@ public class Game {
     private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
     private ArrayList<GhostController> ghostControllers;
+    private int numberActivePP;
+
 
     public Game() {
         guiSquare = new GuiSquare();
         mapReader = new MapReader(new ReadFile("mapv1.txt"));
-      
-        ghostControllers = new ArrayList<>();
-        ghostControllers.add(new GhostControllerBlinky());
-        ghostControllers.add(new GhostControllerPinky());
-        ghostControllers.add(new GhostControllerInky());
-        ghostControllers.add(new GhostControllerClyde());
         gameData = new GameData(new GameStats(0),
                                 mapReader.startingPacMan(),
                                 mapReader.ghostList(),
                                 mapReader.getMap());
         cchecker = new CollisionChecker();
+        ghostControllers = new ArrayList<>();
+        ghostControllers.add(new GhostControllerBlinky(gameData.getGhosts().get(0)));
+        ghostControllers.add(new GhostControllerPinky(gameData.getGhosts().get(2)));
+        ghostControllers.add(new GhostControllerInky(gameData.getGhosts().get(1)));
+        ghostControllers.add(new GhostControllerClyde(gameData.getGhosts().get(3)));
         lastmove = GuiSquare.MOVE.LEFT;
+        numberActivePP = gameData.getMap().getPowerPellets().size();
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
     }
 
@@ -55,7 +57,6 @@ public class Game {
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
 
-        // TENTATIVA de TESTE
         running = true;
         long startTime = System.currentTimeMillis();
         int step = 0;
@@ -86,13 +87,20 @@ public class Game {
     }
 
     public void update(GameData gameData, long elapsedTime, int step) throws Throwable {
+        this.gameData = cchecker.updateFoodCollison(gameData);
+
+        GhostState ghostState = null;
+        // verifica se entrou em frightened
+        if (gameData.getMap().getPowerPellets().size() != numberActivePP){
+            numberActivePP--;
+            ghostState = GhostState.FRIGHTENED;
+        }
 
         // Can Pacman move to next position?
-            // Pacman's next position?
-            // Is a wall in the position pacman is about to move to?
+        // Pacman's next position?
+        // Is a wall in the position pacman is about to move to?
         // yes -> update position
         // no  -> don't update
-        this.gameData = cchecker.updateFoodCollison(gameData);
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0){
             gameData.getPacMan().moveDirection();
         }
@@ -100,18 +108,22 @@ public class Game {
         // verificar colisão com Pacman
         for (Ghost ghost : gameData.getGhosts()){
             if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                guiSquare.getTerminal().bell();
+                System.out.println("Colision");
+                if (ghost.getState() == GhostState.FRIGHTENED)
+                    ghost.setState(GhostState.EATEN);
             }
         }
 
         //Ghosts
             //mover fantasmas
         for (GhostController ghostController : ghostControllers){
-            ghostController.update(gameData, elapsedTime, step);
+            ghostController.update(gameData, elapsedTime, step, ghostState);
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()){
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                    guiSquare.getTerminal().bell();
+                    System.out.println("Colision");
+                    if (ghost.getState() == GhostState.FRIGHTENED)
+                        ghost.setState(GhostState.EATEN);
                 }
             }
         }
@@ -148,13 +160,14 @@ public class Game {
 
 
     public void start() throws Throwable {
-        GuiSquare.MOVE temp;
+       /* GuiSquare.MOVE temp;
         guiSquare.presentationScreen();
         guiSquare.getKeyStroke();
         guiSquare.inicialScreen();
         guiSquare.getKeyStroke();
         guiSquare.draw(gameData);
-        Thread.sleep(3000);
+        Thread.sleep(3000);*/
+        guiSquare.draw(gameData);
         run();
     }
 }
