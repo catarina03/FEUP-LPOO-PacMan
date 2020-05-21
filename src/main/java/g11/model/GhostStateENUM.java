@@ -1,5 +1,5 @@
 package g11.model;
 
-public enum GhostState {
+public enum GhostStateENUM {
     CHASE, SCATTER, FRIGHTENED, EATEN, ENTERINGHOUSE
 }
