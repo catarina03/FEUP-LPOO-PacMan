@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GhostStateFrightened extends GhostState {
-    public GhostStateFrightened(GhostController2 ghostController, TargetStrategy targetStrategy) {
+    public GhostStateFrightened(GhostController ghostController, TargetStrategy targetStrategy) {
         super(ghostController, targetStrategy);
     }
 
     @Override
-    void update(GameData gameData, int step) {
-        // não interessa o target
-        calculateAndStep(gameData, step);
+    void update(GameData gameData, int step, long elapsedTime) {
+
     }
 
     @Override

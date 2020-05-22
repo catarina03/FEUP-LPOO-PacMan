@@ -4,15 +4,16 @@ import g11.model.GameData;
 import g11.model.Position;
 
 public abstract class GhostState {
-    protected GhostController2 ghostController;
+    protected GhostController ghostController;
     protected TargetStrategy targetStrategy;
+    protected int activePPs;
 
-    public GhostState(GhostController2 ghostController, TargetStrategy targetStrategy) {
+    public GhostState(GhostController ghostController, TargetStrategy targetStrategy) {
         this.ghostController = ghostController;
         this.targetStrategy = targetStrategy;
     }
 
-    abstract void update(GameData gameData, int step);
+    abstract void update(GameData gameData, int step, long elapsedTime);
 
     abstract void calculateAndStep(GameData gameData, int step);
 

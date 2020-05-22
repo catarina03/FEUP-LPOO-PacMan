@@ -1,7 +1,6 @@
 package g11.controller;
 
-import g11.controller.ghosts.TargetStrategyBlinky;
-import g11.controller.ghosts.GhostController2;
+import g11.controller.ghosts.*;
 import g11.model.*;
 import g11.model.elements.Ghost;
 import g11.view.GuiSquare;
@@ -15,7 +14,7 @@ public class Game {
     private MapReader mapReader;
     private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
-    private ArrayList<GhostController2> ghostControllers;
+    private ArrayList<GhostController> ghostControllers;
     private int numberActivePP;
 
 
@@ -28,10 +27,10 @@ public class Game {
                 mapReader.getMap());
         cchecker = new CollisionChecker();
         ghostControllers = new ArrayList<>();
-        ghostControllers.add(new GhostController2(true, gameData.getGhosts().get(0), new TargetStrategyBlinky()));
-        /*ghostControllers.add(new GhostControllerPinky(gameData.getGhosts().get(2)));
-        ghostControllers.add(new GhostControllerInky(gameData.getGhosts().get(1)));
-        ghostControllers.add(new GhostControllerClyde(gameData.getGhosts().get(3)));*/
+        ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky()));
+        /*ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky()));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(2), new TargetStrategyPinky()));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde()));*/
         lastmove = GuiSquare.MOVE.LEFT;
         numberActivePP = gameData.getMap().getPowerPellets().size();
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
@@ -71,7 +70,7 @@ public class Game {
             processKey(lastmove);
 
             // update
-            update(gameData, System.currentTimeMillis() - startTime, step);
+            update(gameData, step, System.currentTimeMillis() - startTime);
             /*
             if (step % 4 == 0) pacman.update; ghosts.update;
             if (step % 5 == 0) frightenedghost.update;
@@ -87,44 +86,32 @@ public class Game {
         }
     }
 
-    public void update(GameData gameData, long elapsedTime, int step) throws Throwable {
+    public void update(GameData gameData, int step, long elapsedTime) throws Throwable {
         this.gameData = cchecker.updateFoodCollison(gameData);
-
-        GhostStateENUM ghostState = null;
-        // verifica se entrou em frightened
-        if (gameData.getMap().getPowerPellets().size() != numberActivePP){
-            numberActivePP--;
-            ghostState = GhostStateENUM.FRIGHTENED;
-        }
-
         // Can Pacman move to next position?
         // Pacman's next position?
         // Is a wall in the position pacman is about to move to?
         // yes -> update position
         // no  -> don't update
-        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0){
+        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0) {
             gameData.getPacMan().moveDirection();
         }
 
         // verificar colisão com Pacman
-        for (Ghost ghost : gameData.getGhosts()){
+        for (Ghost ghost : gameData.getGhosts()) {
             if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
                 System.out.println("Colision");
-                if (ghost.getState() == GhostStateENUM.FRIGHTENED)
-                    ghost.setState(GhostStateENUM.EATEN);
             }
         }
 
         //Ghosts
-            //mover fantasmas
-        for (GhostController2 ghostController : ghostControllers) {
-            ghostController.update(gameData, elapsedTime, step, ghostState);
+        //mover fantasmas
+        for (GhostController ghostController : ghostControllers) {
+            ghostController.update(gameData, step, elapsedTime);
             // verificar colisão com Pacman
             for (Ghost ghost : gameData.getGhosts()) {
                 if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
                     System.out.println("Colision");
-                    if (ghost.getState() == GhostStateENUM.FRIGHTENED)
-                        ghost.setState(GhostStateENUM.EATEN);
                 }
             }
         }
@@ -161,14 +148,14 @@ public class Game {
 
 
     public void start() throws Throwable {
-        GuiSquare.MOVE temp;
+        /*GuiSquare.MOVE temp;
         guiSquare.presentationScreen();
         guiSquare.getKeyStroke();
         guiSquare.inicialScreen();
         guiSquare.getKeyStroke();
         guiSquare.draw(gameData);
         Thread.sleep(3000);
-        guiSquare.draw(gameData);
+        guiSquare.draw(gameData);*/
         run();
     }
 }

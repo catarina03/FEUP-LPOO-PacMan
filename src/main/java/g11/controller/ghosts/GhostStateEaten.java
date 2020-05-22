@@ -6,12 +6,12 @@ import g11.model.Orientation;
 import java.util.ArrayList;
 
 public class GhostStateEaten extends GhostState {
-    public GhostStateEaten(GhostController2 ghostController, TargetStrategy targetStrategy) {
+    public GhostStateEaten(GhostController ghostController, TargetStrategy targetStrategy) {
         super(ghostController, targetStrategy);
     }
 
     @Override
-    void update(GameData gameData, int step) {
+    void update(GameData gameData, int step, long elapsedTime) {
 
     }
 
