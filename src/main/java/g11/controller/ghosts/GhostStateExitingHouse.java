@@ -6,16 +6,16 @@ import g11.model.Position;
 
 import java.util.ArrayList;
 
-public class GhostStateEaten extends GhostState {
-    public GhostStateEaten(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
+public class GhostStateExitingHouse extends GhostState {
+    public GhostStateExitingHouse(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
         super(ghostController, targetStrategy, powerPellets);
     }
 
     @Override
     void update(GameData gameData, int step, long elapsedTime) {
         if (ghostController.getGhost().getPosition().equals(new Position(13, 14)) || ghostController.getGhost().getPosition().equals(new Position(14, 14))) {
-            ghostController.changeState(new GhostStateEnteringHouse(ghostController, ghostController.getTargetStrategy(), activePPs));
-            ghostController.setAccessingHouse(true);
+            ghostController.changeState(new GhostStateChase(ghostController, ghostController.getTargetStrategy(), activePPs));
+            ghostController.setAccessingHouse(false);
         }
     }
 

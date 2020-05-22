@@ -1,33 +1,34 @@
 package g11.controller.ghosts;
 
 import g11.model.Position;
-import g11.model.elements.Coin;
-import g11.model.elements.EmptySpace;
-import g11.model.elements.Gate;
-import g11.model.elements.Ghost;
+import g11.model.elements.*;
 import g11.model.GameData;
-import g11.model.GhostStateENUM;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
 
 import static g11.model.Orientation.*;
-import static g11.model.Orientation.RIGHT;
 
 public class GhostController {
     Ghost ghost;
-    private boolean exitingHouse; // está a sair da GhostHouse
+    private boolean accessingHouse; // está a sair da GhostHouse
     private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
     private int ticksToEndFrightened;
+    private long timeToStart;
     private GhostState ghostState;
     private TargetStrategy targetStrategy;
 
-    public GhostController(boolean starting, Ghost ghost, TargetStrategy targetStrategy) {
-        this.ghostState = new GhostStateScatter(this, targetStrategy, 4);
+
+    public GhostController(boolean accessingHouse, Ghost ghost, TargetStrategy targetStrategy, long timeToStart) {
+        this.ghostState = (ghost instanceof Inky || ghost instanceof Clyde) ?
+                new GhostStateExitingHouse(this, targetStrategy, 4) :
+                new GhostStateScatter(this, targetStrategy, 4);
+
         this.targetStrategy = targetStrategy;
+        this.timeToStart = timeToStart;
 
         this.ghost = ghost;
-        this.exitingHouse = starting;
+        this.accessingHouse = accessingHouse;
         this.changeOrientation = false;
         this.ticksToEndFrightened = 0;
     }
@@ -35,18 +36,29 @@ public class GhostController {
     public Ghost getGhost() {
         return ghost;
     }
-    public boolean isExitingHouse() {
-        return exitingHouse;
+
+    public boolean isAccessingHouse() {
+        return accessingHouse;
     }
-    public void setExitingHouse(boolean exitingHouse) {
-        this.exitingHouse = exitingHouse;
+
+    public void setAccessingHouse(boolean accessingHouse) {
+        this.accessingHouse = accessingHouse;
     }
+
     public boolean isChangeOrientation() {
         return changeOrientation;
     }
 
     public void setChangeOrientation(boolean changeOrientation) {
         this.changeOrientation = changeOrientation;
+    }
+
+    public TargetStrategy getTargetStrategy() {
+        return targetStrategy;
+    }
+
+    public GhostState getGhostState() {
+        return ghostState;
     }
 
     public void changeState(GhostState ghostState) {
@@ -117,7 +129,7 @@ public class GhostController {
         }
 
         // Gates abertos, pode sair/entrar
-        if (isExitingHouse()) {
+        if (isAccessingHouse()) {
             for (Gate gate : gameData.getMap().getGates()) {
                 if (gate.getPosition().equals(ghost.getPosition().up())) {
                     if (ghost.getOrientation().getOpposite() != UP) {
@@ -207,7 +219,9 @@ public class GhostController {
 
 
     public void update(GameData gameData, int step, long elapsedTime) {
-        ghostState.update(gameData, step, elapsedTime);
-        ghostState.calculateAndStep(gameData, step);
+        if (elapsedTime > timeToStart) {
+            ghostState.update(gameData, step, elapsedTime);
+            ghostState.calculateAndStep(gameData, step);
+        }
     }
 }

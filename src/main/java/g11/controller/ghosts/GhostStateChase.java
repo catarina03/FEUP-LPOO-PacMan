@@ -1,21 +1,23 @@
 package g11.controller.ghosts;
 
 import g11.model.GameData;
+import g11.model.GhostStateENUM;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
 
 public class GhostStateChase extends GhostState {
     public GhostStateChase(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
-        super(ghostController, targetStrategy);
-        this.activePPs = powerPellets;
+        super(ghostController, targetStrategy, powerPellets);
     }
 
     @Override
     public void update(GameData gameData, int step, long elapsedTime) {
         if (gameData.getMap().getPowerPellets().size() != activePPs) {
             activePPs--;
-            ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy));
+            ghostController.getGhost().setState(GhostStateENUM.FRIGHTENED);
+            ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
+            ghostController.setChangeOrientation(true);
         }
 
         if ((elapsedTime > 0 && elapsedTime <= 7000) || (elapsedTime > 27000 && elapsedTime <= 34000) || (elapsedTime > 54000 && elapsedTime <= 59000) || (elapsedTime > 79000 && elapsedTime <= 84000)) {
@@ -29,7 +31,7 @@ public class GhostStateChase extends GhostState {
     public void calculateAndStep(GameData gameData, int step) {
         ArrayList<Orientation> availableOris;
         if (step % 4 == 0) {
-            ghostController.getGhost().setTarget(getTarget(gameData));
+            ghostController.getGhost().setTarget(targetStrategy.getTarget(gameData));
             if (ghostController.isChangeOrientation()) {
                 ghostController.getGhost().setOrientation(ghostController.getGhost().getOrientation().getOpposite());
                 ghostController.setChangeOrientation(false);

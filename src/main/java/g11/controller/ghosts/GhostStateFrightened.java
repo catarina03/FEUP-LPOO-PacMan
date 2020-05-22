@@ -1,19 +1,29 @@
 package g11.controller.ghosts;
 
 import g11.model.GameData;
+import g11.model.GhostStateENUM;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GhostStateFrightened extends GhostState {
-    public GhostStateFrightened(GhostController ghostController, TargetStrategy targetStrategy) {
-        super(ghostController, targetStrategy);
+    int ticksToEnd;
+
+    public GhostStateFrightened(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
+        super(ghostController, targetStrategy, powerPellets);
+        this.ticksToEnd = 160;
     }
 
     @Override
     void update(GameData gameData, int step, long elapsedTime) {
-
+        ticksToEnd--;
+        if (ticksToEnd == 0)
+            ghostController.getGhost().setState(GhostStateENUM.CHASE);
+        if (gameData.getMap().getPowerPellets().size() != activePPs) {
+            activePPs--;
+            ticksToEnd = 160;
+        }
     }
 
     @Override

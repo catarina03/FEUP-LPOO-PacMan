@@ -1,21 +1,23 @@
 package g11.controller.ghosts;
 
 import g11.model.GameData;
+import g11.model.GhostStateENUM;
 import g11.model.Orientation;
 
 import java.util.ArrayList;
 
 public class GhostStateScatter extends GhostState {
     public GhostStateScatter(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
-        super(ghostController, targetStrategy);
-        this.activePPs = powerPellets;
+        super(ghostController, targetStrategy, powerPellets);
     }
 
     @Override
     void update(GameData gameData, int step, long elapsedTime) {
         if (gameData.getMap().getPowerPellets().size() != activePPs) {
             activePPs--;
-            ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy));
+            ghostController.getGhost().setState(GhostStateENUM.FRIGHTENED);
+            ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
+            ghostController.setChangeOrientation(true);
         }
         if (!((elapsedTime > 0 && elapsedTime <= 7000) || (elapsedTime > 27000 && elapsedTime <= 34000) || (elapsedTime > 54000 && elapsedTime <= 59000) || (elapsedTime > 79000 && elapsedTime <= 84000))) {
             ghostController.changeState(new GhostStateChase(ghostController, targetStrategy, activePPs));

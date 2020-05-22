@@ -8,16 +8,18 @@ public abstract class GhostState {
     protected TargetStrategy targetStrategy;
     protected int activePPs;
 
-    public GhostState(GhostController ghostController, TargetStrategy targetStrategy) {
+    public GhostState(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
         this.ghostController = ghostController;
         this.targetStrategy = targetStrategy;
+        this.activePPs = powerPellets;
+    }
+
+    public int getActivePPs() {
+        return activePPs;
     }
 
     abstract void update(GameData gameData, int step, long elapsedTime);
 
     abstract void calculateAndStep(GameData gameData, int step);
 
-    public Position getTarget(GameData gameData) {
-        return targetStrategy.getTarget(gameData);
-    }
 }

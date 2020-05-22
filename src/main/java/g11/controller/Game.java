@@ -27,10 +27,10 @@ public class Game {
                 mapReader.getMap());
         cchecker = new CollisionChecker();
         ghostControllers = new ArrayList<>();
-        ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky()));
-        /*ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky()));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(2), new TargetStrategyPinky()));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde()));*/
+        ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky(), 0));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky(), 5000));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(2), new TargetStrategyPinky(), 0));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde(), 10000));
         lastmove = GuiSquare.MOVE.LEFT;
         numberActivePP = gameData.getMap().getPowerPellets().size();
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
@@ -88,19 +88,20 @@ public class Game {
 
     public void update(GameData gameData, int step, long elapsedTime) throws Throwable {
         this.gameData = cchecker.updateFoodCollison(gameData);
-        // Can Pacman move to next position?
-        // Pacman's next position?
-        // Is a wall in the position pacman is about to move to?
-        // yes -> update position
-        // no  -> don't update
-        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0) {
+
+        if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0)
             gameData.getPacMan().moveDirection();
-        }
 
         // verificar colisão com Pacman
-        for (Ghost ghost : gameData.getGhosts()) {
-            if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                System.out.println("Colision");
+        for (GhostController ghostController : ghostControllers) {
+            if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
+                if (ghostController.getGhostState() instanceof GhostStateFrightened) {
+                    ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
+                    ghostController.getGhost().setState(GhostStateENUM.EATEN);
+                } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
+                    //Acaba o jogo
+                    System.out.println("GAME OVER");
+                }
             }
         }
 
@@ -109,9 +110,13 @@ public class Game {
         for (GhostController ghostController : ghostControllers) {
             ghostController.update(gameData, step, elapsedTime);
             // verificar colisão com Pacman
-            for (Ghost ghost : gameData.getGhosts()) {
-                if (cchecker.collide(ghost.getPosition(), gameData.getPacMan().getPosition())) {
-                    System.out.println("Colision");
+            if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
+                if (ghostController.getGhostState() instanceof GhostStateFrightened) {
+                    ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
+                    ghostController.getGhost().setState(GhostStateENUM.EATEN);
+                } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
+                    //Acaba o jogo
+                    System.out.println("GAME OVER");
                 }
             }
         }
