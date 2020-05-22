@@ -18,8 +18,10 @@ public class GhostStateFrightened extends GhostState {
     @Override
     void update(GameData gameData, int step, long elapsedTime) {
         ticksToEnd--;
-        if (ticksToEnd == 0)
+        if (ticksToEnd == 0) {
             ghostController.getGhost().setState(GhostStateENUM.CHASE);
+            ghostController.changeState(new GhostStateChase(ghostController, ghostController.getTargetStrategy(), activePPs));
+        }
         if (gameData.getMap().getPowerPellets().size() != activePPs) {
             activePPs--;
             ticksToEnd = 160;

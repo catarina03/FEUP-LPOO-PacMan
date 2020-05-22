@@ -1,7 +1,6 @@
 package g11.controller.ghosts;
 
 import g11.model.GameData;
-import g11.model.Position;
 
 public abstract class GhostState {
     protected GhostController ghostController;

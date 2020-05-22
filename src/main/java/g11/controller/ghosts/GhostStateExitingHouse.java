@@ -14,15 +14,15 @@ public class GhostStateExitingHouse extends GhostState {
     @Override
     void update(GameData gameData, int step, long elapsedTime) {
         if (ghostController.getGhost().getPosition().equals(new Position(13, 14)) || ghostController.getGhost().getPosition().equals(new Position(14, 14))) {
-            ghostController.changeState(new GhostStateChase(ghostController, ghostController.getTargetStrategy(), activePPs));
             ghostController.setAccessingHouse(false);
+            ghostController.changeState(new GhostStateChase(ghostController, ghostController.getTargetStrategy(), activePPs));
         }
     }
 
     @Override
     void calculateAndStep(GameData gameData, int step) {
         ArrayList<Orientation> availableOris;
-        if (step % 3 == 0) {
+        if (step % 4 == 0) {
             ghostController.getGhost().setTarget(new Position(13, 14));
             availableOris = ghostController.getAvailableOrientations(gameData);
             if (availableOris.size() > 0) {
