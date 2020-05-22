@@ -15,15 +15,15 @@ import java.util.concurrent.ThreadLocalRandom;
 import static g11.model.Orientation.*;
 import static g11.model.Orientation.RIGHT;
 
-public abstract class GhostController2 {
+public class GhostController2 {
     Ghost ghost;
     private boolean exitingHouse; // está a sair da GhostHouse
     private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
     private int ticksToEndFrightened;
     private GhostState ghostState;
 
-    public GhostController2(boolean starting, Ghost ghost) {
-        this.ghostState = new GhostStateChase();
+    public GhostController2(boolean starting, Ghost ghost, TargetStrategy targetStrategy) {
+        this.ghostState = new GhostStateChase(this, targetStrategy);
 
         this.ghost = ghost;
         this.exitingHouse = starting;
@@ -44,6 +44,10 @@ public abstract class GhostController2 {
         this.exitingHouse = exitingHouse;
     }
 
+    public boolean isChangeOrientation() {
+        return changeOrientation;
+    }
+
     public void setChangeOrientation(boolean changeOrientation) {
         this.changeOrientation = changeOrientation;
     }
@@ -59,10 +63,6 @@ public abstract class GhostController2 {
     public void setGhostState(GhostState ghostState) {
         this.ghostState = ghostState;
     }
-
-    public abstract void update(GameData gameData, long elapsedTime, int step, GhostStateENUM ghostStateENUM);
-
-    public abstract Position getTarget(GameData gameData);
 
     public boolean isInsideHouse(Ghost ghost) {
         // TODO não está a ter em conta os Gates
@@ -313,7 +313,7 @@ public abstract class GhostController2 {
      * @param step     Para usar em calculateStep
      */
     public void stateSwitch(GameData gameData, int step) {
-        ghostState.update();
+        ghostState.update(gameData, step);
         switch (ghost.getState()) {
             case SCATTER:
                 // vê as direções possiveis que pode tomar -> para cada posição vê a melhor -> muda a direção -> atualiza posição
@@ -361,7 +361,6 @@ public abstract class GhostController2 {
      *
      * @param gameData Para usar em getAvailableOrientations
      * @param step     cada 50 ms corresponde a 1 step, dependedo do step e do State do ghost, irá, ou não, atualizar
-     * @return Atualiza posição do Ghost
      */
     public void calculateAndStep(GameData gameData, int step) {
         ArrayList<Orientation> availableOris;
