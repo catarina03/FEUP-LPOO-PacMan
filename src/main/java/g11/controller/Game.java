@@ -27,10 +27,10 @@ public class Game {
                 mapReader.getMap());
         cchecker = new CollisionChecker();
         ghostControllers = new ArrayList<>();
-        ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky(), 0));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky(), 5000));
+        //ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky(), 0));
+        //ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky(), 5000));
         ghostControllers.add(new GhostController(true, gameData.getGhosts().get(2), new TargetStrategyPinky(), 0));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde(), 10000));
+        //ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde(), 10000));
         lastmove = GuiSquare.MOVE.LEFT;
         numberActivePP = gameData.getMap().getPowerPellets().size();
         mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)

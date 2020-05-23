@@ -20,9 +20,9 @@ public class GhostController {
 
 
     public GhostController(boolean accessingHouse, Ghost ghost, TargetStrategy targetStrategy, long timeToStart) {
-        this.ghostState = (ghost instanceof Inky || ghost instanceof Clyde) ?
-                new GhostStateExitingHouse(this, targetStrategy, 4) :
-                new GhostStateScatter(this, targetStrategy, 4);
+        this.ghostState = (ghost instanceof Blinky) ?
+                new GhostStateScatter(this, targetStrategy, 4) :
+                new GhostStateExitingHouse(this, targetStrategy, 4);
 
         this.targetStrategy = targetStrategy;
         this.timeToStart = timeToStart;
