@@ -77,8 +77,7 @@ public class GhostController {
         if (ghost.getPosition().equals(new Position(12, 14)) ||
                 ghost.getPosition().equals(new Position(15, 14)) ||
                 ghost.getPosition().equals(new Position(12, 26)) ||
-                ghost.getPosition().equals(new Position(15, 26)) ||
-                ghost.getPosition().equals(new Position(13, 14))) {
+                ghost.getPosition().equals(new Position(15, 26))) {
             if (ghost.getOrientation().getOpposite() != LEFT) {
                 returning.add(LEFT);
             }

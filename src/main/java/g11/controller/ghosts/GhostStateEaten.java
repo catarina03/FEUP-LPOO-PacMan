@@ -19,6 +19,8 @@ public class GhostStateEaten extends GhostState {
         }
         if (gameData.getMap().getPowerPellets().size() != activePPs)
             activePPs--;
+        if (ghostController.isChangeOrientation())
+            ghostController.setChangeOrientation(false);
     }
 
     @Override
