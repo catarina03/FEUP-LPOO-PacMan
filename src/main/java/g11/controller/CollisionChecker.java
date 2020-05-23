@@ -22,9 +22,8 @@ public class CollisionChecker {
      * @return true in case of collision
      */
     public boolean checkWallCollision(GameData gameData, GuiSquare.MOVE direction){
-        if (direction == GuiSquare.MOVE.ESC){
+        if (direction == GuiSquare.MOVE.ESC)
             direction = orientationToMove(gameData.getPacMan().getOrientation());
-        }
         Position pacmannextpos = new Position(0,0);
         switch (direction){
             case UP:
@@ -42,8 +41,11 @@ public class CollisionChecker {
         }
 
         ArrayList<Wall> walls = gameData.getMap().getWalls();
-        for(Wall wall : walls){
+        for (Wall wall : walls) {
             if (collide(wall.getPosition(), pacmannextpos)) return true;
+        }
+        for (Gate gate : gameData.getMap().getGates()) {
+            if (collide(gate.getPosition(), pacmannextpos)) return true;
         }
         return false;
     }
