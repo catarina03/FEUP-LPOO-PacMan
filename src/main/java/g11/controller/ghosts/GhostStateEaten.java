@@ -17,6 +17,8 @@ public class GhostStateEaten extends GhostState {
             ghostController.changeState(new GhostStateEnteringHouse(ghostController, ghostController.getTargetStrategy(), activePPs));
             ghostController.setAccessingHouse(true);
         }
+        if (gameData.getMap().getPowerPellets().size() != activePPs)
+            activePPs--;
     }
 
     @Override

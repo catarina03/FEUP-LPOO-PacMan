@@ -18,6 +18,8 @@ public class GhostStateEnteringHouse extends GhostState {
             ghostController.changeState(new GhostStateExitingHouse(ghostController, ghostController.getTargetStrategy(), activePPs));
             ghostController.getGhost().setState(GhostStateENUM.CHASE);
         }
+        if (gameData.getMap().getPowerPellets().size() != activePPs)
+            activePPs--;
     }
 
     @Override

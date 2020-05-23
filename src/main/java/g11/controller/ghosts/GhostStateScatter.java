@@ -16,12 +16,12 @@ public class GhostStateScatter extends GhostState {
         if (gameData.getMap().getPowerPellets().size() != activePPs) {
             activePPs--;
             ghostController.getGhost().setState(GhostStateENUM.FRIGHTENED);
-            ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
             ghostController.setChangeOrientation(true);
+            ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
         }
         if (!((elapsedTime > 0 && elapsedTime <= 7000) || (elapsedTime > 27000 && elapsedTime <= 34000) || (elapsedTime > 54000 && elapsedTime <= 59000) || (elapsedTime > 79000 && elapsedTime <= 84000))) {
-            ghostController.changeState(new GhostStateChase(ghostController, targetStrategy, activePPs));
             ghostController.setChangeOrientation(true);
+            ghostController.changeState(new GhostStateChase(ghostController, targetStrategy, activePPs));
         }
     }
 
