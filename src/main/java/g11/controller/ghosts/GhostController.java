@@ -36,7 +36,6 @@ public class GhostController {
     public Ghost getGhost() {
         return ghost;
     }
-
     public boolean isAccessingHouse() {
         return accessingHouse;
     }
@@ -88,6 +87,7 @@ public class GhostController {
             }
             return returning;
         }
+
         for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {
             if (emptySpace.getPosition().equals(ghost.getPosition().up())) {
                 if (ghost.getOrientation().getOpposite() != UP) {

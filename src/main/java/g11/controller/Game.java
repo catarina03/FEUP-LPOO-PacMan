@@ -153,13 +153,13 @@ public class Game {
 
 
     public void start() throws Throwable {
-        GuiSquare.MOVE temp;
+        /*GuiSquare.MOVE temp;
         guiSquare.presentationScreen();
         guiSquare.getKeyStroke();
         guiSquare.inicialScreen();
         guiSquare.getKeyStroke();
         guiSquare.draw(gameData);
-        Thread.sleep(3000);
+        Thread.sleep(3000);*/
         guiSquare.draw(gameData);
         run();
     }
