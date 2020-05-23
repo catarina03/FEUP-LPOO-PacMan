@@ -197,4 +197,32 @@ public class GuiSquare {
         screen.refresh();
     }
 
+    public void drawNumber(int number) throws IOException {
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFF100"));
+        if (number == 3) {
+            graphics.putString(12, 20, "   ", SGR.BOLD);
+            graphics.putString(14, 21, " ", SGR.BOLD);
+            graphics.putString(13, 22, " ", SGR.BOLD);
+            graphics.putString(14, 23, " ", SGR.BOLD);
+            graphics.putString(12, 24, "   ", SGR.BOLD);
+        }
+        if (number == 2) {
+            graphics.putString(12, 20, "   ", SGR.BOLD);
+            graphics.putString(12, 21, " ", SGR.BOLD);
+            graphics.putString(14, 21, " ", SGR.BOLD);
+            graphics.putString(13, 22, " ", SGR.BOLD);
+            graphics.putString(12, 23, " ", SGR.BOLD);
+            graphics.putString(12, 24, "   ", SGR.BOLD);
+        }
+        if (number == 1) {
+            graphics.putString(13, 20, " ", SGR.BOLD);
+            graphics.putString(12, 21, "  ", SGR.BOLD);
+            graphics.putString(13, 22, " ", SGR.BOLD);
+            graphics.putString(13, 23, " ", SGR.BOLD);
+            graphics.putString(13, 24, " ", SGR.BOLD);
+        }
+        screen.refresh();
+    }
+
 }

@@ -8,9 +8,11 @@ import g11.view.GuiSquare;
 import java.util.ArrayList;
 
 public class Game {
+    private Boolean running;
+    private Boolean winner;
+
     private GuiSquare guiSquare;
     private GameData gameData;
-    private Boolean running;
     private MapReader mapReader;
     private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
@@ -56,8 +58,8 @@ public class Game {
         // TODO Por uma taxa de atualização a cada 50 ms
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
-
         running = true;
+        winner = false;
         long startTime = System.currentTimeMillis();
         int step = 0;
 
@@ -84,10 +86,17 @@ public class Game {
 
             if (elapsed < 50) Thread.sleep(50 - elapsed);
         }
+
+        //winner ? winPlusResult() : loserPlusResult();
     }
 
     public void update(GameData gameData, int step, long elapsedTime) throws Throwable {
         this.gameData = cchecker.updateFoodCollison(gameData);
+
+        if (gameData.getMap().getCoins().isEmpty()) {
+            running = false;
+            winner = true;
+        }
 
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0)
             gameData.getPacMan().moveDirection();
@@ -99,8 +108,8 @@ public class Game {
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
                     ghostController.getGhost().setState(GhostStateENUM.EATEN);
                 } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
-                    //Acaba o jogo
-                    System.out.println("GAME OVER");
+                    running = false;
+                    winner = false;
                 }
             }
         }
@@ -115,8 +124,8 @@ public class Game {
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
                     ghostController.getGhost().setState(GhostStateENUM.EATEN);
                 } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
-                    //Acaba o jogo
-                    System.out.println("GAME OVER");
+                    running = false;
+                    winner = false;
                 }
             }
         }
@@ -153,15 +162,26 @@ public class Game {
 
 
     public void start() throws Throwable {
-        /*GuiSquare.MOVE temp;
+        GuiSquare.MOVE temp;
         guiSquare.presentationScreen();
         guiSquare.getKeyStroke();
         guiSquare.inicialScreen();
         guiSquare.getKeyStroke();
         guiSquare.draw(gameData);
-        Thread.sleep(3000);*/
+        guiSquare.drawNumber(3);
+        Thread.sleep(1000);
         guiSquare.draw(gameData);
+        guiSquare.drawNumber(2);
+        Thread.sleep(1000);
+        guiSquare.draw(gameData);
+        guiSquare.drawNumber(1);
+        Thread.sleep(1000);
+        guiSquare.draw(gameData);
+
         run();
+
+        /*if (winner)
+            guiSquare*/
     }
 }
 
