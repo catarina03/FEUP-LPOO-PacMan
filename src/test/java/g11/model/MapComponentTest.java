@@ -100,18 +100,18 @@ public class MapComponentTest {
         int y = r.nextInt();
 
         PacMan pacman = new PacMan(x, y);
-        assertEquals(pacman.getOrientation(), Orientation.LEFT);
+        assertEquals(pacman.getOrientationENUM(), OrientationENUM.LEFT);
 
-        pacman.setOrientation(Orientation.DOWN);
+        pacman.setOrientationENUM(OrientationENUM.DOWN);
         pacman.moveDirection();
-        assertEquals(pacman.getY(), y+1);
-        pacman.setOrientation(Orientation.RIGHT);
+        assertEquals(pacman.getY(), y + 1);
+        pacman.setOrientationENUM(OrientationENUM.RIGHT);
         pacman.moveDirection();
-        assertEquals(pacman.getX(), x+1);
-        pacman.setOrientation(Orientation.UP);
+        assertEquals(pacman.getX(), x + 1);
+        pacman.setOrientationENUM(OrientationENUM.UP);
         pacman.moveDirection();
         assertEquals(pacman.getY(), y);
-        pacman.setOrientation(Orientation.LEFT);
+        pacman.setOrientationENUM(OrientationENUM.LEFT);
         pacman.moveDirection();
         assertEquals(pacman.getX(), x);
     }

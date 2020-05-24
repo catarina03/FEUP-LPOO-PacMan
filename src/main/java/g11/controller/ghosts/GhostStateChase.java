@@ -2,7 +2,7 @@ package g11.controller.ghosts;
 
 import g11.model.GameData;
 import g11.model.GhostStateENUM;
-import g11.model.Orientation;
+import g11.model.OrientationENUM;
 
 import java.util.ArrayList;
 
@@ -29,16 +29,16 @@ public class GhostStateChase extends GhostState {
 
     @Override
     public void calculateAndStep(GameData gameData, int step) {
-        ArrayList<Orientation> availableOris;
+        ArrayList<OrientationENUM> availableOris;
         if (step % 4 == 0) {
             ghostController.getGhost().setTarget(targetStrategy.getTarget(gameData));
             if (ghostController.isChangeOrientation()) {
-                ghostController.getGhost().setOrientation(ghostController.getGhost().getOrientation().getOpposite());
+                ghostController.getGhost().setOrientationENUM(ghostController.getGhost().getOrientationENUM().getOpposite());
                 ghostController.setChangeOrientation(false);
             } else {
                 availableOris = ghostController.getAvailableOrientations(gameData);
                 if (availableOris.size() > 0) {
-                    ghostController.getGhost().setOrientation(ghostController.chooseOrientation(availableOris));
+                    ghostController.getGhost().setOrientationENUM(ghostController.chooseOrientation(availableOris));
                 }
             }
             ghostController.getGhost().moveDirection();

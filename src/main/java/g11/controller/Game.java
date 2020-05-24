@@ -166,8 +166,17 @@ public class Game {
         if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC) && step % 4 == 0)
             gameData.getPacMan().moveDirection();
 
-        // verificar colisão com Pacman
+        // Detect Ghost collision with Pac-Man
+        ghostCollisionAndUpdate(step, elapsedTime, false);
+
+        // Update Ghosts and Detect Colisions with Pac-Man
+        ghostCollisionAndUpdate(step, elapsedTime, true);
+    }
+
+    public void ghostCollisionAndUpdate(int step, long elapsedTime, Boolean update) {
         for (GhostController ghostController : ghostControllers) {
+            if (update)
+                ghostController.update(gameData, step, elapsedTime);
             if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
                 if (ghostController.getGhostState() instanceof GhostStateFrightened) {
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
@@ -178,28 +187,11 @@ public class Game {
                 }
             }
         }
-
-        //Ghosts
-        //mover fantasmas
-        for (GhostController ghostController : ghostControllers) {
-            ghostController.update(gameData, step, elapsedTime);
-            // verificar colisão com Pacman
-            if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
-                if (ghostController.getGhostState() instanceof GhostStateFrightened) {
-                    ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
-                    ghostController.getGhost().setState(GhostStateENUM.EATEN);
-                } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
-                    running = false;
-                    winner = false;
-                }
-            }
-        }
-
     }
 
     public void processKey(GuiSquare.MOVE move) throws Throwable {
-        if (move != null){
-            switch (move){
+        if (move != null) {
+            switch (move) {
                 case ESC:
                     guiSquare.close();
                     running = false;
@@ -207,19 +199,19 @@ public class Game {
                 case UP:
                     // check if can change position
                     if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.UP))
-                        gameData.getPacMan().setOrientation(Orientation.UP);
+                        gameData.getPacMan().setOrientationENUM(OrientationENUM.UP);
                     break;
                 case DOWN:
                     if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN))
-                        gameData.getPacMan().setOrientation(Orientation.DOWN);
+                        gameData.getPacMan().setOrientationENUM(OrientationENUM.DOWN);
                     break;
                 case LEFT:
                     if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT))
-                        gameData.getPacMan().setOrientation(Orientation.LEFT);
+                        gameData.getPacMan().setOrientationENUM(OrientationENUM.LEFT);
                     break;
                 case RIGHT:
                     if (!cchecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT))
-                        gameData.getPacMan().setOrientation(Orientation.RIGHT);
+                        gameData.getPacMan().setOrientationENUM(OrientationENUM.RIGHT);
                     break;
             }
         }
@@ -235,14 +227,6 @@ public class Game {
             close = gameState.execute(guiSquare);
         } while (!close);
         closeEverything();
-
-        /*guiSquare.inicialScreen();
-        guiSquare.getKeyStroke();
-
-
-        run();*/
-
     }
-
 }
 

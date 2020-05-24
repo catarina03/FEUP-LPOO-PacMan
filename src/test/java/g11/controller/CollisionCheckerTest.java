@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static g11.model.Orientation.*;
+import static g11.model.OrientationENUM.*;
 import static org.junit.Assert.assertEquals;
 
 public class CollisionCheckerTest {
@@ -44,7 +44,7 @@ public class CollisionCheckerTest {
         Map map = Mockito.mock(Map.class);
         PacMan pacman = Mockito.mock(PacMan.class);
         Mockito.when(pacman.getPosition()).thenReturn(new Position(10, 10));
-        Mockito.when(pacman.getOrientation()).thenReturn(UP);
+        Mockito.when(pacman.getOrientationENUM()).thenReturn(UP);
 
         Wall wall1 = Mockito.mock(Wall.class);
         Mockito.when(wall1.getPosition()).thenReturn(new Position(11, 10));
@@ -69,16 +69,16 @@ public class CollisionCheckerTest {
     }
 
     @Test
-    public void orientationToMoveTest(){
+    public void orientationToMoveTest() {
         CollisionChecker collisionChecker = new CollisionChecker();
-        Orientation orientation = UP;
-        assertEquals(GuiSquare.MOVE.UP, collisionChecker.orientationToMove(orientation));
-        orientation = RIGHT;
-        assertEquals(GuiSquare.MOVE.RIGHT, collisionChecker.orientationToMove(orientation));
-        orientation = DOWN;
-        assertEquals(GuiSquare.MOVE.DOWN, collisionChecker.orientationToMove(orientation));
-        orientation = LEFT;
-        assertEquals(GuiSquare.MOVE.LEFT, collisionChecker.orientationToMove(orientation));
+        OrientationENUM orientationENUM = UP;
+        assertEquals(GuiSquare.MOVE.UP, collisionChecker.orientationToMove(orientationENUM));
+        orientationENUM = RIGHT;
+        assertEquals(GuiSquare.MOVE.RIGHT, collisionChecker.orientationToMove(orientationENUM));
+        orientationENUM = DOWN;
+        assertEquals(GuiSquare.MOVE.DOWN, collisionChecker.orientationToMove(orientationENUM));
+        orientationENUM = LEFT;
+        assertEquals(GuiSquare.MOVE.LEFT, collisionChecker.orientationToMove(orientationENUM));
     }
 
 

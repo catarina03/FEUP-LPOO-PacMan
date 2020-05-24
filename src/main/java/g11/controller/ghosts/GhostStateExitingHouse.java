@@ -1,7 +1,7 @@
 package g11.controller.ghosts;
 
 import g11.model.GameData;
-import g11.model.Orientation;
+import g11.model.OrientationENUM;
 import g11.model.Position;
 
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ public class GhostStateExitingHouse extends GhostState {
 
     @Override
     void calculateAndStep(GameData gameData, int step) {
-        ArrayList<Orientation> availableOris;
+        ArrayList<OrientationENUM> availableOris;
         if (step % 4 == 0) {
             ghostController.getGhost().setTarget(new Position(13, 14));
             availableOris = ghostController.getAvailableOrientations(gameData);
             if (availableOris.size() > 0) {
-                ghostController.getGhost().setOrientation(ghostController.chooseOrientation(availableOris));
+                ghostController.getGhost().setOrientationENUM(ghostController.chooseOrientation(availableOris));
             }
             ghostController.getGhost().moveDirection();
         }

@@ -1,7 +1,7 @@
 package g11.model.elements;
 
 import g11.model.GhostStateENUM;
-import g11.model.Orientation;
+import g11.model.OrientationENUM;
 import g11.model.Position;
 
 public abstract class Ghost extends Moveable {
@@ -10,10 +10,10 @@ public abstract class Ghost extends Moveable {
     private Position scatterTarget;
 
 
-    public Ghost(int x, int y, Position scatterTarget, Orientation orientation) {
+    public Ghost(int x, int y, Position scatterTarget, OrientationENUM orientationENUM) {
         super(x, y);
         this.scatterTarget = scatterTarget;
-        this.orientation = orientation;
+        this.orientationENUM = orientationENUM;
         this.target = new Position(0, 0);
         this.state = GhostStateENUM.CHASE;
     }

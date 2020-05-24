@@ -39,20 +39,15 @@ public class GameStateRun extends GameState {
         ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(3), new TargetStrategyClyde(), 10000));
         game.setGhostControllers(ghostControllers);
 
-
         long startTime = System.currentTimeMillis();
         int step = 0;
 
         // Starting Sequence
-        guiSquare.draw(game.getGameData());
-        guiSquare.drawNumber(3);
-        Thread.sleep(1000);
-        guiSquare.draw(game.getGameData());
-        guiSquare.drawNumber(2);
-        Thread.sleep(1000);
-        guiSquare.draw(game.getGameData());
-        guiSquare.drawNumber(1);
-        Thread.sleep(1000);
+        for (int i = 3; i > 0; i--) {
+            guiSquare.draw(game.getGameData());
+            guiSquare.drawNumber(i);
+            Thread.sleep(1000);
+        }
         guiSquare.draw(game.getGameData());
 
         while (game.getRunning()) {
@@ -65,10 +60,6 @@ public class GameStateRun extends GameState {
 
             // update
             game.update(game.getGameData(), step, System.currentTimeMillis() - startTime);
-            /*
-            if (step % 4 == 0) pacman.update; ghosts.update;
-            if (step % 5 == 0) frightenedghost.update;
-            if (step % 3 == 0) eaten.update; */
 
             // render
             guiSquare.draw(game.getGameData());

@@ -23,7 +23,7 @@ public class CollisionChecker {
      */
     public boolean checkWallCollision(GameData gameData, GuiSquare.MOVE direction){
         if (direction == GuiSquare.MOVE.ESC)
-            direction = orientationToMove(gameData.getPacMan().getOrientation());
+            direction = orientationToMove(gameData.getPacMan().getOrientationENUM());
         Position pacmannextpos = new Position(0,0);
         switch (direction){
             case UP:
@@ -50,8 +50,8 @@ public class CollisionChecker {
         return false;
     }
 
-    public GuiSquare.MOVE orientationToMove(Orientation orientation){
-        switch (orientation){
+    public GuiSquare.MOVE orientationToMove(OrientationENUM orientationENUM) {
+        switch (orientationENUM) {
             case UP:
                 return GuiSquare.MOVE.UP;
             case DOWN:
