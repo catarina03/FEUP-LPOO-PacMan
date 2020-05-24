@@ -1,41 +1,37 @@
 package g11.controller;
 
+import com.googlecode.lanterna.input.KeyType;
+import g11.controller.gamestates.*;
 import g11.controller.ghosts.*;
 import g11.model.*;
-import g11.model.elements.Ghost;
 import g11.view.GuiSquare;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
     private Boolean running;
     private Boolean winner;
+    private int numberActivePP;
 
     private GuiSquare guiSquare;
     private GameData gameData;
     private MapReader mapReader;
-    private GuiSquare.MOVE lastmove;
     private CollisionChecker cchecker;
+    private GameState gameState;
+
+    private GuiSquare.MOVE lastmove;
     private ArrayList<GhostController> ghostControllers;
-    private int numberActivePP;
 
 
     public Game() {
         guiSquare = new GuiSquare();
         mapReader = new MapReader(new ReadFile("mapv1.txt"));
-        gameData = new GameData(new GameStats(0),
-                mapReader.startingPacMan(),
-                mapReader.ghostList(),
-                mapReader.getMap());
-        cchecker = new CollisionChecker();
-        ghostControllers = new ArrayList<>();
-        ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky(), 0));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky(), 5000));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(2), new TargetStrategyPinky(), 0));
-        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde(), 10000));
-        lastmove = GuiSquare.MOVE.LEFT;
-        numberActivePP = gameData.getMap().getPowerPellets().size();
-        mapReader = null; // limpar a informação aqui guardada (pode ser retirado depois para recomeçar o nivel)
+        gameState = new GameStatePresentation(this);
+    }
+
+    public void changeGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public void setCchecker(CollisionChecker cchecker) {
@@ -46,12 +42,16 @@ public class Game {
         this.guiSquare = guiSquare;
     }
 
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
     public Boolean getRunning() {
         return running;
     }
 
-    public void setGameData(GameData gameData) {
-        this.gameData = gameData;
+    public GameState getGameState() {
+        return gameState;
     }
 
     public void run() throws Throwable {
@@ -60,10 +60,27 @@ public class Game {
         // o Pacman a cada 200 ms
         running = true;
         winner = false;
+
+        lastmove = GuiSquare.MOVE.LEFT;
+        cchecker = new CollisionChecker();
+
+        gameData = new GameData(new GameStats(0),
+                mapReader.startingPacMan(),
+                mapReader.ghostList(),
+                mapReader.getMap());
+
+        numberActivePP = gameData.getMap().getPowerPellets().size();
+
+        ghostControllers = new ArrayList<>();
+        ghostControllers.add(new GhostController(false, gameData.getGhosts().get(0), new TargetStrategyBlinky(), 0));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(1), new TargetStrategyInky(), 5000));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(2), new TargetStrategyPinky(), 0));
+        ghostControllers.add(new GhostController(true, gameData.getGhosts().get(3), new TargetStrategyClyde(), 10000));
+
         long startTime = System.currentTimeMillis();
         int step = 0;
 
-        while(running){
+        while (running) {
             long current = System.currentTimeMillis();
 
             // process input
@@ -160,12 +177,15 @@ public class Game {
         }
     }
 
+    public void closeEverything() throws Throwable {
+        guiSquare.close();
+    }
 
     public void start() throws Throwable {
-        GuiSquare.MOVE temp;
-        guiSquare.presentationScreen();
-        guiSquare.getKeyStroke();
-        guiSquare.inicialScreen();
+        gameState.screen(guiSquare);
+
+
+        /*guiSquare.inicialScreen();
         guiSquare.getKeyStroke();
         guiSquare.draw(gameData);
         guiSquare.drawNumber(3);
@@ -178,10 +198,9 @@ public class Game {
         Thread.sleep(1000);
         guiSquare.draw(gameData);
 
-        run();
+        run();*/
 
-        /*if (winner)
-            guiSquare*/
     }
+
 }
 
