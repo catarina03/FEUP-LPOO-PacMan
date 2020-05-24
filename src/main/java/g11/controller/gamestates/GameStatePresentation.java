@@ -4,8 +4,6 @@ import com.googlecode.lanterna.input.KeyType;
 import g11.controller.Game;
 import g11.view.GuiSquare;
 
-import java.io.IOException;
-
 
 public class GameStatePresentation extends GameState {
     public GameStatePresentation(Game game) {
@@ -13,14 +11,13 @@ public class GameStatePresentation extends GameState {
     }
 
     @Override
-    public void screen(GuiSquare guiSquare) throws Throwable {
-        GuiSquare.MOVE temp;
+    public Boolean execute(GuiSquare guiSquare) throws Throwable {
         guiSquare.presentationScreen();
-        if (guiSquare.getKeyStroke().getKeyType() != KeyType.Escape && guiSquare.getKeyStroke().getKeyType() != KeyType.EOF) {
+        KeyType keyType = guiSquare.getKeyStroke().getKeyType();
+        if (keyType != KeyType.Escape && keyType != KeyType.EOF) {
             game.changeGameState(new GameStateReady(game));
-            game.getGameState().screen(guiSquare);
+            return false;
         } else
-            game.closeEverything();
+            return true;
     }
-
 }

@@ -12,12 +12,13 @@ public class GameStateReady extends GameState {
     }
 
     @Override
-    public void screen(GuiSquare guiSquare) throws IOException {
-        GuiSquare.MOVE temp;
-        guiSquare.presentationScreen();
-        if (guiSquare.getKeyStroke().getKeyType() != KeyType.Escape && guiSquare.getKeyStroke().getKeyType() != KeyType.EOF)
+    public Boolean execute(GuiSquare guiSquare) throws IOException {
+        guiSquare.inicialScreen();
+        KeyType keyType = guiSquare.getKeyStroke().getKeyType();
+        if (keyType != KeyType.Escape && keyType != KeyType.EOF)
             game.changeGameState(new GameStateRun(game));
         else
             game.changeGameState(new GameStatePresentation(game));
+        return false;
     }
 }

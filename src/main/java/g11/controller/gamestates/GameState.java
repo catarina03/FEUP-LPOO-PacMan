@@ -11,5 +11,5 @@ public abstract class GameState {
         this.game = game;
     }
 
-    public abstract void screen(GuiSquare guiSquare) throws Throwable;
+    public abstract Boolean execute(GuiSquare guiSquare) throws Throwable;
 }

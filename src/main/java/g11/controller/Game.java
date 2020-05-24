@@ -1,12 +1,10 @@
 package g11.controller;
 
-import com.googlecode.lanterna.input.KeyType;
 import g11.controller.gamestates.*;
 import g11.controller.ghosts.*;
 import g11.model.*;
 import g11.view.GuiSquare;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
@@ -54,8 +52,47 @@ public class Game {
         return gameState;
     }
 
-    public void run() throws Throwable {
-        // TODO Por uma taxa de atualização a cada 50 ms
+    public void setRunning(Boolean running) {
+        this.running = running;
+    }
+
+    public Boolean getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Boolean winner) {
+        this.winner = winner;
+    }
+
+
+    public void setNumberActivePP(int numberActivePP) {
+        this.numberActivePP = numberActivePP;
+    }
+
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public MapReader getMapReader() {
+        return mapReader;
+    }
+
+
+    public GuiSquare.MOVE getLastmove() {
+        return lastmove;
+    }
+
+    public void setLastmove(GuiSquare.MOVE lastmove) {
+        this.lastmove = lastmove;
+    }
+
+
+    public void setGhostControllers(ArrayList<GhostController> ghostControllers) {
+        this.ghostControllers = ghostControllers;
+    }
+
+    public Boolean run() throws Throwable {
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
         running = true;
@@ -80,6 +117,18 @@ public class Game {
         long startTime = System.currentTimeMillis();
         int step = 0;
 
+        // Starting Sequence
+        guiSquare.draw(gameData);
+        guiSquare.drawNumber(3);
+        Thread.sleep(1000);
+        guiSquare.draw(gameData);
+        guiSquare.drawNumber(2);
+        Thread.sleep(1000);
+        guiSquare.draw(gameData);
+        guiSquare.drawNumber(1);
+        Thread.sleep(1000);
+        guiSquare.draw(gameData);
+
         while (running) {
             long current = System.currentTimeMillis();
 
@@ -100,14 +149,13 @@ public class Game {
 
             step++;
             long elapsed = System.currentTimeMillis() - current;
-
             if (elapsed < 50) Thread.sleep(50 - elapsed);
         }
 
-        //winner ? winPlusResult() : loserPlusResult();
+        return winner;
     }
 
-    public void update(GameData gameData, int step, long elapsedTime) throws Throwable {
+    public void update(GameData gameData, int step, long elapsedTime) {
         this.gameData = cchecker.updateFoodCollison(gameData);
 
         if (gameData.getMap().getCoins().isEmpty()) {
@@ -182,21 +230,15 @@ public class Game {
     }
 
     public void start() throws Throwable {
-        gameState.screen(guiSquare);
-
+        Boolean close;
+        do {
+            close = gameState.execute(guiSquare);
+        } while (!close);
+        closeEverything();
 
         /*guiSquare.inicialScreen();
         guiSquare.getKeyStroke();
-        guiSquare.draw(gameData);
-        guiSquare.drawNumber(3);
-        Thread.sleep(1000);
-        guiSquare.draw(gameData);
-        guiSquare.drawNumber(2);
-        Thread.sleep(1000);
-        guiSquare.draw(gameData);
-        guiSquare.drawNumber(1);
-        Thread.sleep(1000);
-        guiSquare.draw(gameData);
+
 
         run();*/
 

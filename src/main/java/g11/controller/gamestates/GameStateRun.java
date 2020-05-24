@@ -1,9 +1,13 @@
 package g11.controller.gamestates;
 
+import g11.controller.CollisionChecker;
 import g11.controller.Game;
+import g11.controller.ghosts.*;
+import g11.model.GameData;
+import g11.model.GameStats;
 import g11.view.GuiSquare;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class GameStateRun extends GameState {
 
@@ -12,7 +16,70 @@ public class GameStateRun extends GameState {
     }
 
     @Override
-    public void screen(GuiSquare guiSquare) throws IOException {
-        game.changeGameState(new GameStatePresentation(game));
+    public Boolean execute(GuiSquare guiSquare) throws Throwable {
+        // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
+        // o Pacman a cada 200 ms
+        game.setRunning(true);
+        game.setWinner(false);
+
+        game.setLastmove(GuiSquare.MOVE.LEFT);
+        game.setCchecker(new CollisionChecker());
+
+        game.setGameData(new GameData(new GameStats(0),
+                game.getMapReader().startingPacMan(),
+                game.getMapReader().ghostList(),
+                game.getMapReader().getMap()));
+
+        game.setNumberActivePP(game.getGameData().getMap().getPowerPellets().size());
+
+        ArrayList<GhostController> ghostControllers = new ArrayList<>();
+        ghostControllers.add(new GhostController(false, game.getGameData().getGhosts().get(0), new TargetStrategyBlinky(), 0));
+        ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(1), new TargetStrategyInky(), 5000));
+        ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(2), new TargetStrategyPinky(), 0));
+        ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(3), new TargetStrategyClyde(), 10000));
+        game.setGhostControllers(ghostControllers);
+
+
+        long startTime = System.currentTimeMillis();
+        int step = 0;
+
+        // Starting Sequence
+        guiSquare.draw(game.getGameData());
+        guiSquare.drawNumber(3);
+        Thread.sleep(1000);
+        guiSquare.draw(game.getGameData());
+        guiSquare.drawNumber(2);
+        Thread.sleep(1000);
+        guiSquare.draw(game.getGameData());
+        guiSquare.drawNumber(1);
+        Thread.sleep(1000);
+        guiSquare.draw(game.getGameData());
+
+        while (game.getRunning()) {
+            long current = System.currentTimeMillis();
+
+            // process input
+            GuiSquare.MOVE temp = guiSquare.getMove();
+            if (temp != null) game.setLastmove(temp);
+            game.processKey(game.getLastmove());
+
+            // update
+            game.update(game.getGameData(), step, System.currentTimeMillis() - startTime);
+            /*
+            if (step % 4 == 0) pacman.update; ghosts.update;
+            if (step % 5 == 0) frightenedghost.update;
+            if (step % 3 == 0) eaten.update; */
+
+            // render
+            guiSquare.draw(game.getGameData());
+
+            step++;
+            long elapsed = System.currentTimeMillis() - current;
+            if (elapsed < 50) Thread.sleep(50 - elapsed);
+        }
+
+        game.changeGameState(new GameStateEndScreen(game, game.getWinner()));
+        return false;
+
     }
 }
