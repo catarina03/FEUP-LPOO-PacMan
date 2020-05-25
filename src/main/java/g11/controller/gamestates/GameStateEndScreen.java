@@ -1,6 +1,7 @@
 package g11.controller.gamestates;
 
 import g11.controller.Game;
+import g11.model.GameData;
 import g11.view.GuiSquare;
 
 public class GameStateEndScreen extends GameState {
@@ -13,7 +14,7 @@ public class GameStateEndScreen extends GameState {
 
     @Override
     public Boolean execute(GuiSquare guiSquare) throws Throwable {
-        guiSquare.inicialScreen();
+        guiSquare.endScreen(winner, game.getGameData());
         return true;
     }
 }

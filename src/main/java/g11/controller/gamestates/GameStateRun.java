@@ -6,6 +6,7 @@ import g11.controller.ghosts.*;
 import g11.model.GameData;
 import g11.model.GameStats;
 import g11.view.GuiSquare;
+import g11.view.MoveENUM;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class GameStateRun extends GameState {
         game.setRunning(true);
         game.setWinner(false);
 
-        game.setLastmove(GuiSquare.MOVE.LEFT);
+        game.setLastmove(MoveENUM.LEFT);
         game.setCchecker(new CollisionChecker());
 
         game.setGameData(new GameData(new GameStats(0),
@@ -43,18 +44,16 @@ public class GameStateRun extends GameState {
         int step = 0;
 
         // Starting Sequence
-        for (int i = 3; i > 0; i--) {
-            guiSquare.draw(game.getGameData());
-            guiSquare.drawNumber(i);
-            Thread.sleep(1000);
-        }
+        guiSquare.draw(game.getGameData());
+        guiSquare.readyScreen();
+        Thread.sleep(3000);
         guiSquare.draw(game.getGameData());
 
         while (game.getRunning()) {
             long current = System.currentTimeMillis();
 
             // process input
-            GuiSquare.MOVE temp = guiSquare.getMove();
+            MoveENUM temp = guiSquare.getMove();
             if (temp != null) game.setLastmove(temp);
             game.processKey(game.getLastmove());
 
@@ -71,6 +70,5 @@ public class GameStateRun extends GameState {
 
         game.changeGameState(new GameStateEndScreen(game, game.getWinner()));
         return false;
-
     }
 }

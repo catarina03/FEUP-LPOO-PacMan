@@ -17,9 +17,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class GuiSquare {
-    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
+import static g11.view.MoveENUM.*;
 
+public class GuiSquare {
     private Terminal terminal;
     private Screen screen;
     private ModelDrawSquare modelDraw;
@@ -91,6 +91,55 @@ public class GuiSquare {
         }
     }
 
+    public KeyStroke getKeyStroke() throws IOException {
+        return screen.readInput();
+    }
+
+    public MoveENUM getMove() throws IOException {
+        // Ler Esc para sair de ciclo
+        KeyStroke keyStroke = screen.pollInput();
+        if (keyStroke != null) {
+            switch (keyStroke.getKeyType()) {
+                case ArrowUp:
+                    return UP;
+                case ArrowDown:
+                    return DOWN;
+                case ArrowLeft:
+                    return LEFT;
+                case ArrowRight:
+                    return RIGHT;
+                case Escape:
+                case EOF:
+                    return ESC;
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
+
+    public void draw(GameData gameData) throws IOException {
+        screen.clear();
+
+        for (MapComponent element : gameData.getMap().getMapComponents()) modelDraw.drawElement(element);
+
+        modelDraw.drawGhost(gameData);
+        modelDraw.drawPacMan(gameData);
+        modelDraw.drawGameStats(gameData);
+
+        screen.refresh();
+    }
+
+    public void readyScreen() throws IOException {
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
+        graphics.putString(11, 20, "READY!", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        graphics.putString(9, 14, "PLAYER ONE", SGR.BOLD);
+        screen.refresh();
+    }
+
     public void presentationScreen() throws IOException {
         screen.clear();
         TextGraphics graphics = screen.newTextGraphics();
@@ -158,71 +207,12 @@ public class GuiSquare {
         screen.refresh();
     }
 
-    public KeyStroke getKeyStroke() throws IOException {
-        return screen.readInput();
-    }
-
-    public MOVE getMove() throws IOException {
-        // Ler Esc para sair de ciclo
-        KeyStroke keyStroke = screen.pollInput();
-        if(keyStroke != null ){
-            switch (keyStroke.getKeyType()){
-                case ArrowUp:
-                    return MOVE.UP;
-                case ArrowDown:
-                    return MOVE.DOWN;
-                case ArrowLeft:
-                    return MOVE.LEFT;
-                case ArrowRight:
-                    return MOVE.RIGHT;
-                case Escape:
-                case EOF:
-                    return MOVE.ESC;
-                default:
-                    return null;
-            }
-        }
-        return null;
-    }
-
-    public void draw(GameData gameData) throws IOException {
+    public void endScreen(Boolean winner, GameData gameData) throws IOException {
         screen.clear();
-
-        for (MapComponent element : gameData.getMap().getMapComponents()) modelDraw.drawElement(element);
-
-        modelDraw.drawGhost(gameData);
-        modelDraw.drawPacMan(gameData);
-        modelDraw.drawGameStats(gameData);
-
-        screen.refresh();
-    }
-
-    public void drawNumber(int number) throws IOException {
         TextGraphics graphics = screen.newTextGraphics();
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFF100"));
-        if (number == 3) {
-            graphics.putString(12, 20, "   ", SGR.BOLD);
-            graphics.putString(14, 21, " ", SGR.BOLD);
-            graphics.putString(13, 22, " ", SGR.BOLD);
-            graphics.putString(14, 23, " ", SGR.BOLD);
-            graphics.putString(12, 24, "   ", SGR.BOLD);
-        }
-        if (number == 2) {
-            graphics.putString(12, 20, "   ", SGR.BOLD);
-            graphics.putString(12, 21, " ", SGR.BOLD);
-            graphics.putString(14, 21, " ", SGR.BOLD);
-            graphics.putString(13, 22, " ", SGR.BOLD);
-            graphics.putString(12, 23, " ", SGR.BOLD);
-            graphics.putString(12, 24, "   ", SGR.BOLD);
-        }
-        if (number == 1) {
-            graphics.putString(13, 20, " ", SGR.BOLD);
-            graphics.putString(12, 21, "  ", SGR.BOLD);
-            graphics.putString(13, 22, " ", SGR.BOLD);
-            graphics.putString(13, 23, " ", SGR.BOLD);
-            graphics.putString(13, 24, " ", SGR.BOLD);
-        }
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+
+
         screen.refresh();
     }
-
 }
