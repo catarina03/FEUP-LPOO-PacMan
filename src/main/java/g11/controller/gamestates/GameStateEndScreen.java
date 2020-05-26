@@ -1,7 +1,7 @@
 package g11.controller.gamestates;
 
+import com.googlecode.lanterna.input.KeyType;
 import g11.controller.Game;
-import g11.model.GameData;
 import g11.view.GuiSquare;
 
 public class GameStateEndScreen extends GameState {
@@ -15,6 +15,12 @@ public class GameStateEndScreen extends GameState {
     @Override
     public Boolean execute(GuiSquare guiSquare) throws Throwable {
         guiSquare.endScreen(winner, game.getGameData());
-        return true;
+        Thread.sleep(1000);
+        KeyType keyType = guiSquare.getKeyStroke().getKeyType();
+        if (keyType != KeyType.Escape && keyType != KeyType.EOF) {
+            game.changeGameState(new GameStatePresentation(game));
+            return false;
+        } else
+            return true;
     }
 }

@@ -26,7 +26,8 @@ public class Game {
     public Game() {
         guiSquare = new GuiSquare();
         mapReader = new MapReader(new ReadFile("mapv1.txt"));
-        gameState = new GameStatePresentation(this);
+        //gameState = new GameStatePresentation(this);
+        gameState = new GameStateEndScreen(this, false);
     }
 
     public void changeGameState(GameState gameState) {

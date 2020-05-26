@@ -158,6 +158,7 @@ public class GuiSquare {
         graphics.putString(10, 18, "#", SGR.BOLD);
 
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
         graphics.putString(3, 9, "# -SPEEDY    \"PINKY\" ", SGR.BOLD);
         graphics.putString(12, 18, "#", SGR.BOLD);
 
@@ -173,9 +174,6 @@ public class GuiSquare {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.putString(8, 18, ">", SGR.BOLD);
         graphics.putString(9, 26, ".", SGR.BOLD);
-
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
-        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
         screen.refresh();
     }
 
@@ -212,6 +210,23 @@ public class GuiSquare {
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
 
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        graphics.putString(5, 1, "00", SGR.BOLD);
+        graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
+
+        if (winner) {
+            graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+            graphics.putString(6, 10, "CONGRATULATIONS", SGR.BOLD);
+            graphics.putString(10, 11, "YOU WON", SGR.BOLD);
+        } else {
+            graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+            graphics.putString(9, 10, "GAME OVER", SGR.BOLD);
+            graphics.putString(3, 11, "BETTER LUCK NEXT TIME", SGR.BOLD);
+        }
 
         screen.refresh();
     }

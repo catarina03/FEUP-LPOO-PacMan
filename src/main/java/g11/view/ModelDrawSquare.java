@@ -66,7 +66,7 @@ public class ModelDrawSquare {
         graphics.putString(7, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
         graphics.putString(17, 2, "10000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        graphics.putString(3, 34, "00000", SGR.BOLD);
+        graphics.putString(3, 34, ">>>>>", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(20, 34, "o", SGR.BOLD);
 
