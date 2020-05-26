@@ -4,6 +4,7 @@ import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.swing.*;
+import g11.model.GameStats;
 import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.TerminalSize;
@@ -205,7 +206,7 @@ public class GuiSquare {
         screen.refresh();
     }
 
-    public void endScreen(Boolean winner, GameData gameData) throws IOException {
+    public void endScreen(Boolean winner, GameStats gameStats) throws IOException {
         screen.clear();
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
