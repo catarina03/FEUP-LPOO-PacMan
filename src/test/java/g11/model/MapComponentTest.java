@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MapComponentTest {
 
+    /*
     @Test
     public void GhostCreation() {
         Random r = new Random();
@@ -30,6 +31,8 @@ public class MapComponentTest {
         assertEquals(pinky.getX(), x);
         assertEquals(pinky.getY(), y);
     }
+
+     */
 
     @Test
     public void FixedCreation() {
