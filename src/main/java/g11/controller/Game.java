@@ -15,7 +15,6 @@ public class Game {
 
     private GuiSquare guiSquare;
     private GameData gameData;
-    private MapReader mapReader;
     private CollisionChecker cchecker;
     private GameState gameState;
 
@@ -25,9 +24,8 @@ public class Game {
 
     public Game() {
         guiSquare = new GuiSquare();
-        mapReader = new MapReader(new ReadFile("mapv1.txt"));
-        //gameState = new GameStatePresentation(this);
-        gameState = new GameStateEndScreen(this, false);
+        gameState = new GameStatePresentation(this);
+        //gameState = new GameStateEndScreen(this, false);
     }
 
     public void changeGameState(GameState gameState) {
@@ -66,20 +64,13 @@ public class Game {
         this.winner = winner;
     }
 
-
     public void setNumberActivePP(int numberActivePP) {
         this.numberActivePP = numberActivePP;
     }
 
-
     public GameData getGameData() {
         return gameData;
     }
-
-    public MapReader getMapReader() {
-        return mapReader;
-    }
-
 
     public MoveENUM getLastmove() {
         return lastmove;
@@ -89,10 +80,10 @@ public class Game {
         this.lastmove = lastmove;
     }
 
-
     public void setGhostControllers(ArrayList<GhostController> ghostControllers) {
         this.ghostControllers = ghostControllers;
     }
+
 
     public void update(GameData gameData, int step, long elapsedTime) {
         this.gameData = cchecker.updateFoodCollison(gameData);
@@ -128,14 +119,11 @@ public class Game {
         }
     }
 
-    public void processKey(MoveENUM move) throws Throwable {
+    public Boolean processKey(MoveENUM move) throws Throwable {
         if (move != null) {
             switch (move) {
                 case ESC:
-                    // TODO menu de pausa com Continue ou Exit
-                    guiSquare.close();
-                    running = false;
-                    break;
+                    return true;
                 case UP:
                     // check if can change position
                     if (!cchecker.checkWallCollision(gameData, MoveENUM.UP))
@@ -154,11 +142,9 @@ public class Game {
                         gameData.getPacMan().setOrientationENUM(OrientationENUM.RIGHT);
                     break;
             }
+            return false;
         }
-    }
-
-    public void closeEverything() throws Throwable {
-        guiSquare.close();
+        return false;
     }
 
     public void start() throws Throwable {
@@ -166,7 +152,8 @@ public class Game {
         do {
             close = gameState.execute(guiSquare);
         } while (!close);
-        closeEverything();
+        guiSquare.close();
     }
+
 }
 

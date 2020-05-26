@@ -227,6 +227,24 @@ public class GuiSquare {
             graphics.putString(9, 10, "GAME OVER", SGR.BOLD);
             graphics.putString(3, 11, "BETTER LUCK NEXT TIME", SGR.BOLD);
         }
+        screen.refresh();
+    }
+
+    public void pauseScreen(int i) throws IOException {
+        screen.clear();
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        graphics.putString(5, 1, "00", SGR.BOLD);
+        graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
+
+        if (i == 0)
+            graphics.putString(6, 10, "Continue", SGR.BOLD);
+        else
+            graphics.putString(6, 10, "Exit", SGR.BOLD);
+
 
         screen.refresh();
     }

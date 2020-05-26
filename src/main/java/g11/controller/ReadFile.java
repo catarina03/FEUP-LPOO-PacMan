@@ -8,7 +8,7 @@ public class ReadFile {
     private File file;
 
     // get file from classpath, resources folder
-    ReadFile(String fileName) {
+    public ReadFile(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
 
         URL resource = classLoader.getResource(fileName);
