@@ -10,17 +10,20 @@ import static org.junit.Assert.assertEquals;
 
 public class MapComponentTest {
 
-    /*
     @Test
-    public void GhostCreation() {
+    public void GhostTest() {
         Random r = new Random();
         int x = r.nextInt();
         int y = r.nextInt();
 
-        Inky inky = new Inky(x, y);
-        Blinky blinky = new Blinky(x, y);
-        Clyde clyde = new Clyde(x, y);
-        Pinky pinky = new Pinky(x, y);
+        Position position = Mockito.mock(Position.class);
+        Mockito.when(position.getX()).thenReturn(0);
+        Mockito.when(position.getY()).thenReturn(0);
+
+        Inky inky = new Inky(x, y, position);
+        Blinky blinky = new Blinky(x, y, position);
+        Clyde clyde = new Clyde(x, y, position);
+        Pinky pinky = new Pinky(x, y, position);
 
         assertEquals(inky.getX(), x);
         assertEquals(inky.getY(), y);
@@ -30,9 +33,30 @@ public class MapComponentTest {
         assertEquals(clyde.getY(), y);
         assertEquals(pinky.getX(), x);
         assertEquals(pinky.getY(), y);
-    }
 
-     */
+        inky.setOrientation(Orientation.LEFT);
+        inky.setPosition(position);
+        inky.moveDirection();
+        assertEquals(27, inky.getX());
+
+        inky.setOrientation(Orientation.RIGHT);
+        Mockito.when(position.getX()).thenReturn(27);
+        Mockito.when(position.getY()).thenReturn(5);
+        inky.moveDirection();
+        assertEquals(0, inky.getX());
+
+        inky.setOrientation(Orientation.UP);
+        Mockito.when(position.getX()).thenReturn(20);
+        Mockito.when(position.getY()).thenReturn(3);
+        inky.moveDirection();
+        assertEquals(33, inky.getY());
+
+        inky.setOrientation(Orientation.DOWN);
+        Mockito.when(position.getX()).thenReturn(33);
+        Mockito.when(position.getY()).thenReturn(5);
+        inky.moveDirection();
+        assertEquals(3, inky.getY());
+    }
 
     @Test
     public void FixedCreation() {
@@ -45,6 +69,7 @@ public class MapComponentTest {
         PowerPellet powerPellet = new PowerPellet(x, y);
         Wall wall = new Wall(x, y);
         Coin coin = new Coin(x, y);
+        Gate gate = new Gate(x, y);
 
         assertEquals(cherry.getX(), x);
         assertEquals(cherry.getY(), y);
@@ -56,6 +81,8 @@ public class MapComponentTest {
         assertEquals(wall.getY(), y);
         assertEquals(coin.getX(), x);
         assertEquals(coin.getY(), y);
+        assertEquals(gate.getX(), x);
+        assertEquals(gate.getY(), y);
     }
 
     @Test
@@ -94,28 +121,5 @@ public class MapComponentTest {
         assertEquals(pacman.getX(), new_x);
         assertEquals(pacman.getY(), new_y);
         assertEquals(another_pacman.getPosition(), new_pos);
-    }
-
-    @Test
-    public void PacManMovement() {
-        Random r = new Random();
-        int x = r.nextInt();
-        int y = r.nextInt();
-
-        PacMan pacman = new PacMan(x, y);
-        assertEquals(pacman.getOrientation(), Orientation.LEFT);
-
-        pacman.setOrientation(Orientation.DOWN);
-        pacman.moveDirection();
-        assertEquals(pacman.getY(), y+1);
-        pacman.setOrientation(Orientation.RIGHT);
-        pacman.moveDirection();
-        assertEquals(pacman.getX(), x+1);
-        pacman.setOrientation(Orientation.UP);
-        pacman.moveDirection();
-        assertEquals(pacman.getY(), y);
-        pacman.setOrientation(Orientation.LEFT);
-        pacman.moveDirection();
-        assertEquals(pacman.getX(), x);
     }
 }

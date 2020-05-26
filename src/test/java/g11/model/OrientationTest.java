@@ -16,5 +16,10 @@ public class OrientationTest {
         assertEquals(o2, Orientation.RIGHT);
         assertEquals(o3, Orientation.LEFT);
         assertEquals(o4, Orientation.DOWN);
+
+        assertEquals(o1.getOpposite(), o4);
+        assertEquals(o2.getOpposite(), o3);
+        assertEquals(o3.getOpposite(), o2);
+        assertEquals(o4.getOpposite(), o1);
     }
 }

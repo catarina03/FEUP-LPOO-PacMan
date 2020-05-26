@@ -1,17 +1,13 @@
 package g11.model;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Random;
 
 import static org.junit.Assert.*;
 
 public class PositionTest {
-
-    /*
-    * Random r = new Random();
-	* return r.nextInt((max - min) + 1) + min;
-    */
 
     @Test
     public void PositionValuesCreation() {
@@ -50,6 +46,14 @@ public class PositionTest {
         assertEquals(positionChange.getX(), new_x);
         assertEquals(positionChange.getY(), new_y);
 
+        Orientation orientation = Orientation.UP;
+        assertEquals(position.nextPositionWithOrientation(orientation), positionup);
+        orientation = Orientation.DOWN;
+        assertEquals(position.nextPositionWithOrientation(orientation), positiondown);
+        orientation = Orientation.RIGHT;
+        assertEquals(position.nextPositionWithOrientation(orientation), positionright);
+        orientation = Orientation.LEFT;
+        assertEquals(position.nextPositionWithOrientation(orientation), positionleft);
     }
 
     @Test
@@ -80,5 +84,6 @@ public class PositionTest {
 
         assertNotEquals(position1, position2);
         assertEquals(position1, position3);
+        assertEquals(position1.distance(position3), position3.distance(position1), 0.0);
     }
 }
