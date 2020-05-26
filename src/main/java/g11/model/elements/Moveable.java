@@ -1,43 +1,57 @@
 package g11.model.elements;
 
-import g11.model.Orientation;
+import g11.model.OrientationENUM;
 import g11.model.Position;
 
 public abstract class Moveable extends MapComponent {
-    Orientation orientation;
+    OrientationENUM orientationENUM;
 
     public Moveable(int x, int y) {
         super(x, y);
-        this.orientation = Orientation.LEFT;
+        this.orientationENUM = OrientationENUM.LEFT;
     }
 
-    public Moveable(int x, int y, Orientation orientation) {
+    public Moveable(int x, int y, OrientationENUM orientationENUM) {
         super(x, y);
-        this.orientation = orientation;
+        this.orientationENUM = orientationENUM;
     }
 
-    public Moveable(Position position) { super(position); this.orientation = Orientation.LEFT;}
-
-    public Moveable(Position position, Orientation orientation) { super(position); this.orientation = Orientation.LEFT; }
-
-    public Orientation getOrientation() {
-        return orientation;
+    public Moveable(Position position) {
+        super(position);
+        this.orientationENUM = OrientationENUM.LEFT;
     }
 
-    public void setOrientation(Orientation or) {
-        this.orientation = or;
+    public Moveable(Position position, OrientationENUM orientationENUM) {
+        super(position);
+        this.orientationENUM = OrientationENUM.LEFT;
     }
 
-    public void moveUp(){ setY((getY()-1 < 3) ? 33 : getY()-1); }
+    public OrientationENUM getOrientationENUM() {
+        return orientationENUM;
+    }
 
-    public void moveDown(){ setY((getY()+1 - 3) % 31 + 3); }
+    public void setOrientationENUM(OrientationENUM or) {
+        this.orientationENUM = or;
+    }
 
-    public void moveRight(){ setX((getX()+1) % 28); }
+    public void moveUp() {
+        setY((getY() - 1 < 3) ? 33 : getY() - 1);
+    }
 
-    public void moveLeft(){ setX((getX()-1 < 0) ? 27 : getX()-1); }
+    public void moveDown() {
+        setY((getY() + 1 - 3) % 31 + 3);
+    }
 
-    public void moveDirection(){
-        switch (orientation){
+    public void moveRight() {
+        setX((getX() + 1) % 28);
+    }
+
+    public void moveLeft() {
+        setX((getX() - 1 < 0) ? 27 : getX() - 1);
+    }
+
+    public void moveDirection() {
+        switch (orientationENUM) {
             case UP:
                 moveUp();
                 break;

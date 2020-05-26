@@ -1,6 +1,6 @@
 package g11.model.elements;
 
-import g11.model.Orientation;
+import g11.model.OrientationENUM;
 import g11.model.Position;
 
 /**
@@ -9,6 +9,6 @@ import g11.model.Position;
  */
 public class Inky extends Ghost{
     public Inky(int x, int y, Position scatterTarget) {
-        super(x,y, scatterTarget,  Orientation.UP);
+        super(x, y, scatterTarget, OrientationENUM.UP);
     }
 }

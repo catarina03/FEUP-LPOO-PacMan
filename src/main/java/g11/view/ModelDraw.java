@@ -38,7 +38,7 @@ public class ModelDraw {
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
-        switch (gameData.getPacMan().getOrientation()){
+        switch (gameData.getPacMan().getOrientationENUM()) {
             case UP:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
                 break;

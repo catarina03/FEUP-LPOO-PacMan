@@ -39,7 +39,7 @@ public class ModelDrawSquare {
     public void drawPacMan(GameData gameData){
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.enableModifiers(SGR.BOLD);
-        switch (gameData.getPacMan().getOrientation()){
+        switch (gameData.getPacMan().getOrientationENUM()) {
             case UP:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), 'v');
                 break;
@@ -66,9 +66,19 @@ public class ModelDrawSquare {
         graphics.putString(7, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
         graphics.putString(17, 2, "10000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
-        graphics.putString(3, 34, "00000", SGR.BOLD);
+        graphics.putString(3, 34, ">>>>>", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(20, 34, "o", SGR.BOLD);
+
+        // Descomentar para ver Targets em ação
+        /*graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        graphics.putString(gameData.getGhosts().get(0).getTarget().getX(), gameData.getGhosts().get(0).getTarget().getY(), "X", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        graphics.putString(gameData.getGhosts().get(1).getTarget().getX(), gameData.getGhosts().get(1).getTarget().getY(), "X", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(gameData.getGhosts().get(2).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "X", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+        graphics.putString(gameData.getGhosts().get(3).getTarget().getX(), gameData.getGhosts().get(3).getTarget().getY(), "X", SGR.BOLD);*/
     }
 
     public void drawGhost(GameData gameData){

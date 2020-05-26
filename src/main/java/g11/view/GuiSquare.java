@@ -17,9 +17,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class GuiSquare {
-    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
+import static g11.view.MoveENUM.*;
 
+public class GuiSquare {
     private Terminal terminal;
     private Screen screen;
     private ModelDrawSquare modelDraw;
@@ -91,6 +91,55 @@ public class GuiSquare {
         }
     }
 
+    public KeyStroke getKeyStroke() throws IOException {
+        return screen.readInput();
+    }
+
+    public MoveENUM getMove() throws IOException {
+        // Ler Esc para sair de ciclo
+        KeyStroke keyStroke = screen.pollInput();
+        if (keyStroke != null) {
+            switch (keyStroke.getKeyType()) {
+                case ArrowUp:
+                    return UP;
+                case ArrowDown:
+                    return DOWN;
+                case ArrowLeft:
+                    return LEFT;
+                case ArrowRight:
+                    return RIGHT;
+                case Escape:
+                case EOF:
+                    return ESC;
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
+
+    public void draw(GameData gameData) throws IOException {
+        screen.clear();
+
+        for (MapComponent element : gameData.getMap().getMapComponents()) modelDraw.drawElement(element);
+
+        modelDraw.drawGhost(gameData);
+        modelDraw.drawPacMan(gameData);
+        modelDraw.drawGameStats(gameData);
+
+        screen.refresh();
+    }
+
+    public void readyScreen() throws IOException {
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
+        graphics.putString(11, 20, "READY!", SGR.BOLD);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        graphics.putString(9, 14, "PLAYER ONE", SGR.BOLD);
+        screen.refresh();
+    }
+
     public void presentationScreen() throws IOException {
         screen.clear();
         TextGraphics graphics = screen.newTextGraphics();
@@ -109,6 +158,7 @@ public class GuiSquare {
         graphics.putString(10, 18, "#", SGR.BOLD);
 
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
         graphics.putString(3, 9, "# -SPEEDY    \"PINKY\" ", SGR.BOLD);
         graphics.putString(12, 18, "#", SGR.BOLD);
 
@@ -124,9 +174,6 @@ public class GuiSquare {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.putString(8, 18, ">", SGR.BOLD);
         graphics.putString(9, 26, ".", SGR.BOLD);
-
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
-        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
         screen.refresh();
     }
 
@@ -158,43 +205,47 @@ public class GuiSquare {
         screen.refresh();
     }
 
-    public KeyStroke getKeyStroke() throws IOException {
-        return screen.readInput();
-    }
-
-    public MOVE getMove() throws IOException {
-        // Ler Esc para sair de ciclo
-        KeyStroke keyStroke = screen.pollInput();
-        if(keyStroke != null ){
-            switch (keyStroke.getKeyType()){
-                case ArrowUp:
-                    return MOVE.UP;
-                case ArrowDown:
-                    return MOVE.DOWN;
-                case ArrowLeft:
-                    return MOVE.LEFT;
-                case ArrowRight:
-                    return MOVE.RIGHT;
-                case Escape:
-                case EOF:
-                    return MOVE.ESC;
-                default:
-                    return null;
-            }
-        }
-        return null;
-    }
-
-    public void draw(GameData gameData) throws IOException {
+    public void endScreen(Boolean winner, GameData gameData) throws IOException {
         screen.clear();
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
 
-        for (MapComponent element : gameData.getMap().getMapComponents()) modelDraw.drawElement(element);
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        graphics.putString(5, 1, "00", SGR.BOLD);
+        graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
 
-        modelDraw.drawGhost(gameData);
-        modelDraw.drawPacMan(gameData);
-        modelDraw.drawGameStats(gameData);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
 
+        if (winner) {
+            graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+            graphics.putString(6, 10, "CONGRATULATIONS", SGR.BOLD);
+            graphics.putString(10, 11, "YOU WON", SGR.BOLD);
+        } else {
+            graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+            graphics.putString(9, 10, "GAME OVER", SGR.BOLD);
+            graphics.putString(3, 11, "BETTER LUCK NEXT TIME", SGR.BOLD);
+        }
         screen.refresh();
     }
 
+    public void pauseScreen(int i) throws IOException {
+        screen.clear();
+        TextGraphics graphics = screen.newTextGraphics();
+        graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+
+        graphics.setForegroundColor(TextColor.ANSI.WHITE);
+        graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        graphics.putString(5, 1, "00", SGR.BOLD);
+        graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
+
+        if (i == 0)
+            graphics.putString(6, 10, "Continue", SGR.BOLD);
+        else
+            graphics.putString(6, 10, "Exit", SGR.BOLD);
+
+
+        screen.refresh();
+    }
 }

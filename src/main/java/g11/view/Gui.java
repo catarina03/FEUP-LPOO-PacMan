@@ -65,24 +65,22 @@ public class Gui {
         }
     }
 
-    public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}
-
-    public MOVE getMove() throws IOException {
+    public MoveENUM getMove() throws IOException {
         // Ler Esc para sair de ciclo
         KeyStroke keyStroke = screen.pollInput();
-        if(keyStroke != null ){
-            switch (keyStroke.getKeyType()){
+        if (keyStroke != null) {
+            switch (keyStroke.getKeyType()) {
                 case ArrowUp:
-                    return MOVE.UP;
+                    return MoveENUM.UP;
                 case ArrowDown:
-                    return MOVE.DOWN;
+                    return MoveENUM.DOWN;
                 case ArrowLeft:
-                    return MOVE.LEFT;
+                    return MoveENUM.LEFT;
                 case ArrowRight:
-                    return MOVE.RIGHT;
+                    return MoveENUM.RIGHT;
                 case Escape:
                 case EOF:
-                    return MOVE.ESC;
+                    return MoveENUM.ESC;
                 default:
                     return null;
             }
