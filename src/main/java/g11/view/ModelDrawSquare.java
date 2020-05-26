@@ -1,9 +1,9 @@
 package g11.view;
 
+import g11.model.GhostStateENUM;
 import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
@@ -37,7 +37,7 @@ public class ModelDrawSquare {
     }
 
     public void drawPacMan(GameData gameData){
-        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getOrientation()){
             case UP:
@@ -53,7 +53,6 @@ public class ModelDrawSquare {
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '>');
                 break;
         }
-        graphics.setForegroundColor(TextColor.ANSI.WHITE);
         graphics.enableModifiers(SGR.BOLD);
     }
 
@@ -75,27 +74,40 @@ public class ModelDrawSquare {
     public void drawGhost(GameData gameData){
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         for (Ghost element : gameData.getGhosts()) {
-            if (element instanceof Blinky) {
-                graphics.setForegroundColor(TextColor.ANSI.RED);
-                graphics.setCharacter(element.getX(), element.getY(), '#');
-            }
-            if (element instanceof Clyde) {
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-                graphics.setCharacter(element.getX(), element.getY(), '#');
-            }
-            if (element instanceof Inky) {
-                graphics.setForegroundColor(TextColor.ANSI.CYAN);
-                graphics.setCharacter(element.getX(), element.getY(), '#');
-            }
-            if (element instanceof Pinky) {
-                graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-                graphics.setCharacter(element.getX(), element.getY(), '#');
+            if (element.getState() == GhostStateENUM.EATEN || element.getState() == GhostStateENUM.ENTERINGHOUSE) {
+                graphics.setForegroundColor(TextColor.ANSI.WHITE);
+                graphics.setCharacter(element.getX(), element.getY(), '\"');
+            } else {
+                if (element instanceof Blinky) {
+                    if (element.getState() == GhostStateENUM.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
+                if (element instanceof Clyde) {
+                    if (element.getState() == GhostStateENUM.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
+                if (element instanceof Inky) {
+                    if (element.getState() == GhostStateENUM.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
+                if (element instanceof Pinky) {
+                    if (element.getState() == GhostStateENUM.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+                    graphics.setCharacter(element.getX(), element.getY(), '#');
+                }
             }
         }
     }
 
     public void drawCherry(MapComponent element){
-        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
         graphics.setCharacter(element.getX(), element.getY(), '$');
     }
 
@@ -105,8 +117,8 @@ public class ModelDrawSquare {
     }
 
     public void drawCoin(MapComponent element){
-        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.setCharacter(element.getX(), element.getY(), '.');
     }

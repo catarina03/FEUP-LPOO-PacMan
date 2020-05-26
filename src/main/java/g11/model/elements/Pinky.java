@@ -10,6 +10,6 @@ import g11.model.Position;
 public class Pinky extends Ghost{
 
     public Pinky(int x, int y, Position scatterTarget) {
-        super(x,y,scatterTarget, Orientation.UP);
+        super(x,y, scatterTarget, Orientation.UP);
     }
 }

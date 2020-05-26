@@ -22,9 +22,8 @@ public class CollisionChecker {
      * @return true in case of collision
      */
     public boolean checkWallCollision(GameData gameData, GuiSquare.MOVE direction){
-        if (direction == GuiSquare.MOVE.ESC){
+        if (direction == GuiSquare.MOVE.ESC)
             direction = orientationToMove(gameData.getPacMan().getOrientation());
-        }
         Position pacmannextpos = new Position(0,0);
         switch (direction){
             case UP:
@@ -42,8 +41,11 @@ public class CollisionChecker {
         }
 
         ArrayList<Wall> walls = gameData.getMap().getWalls();
-        for(Wall wall : walls){
+        for (Wall wall : walls) {
             if (collide(wall.getPosition(), pacmannextpos)) return true;
+        }
+        for (Gate gate : gameData.getMap().getGates()) {
+            if (collide(gate.getPosition(), pacmannextpos)) return true;
         }
         return false;
     }
@@ -62,30 +64,45 @@ public class CollisionChecker {
         return GuiSquare.MOVE.ESC;
     }
 
-    public GameData updateCoinCollison(GameData gameData) {
+    public GameData updateFoodCollison(GameData gameData) {
         ArrayList<Coin> coins = gameData.getMap().getCoins();
-        Coin toremove = null;
+        ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
+        Fixed toremove = null;
         for(Coin coin : coins){
             if (collide(coin.getPosition(), gameData.getPacMan().getPosition())){
                 toremove = coin;
                 break;
             }
         }
+        for(PowerPellet powerPellet : powerPellets){
+            if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){
+                toremove = powerPellet;
+                break;
+            }
+        }
         if (toremove != null) {
             ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
             ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
+            GameStats stats = gameData.getGameStats();
 
             emptySpace.add(new EmptySpace(toremove.getX(), toremove.getY()));
             components.add(new EmptySpace(toremove.getX(), toremove.getY()));
-            coins.remove(toremove);
-            components.remove(toremove);
 
-            gameData.getMap().setCoins(coins);
+            if (toremove instanceof Coin){
+                coins.remove(toremove);
+                components.remove(toremove);
+                gameData.getMap().setCoins(coins);
+                stats.setScore(stats.getScore() + 10);
+            }
+            if (toremove instanceof PowerPellet){
+                powerPellets.remove(toremove);
+                components.remove(toremove);
+                gameData.getMap().setPowerPellets(powerPellets);
+                stats.setScore(stats.getScore() + 50);
+            }
+
             gameData.getMap().setEmptySpaces(emptySpace);
             gameData.getMap().setMapComponents(components);
-
-            GameStats stats = gameData.getGameStats();
-            stats.setScore(stats.getScore() + 1);
             gameData.setGameStats(stats);
         }
         return gameData;
