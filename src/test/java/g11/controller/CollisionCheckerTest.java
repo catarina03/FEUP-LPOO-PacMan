@@ -5,12 +5,13 @@ import g11.model.elements.*;
 import g11.view.GuiSquare;
 
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 import static g11.model.Orientation.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CollisionCheckerTest {
 
@@ -33,8 +34,8 @@ public class CollisionCheckerTest {
         Mockito.when(pacman.getPosition()).thenReturn(pos1);
         Mockito.when(emptySpace.getPosition()).thenReturn(pos2);
 
-        assertEquals(true, collisionChecker.collide(pacman.getPosition(), wall.getPosition()));
-        assertEquals(false, collisionChecker.collide(pacman.getPosition(), emptySpace.getPosition()));
+        assertTrue(collisionChecker.collide(pacman.getPosition(), wall.getPosition()));
+        assertFalse(collisionChecker.collide(pacman.getPosition(), emptySpace.getPosition()));
     }
 
     @Test
@@ -57,15 +58,21 @@ public class CollisionCheckerTest {
         walls.add(wall2);
         walls.add(wall3);
 
+        Gate gate = Mockito.mock(Gate.class);
+        Mockito.when(gate.getPosition()).thenReturn(new Position(12, 12));
+        ArrayList<Gate> gates = new ArrayList<>();
+        gates.add(gate);
+
         Mockito.when(map.getWalls()).thenReturn(walls);
         Mockito.when(gameData.getPacMan()).thenReturn(pacman);
         Mockito.when(gameData.getMap()).thenReturn(map);
+        Mockito.when(gameData.getMap().getGates()).thenReturn(gates);
 
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC));
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.UP));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT));
+        assertFalse(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC));
+        assertFalse(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.UP));
+        assertTrue(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT));
+        assertTrue(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN));
+        assertTrue(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT));
     }
 
     @Test
@@ -83,25 +90,37 @@ public class CollisionCheckerTest {
 
 
     @Test
-    public void updateCoinCollisionTest(){ //NEEDS FIXING
+    public void updateFoodCollisionTest(){
         CollisionChecker collisionChecker = new CollisionChecker();
 
         GameData gameData = Mockito.mock(GameData.class);
         Map map = Mockito.mock(Map.class);
         PacMan pacman = Mockito.mock(PacMan.class);
         GameStats gameStats = Mockito.mock(GameStats.class);
+        ArrayList<MapComponent> mapComponents = new ArrayList<>();
 
         Position position = Mockito.mock(Position.class);
         Mockito.when(position.getX()).thenReturn(10);
         Mockito.when(position.getY()).thenReturn(11);
+
+        Position position2 = Mockito.mock(Position.class);
+        Mockito.when(position2.getX()).thenReturn(12);
+        Mockito.when(position2.getY()).thenReturn(12);
+
         Coin coin = Mockito.mock(Coin.class);
         Mockito.when(coin.getPosition()).thenReturn(position);
         ArrayList<Coin> coins = new ArrayList<>();
         coins.add(coin);
-        ArrayList<EmptySpace> emptySpaces = new ArrayList<>();
-        emptySpaces.clear();
-        ArrayList<MapComponent> mapComponents = new ArrayList<>();
         mapComponents.add(coin);
+
+        PowerPellet powerPellet = Mockito.mock(PowerPellet.class);
+        Mockito.when(powerPellet.getPosition()).thenReturn(position2);
+        ArrayList<PowerPellet> powerPellets = new ArrayList<>();
+        powerPellets.add(powerPellet);
+        mapComponents.add(powerPellet);
+
+        ArrayList<EmptySpace> emptySpaces = new ArrayList<>();
+
         int score = 0;
         gameStats.setScore(score);
 
@@ -109,9 +128,17 @@ public class CollisionCheckerTest {
         Mockito.when(map.getCoins()).thenReturn(coins);
         Mockito.when(map.getEmptySpaces()).thenReturn(emptySpaces);
         Mockito.when(map.getMapComponents()).thenReturn(mapComponents);
+        Mockito.when(map.getPowerPellets()).thenReturn(powerPellets);
         Mockito.when(gameData.getPacMan()).thenReturn(pacman);
         Mockito.when(gameData.getMap()).thenReturn(map);
         Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
+
+        collisionChecker.updateFoodCollison(gameData);
+        assertEquals(5, score);
+        //Mockito.verify(collisionChecker, Mockito.times(1)).collide(coin.getPosition(), pacman.getPosition());
+        //Mockito.verify(collisionChecker, Mockito.times(1)).collide(powerPellet.getPosition(), pacman.getPosition());
+        //Mockito.verify(coins, Mockito.times(1)).remove(coin);
+        //Mockito.verify(mapComponents, Mockito.times(1)).remove(coin);
 
         //GameData result = collisionChecker.updateCoinCollison(gameData);
 

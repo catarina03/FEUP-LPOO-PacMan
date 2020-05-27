@@ -86,7 +86,7 @@ public class CollisionChecker {
             GameStats stats = gameData.getGameStats();
 
             emptySpace.add(new EmptySpace(toremove.getX(), toremove.getY()));
-            components.add(new EmptySpace(toremove.getX(), toremove.getY()));
+            //components.abj dd(new EmptySpace(toremove.getX(), toremove.getY()));
 
             if (toremove instanceof Coin){
                 coins.remove(toremove);

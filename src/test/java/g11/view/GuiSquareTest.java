@@ -1,5 +1,8 @@
 package g11.view;
 
+import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import g11.model.elements.*;
 import g11.model.GameData;
 import g11.model.GameStats;
@@ -7,6 +10,7 @@ import g11.model.Map;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -100,5 +104,48 @@ public class GuiSquareTest {
         Mockito.verify(screen, Mockito.times(1)).refresh();
     }
 
+    @Test
+    public void presentationScreen() throws IOException {
+        Screen screen = Mockito.mock(Screen.class);
+        TextGraphics graphics = Mockito.mock(TextGraphics.class);
+
+
+
+        Mockito.verify(screen, Mockito.times(1)).clear();;
+        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(5, 5, "CHARACTER / NICKNAME", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(11, 26, "10 PTS", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(11, 27, "50 PTS", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(5, 1, "00", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(0, 35, "CREDIT 0", SGR.BOLD);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 7, "# -SHADOW    \"BLINKY\" ", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(10, 18, "#", SGR.BOLD);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 9, "# -SPEEDY    \"PINKY\" ", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(12, 18, "#", SGR.BOLD);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 11, "# -BASHFUL   \"INKY\" ", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(14, 18, "#", SGR.BOLD);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 13, "# -POKEY     \"CLYDE\" ", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(16, 18, "#", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(9, 27, "*", SGR.BOLD);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFF100"));
+        Mockito.verify(graphics, Mockito.times(1)).putString(8, 18, ">", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(9, 26, ".", SGR.BOLD);
+
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
+        Mockito.verify(screen, Mockito.times(1)).refresh();
+    }
 
 }

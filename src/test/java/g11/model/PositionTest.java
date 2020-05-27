@@ -16,8 +16,8 @@ public class PositionTest {
         int y = r.nextInt((20) + 1);
 
         Position position = new Position(x,y);
-        assertEquals(x, position.getX());
-        assertEquals(y, position.getY());
+        assertEquals(position.getX(), x);
+        assertEquals(position.getY(), y);
     }
 
     @Test

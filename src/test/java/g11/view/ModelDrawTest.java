@@ -68,6 +68,23 @@ public class ModelDrawTest {
     }
 
     @Test
+    public void drawGate(){
+        Screen screen = Mockito.mock(Screen.class);
+        TextGraphics graphics = Mockito.mock(TextGraphics.class);
+        ModelDraw modelDraw = new ModelDraw(screen);
+        modelDraw.setGraphics(graphics);
+
+        MapComponent gate = Mockito.mock(Gate.class);
+        Mockito.when(gate.getX()).thenReturn(30);
+        Mockito.when(gate.getY()).thenReturn(30);
+
+        modelDraw.drawElement(gate);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
+        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).putString(gate.getX(), gate.getY(), "-", SGR.BOLD);
+    }
+
+    @Test
     public void drawEmptySpace() {
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);

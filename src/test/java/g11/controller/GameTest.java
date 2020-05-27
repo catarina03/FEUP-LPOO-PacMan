@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static g11.view.GuiSquare.MOVE.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class GameTest {
 
@@ -92,7 +93,7 @@ public class GameTest {
 
         game.processKey(LEFT);
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, LEFT);
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT));
+        assertFalse(collisionChecker.checkWallCollision(gameData, LEFT));
 
         game.processKey(GuiSquare.MOVE.ESC);
         assertEquals(false, game.getRunning());
