@@ -5,6 +5,7 @@ import g11.model.Map;
 import g11.model.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MapReader {
@@ -132,6 +133,9 @@ public class MapReader {
                         walls.add(wall);
                         mapComponents.add(wall);
                         break;
+                    case 'T':
+                        Moveable.xValueTP = x;
+                        break;
                 }
                 x++;
             }
@@ -152,7 +156,6 @@ public class MapReader {
         Clyde clyde = new Clyde(clydePos, clydeTarget);
         mapComponents.add(clyde);
         ghosts.add(clyde);
-
     }
 
     public Position getPacManposition() {

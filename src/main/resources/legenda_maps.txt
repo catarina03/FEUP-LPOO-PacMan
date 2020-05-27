@@ -15,3 +15,5 @@ Q - Scatter target de Pinky
 W - Scatter target de Blinky
 A - Scatter target de Clyde
 S - Scatter Target de Inky
+
+T - lugar para teleport
