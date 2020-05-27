@@ -16,6 +16,7 @@ public class MapReader {
     private final ArrayList<Gate> gates;
     private final ArrayList<MapComponent> mapComponents;
     private final ArrayList<Ghost> ghosts;
+    private final ArrayList<Position> unturnable;
     private Position pacManposition;
 
     public MapReader(ReadFile readFile) {
@@ -27,6 +28,7 @@ public class MapReader {
         gates = new ArrayList<>();
         mapComponents = new ArrayList<>();
         ghosts = new ArrayList<>();
+        unturnable = new ArrayList<>();
 
         int x; // entre 0 e 27
         int y = 3; // entre 4 e 34
@@ -102,17 +104,25 @@ public class MapReader {
                     emptySpaces.add(emptySpace);
                     mapComponents.add(emptySpace);
                 }
-                else if(ch == 'g'){
-                    Gate gate = new Gate(x,y);
+                else if (ch == 'g') {
+                    Gate gate = new Gate(x, y);
                     gates.add(gate);
                     mapComponents.add(gate);
+                } else if (ch == 'x') {
+                    unturnable.add(new Position(x, y));
+                    EmptySpace emptySpace = new EmptySpace(x, y);
+                    emptySpaces.add(emptySpace);
+                    mapComponents.add(emptySpace);
+                } else if (ch == 'o') {
+                    Coin coin = new Coin(x, y);
+                    coins.add(coin);
+                    mapComponents.add(coin);
+                    unturnable.add(new Position(x, y));
                 }
                 x++;
             }
             y++;
         }
-
-
     }
 
     public Position getPacManposition() {
@@ -124,7 +134,7 @@ public class MapReader {
     }
 
     public Map getMap() {
-        return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents);
+        return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents, unturnable);
     }
 
     public List<Ghost> ghostList() {

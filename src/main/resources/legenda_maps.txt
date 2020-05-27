@@ -1,0 +1,11 @@
+# - parede
+c - coin
+e - empty space
+B - Blinky
+I - Inky
+P - Pinky
+K - Clyde
+M - Pac-Man
+$ - PowerPellet / Energizer
+x - lugar que não possibilita virar para cima, sem coins lá
+o - lugar que não possibilita virar para cima, com coins lá

@@ -72,19 +72,20 @@ public class GhostController {
      */
     public ArrayList<OrientationENUM> getAvailableOrientations(GameData gameData) {
         ArrayList<OrientationENUM> returning = new ArrayList<>();
-        // se estiverem nos cruzamentos amarelos não podem mudar de direção
-        // TODO valores variam com mapa: v1 (12,14), (15,14), (12,26), (15,26) ; v2 (23,26), (26, 26), () e ()
-        if (ghost.getPosition().equals(new Position(12, 14)) ||
-                ghost.getPosition().equals(new Position(15, 14)) ||
-                ghost.getPosition().equals(new Position(12, 26)) ||
-                ghost.getPosition().equals(new Position(15, 26))) {
-            if (ghost.getOrientationENUM().getOpposite() != LEFT) {
-                returning.add(LEFT);
+        // TODO se estiverem nos cruzamentos amarelos não podem mudar de direção
+
+        for (Position pos : gameData.getMap().getUnturnable()) {
+            if (ghost.getPosition().equals(pos)) {
+                if (ghost.getOrientationENUM().getOpposite() != LEFT) {
+                    System.out.println("left");
+                    returning.add(LEFT);
+                }
+                if (ghost.getOrientationENUM().getOpposite() != RIGHT) {
+                    System.out.println("right");
+                    returning.add(RIGHT);
+                }
+                return returning;
             }
-            if (ghost.getOrientationENUM().getOpposite() != RIGHT) {
-                returning.add(RIGHT);
-            }
-            return returning;
         }
 
         for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {

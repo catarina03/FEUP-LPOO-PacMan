@@ -9,7 +9,7 @@
 #cccccc##eeee##eeee##cccccc#
 ######c#####e##e#####c######
 eeeee#c#####e##e#####c#eeeee
-eeeee#c##eeeeBeeeee##c#eeeee
+eeeee#c##eeexBexeee##c#eeeee
 eeeee#c##e###gg###e##c#eeeee
 ######c##e#eeeeee#e##c######
 eeeeeeceee#IePeeK#eeeceeeeee
@@ -21,7 +21,7 @@ eeeee#c##e########e##c#eeeee
 #cccccccccccc##cccccccccccc#
 #c####c#####c##c#####c####c#
 #c####c#####c##c#####c####c#
-#$cc##ccccccceMccccccc##cc$#
+#$cc##ccccccoeMocccccc##cc$#
 ###c##c##c########c##c##c###
 ###c##c##c########c##c##c###
 #cccccc##cccc##cccc##cccccc#
