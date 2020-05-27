@@ -35,9 +35,6 @@ public class GhostStateScatter extends GhostState {
                 ghostController.setChangeOrientation(false);
             } else {
                 availableOris = ghostController.getAvailableOrientations(gameData);
-                for (OrientationENUM ori : availableOris)
-                    System.out.println(ori);
-                System.out.printf("--");
                 if (availableOris.size() > 0) {
                     ghostController.getGhost().setOrientationENUM(ghostController.chooseOrientation(availableOris));
                 }

@@ -77,11 +77,9 @@ public class GhostController {
         for (Position pos : gameData.getMap().getUnturnable()) {
             if (ghost.getPosition().equals(pos)) {
                 if (ghost.getOrientationENUM().getOpposite() != LEFT) {
-                    System.out.println("left");
                     returning.add(LEFT);
                 }
                 if (ghost.getOrientationENUM().getOpposite() != RIGHT) {
-                    System.out.println("right");
                     returning.add(RIGHT);
                 }
                 return returning;

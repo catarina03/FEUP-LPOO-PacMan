@@ -7,8 +7,8 @@ import g11.model.Position;
  * Blue Elements.Ghost
  * Personality : Try to position themselves in front of PacMan
  */
-public class Inky extends Ghost{
-    public Inky(int x, int y, Position scatterTarget) {
-        super(x, y, scatterTarget, OrientationENUM.UP);
+public class Inky extends Ghost {
+    public Inky(Position ghostPosition, Position scatterTarget) {
+        super(ghostPosition, scatterTarget, OrientationENUM.UP);
     }
 }

@@ -80,7 +80,7 @@ public class ModelDrawSquare {
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
         graphics.putString(gameData.getGhosts().get(3).getTarget().getX(), gameData.getGhosts().get(3).getTarget().getY(), "X", SGR.BOLD);*/
 
-        /*graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
         graphics.putString(gameData.getGhosts().get(0).getScatterTarget().getX(), gameData.getGhosts().get(0).getScatterTarget().getY(), "X", SGR.BOLD);
         graphics.putString(gameData.getGhosts().get(0).getScatterTarget().getX(), gameData.getGhosts().get(0).getScatterTarget().getY() + 3, "X", SGR.BOLD);
         graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
@@ -93,7 +93,7 @@ public class ModelDrawSquare {
         graphics.putString(gameData.getGhosts().get(3).getScatterTarget().getX(), gameData.getGhosts().get(3).getScatterTarget().getY(), "X", SGR.BOLD);
         graphics.putString(gameData.getGhosts().get(3).getScatterTarget().getX(), gameData.getGhosts().get(3).getScatterTarget().getY() - 1, "X", SGR.BOLD);
 
-        graphics.setForegroundColor(TextColor.ANSI.RED);
+        /*graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(12, 14, "X", SGR.BOLD);
         graphics.putString(15, 14, "X", SGR.BOLD);
         graphics.putString(12, 26, "O", SGR.BOLD);

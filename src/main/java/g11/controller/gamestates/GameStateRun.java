@@ -80,10 +80,10 @@ public class GameStateRun extends GameState {
         game.setNumberActivePP(game.getGameData().getMap().getPowerPellets().size());
 
         ArrayList<GhostController> ghostControllers = new ArrayList<>();
-        //ghostControllers.add(new GhostController(false, game.getGameData().getGhosts().get(0), new TargetStrategyBlinky(), 0));
-        //ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(1), new TargetStrategyInky(), 5000));
+        ghostControllers.add(new GhostController(false, game.getGameData().getGhosts().get(0), new TargetStrategyBlinky(), 0));
+        ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(1), new TargetStrategyInky(), 5000));
         ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(2), new TargetStrategyPinky(), 0));
-        //ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(3), new TargetStrategyClyde(), 10000));
+        ghostControllers.add(new GhostController(true, game.getGameData().getGhosts().get(3), new TargetStrategyClyde(), 10000));
         game.setGhostControllers(ghostControllers);
 
         // Starting Sequence
