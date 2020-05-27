@@ -8,7 +8,7 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
-public class ModelDrawSquare {
+public class ModelDrawSquare implements ModelDraw {
     private Screen screen;
     private TextGraphics graphics;
 
@@ -30,7 +30,7 @@ public class ModelDrawSquare {
         if (element instanceof Gate) drawGate(element);
     }
 
-    private void drawGate(MapComponent element) {
+    public void drawGate(MapComponent element) {
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
         graphics.putString(element.getX(), element.getY(), "-", SGR.BOLD);
