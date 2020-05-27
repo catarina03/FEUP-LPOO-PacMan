@@ -92,12 +92,14 @@ public class CollisionChecker {
             components.add(new EmptySpace(toremove.getX(), toremove.getY()));
 
             if (toremove instanceof Coin){
+                gameData.getGameStats().incrementEatenCoins();
                 coins.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setCoins(coins);
                 stats.setScore(stats.getScore() + 10);
             }
             if (toremove instanceof PowerPellet){
+                gameData.getGameStats().incrementEatenPP();
                 powerPellets.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setPowerPellets(powerPellets);
@@ -110,5 +112,4 @@ public class CollisionChecker {
         }
         return gameData;
     }
-
 }

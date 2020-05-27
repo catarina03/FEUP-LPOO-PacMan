@@ -109,6 +109,7 @@ public class Game {
                 ghostController.update(gameData, step, elapsedTime);
             if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
                 if (ghostController.getGhostState() instanceof GhostStateFrightened) {
+                    gameData.getGameStats().incrementEatenGhosts();
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
                     ghostController.getGhost().setState(GhostStateENUM.EATEN);
                 } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {

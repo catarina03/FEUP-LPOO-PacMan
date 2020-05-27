@@ -17,31 +17,31 @@ public class GameStats {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getEatenGhosts() {
         return eatenGhosts;
-    }
-
-    public void setEatenGhosts(int eatenGhosts) {
-        this.eatenGhosts = eatenGhosts;
     }
 
     public int getEatenCoins() {
         return eatenCoins;
     }
 
-    public void setEatenCoins(int eatenCoins) {
-        this.eatenCoins = eatenCoins;
-    }
-
     public int getEatenPP() {
         return eatenPP;
     }
 
-    public void setEatenPP(int eatenPP) {
-        this.eatenPP = eatenPP;
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void incrementEatenCoins() {
+        this.eatenCoins = eatenCoins + 1;
+    }
+
+    public void incrementEatenGhosts() {
+        this.eatenGhosts = eatenGhosts + 1;
+    }
+
+    public void incrementEatenPP() {
+        this.eatenPP = eatenPP + 1;
     }
 }
