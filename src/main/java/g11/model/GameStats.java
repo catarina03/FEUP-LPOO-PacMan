@@ -29,7 +29,6 @@ public class GameStats {
         return eatenPP;
     }
 
-
     public void incrementEatenCoins() {
         this.eatenCoins = eatenCoins + 1;
         score = score + 10;
