@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class ReadFileTest { //IS IT WORTH TESTING THO?
+public class ReadFileTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void fileNotFoundTest(){
