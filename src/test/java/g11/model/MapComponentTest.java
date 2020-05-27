@@ -34,24 +34,24 @@ public class MapComponentTest {
         assertEquals(pinky.getX(), x);
         assertEquals(pinky.getY(), y);
 
-        inky.setOrientation(Orientation.LEFT);
+        inky.setOrientationENUM(OrientationENUM.LEFT);
         inky.setPosition(position);
         inky.moveDirection();
         assertEquals(27, inky.getX());
 
-        inky.setOrientation(Orientation.RIGHT);
+        inky.setOrientationENUM(OrientationENUM.RIGHT);
         Mockito.when(position.getX()).thenReturn(27);
         Mockito.when(position.getY()).thenReturn(5);
         inky.moveDirection();
         assertEquals(0, inky.getX());
 
-        inky.setOrientation(Orientation.UP);
+        inky.setOrientationENUM(OrientationENUM.UP);
         Mockito.when(position.getX()).thenReturn(20);
         Mockito.when(position.getY()).thenReturn(3);
         inky.moveDirection();
         assertEquals(33, inky.getY());
 
-        inky.setOrientation(Orientation.DOWN);
+        inky.setOrientationENUM(OrientationENUM.DOWN);
         Mockito.when(position.getX()).thenReturn(33);
         Mockito.when(position.getY()).thenReturn(5);
         inky.moveDirection();
@@ -122,4 +122,30 @@ public class MapComponentTest {
         assertEquals(pacman.getY(), new_y);
         assertEquals(another_pacman.getPosition(), new_pos);
     }
+
+    /*
+    @Test
+    public void PacManMovement() {
+        Random r = new Random();
+        int x = r.nextInt();
+        int y = r.nextInt();
+
+        PacMan pacman = new PacMan(x, y);
+        assertEquals(pacman.getOrientationENUM(), OrientationENUM.LEFT);
+
+        pacman.setOrientationENUM(OrientationENUM.DOWN);
+        pacman.moveDirection();
+        assertEquals(pacman.getY(), y + 1);
+        pacman.setOrientationENUM(OrientationENUM.RIGHT);
+        pacman.moveDirection();
+        assertEquals(pacman.getX(), x + 1);
+        pacman.setOrientationENUM(OrientationENUM.UP);
+        pacman.moveDirection();
+        assertEquals(pacman.getY(), y);
+        pacman.setOrientationENUM(OrientationENUM.LEFT);
+        pacman.moveDirection();
+        assertEquals(pacman.getX(), x);
+    }
+
+     */
 }

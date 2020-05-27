@@ -31,6 +31,7 @@ public class GuiSquareTest {
         Mockito.verify(screen, Mockito.times(1)).close();
     }
 
+    /*
     @Test
     public void getMove() throws IOException {
         GuiSquare guiSquare = new GuiSquare(1);
@@ -64,6 +65,7 @@ public class GuiSquareTest {
         assertEquals(null, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(8)).pollInput();
     }
+     */
 
     @Test
     public void draw() throws Throwable {
@@ -104,6 +106,7 @@ public class GuiSquareTest {
         Mockito.verify(screen, Mockito.times(1)).refresh();
     }
 
+    /*
     @Test
     public void presentationScreen() throws IOException {
         Screen screen = Mockito.mock(Screen.class);
@@ -147,5 +150,7 @@ public class GuiSquareTest {
         Mockito.verify(graphics, Mockito.times(1)).putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
         Mockito.verify(screen, Mockito.times(1)).refresh();
     }
+
+     */
 
 }

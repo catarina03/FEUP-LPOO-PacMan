@@ -3,13 +3,11 @@ package g11.controller;
 import g11.model.*;
 import g11.model.elements.*;
 import g11.view.GuiSquare;
+import g11.view.MoveENUM;
 
 import java.util.ArrayList;
 
 public class CollisionChecker {
-    public CollisionChecker() {
-    }
-
     public boolean collide(Position poselem1, Position poselem2){
         return poselem1.equals(poselem2);
     }
@@ -19,13 +17,14 @@ public class CollisionChecker {
      * you call this function with Gui.MOVE ESC
      * - If you want to check if PacMan can make a turn (change in orientation) without coliding with a wall and getting
      * stuck you pass in Gui.MOVE the direction to which PacMan is trying to turn
+     *
      * @return true in case of collision
      */
-    public boolean checkWallCollision(GameData gameData, GuiSquare.MOVE direction){
-        if (direction == GuiSquare.MOVE.ESC)
-            direction = orientationToMove(gameData.getPacMan().getOrientation());
-        Position pacmannextpos = new Position(0,0);
-        switch (direction){
+    public boolean checkWallCollision(GameData gameData, MoveENUM direction) {
+        if (direction == MoveENUM.ESC)
+            direction = orientationToMove(gameData.getPacMan().getOrientationENUM());
+        Position pacmannextpos = new Position(0, 0);
+        switch (direction) {
             case UP:
                 pacmannextpos = gameData.getPacMan().getPosition().up();
                 break;
@@ -50,31 +49,32 @@ public class CollisionChecker {
         return false;
     }
 
-    public GuiSquare.MOVE orientationToMove(Orientation orientation){
-        switch (orientation){
+    public MoveENUM orientationToMove(OrientationENUM orientationENUM) {
+        switch (orientationENUM) {
             case UP:
-                return GuiSquare.MOVE.UP;
+                return MoveENUM.UP;
             case DOWN:
-                return GuiSquare.MOVE.DOWN;
+                return MoveENUM.DOWN;
             case LEFT:
-                return GuiSquare.MOVE.LEFT;
+                return MoveENUM.LEFT;
             case RIGHT:
-                return GuiSquare.MOVE.RIGHT;
+                return MoveENUM.RIGHT;
+            default:
+                return MoveENUM.ESC;
         }
-        return GuiSquare.MOVE.ESC;
     }
 
-    public GameData updateFoodCollison(GameData gameData) {
+    public GameData updateFoodCollison(GameData gameData, Game game) {
         ArrayList<Coin> coins = gameData.getMap().getCoins();
         ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
         Fixed toremove = null;
-        for(Coin coin : coins){
-            if (collide(coin.getPosition(), gameData.getPacMan().getPosition())){
+        for (Coin coin : coins) {
+            if (collide(coin.getPosition(), gameData.getPacMan().getPosition())) {
                 toremove = coin;
                 break;
             }
         }
-        for(PowerPellet powerPellet : powerPellets){
+        for (PowerPellet powerPellet : powerPellets) {
             if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){
                 toremove = powerPellet;
                 break;
@@ -92,13 +92,14 @@ public class CollisionChecker {
                 coins.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setCoins(coins);
-                stats.setScore(stats.getScore() + 10);
+                gameData.getGameStats().incrementEatenCoins();
             }
-            if (toremove instanceof PowerPellet){
+            if (toremove instanceof PowerPellet) {
                 powerPellets.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setPowerPellets(powerPellets);
-                stats.setScore(stats.getScore() + 50);
+                gameData.getGameStats().incrementEatenPP();
+                game.setTicks(160);
             }
 
             gameData.getMap().setEmptySpaces(emptySpace);
@@ -107,5 +108,4 @@ public class CollisionChecker {
         }
         return gameData;
     }
-
 }

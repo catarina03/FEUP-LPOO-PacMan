@@ -156,7 +156,7 @@ switch (direction){
         break;
 }
 ...
-switch (orientation){
+switch (orientationENUM){
             case UP:
                 return Gui.MOVE.UP;
             case DOWN:

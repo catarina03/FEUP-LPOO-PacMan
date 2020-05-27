@@ -3,7 +3,7 @@ package g11.view;
 import g11.model.elements.*;
 import g11.model.GameData;
 import g11.model.GameStats;
-import g11.model.Orientation;
+import g11.model.OrientationENUM;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
@@ -200,22 +200,22 @@ public class ModelDrawTest {
         ModelDraw modelDraw = new ModelDraw(screen);
         modelDraw.setGraphics(graphics);
 
-        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.UP);
+        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.UP);
         modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
         Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
 
-        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.RIGHT);
+        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.RIGHT);
         modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
 
-        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.DOWN);
+        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.DOWN);
         modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
 
-        Mockito.when(pacman.getOrientation()).thenReturn(Orientation.LEFT);
+        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.LEFT);
         modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
     }

@@ -46,13 +46,13 @@ public class PositionTest {
         assertEquals(positionChange.getX(), new_x);
         assertEquals(positionChange.getY(), new_y);
 
-        Orientation orientation = Orientation.UP;
+        OrientationENUM orientation = OrientationENUM.UP;
         assertEquals(position.nextPositionWithOrientation(orientation), positionup);
-        orientation = Orientation.DOWN;
+        orientation = OrientationENUM.DOWN;
         assertEquals(position.nextPositionWithOrientation(orientation), positiondown);
-        orientation = Orientation.RIGHT;
+        orientation = OrientationENUM.RIGHT;
         assertEquals(position.nextPositionWithOrientation(orientation), positionright);
-        orientation = Orientation.LEFT;
+        orientation = OrientationENUM.LEFT;
         assertEquals(position.nextPositionWithOrientation(orientation), positionleft);
     }
 
