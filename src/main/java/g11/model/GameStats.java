@@ -29,19 +29,23 @@ public class GameStats {
         return eatenPP;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     public void incrementEatenCoins() {
         this.eatenCoins = eatenCoins + 1;
+        score = score + 10;
     }
 
-    public void incrementEatenGhosts() {
+    public void incrementEatenGhosts(int i) {
         this.eatenGhosts = eatenGhosts + 1;
+        // 1 - 200
+        // 2 - 400
+        // 3 - 800
+        // 4 - 1600 etc
+        score = score + 200 * (int) Math.pow(2, i - 1);
     }
 
     public void incrementEatenPP() {
         this.eatenPP = eatenPP + 1;
+        score = score + 50;
     }
 }
