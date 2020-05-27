@@ -47,7 +47,7 @@ public class GuiRectangle extends Gui {
     }
 
     @Override
-    void readyScreen() throws IOException {
+    public void readyScreen() throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -58,7 +58,7 @@ public class GuiRectangle extends Gui {
     }
 
     @Override
-    void presentationScreen() throws IOException {
+    public void presentationScreen() throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -69,7 +69,7 @@ public class GuiRectangle extends Gui {
     }
 
     @Override
-    void inicialScreen() throws IOException {
+    public void inicialScreen() throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -80,7 +80,7 @@ public class GuiRectangle extends Gui {
     }
 
     @Override
-    void endScreen(Boolean winner, GameStats gameStats) throws IOException {
+    public void endScreen(Boolean winner, GameStats gameStats) throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -91,7 +91,7 @@ public class GuiRectangle extends Gui {
     }
 
     @Override
-    void pauseScreen(int i) throws IOException {
+    public void pauseScreen(int i) throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);

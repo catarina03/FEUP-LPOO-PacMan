@@ -13,10 +13,9 @@ public class GhostController {
     Ghost ghost;
     private boolean accessingHouse; // está a sair da GhostHouse
     private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
-    private int ticksToEndFrightened;
-    private long timeToStart;
     private GhostState ghostState;
-    private TargetStrategy targetStrategy;
+    private final long timeToStart;
+    private final TargetStrategy targetStrategy;
 
 
     public GhostController(boolean accessingHouse, Ghost ghost, TargetStrategy targetStrategy, long timeToStart) {
@@ -30,7 +29,6 @@ public class GhostController {
         this.ghost = ghost;
         this.accessingHouse = accessingHouse;
         this.changeOrientation = false;
-        this.ticksToEndFrightened = 0;
     }
 
     public Ghost getGhost() {
@@ -39,23 +37,18 @@ public class GhostController {
     public boolean isAccessingHouse() {
         return accessingHouse;
     }
-
     public void setAccessingHouse(boolean accessingHouse) {
         this.accessingHouse = accessingHouse;
     }
-
     public boolean isChangeOrientation() {
         return changeOrientation;
     }
-
     public void setChangeOrientation(boolean changeOrientation) {
         this.changeOrientation = changeOrientation;
     }
-
     public TargetStrategy getTargetStrategy() {
         return targetStrategy;
     }
-
     public GhostState getGhostState() {
         return ghostState;
     }

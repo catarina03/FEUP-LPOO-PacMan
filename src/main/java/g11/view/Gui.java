@@ -90,13 +90,13 @@ public abstract class Gui {
         screen.refresh();
     }
 
-    abstract void readyScreen() throws IOException;
+    public abstract void readyScreen() throws IOException;
 
-    abstract void presentationScreen() throws IOException;
+    public abstract void presentationScreen() throws IOException;
 
-    abstract void inicialScreen() throws IOException;
+    public abstract void inicialScreen() throws IOException;
 
-    abstract void endScreen(Boolean winner, GameStats gameStats) throws IOException;
+    public abstract void endScreen(Boolean winner, GameStats gameStats) throws IOException;
 
-    abstract void pauseScreen(int i) throws IOException;
+    public abstract void pauseScreen(int i) throws IOException;
 }
