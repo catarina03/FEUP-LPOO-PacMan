@@ -8,9 +8,6 @@ import g11.view.MoveENUM;
 import java.util.ArrayList;
 
 public class CollisionChecker {
-    public CollisionChecker() {
-    }
-
     public boolean collide(Position poselem1, Position poselem2){
         return poselem1.equals(poselem2);
     }
@@ -67,17 +64,17 @@ public class CollisionChecker {
         }
     }
 
-    public GameData updateFoodCollison(GameData gameData) {
+    public GameData updateFoodCollison(GameData gameData, Game game) {
         ArrayList<Coin> coins = gameData.getMap().getCoins();
         ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
         Fixed toremove = null;
-        for(Coin coin : coins){
-            if (collide(coin.getPosition(), gameData.getPacMan().getPosition())){
+        for (Coin coin : coins) {
+            if (collide(coin.getPosition(), gameData.getPacMan().getPosition())) {
                 toremove = coin;
                 break;
             }
         }
-        for(PowerPellet powerPellet : powerPellets){
+        for (PowerPellet powerPellet : powerPellets) {
             if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){
                 toremove = powerPellet;
                 break;
@@ -95,13 +92,14 @@ public class CollisionChecker {
                 coins.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setCoins(coins);
-                stats.setScore(stats.getScore() + 10);
+                gameData.getGameStats().incrementEatenCoins();
             }
-            if (toremove instanceof PowerPellet){
+            if (toremove instanceof PowerPellet) {
                 powerPellets.remove(toremove);
                 components.remove(toremove);
                 gameData.getMap().setPowerPellets(powerPellets);
-                stats.setScore(stats.getScore() + 50);
+                gameData.getGameStats().incrementEatenPP();
+                game.setTicks(160);
             }
 
             gameData.getMap().setEmptySpaces(emptySpace);
@@ -110,5 +108,4 @@ public class CollisionChecker {
         }
         return gameData;
     }
-
 }

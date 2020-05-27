@@ -12,6 +12,8 @@ public class Game {
     private Boolean running;
     private Boolean winner;
     private int numberActivePP;
+    private int ticks;
+    private int eatenGhosts;
 
     private GuiSquare guiSquare;
     private GameData gameData;
@@ -48,10 +50,6 @@ public class Game {
         return running;
     }
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
     public void setRunning(Boolean running) {
         this.running = running;
     }
@@ -84,9 +82,17 @@ public class Game {
         this.ghostControllers = ghostControllers;
     }
 
+    public void setTicks(int ticks) {
+        this.ticks = ticks;
+    }
+
 
     public void update(GameData gameData, int step, long elapsedTime) {
-        this.gameData = cchecker.updateFoodCollison(gameData);
+        this.gameData = cchecker.updateFoodCollison(gameData, this);
+
+        if (ticks > 0) {
+            ticks--;
+        } else eatenGhosts = 0;
 
         if (gameData.getMap().getCoins().isEmpty()) {
             running = false;
@@ -109,6 +115,10 @@ public class Game {
                 ghostController.update(gameData, step, elapsedTime);
             if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
                 if (ghostController.getGhostState() instanceof GhostStateFrightened) {
+                    // TODO acresentar score dependendo do fantasma
+                    // acrescentar numero de fantasmas comidos neste state de frightened
+                    eatenGhosts++;
+                    gameData.getGameStats().incrementEatenGhosts(eatenGhosts);
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
                     ghostController.getGhost().setState(GhostStateENUM.EATEN);
                 } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {

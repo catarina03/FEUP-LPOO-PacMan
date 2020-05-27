@@ -4,6 +4,7 @@ import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.swing.*;
+import g11.model.GameStats;
 import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.TerminalSize;
@@ -205,7 +206,7 @@ public class GuiSquare {
         screen.refresh();
     }
 
-    public void endScreen(Boolean winner, GameData gameData) throws IOException {
+    public void endScreen(Boolean winner, GameStats gameStats) throws IOException {
         screen.clear();
         TextGraphics graphics = screen.newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -213,20 +214,33 @@ public class GuiSquare {
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
         graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
         graphics.putString(5, 1, "00", SGR.BOLD);
-        graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
+        graphics.putString(0, 35, "CREDIT 3", SGR.BOLD);
+
+        graphics.putString(20, 15, String.valueOf(gameStats.getScore()), SGR.BOLD);
+        graphics.putString(20, 17, String.valueOf(gameStats.getEatenCoins()), SGR.BOLD);
+        graphics.putString(20, 19, String.valueOf(gameStats.getEatenGhosts()), SGR.BOLD);
+        graphics.putString(20, 21, String.valueOf(gameStats.getEatenPP()), SGR.BOLD);
 
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
         graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
 
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
         if (winner) {
-            graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
             graphics.putString(6, 10, "CONGRATULATIONS", SGR.BOLD);
             graphics.putString(10, 11, "YOU WON", SGR.BOLD);
         } else {
-            graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
             graphics.putString(9, 10, "GAME OVER", SGR.BOLD);
             graphics.putString(3, 11, "BETTER LUCK NEXT TIME", SGR.BOLD);
         }
+
+        graphics.putString(5, 15, "SCORE", SGR.BOLD);
+        graphics.putString(5, 17, "COINS", SGR.BOLD);
+        graphics.putString(5, 19, "GHOSTS", SGR.BOLD);
+        graphics.putString(5, 21, "POWERPELLETS", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        graphics.putString(5, 26, "PUSH START BUTTON", SGR.BOLD);
+
         screen.refresh();
     }
 
@@ -240,11 +254,13 @@ public class GuiSquare {
         graphics.putString(5, 1, "00", SGR.BOLD);
         graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
 
-        if (i == 0)
-            graphics.putString(6, 10, "Continue", SGR.BOLD);
-        else
-            graphics.putString(6, 10, "Exit", SGR.BOLD);
-
+        if (i == 0) {
+            graphics.putString(6, 10, "> Continue", SGR.BOLD);
+            graphics.putString(6, 11, "  Exit", SGR.BOLD);
+        } else {
+            graphics.putString(6, 10, "  Continue", SGR.BOLD);
+            graphics.putString(6, 11, "> Exit", SGR.BOLD);
+        }
 
         screen.refresh();
     }

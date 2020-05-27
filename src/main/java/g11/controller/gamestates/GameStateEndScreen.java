@@ -14,7 +14,7 @@ public class GameStateEndScreen extends GameState {
 
     @Override
     public Boolean execute(GuiSquare guiSquare) throws Throwable {
-        guiSquare.endScreen(winner, game.getGameData());
+        guiSquare.endScreen(winner, game.getGameData().getGameStats());
         Thread.sleep(1000);
         KeyType keyType = guiSquare.getKeyStroke().getKeyType();
         if (keyType != KeyType.Escape && keyType != KeyType.EOF) {
