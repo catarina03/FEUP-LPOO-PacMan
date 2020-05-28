@@ -1,17 +1,17 @@
 package g11.controller;
 
 import g11.model.elements.PacMan;
-import g11.model.elements.Wall;
+import g11.model.elements.map.Wall;
 import g11.model.GameData;
 import g11.model.Map;
 import g11.model.Position;
-import g11.view.GuiSquare;
+import g11.view.guis.GuiSquare;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static g11.view.GuiSquare.MOVE.*;
+import static g11.view.guis.GuiSquare.MOVE.*;
 import static org.junit.Assert.assertEquals;
 
 public class GameTest {

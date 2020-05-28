@@ -3,12 +3,18 @@ package g11.view;
 import g11.model.elements.*;
 import g11.model.GameData;
 import g11.model.GameStats;
-import g11.model.OrientationENUM;
+import g11.model.OrientationEnumeration;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
+import g11.model.elements.ghosts.Blinky;
+import g11.model.elements.ghosts.Clyde;
+import g11.model.elements.ghosts.Inky;
+import g11.model.elements.ghosts.Pinky;
+import g11.model.elements.map.*;
+import g11.view.modeldraws.ModelDrawRectangle;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -183,22 +189,22 @@ public class ModelDrawRectangleTest {
         ModelDrawRectangle modelDrawRectangle = new ModelDrawRectangle(screen);
         modelDrawRectangle.setGraphics(graphics);
 
-        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.UP);
+        Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.UP);
         modelDrawRectangle.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
         Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
 
-        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.RIGHT);
+        Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.RIGHT);
         modelDrawRectangle.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
 
-        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.DOWN);
+        Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.DOWN);
         modelDrawRectangle.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
 
-        Mockito.when(pacman.getOrientationENUM()).thenReturn(OrientationENUM.LEFT);
+        Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.LEFT);
         modelDrawRectangle.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
     }

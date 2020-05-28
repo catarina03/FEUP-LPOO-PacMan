@@ -6,6 +6,12 @@ import g11.model.GameStats;
 import g11.model.Map;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
+import g11.model.elements.map.Coin;
+import g11.model.elements.map.EmptySpace;
+import g11.model.elements.map.PowerPellet;
+import g11.model.elements.map.Wall;
+import g11.view.guis.GuiRectangle;
+import g11.view.modeldraws.ModelDrawRectangle;
 import org.junit.Test;
 import org.mockito.Mockito;
 

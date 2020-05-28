@@ -3,7 +3,6 @@ package g11.controller.gamestates;
 import com.googlecode.lanterna.input.KeyType;
 import g11.controller.Game;
 import g11.view.Gui;
-import g11.view.GuiSquare;
 
 public class GameStateEndScreen extends GameState {
     Boolean winner;

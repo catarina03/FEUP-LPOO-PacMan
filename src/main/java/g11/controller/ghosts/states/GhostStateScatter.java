@@ -1,8 +1,11 @@
-package g11.controller.ghosts;
+package g11.controller.ghosts.states;
 
+import g11.controller.ghosts.GhostController;
+import g11.controller.ghosts.GhostState;
+import g11.controller.ghosts.TargetStrategy;
 import g11.model.GameData;
-import g11.model.GhostStateENUM;
-import g11.model.OrientationENUM;
+import g11.model.GhostStateEnumeration;
+import g11.model.OrientationEnumeration;
 
 import java.util.ArrayList;
 
@@ -12,10 +15,10 @@ public class GhostStateScatter extends GhostState {
     }
 
     @Override
-    void update(GameData gameData, int step, long elapsedTime) {
+    public void update(GameData gameData, int step, long elapsedTime) {
         if (gameData.getMap().getPowerPellets().size() != activePPs) {
             activePPs--;
-            ghostController.getGhost().setState(GhostStateENUM.FRIGHTENED);
+            ghostController.getGhost().setState(GhostStateEnumeration.FRIGHTENED);
             ghostController.setChangeOrientation(true);
             ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
         }
@@ -26,17 +29,17 @@ public class GhostStateScatter extends GhostState {
     }
 
     @Override
-    void calculateAndStep(GameData gameData, int step) {
-        ArrayList<OrientationENUM> availableOris;
+    public void calculateAndStep(GameData gameData, int step) {
+        ArrayList<OrientationEnumeration> availableOris;
         if (step % 4 == 0) {
             ghostController.getGhost().setTarget(ghostController.getGhost().getScatterTarget());
             if (ghostController.isChangeOrientation()) {
-                ghostController.getGhost().setOrientationENUM(ghostController.getGhost().getOrientationENUM().getOpposite());
+                ghostController.getGhost().setOrientationEnumeration(ghostController.getGhost().getOrientationEnumeration().getOpposite());
                 ghostController.setChangeOrientation(false);
             } else {
                 availableOris = ghostController.getAvailableOrientations(gameData);
                 if (availableOris.size() > 0) {
-                    ghostController.getGhost().setOrientationENUM(ghostController.chooseOrientation(availableOris));
+                    ghostController.getGhost().setOrientationEnumeration(ghostController.chooseOrientation(availableOris));
                 }
             }
             ghostController.getGhost().moveDirection();

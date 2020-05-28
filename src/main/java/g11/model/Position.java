@@ -52,8 +52,8 @@ public class Position {
         return Math.sqrt(Math.pow(this.x - a.getX(), 2) + Math.pow(this.y - a.getY(), 2));
     }
 
-    public Position nextPositionWithOrientation(OrientationENUM orientationENUM) {
-        switch (orientationENUM) {
+    public Position nextPositionWithOrientation(OrientationEnumeration orientationEnumeration) {
+        switch (orientationEnumeration) {
             case UP:
                 return new Position(this.up());
             case DOWN:

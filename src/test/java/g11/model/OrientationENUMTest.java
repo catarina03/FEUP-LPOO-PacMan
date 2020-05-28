@@ -7,14 +7,14 @@ import static org.junit.Assert.assertEquals;
 public class OrientationENUMTest {
     @Test
     public void OrientationValuesTest() {
-        OrientationENUM o1 = OrientationENUM.UP;
-        OrientationENUM o2 = OrientationENUM.RIGHT;
-        OrientationENUM o3 = OrientationENUM.LEFT;
-        OrientationENUM o4 = OrientationENUM.DOWN;
+        OrientationEnumeration o1 = OrientationEnumeration.UP;
+        OrientationEnumeration o2 = OrientationEnumeration.RIGHT;
+        OrientationEnumeration o3 = OrientationEnumeration.LEFT;
+        OrientationEnumeration o4 = OrientationEnumeration.DOWN;
 
-        assertEquals(o1, OrientationENUM.UP);
-        assertEquals(o2, OrientationENUM.RIGHT);
-        assertEquals(o3, OrientationENUM.LEFT);
-        assertEquals(o4, OrientationENUM.DOWN);
+        assertEquals(o1, OrientationEnumeration.UP);
+        assertEquals(o2, OrientationEnumeration.RIGHT);
+        assertEquals(o3, OrientationEnumeration.LEFT);
+        assertEquals(o4, OrientationEnumeration.DOWN);
     }
 }

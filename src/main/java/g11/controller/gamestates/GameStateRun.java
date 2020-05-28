@@ -6,11 +6,15 @@ import g11.controller.Game;
 import g11.controller.MapReader;
 import g11.controller.ReadFile;
 import g11.controller.ghosts.*;
+import g11.controller.ghosts.strategies.TargetStrategyBlinky;
+import g11.controller.ghosts.strategies.TargetStrategyClyde;
+import g11.controller.ghosts.strategies.TargetStrategyInky;
+import g11.controller.ghosts.strategies.TargetStrategyPinky;
 import g11.model.GameData;
 import g11.model.GameStats;
 import g11.view.Gui;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.guis.GuiSquare;
+import g11.view.MoveEnumeration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +37,7 @@ public class GameStateRun extends GameState {
             long current = System.currentTimeMillis();
 
             // process input
-            MoveENUM temp = gui.getMove();
+            MoveEnumeration temp = gui.getMove();
             if (temp != null) game.setLastmove(temp);
             Boolean pause = game.processKey(game.getLastmove());
 
@@ -68,7 +72,7 @@ public class GameStateRun extends GameState {
         game.setRunning(true);
         game.setWinner(false);
 
-        game.setLastmove(MoveENUM.LEFT);
+        game.setLastmove(MoveEnumeration.LEFT);
         game.setCchecker(new CollisionChecker());
 
         MapReader mapReader;

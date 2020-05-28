@@ -3,9 +3,13 @@ package g11.controller;
 import g11.model.elements.*;
 import g11.model.Map;
 import g11.model.Position;
+import g11.model.elements.ghosts.Blinky;
+import g11.model.elements.ghosts.Clyde;
+import g11.model.elements.ghosts.Inky;
+import g11.model.elements.ghosts.Pinky;
+import g11.model.elements.map.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MapReader {

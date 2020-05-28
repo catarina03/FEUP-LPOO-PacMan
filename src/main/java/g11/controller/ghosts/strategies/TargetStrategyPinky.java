@@ -1,14 +1,15 @@
-package g11.controller.ghosts;
+package g11.controller.ghosts.strategies;
 
+import g11.controller.ghosts.TargetStrategy;
 import g11.model.GameData;
-import g11.model.OrientationENUM;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
 
 public class TargetStrategyPinky implements TargetStrategy {
     @Override
     public Position getTarget(GameData gameData) {
         Position pacman = gameData.getPacMan().getPosition();
-        OrientationENUM pacmanori = gameData.getPacMan().getOrientationENUM();
+        OrientationEnumeration pacmanori = gameData.getPacMan().getOrientationEnumeration();
         switch (pacmanori) {
             case UP:
                 return new Position(pacman.getX() - 4, pacman.getY() - 4);

@@ -1,21 +1,21 @@
 package g11.model.elements;
 
-import g11.model.GhostStateENUM;
-import g11.model.OrientationENUM;
+import g11.model.GhostStateEnumeration;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
 
 public abstract class Ghost extends Moveable {
     private Position target;
-    private GhostStateENUM state;
+    private GhostStateEnumeration state;
     private Position scatterTarget;
 
 
-    public Ghost(Position ghostPosition, Position scatterTarget, OrientationENUM orientationENUM) {
+    public Ghost(Position ghostPosition, Position scatterTarget, OrientationEnumeration orientationEnumeration) {
         super(ghostPosition);
         this.scatterTarget = scatterTarget;
-        this.orientationENUM = orientationENUM;
+        this.orientationEnumeration = orientationEnumeration;
         this.target = new Position(0, 0);
-        this.state = GhostStateENUM.CHASE;
+        this.state = GhostStateEnumeration.CHASE;
     }
 
     public Position getTarget() {
@@ -28,11 +28,11 @@ public abstract class Ghost extends Moveable {
 
     public Position getScatterTarget() { return scatterTarget; }
 
-    public GhostStateENUM getState() {
+    public GhostStateEnumeration getState() {
         return state;
     }
 
-    public void setState(GhostStateENUM state) {
+    public void setState(GhostStateEnumeration state) {
         this.state = state;
     }
 }

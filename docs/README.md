@@ -160,7 +160,7 @@ switch (direction){
         break;
 }
 ...
-switch (orientationENUM){
+switch (orientationEnumeration){
             case UP:
                 return Gui.MOVE.UP;
             case DOWN:

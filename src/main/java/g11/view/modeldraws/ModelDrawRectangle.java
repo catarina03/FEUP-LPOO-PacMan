@@ -1,4 +1,4 @@
-package g11.view;
+package g11.view.modeldraws;
 
 import g11.model.elements.*;
 import g11.model.GameData;
@@ -7,6 +7,12 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
+import g11.model.elements.ghosts.Blinky;
+import g11.model.elements.ghosts.Clyde;
+import g11.model.elements.ghosts.Inky;
+import g11.model.elements.ghosts.Pinky;
+import g11.model.elements.map.*;
+import g11.view.ModelDraw;
 
 public class ModelDrawRectangle implements ModelDraw {
     private Screen screen;
@@ -40,7 +46,7 @@ public class ModelDrawRectangle implements ModelDraw {
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.enableModifiers(SGR.BOLD);
-        switch (gameData.getPacMan().getOrientationENUM()) {
+        switch (gameData.getPacMan().getOrientationEnumeration()) {
             case UP:
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
                 break;

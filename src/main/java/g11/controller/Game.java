@@ -2,10 +2,12 @@ package g11.controller;
 
 import g11.controller.gamestates.*;
 import g11.controller.ghosts.*;
+import g11.controller.ghosts.states.GhostStateEaten;
+import g11.controller.ghosts.states.GhostStateFrightened;
 import g11.model.*;
 import g11.view.Gui;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.guis.GuiSquare;
+import g11.view.MoveEnumeration;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class Game {
     private CollisionChecker cchecker;
     private GameState gameState;
 
-    private MoveENUM lastmove;
+    private MoveEnumeration lastmove;
     private ArrayList<GhostController> ghostControllers;
 
 
@@ -71,11 +73,11 @@ public class Game {
         return gameData;
     }
 
-    public MoveENUM getLastmove() {
+    public MoveEnumeration getLastmove() {
         return lastmove;
     }
 
-    public void setLastmove(MoveENUM lastmove) {
+    public void setLastmove(MoveEnumeration lastmove) {
         this.lastmove = lastmove;
     }
 
@@ -100,7 +102,7 @@ public class Game {
             winner = true;
         }
 
-        if (!cchecker.checkWallCollision(gameData, MoveENUM.ESC) && step % 4 == 0)
+        if (!cchecker.checkWallCollision(gameData, MoveEnumeration.ESC) && step % 4 == 0)
             gameData.getPacMan().moveDirection();
 
         // Detect Ghost collision with Pac-Man
@@ -121,7 +123,7 @@ public class Game {
                     eatenGhosts++;
                     gameData.getGameStats().incrementEatenGhosts(eatenGhosts);
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
-                    ghostController.getGhost().setState(GhostStateENUM.EATEN);
+                    ghostController.getGhost().setState(GhostStateEnumeration.EATEN);
                 } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
                     running = false;
                     winner = false;
@@ -130,27 +132,27 @@ public class Game {
         }
     }
 
-    public Boolean processKey(MoveENUM move) {
+    public Boolean processKey(MoveEnumeration move) {
         if (move != null) {
             switch (move) {
                 case ESC:
                     return true;
                 case UP:
                     // check if can change position
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.UP))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.UP);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.UP))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.UP);
                     break;
                 case DOWN:
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.DOWN))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.DOWN);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.DOWN))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.DOWN);
                     break;
                 case LEFT:
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.LEFT))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.LEFT);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.LEFT))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.LEFT);
                     break;
                 case RIGHT:
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.RIGHT))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.RIGHT);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.RIGHT))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.RIGHT);
                     break;
             }
             return false;

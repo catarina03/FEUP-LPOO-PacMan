@@ -1,6 +1,6 @@
 package g11.model.elements;
 
-import g11.model.OrientationENUM;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
 
 public abstract class MapComponent {
@@ -34,7 +34,7 @@ public abstract class MapComponent {
         return position;
     }
 
-    public Position getPosition(OrientationENUM ori) {
+    public Position getPosition(OrientationEnumeration ori) {
         switch (ori) {
             case UP:
                 return position.up();

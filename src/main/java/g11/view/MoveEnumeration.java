@@ -3,10 +3,10 @@ package g11.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public enum MoveENUM {
+public enum MoveEnumeration {
     UP, DOWN, LEFT, RIGHT, ESC;
 
-    public ArrayList<MoveENUM> allOptions() {
+    public ArrayList<MoveEnumeration> allOptions() {
         return new ArrayList<>(Arrays.asList(UP, DOWN, LEFT, RIGHT, ESC));
     }
 }

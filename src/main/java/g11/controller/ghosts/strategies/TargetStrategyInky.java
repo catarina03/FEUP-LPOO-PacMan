@@ -1,7 +1,8 @@
-package g11.controller.ghosts;
+package g11.controller.ghosts.strategies;
 
+import g11.controller.ghosts.TargetStrategy;
 import g11.model.GameData;
-import g11.model.OrientationENUM;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
 
 public class TargetStrategyInky implements TargetStrategy {
@@ -9,7 +10,7 @@ public class TargetStrategyInky implements TargetStrategy {
     public Position getTarget(GameData gameData) {
         Position pacmanPos = gameData.getPacMan().getPosition();
         Position blinkyPos = gameData.getGhosts().get(0).getPosition();
-        OrientationENUM pacmanOri = gameData.getPacMan().getOrientationENUM();
+        OrientationEnumeration pacmanOri = gameData.getPacMan().getOrientationEnumeration();
         Position tempPos = null;
         switch (pacmanOri) {
             case UP:

@@ -1,60 +1,20 @@
-package g11.view;
+package g11.view.guis;
 
 import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.terminal.swing.*;
-import g11.model.GameStats;
-import g11.model.elements.*;
-import g11.model.GameData;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import g11.model.GameStats;
+import g11.view.Gui;
+import g11.view.modeldraws.ModelDrawRectangle;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
-import static g11.view.MoveENUM.*;
-
-public class GuiSquare extends Gui {
-    private ModelDrawSquare modelDraw;
-
-    public GuiSquare() {
-        try {
-            File fontfile = new File(getClass().getClassLoader().getResource("square.ttf").getFile());
-            Font font = Font.createFont(Font.TRUETYPE_FONT, fontfile);
-
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(font);
-
-            Font loadedFont = font.deriveFont(Font.PLAIN, 25);
-            AWTTerminalFontConfiguration fontConfig = AWTTerminalFontConfiguration.newInstance(loadedFont);
-
-            DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-            TerminalSize terminalsize = new TerminalSize(28, 36);
-
-            defaultTerminalFactory.setForceAWTOverSwing(true);
-            defaultTerminalFactory.setTerminalEmulatorFontConfiguration(fontConfig);
-            defaultTerminalFactory.setInitialTerminalSize(terminalsize);
-            Terminal defterminal = defaultTerminalFactory.createTerminal();
-
-            setTerminal(defterminal);
-            setScreen(new TerminalScreen(defterminal));
-
-            startScreen();
-        } catch (IOException | FontFormatException | IllegalArgumentException e) {
-            //Handle exception
-            e.printStackTrace();
-        }
-        setModelDraw(new ModelDrawSquare(getScreen()));
-    }
-
-    public GuiSquare(int no) {
-        // TODO modificar esta função
+public class GuiRectangle extends Gui {
+    public GuiRectangle() {
         try {
             TerminalSize terminalsize = new TerminalSize(50, 36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
@@ -63,24 +23,43 @@ public class GuiSquare extends Gui {
             setTerminal(terminal);
             setScreen(new TerminalScreen(terminal));
 
+            startScreen();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setModelDraw(new ModelDrawRectangle(getScreen()));
+    }
+
+    public GuiRectangle(int no) {
+        try {
+            TerminalSize terminalsize = new TerminalSize(50, 36);
+            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
+            Terminal terminal = terminalFactory.createTerminal();
+            setTerminal(terminal);
+            setScreen(new TerminalScreen(terminal));
+
             getScreen().close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setModelDraw(new ModelDrawSquare(getScreen()));
+        setModelDraw(new ModelDrawRectangle(getScreen()));
+
     }
 
+    @Override
     public void readyScreen() throws IOException {
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
-        graphics.putString(11, 20, "READY!", SGR.BOLD);
+        graphics.putString(22, 20, "READY!", SGR.BOLD);
         graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
-        graphics.putString(9, 14, "PLAYER ONE", SGR.BOLD);
+        graphics.putString(20, 14, "PLAYER ONE", SGR.BOLD);
         getScreen().refresh();
     }
 
+    @Override
     public void presentationScreen() throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
@@ -118,6 +97,7 @@ public class GuiSquare extends Gui {
         getScreen().refresh();
     }
 
+    @Override
     public void inicialScreen() throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
@@ -146,6 +126,7 @@ public class GuiSquare extends Gui {
         getScreen().refresh();
     }
 
+    @Override
     public void endScreen(Boolean winner, GameStats gameStats) throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
@@ -184,6 +165,7 @@ public class GuiSquare extends Gui {
         getScreen().refresh();
     }
 
+    @Override
     public void pauseScreen(int i) throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
