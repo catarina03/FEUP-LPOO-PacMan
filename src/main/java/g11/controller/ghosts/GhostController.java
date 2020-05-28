@@ -13,10 +13,9 @@ public class GhostController {
     Ghost ghost;
     private boolean accessingHouse; // está a sair da GhostHouse
     private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
-    private int ticksToEndFrightened;
-    private long timeToStart;
     private GhostState ghostState;
-    private TargetStrategy targetStrategy;
+    private final long timeToStart;
+    private final TargetStrategy targetStrategy;
 
 
     public GhostController(boolean accessingHouse, Ghost ghost, TargetStrategy targetStrategy, long timeToStart) {
@@ -30,7 +29,6 @@ public class GhostController {
         this.ghost = ghost;
         this.accessingHouse = accessingHouse;
         this.changeOrientation = false;
-        this.ticksToEndFrightened = 0;
     }
 
     public Ghost getGhost() {
@@ -39,23 +37,18 @@ public class GhostController {
     public boolean isAccessingHouse() {
         return accessingHouse;
     }
-
     public void setAccessingHouse(boolean accessingHouse) {
         this.accessingHouse = accessingHouse;
     }
-
     public boolean isChangeOrientation() {
         return changeOrientation;
     }
-
     public void setChangeOrientation(boolean changeOrientation) {
         this.changeOrientation = changeOrientation;
     }
-
     public TargetStrategy getTargetStrategy() {
         return targetStrategy;
     }
-
     public GhostState getGhostState() {
         return ghostState;
     }
@@ -72,19 +65,18 @@ public class GhostController {
      */
     public ArrayList<OrientationENUM> getAvailableOrientations(GameData gameData) {
         ArrayList<OrientationENUM> returning = new ArrayList<>();
-        // se estiverem nos cruzamentos amarelos não podem mudar de direção
-        // TODO valores variam com mapa: v1 (12,14), (15,14), (12,26), (15,26) ; v2 (23,26), (26, 26), () e ()
-        if (ghost.getPosition().equals(new Position(12, 14)) ||
-                ghost.getPosition().equals(new Position(15, 14)) ||
-                ghost.getPosition().equals(new Position(12, 26)) ||
-                ghost.getPosition().equals(new Position(15, 26))) {
-            if (ghost.getOrientationENUM().getOpposite() != LEFT) {
-                returning.add(LEFT);
+        // TODO se estiverem nos cruzamentos amarelos não podem mudar de direção
+
+        for (Position pos : gameData.getMap().getUnturnable()) {
+            if (ghost.getPosition().equals(pos)) {
+                if (ghost.getOrientationENUM().getOpposite() != LEFT) {
+                    returning.add(LEFT);
+                }
+                if (ghost.getOrientationENUM().getOpposite() != RIGHT) {
+                    returning.add(RIGHT);
+                }
+                return returning;
             }
-            if (ghost.getOrientationENUM().getOpposite() != RIGHT) {
-                returning.add(RIGHT);
-            }
-            return returning;
         }
 
         for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {

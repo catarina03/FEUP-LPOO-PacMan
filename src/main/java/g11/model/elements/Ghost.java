@@ -10,8 +10,8 @@ public abstract class Ghost extends Moveable {
     private Position scatterTarget;
 
 
-    public Ghost(int x, int y, Position scatterTarget, OrientationENUM orientationENUM) {
-        super(x, y);
+    public Ghost(Position ghostPosition, Position scatterTarget, OrientationENUM orientationENUM) {
+        super(ghostPosition);
         this.scatterTarget = scatterTarget;
         this.orientationENUM = orientationENUM;
         this.target = new Position(0, 0);

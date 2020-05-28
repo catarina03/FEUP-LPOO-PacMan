@@ -8,6 +8,7 @@ import g11.controller.ReadFile;
 import g11.controller.ghosts.*;
 import g11.model.GameData;
 import g11.model.GameStats;
+import g11.view.Gui;
 import g11.view.GuiSquare;
 import g11.view.MoveENUM;
 
@@ -21,9 +22,9 @@ public class GameStateRun extends GameState {
     }
 
     @Override
-    public Boolean execute(GuiSquare guiSquare) throws Throwable {
+    public Boolean execute(Gui gui) throws Throwable {
 
-        initialize(guiSquare);
+        initialize(gui);
 
         long startTime = System.currentTimeMillis();
         int step = 0;
@@ -32,13 +33,13 @@ public class GameStateRun extends GameState {
             long current = System.currentTimeMillis();
 
             // process input
-            MoveENUM temp = guiSquare.getMove();
+            MoveENUM temp = gui.getMove();
             if (temp != null) game.setLastmove(temp);
             Boolean pause = game.processKey(game.getLastmove());
 
             if (pause){
                 long starOfPause = System.currentTimeMillis();
-                if (pauseScreen(guiSquare)){
+                if (pauseScreen(gui)) {
                     game.changeGameState(new GameStatePresentation(game));
                     return false;
                 }
@@ -50,7 +51,7 @@ public class GameStateRun extends GameState {
             game.update(game.getGameData(), step, System.currentTimeMillis() - startTime);
 
             // render
-            guiSquare.draw(game.getGameData());
+            gui.draw(game.getGameData());
 
             step++;
             long elapsed = System.currentTimeMillis() - current;
@@ -61,7 +62,7 @@ public class GameStateRun extends GameState {
         return false;
     }
 
-    private void initialize(GuiSquare guiSquare) throws Throwable {
+    private void initialize(Gui gui) throws Throwable {
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
         game.setRunning(true);
@@ -70,7 +71,11 @@ public class GameStateRun extends GameState {
         game.setLastmove(MoveENUM.LEFT);
         game.setCchecker(new CollisionChecker());
 
-        MapReader mapReader = new MapReader(new ReadFile("mapv1.txt"));
+        MapReader mapReader;
+        if (gui instanceof GuiSquare)
+            mapReader = new MapReader(new ReadFile("mapv1.txt"));
+        else
+            mapReader = new MapReader(new ReadFile("mapv2.txt"));
 
         game.setGameData(new GameData(new GameStats(0),
                 mapReader.startingPacMan(),
@@ -87,21 +92,21 @@ public class GameStateRun extends GameState {
         game.setGhostControllers(ghostControllers);
 
         // Starting Sequence
-        guiSquare.draw(game.getGameData());
-        guiSquare.readyScreen();
+        gui.draw(game.getGameData());
+        gui.readyScreen();
         Thread.sleep(3000);
-        guiSquare.draw(game.getGameData());
+        gui.draw(game.getGameData());
     }
 
-    public Boolean pauseScreen(GuiSquare guiSquare) throws IOException {
+    public Boolean pauseScreen(Gui gui) throws IOException {
         int option = 0;
-        guiSquare.pauseScreen(option);
+        gui.pauseScreen(option);
         KeyType keyType;
         do {
-            keyType = guiSquare.getKeyStroke().getKeyType();
-            if (keyType == KeyType.ArrowDown || keyType == KeyType.ArrowUp){
+            keyType = gui.getKeyStroke().getKeyType();
+            if (keyType == KeyType.ArrowDown || keyType == KeyType.ArrowUp) {
                 option = Math.abs(option - 1);
-                guiSquare.pauseScreen(option);
+                gui.pauseScreen(option);
             }
             if (keyType == KeyType.Escape || keyType == KeyType.EOF) {
                 game.changeGameState(new GameStateReady(game));

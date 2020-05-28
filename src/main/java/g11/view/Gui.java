@@ -1,68 +1,58 @@
 package g11.view;
 
-import g11.model.elements.*;
-import g11.model.GameData;
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import g11.model.GameData;
+import g11.model.GameStats;
+import g11.model.elements.MapComponent;
 
 import java.io.IOException;
 
-public class Gui {
+public abstract class Gui {
     private Terminal terminal;
     private Screen screen;
     private ModelDraw modelDraw;
-
-    public Gui() {
-        try {
-            TerminalSize terminalsize = new TerminalSize(50,36);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            terminal = terminalFactory.createTerminal();
-            screen = new TerminalScreen(terminal);
-
-            screen.setCursorPosition(null);   // we don't need a cursor
-            screen.startScreen();             // screens must be started
-            screen.doResizeIfNecessary();     // resize screen if necessary
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        modelDraw = new ModelDraw(screen);
-    }
-
-    public Gui(int no) {
-        try {
-            TerminalSize terminalsize = new TerminalSize(50,36);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            Terminal terminal = terminalFactory.createTerminal();
-            screen = new TerminalScreen(terminal);
-            screen.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        modelDraw = new ModelDraw(screen);
-    }
 
     public Terminal getTerminal() {
         return terminal;
     }
 
-    public void setModelDraw(ModelDraw modelDraw) {
-        this.modelDraw = modelDraw;
+    public void setTerminal(Terminal terminal) {
+        this.terminal = terminal;
+    }
+
+    public Screen getScreen() {
+        return screen;
     }
 
     public void setScreen(Screen screen) {
         this.screen = screen;
     }
 
+    public ModelDraw getModelDraw() {
+        return modelDraw;
+    }
+
+    public void setModelDraw(ModelDraw modelDraw) {
+        this.modelDraw = modelDraw;
+    }
+
+    public void startScreen() throws IOException {
+        screen.setCursorPosition(null);   // we don't need a cursor
+        screen.startScreen();             // screens must be started
+        screen.doResizeIfNecessary();     // resize screen if necessary
+    }
+
+
     public void close() throws Throwable {
-        if (screen != null){
+        if (screen != null) {
             screen.close();
         }
+    }
+
+    public KeyStroke getKeyStroke() throws IOException {
+        return screen.readInput();
     }
 
     public MoveENUM getMove() throws IOException {
@@ -100,4 +90,13 @@ public class Gui {
         screen.refresh();
     }
 
+    public abstract void readyScreen() throws IOException;
+
+    public abstract void presentationScreen() throws IOException;
+
+    public abstract void inicialScreen() throws IOException;
+
+    public abstract void endScreen(Boolean winner, GameStats gameStats) throws IOException;
+
+    public abstract void pauseScreen(int i) throws IOException;
 }

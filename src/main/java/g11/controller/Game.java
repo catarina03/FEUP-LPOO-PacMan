@@ -3,6 +3,7 @@ package g11.controller;
 import g11.controller.gamestates.*;
 import g11.controller.ghosts.*;
 import g11.model.*;
+import g11.view.Gui;
 import g11.view.GuiSquare;
 import g11.view.MoveENUM;
 
@@ -15,7 +16,7 @@ public class Game {
     private int ticks;
     private int eatenGhosts;
 
-    private GuiSquare guiSquare;
+    private Gui gui;
     private GameData gameData;
     private CollisionChecker cchecker;
     private GameState gameState;
@@ -24,8 +25,8 @@ public class Game {
     private ArrayList<GhostController> ghostControllers;
 
 
-    public Game() {
-        guiSquare = new GuiSquare();
+    public Game(Gui gui) {
+        this.gui = gui;
         gameState = new GameStatePresentation(this);
         //gameState = new GameStateEndScreen(this, false);
     }
@@ -39,7 +40,7 @@ public class Game {
     }
 
     public void setGuiSquare(GuiSquare guiSquare) {
-        this.guiSquare = guiSquare;
+        this.gui = guiSquare;
     }
 
     public void setGameData(GameData gameData) {
@@ -129,7 +130,7 @@ public class Game {
         }
     }
 
-    public Boolean processKey(MoveENUM move) throws Throwable {
+    public Boolean processKey(MoveENUM move) {
         if (move != null) {
             switch (move) {
                 case ESC:
@@ -160,9 +161,9 @@ public class Game {
     public void start() throws Throwable {
         Boolean close;
         do {
-            close = gameState.execute(guiSquare);
+            close = gameState.execute(gui);
         } while (!close);
-        guiSquare.close();
+        gui.close();
     }
 
 }

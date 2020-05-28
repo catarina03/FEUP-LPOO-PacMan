@@ -13,7 +13,8 @@ public class GhostStateEaten extends GhostState {
 
     @Override
     void update(GameData gameData, int step, long elapsedTime) {
-        if (ghostController.getGhost().getPosition().equals(new Position(13, 14)) || ghostController.getGhost().getPosition().equals(new Position(14, 14))) {
+        if (ghostController.getGhost().getPosition().equals(gameData.getMap().getGates().get(0).getPosition().up()) ||
+                ghostController.getGhost().getPosition().equals(gameData.getMap().getGates().get(1).getPosition().up())) {
             ghostController.changeState(new GhostStateEnteringHouse(ghostController, ghostController.getTargetStrategy(), activePPs));
             ghostController.setAccessingHouse(true);
         }
@@ -29,7 +30,7 @@ public class GhostStateEaten extends GhostState {
     void calculateAndStep(GameData gameData, int step) {
         ArrayList<OrientationENUM> availableOris;
         if (step % 3 == 0) {
-            ghostController.getGhost().setTarget(new Position(13, 14));
+            ghostController.getGhost().setTarget(gameData.getMap().getGates().get(0).getPosition().up());
             availableOris = ghostController.getAvailableOrientations(gameData);
             if (availableOris.size() > 0) {
                 ghostController.getGhost().setOrientationENUM(ghostController.chooseOrientation(availableOris));

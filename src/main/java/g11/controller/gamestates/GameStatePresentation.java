@@ -2,7 +2,7 @@ package g11.controller.gamestates;
 
 import com.googlecode.lanterna.input.KeyType;
 import g11.controller.Game;
-import g11.view.GuiSquare;
+import g11.view.Gui;
 
 
 public class GameStatePresentation extends GameState {
@@ -11,9 +11,9 @@ public class GameStatePresentation extends GameState {
     }
 
     @Override
-    public Boolean execute(GuiSquare guiSquare) throws Throwable {
-        guiSquare.presentationScreen();
-        KeyType keyType = guiSquare.getKeyStroke().getKeyType();
+    public Boolean execute(Gui gui) throws Throwable {
+        gui.presentationScreen();
+        KeyType keyType = gui.getKeyStroke().getKeyType();
         if (keyType != KeyType.Escape && keyType != KeyType.EOF) {
             game.changeGameState(new GameStateReady(game));
             return false;
