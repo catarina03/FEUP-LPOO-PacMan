@@ -123,29 +123,25 @@ public class MapComponentTest {
         assertEquals(another_pacman.getPosition(), new_pos);
     }
 
-    /*
+
     @Test
-    public void PacManMovement() {
-        Random r = new Random();
-        int x = r.nextInt();
-        int y = r.nextInt();
+    public void MapComponentMovement(){
+        Position position = Mockito.mock(Position.class);
+        Mockito.when(position.getX()).thenReturn(5);
+        Mockito.when(position.getY()).thenReturn(10);
 
-        PacMan pacman = new PacMan(x, y);
-        assertEquals(pacman.getOrientationENUM(), OrientationENUM.LEFT);
+        PacMan pacMan = new PacMan(position);
 
-        pacman.setOrientationENUM(OrientationENUM.DOWN);
-        pacman.moveDirection();
-        assertEquals(pacman.getY(), y + 1);
-        pacman.setOrientationENUM(OrientationENUM.RIGHT);
-        pacman.moveDirection();
-        assertEquals(pacman.getX(), x + 1);
-        pacman.setOrientationENUM(OrientationENUM.UP);
-        pacman.moveDirection();
-        assertEquals(pacman.getY(), y);
-        pacman.setOrientationENUM(OrientationENUM.LEFT);
-        pacman.moveDirection();
-        assertEquals(pacman.getX(), x);
+        pacMan.getPosition(OrientationENUM.DOWN);
+        Mockito.verify(position, Mockito.times(1)).down();
+
+        pacMan.getPosition(OrientationENUM.UP);
+        Mockito.verify(position, Mockito.times(1)).up();
+
+        pacMan.getPosition(OrientationENUM.LEFT);
+        Mockito.verify(position, Mockito.times(1)).left();
+
+        pacMan.getPosition(OrientationENUM.RIGHT);
+        Mockito.verify(position, Mockito.times(1)).right();
     }
-
-     */
 }

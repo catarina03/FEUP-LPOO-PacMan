@@ -4,6 +4,7 @@ import g11.model.*;
 import g11.model.elements.*;
 import g11.view.GuiSquare;
 
+import g11.view.MoveENUM;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,7 +40,6 @@ public class CollisionCheckerTest {
         assertFalse(collisionChecker.collide(pacman.getPosition(), emptySpace.getPosition()));
     }
 
-    /*
     @Test
     public void checkWallCollisionTest(){
         CollisionChecker collisionChecker = new CollisionChecker();
@@ -70,30 +70,25 @@ public class CollisionCheckerTest {
         Mockito.when(gameData.getMap()).thenReturn(map);
         Mockito.when(gameData.getMap().getGates()).thenReturn(gates);
 
-        assertFalse(collisionChecker.checkWallCollision(gameData, GuiSquare.ESC));
-        assertFalse(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.UP));
-        assertTrue(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT));
-        assertTrue(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN));
-        assertTrue(collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT));
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveENUM.ESC));
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveENUM.UP));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveENUM.RIGHT));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveENUM.DOWN));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveENUM.LEFT));
     }
 
-     */
-
-    /*
     @Test
     public void orientationToMoveTest() {
         CollisionChecker collisionChecker = new CollisionChecker();
         OrientationENUM orientationENUM = UP;
-        assertEquals(GuiSquare.MOVE.UP, collisionChecker.orientationToMove(orientationENUM));
+        assertEquals(MoveENUM.UP, collisionChecker.orientationToMove(orientationENUM));
         orientationENUM = RIGHT;
-        assertEquals(GuiSquare.MOVE.RIGHT, collisionChecker.orientationToMove(orientationENUM));
+        assertEquals(MoveENUM.RIGHT, collisionChecker.orientationToMove(orientationENUM));
         orientationENUM = DOWN;
-        assertEquals(GuiSquare.MOVE.DOWN, collisionChecker.orientationToMove(orientationENUM));
+        assertEquals(MoveENUM.DOWN, collisionChecker.orientationToMove(orientationENUM));
         orientationENUM = LEFT;
-        assertEquals(GuiSquare.MOVE.LEFT, collisionChecker.orientationToMove(orientationENUM));
+        assertEquals(MoveENUM.LEFT, collisionChecker.orientationToMove(orientationENUM));
     }
-
-     */
 
 
     /*
