@@ -1,21 +1,23 @@
-# LPOO_11 - PacMan
+# LPOO_11 - Pac-Man
 
-O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal Lanterna em Java.
+O objetivo deste projeto é recriar um jogo PacMan clássico (1980) usando o terminal Lanterna em Java.
+
+Este projeto foi desenvolvido por André Gomes (up201806224@fe.up.pt) e Catarina Fernandes (up201806610@fe.up.pt) para a Unidade Curricular LPOO 2019/2020.
 
 ## Implemented Features:
-- **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal.
-- **Leitura de mapas** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt e apresentar esse mapa no ecrã.
-- **Movimento do Pac-man** - O PacMan está sempre em movimento constante dependendo da sua direção, apenas parando quando vai contra uma parede. É possível alterar a sua posição com as setas do teclado. 
-- **Buffer de movimentos** - Antes de chegar a uma curva o *player* pode premir uma tecla para alterar a direção e o PacMan alterará a sua posição assim que conseguir.
-- **Colisão com paredes** - O PacMan não consegue passar pelas paredes, só consegue andar em sítios com fundo preto.
+- **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal. Também implementamos uma GUI que usufrui de uma _font_ quadrada para o jogo ser mais apelativo.
+- **Leitura de mapas e highscore** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt, juntamente com o _High Score_ e apresentar essa informação no ecrã. 2 Mapas/Gui's foram implementados.
+- **Movimento do Pac-man** - O Pac-Man está sempre em movimento constante dependendo da sua direção, apenas parando quando vai contra uma parede. É possível alterar a sua posição com as setas do teclado. 
+- **Buffer de movimentos** - Antes de chegar a uma curva o *player* pode premir uma tecla para alterar a direção e o PacMan alterará a sua posição assim que conseguir. Não é possivel virar o Pac-Man contra uma das paredes quando este está num corredor.
+- **Colisão com paredes** - O PacMan não consegue passar pelas paredes, só consegue andar em sítios com fundo preto e não consegue entrar na _Ghost House_ a partir dos portões.
 - **Colisão com moedas** - Ao tocar numa moeda o PacMan retira essa moeda do mapa e o score é aumentado em 1.
-
-![](res/pac-man_coins.gif)
-
-## Planned Features:
-- **Power Pellets** - Quando são comidas pelo Pac-man os fantasmas passam para "blue mode", ou seja, passam a poder ser comidos pelo Pac-man
+- **Power Pellets** - Quando são comidas pelo Pac-man os fantasmas passam para "Frightened Mode", ou seja, passam a poder ser comidos pelo Pac-man. O tempo de duração é de 8 segundos. Caso um fantasma esteja dentro da casa, ou após ser comido, não passará para "Frightened Mode" se o Pac-Man comer um Power Pellet. Cada Power Pellet vale 50 pontos.
 - **Continuidade do mapa** - Caso o Pac-man saia do limite do ecrã, ele reaparecerá no lado oposto
-- **Personalidade dos fantasmas** - Cada fantasma terá uma personalidade distinta relativamente à forma como persegue o PacMan.
+- **Ghosts** - Cada Fantasma tem a sua estratégia ou _personalidade_ relativamente à forma como vai atrás do Pac-Man. Podem se encontrar em vários estados e são independentes uns dos outros, mesmo usando a mesma classe de controlador.
+
+| GuiRectangle |  GuiSquare |
+|-----------|---------|
+| ![Rectangle2Gui](https://user-images.githubusercontent.com/54408098/83135136-50152100-a0dd-11ea-85fd-ee9061f9f32a.gif) | ![SquareGui](https://user-images.githubusercontent.com/54408098/83068272-02a69e80-a060-11ea-89ba-b911f54fb681.gif) |
 
 
 ## Design
@@ -28,12 +30,13 @@ Numa fase inicial do projeto, para ter um jogo funcional (a conseguir abrir uma 
 >
 > GoF, Design Patterns - Elements of Reusable Object-Oriented Software
 
-![](https://i.imgur.com/DduITpl.png) [Fig. 1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
+![](https://i.imgur.com/FLvkd0x.png) [Fig. 1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
 
 Este padrão arquitetural é habitualmente usado para desenvolver programas que contenham uma interface para o utilizador e consiste em dividir uma aplicação em 3 partes:
 - O **Modelo** representa os dados do programa.
 - A **Vista** mostra os dados do **Modelo** e manda as ações do utilizador para o **Controlador**.
 - O **Controlador** fornece dados do **Modelo** à **Vista** e interpreta as ações do utilizador.
+  
 #### Implementation
 A estrutura do código está dividida de forma a haver 3 packages, cada package referente a um ponto do _MVC_ e uma classe _Application_ que serve como executável e que contém o método _main()_. Cada package de MVC tem dentro as classes referentes ao seu perfil.
 
@@ -41,23 +44,24 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 
 | [Controller Package](../src/main/java/g11/controller)  | [Model Package](../src/main/java/g11/model) | [View Package](../src/main/java/g11/view)  |
 |-------------|-------|-------|
-| ![](https://i.imgur.com/IohGNNh.png) | ![](https://i.imgur.com/nyhMT7H.png) | ![](https://i.imgur.com/CRAHbgJ.png) |
+| ![](https://i.imgur.com/BAGY5HX.png) | ![](https://i.imgur.com/m7mYSE7.png) | ![](https://i.imgur.com/9dgubsn.png) |
 
 
 #### Consequences
 - Divisão do código em packages e melhor organização
 - Independência entre módulos possibilita testar cada parte do MVC individualmente
+- Possibilidade de adicionar novas GUI's sem alterar os packages Model e Controller
 
-### 2. Factory Method
+### 2. State Method
 #### Problem in Context
-Será preciso criar ghosts que serão todos semelhantes, excepto a sua forma ao apresentar no ecrã e as suas _personalidades_ (o método que usam para perseguir o PacMan). Em vez de ter uma classe para cada Ghost e definirmos para cada ghost que controlador usará, criaremos uma classe **Creator** para os controladores de cada Ghost.
+
 #### The Pattern
-O padrão _Factory Method_ permite que se criem objetos sem especificar explicitamente a classe do objeto que se quer criar. Isto é feito ao chamar o método de fabrico da classe criadora em vez de chamar o construtor da classe do objeto que se pretende criar.
+
 #### Implementation
-![](https://i.imgur.com/AAsRYrU.png)
-> **_NOTE:_**  Classes não têm links associados porque ainda vão ser criadas.
+![](https://i.imgur.com/PSA69ED.png)
+![](https://i.imgur.com/i4qQpxZ.png)
 #### Consequences
-Ao aplicar este _design pattern_ torna-se mais fácil definir a personalidade para cada Ghost e a criação de controladores especificos para cada Ghost.
+
 
 ### 3. Strategy 
 #### Problem in Context
@@ -67,7 +71,7 @@ O objetivo deste DP é encapsular algoritmos e fazê-los permutáveis para poder
 
 Com este DP também tocamos no **Open-Closed Principle** já que _GhostController_ fica aberto para extensão mas fechado para modificação, apenas aplicável ás subclasses. 
 #### Implementation
-![](https://i.imgur.com/4QbkouQ.png)
+![](https://i.imgur.com/f64KgZa.png)
 
 > **_NOTE:_**  Classes não têm links associados porque ainda vão ser criadas. Excepto [Game](../src/main/java/g11/controller/Game.java).
 

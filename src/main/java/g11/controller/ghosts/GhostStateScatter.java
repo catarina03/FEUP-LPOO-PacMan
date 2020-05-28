@@ -19,7 +19,7 @@ public class GhostStateScatter extends GhostState {
             ghostController.setChangeOrientation(true);
             ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
         }
-        if (!((elapsedTime > 0 && elapsedTime <= 7000) || (elapsedTime > 27000 && elapsedTime <= 34000) || (elapsedTime > 54000 && elapsedTime <= 59000) || (elapsedTime > 79000 && elapsedTime <= 84000))) {
+        if (!isScatterTime(elapsedTime)) {
             ghostController.setChangeOrientation(true);
             ghostController.changeState(new GhostStateChase(ghostController, targetStrategy, activePPs));
         }
