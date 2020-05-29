@@ -21,6 +21,12 @@ public class GhostStateFrightened extends GhostState {
     @Override
     public void update(GameData gameData, int step, long elapsedTime) {
         ticksToEnd--;
+        if (ticksToEnd <= 50) {
+            if (ticksToEnd == 50 || ticksToEnd == 30 || ticksToEnd == 20 || ticksToEnd == 10)
+                ghostController.getGhost().setState(GhostStateEnumeration.CHASE);
+            else if (ticksToEnd == 40 || ticksToEnd == 25 || ticksToEnd == 15 || ticksToEnd == 5)
+                ghostController.getGhost().setState(GhostStateEnumeration.FRIGHTENED);
+        }
         if (ticksToEnd == 0) {
             ghostController.getGhost().setState(GhostStateEnumeration.CHASE);
             ghostController.changeState(new GhostStateChase(ghostController, ghostController.getTargetStrategy(), activePPs));
