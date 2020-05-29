@@ -96,7 +96,7 @@ public abstract class Gui {
 
     public abstract void inicialScreen() throws IOException;
 
-    public abstract void endScreen(Boolean winner, GameStats gameStats) throws IOException;
+    public abstract void endScreen(boolean winner, GameStats gameStats) throws IOException;
 
     public abstract void pauseScreen(int i) throws IOException;
 }

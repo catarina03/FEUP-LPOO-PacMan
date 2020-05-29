@@ -12,7 +12,7 @@ public class GameStateReady extends GameState {
     }
 
     @Override
-    public Boolean execute(Gui gui) throws IOException {
+    public boolean execute(Gui gui) throws IOException {
         gui.inicialScreen();
         KeyType keyType = gui.getKeyStroke().getKeyType();
         if (keyType != KeyType.Escape && keyType != KeyType.EOF)

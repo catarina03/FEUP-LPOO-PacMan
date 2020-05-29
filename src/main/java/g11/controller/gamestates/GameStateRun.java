@@ -26,7 +26,7 @@ public class GameStateRun extends GameState {
     }
 
     @Override
-    public Boolean execute(Gui gui) throws Throwable {
+    public boolean execute(Gui gui) throws Throwable {
 
         initialize(gui);
 
@@ -39,7 +39,7 @@ public class GameStateRun extends GameState {
             // process input
             MoveEnumeration temp = gui.getMove();
             if (temp != null) game.setLastmove(temp);
-            Boolean pause = game.processKey(game.getLastmove());
+            boolean pause = game.processKey(game.getLastmove());
 
             if (pause){
                 long starOfPause = System.currentTimeMillis();
@@ -102,7 +102,7 @@ public class GameStateRun extends GameState {
         gui.draw(game.getGameData());
     }
 
-    public Boolean pauseScreen(Gui gui) throws IOException {
+    public boolean pauseScreen(Gui gui) throws IOException {
         int option = 0;
         gui.pauseScreen(option);
         KeyType keyType;

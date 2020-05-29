@@ -21,7 +21,7 @@ public abstract class GhostState {
 
     public abstract void calculateAndStep(GameData gameData, int step);
 
-    public Boolean isScatterTime(long elapsedTime) {
+    public boolean isScatterTime(long elapsedTime) {
         return (elapsedTime > 0 && elapsedTime <= 7000) || (elapsedTime > 27000 && elapsedTime <= 34000) || (elapsedTime > 54000 && elapsedTime <= 59000) || (elapsedTime > 79000 && elapsedTime <= 84000);
     }
 }

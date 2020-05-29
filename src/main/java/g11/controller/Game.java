@@ -12,8 +12,8 @@ import g11.view.MoveEnumeration;
 import java.util.ArrayList;
 
 public class Game {
-    private Boolean running;
-    private Boolean winner;
+    private boolean running;
+    private boolean winner;
     private int numberActivePP;
     private int ticks;
     private int eatenGhosts;
@@ -49,19 +49,19 @@ public class Game {
         this.gameData = gameData;
     }
 
-    public Boolean getRunning() {
+    public boolean getRunning() {
         return running;
     }
 
-    public void setRunning(Boolean running) {
+    public void setRunning(boolean running) {
         this.running = running;
     }
 
-    public Boolean getWinner() {
+    public boolean getWinner() {
         return winner;
     }
 
-    public void setWinner(Boolean winner) {
+    public void setWinner(boolean winner) {
         this.winner = winner;
     }
 
@@ -112,7 +112,7 @@ public class Game {
         ghostCollisionAndUpdate(step, elapsedTime, true);
     }
 
-    public void ghostCollisionAndUpdate(int step, long elapsedTime, Boolean update) {
+    public void ghostCollisionAndUpdate(int step, long elapsedTime, boolean update) {
         for (GhostController ghostController : ghostControllers) {
             if (update)
                 ghostController.update(gameData, step, elapsedTime);
@@ -132,7 +132,7 @@ public class Game {
         }
     }
 
-    public Boolean processKey(MoveEnumeration move) {
+    public boolean processKey(MoveEnumeration move) {
         if (move != null) {
             switch (move) {
                 case ESC:
@@ -161,7 +161,7 @@ public class Game {
     }
 
     public void start() throws Throwable {
-        Boolean close;
+        boolean close;
         do {
             close = gameState.execute(gui);
         } while (!close);

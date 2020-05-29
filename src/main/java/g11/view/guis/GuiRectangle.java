@@ -127,7 +127,7 @@ public class GuiRectangle extends Gui {
     }
 
     @Override
-    public void endScreen(Boolean winner, GameStats gameStats) throws IOException {
+    public void endScreen(boolean winner, GameStats gameStats) throws IOException {
         getScreen().clear();
         TextGraphics graphics = getScreen().newTextGraphics();
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);

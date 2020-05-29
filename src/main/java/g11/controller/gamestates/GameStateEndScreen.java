@@ -5,15 +5,15 @@ import g11.controller.Game;
 import g11.view.Gui;
 
 public class GameStateEndScreen extends GameState {
-    Boolean winner;
+    boolean winner;
 
-    public GameStateEndScreen(Game game, Boolean winner) {
+    public GameStateEndScreen(Game game, boolean winner) {
         super(game);
         this.winner = winner;
     }
 
     @Override
-    public Boolean execute(Gui gui) throws Throwable {
+    public boolean execute(Gui gui) throws Throwable {
         gui.endScreen(winner, game.getGameData().getGameStats());
         Thread.sleep(1000);
         KeyType keyType = gui.getKeyStroke().getKeyType();
