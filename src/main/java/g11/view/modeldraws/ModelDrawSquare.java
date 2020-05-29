@@ -69,8 +69,8 @@ public class ModelDrawSquare implements ModelDraw {
         graphics.putString(3, 1, "SCORE", SGR.BOLD);
         graphics.putString(15, 1, "HI-SCORE", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
-        graphics.putString(7, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        graphics.putString(17, 2, "10000", SGR.BOLD);
+        graphics.putString(8 - String.valueOf(gameData.getGameStats().getScore()).length(), 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        graphics.putString(17, 2, String.valueOf(gameData.getGameStats().getHighScore()), SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.putString(3, 34, ">>>>>", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);

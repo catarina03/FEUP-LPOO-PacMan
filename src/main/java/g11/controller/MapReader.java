@@ -23,6 +23,7 @@ public class MapReader {
     private final ArrayList<Ghost> ghosts;
     private final ArrayList<Position> unturnable;
     private Position pacManposition;
+    private int highScore;
 
     public MapReader(ReadFile readFile) {
         map = new ArrayList<>();
@@ -35,6 +36,8 @@ public class MapReader {
         ghosts = new ArrayList<>();
         unturnable = new ArrayList<>();
 
+        boolean highScoreRead = false;
+
         Position blinkyPos = null, inkyPos = null, pinkyPos = null, clydePos = null;
         Position blinkyTarget = null, inkyTarget = null, pinkyTarget = null, clydeTarget = null;
         int x; // entre 0 e 27
@@ -42,108 +45,113 @@ public class MapReader {
 
         map = readFile.fileContent();
         for (String string : map) {
-            x = 0;
-            for (char ch : string.toCharArray()) {
-                switch (ch) {
-                    case '#':
-                        Wall wall = new Wall(x, y);
-                        walls.add(wall);
-                        mapComponents.add(wall);
-                        break;
-                    case 'e':
-                        EmptySpace emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case 'c':
-                        Coin coin = new Coin(x, y);
-                        coins.add(coin);
-                        mapComponents.add(coin);
-                        break;
-                    case 'B':
-                        blinkyPos = new Position(x, y);
-                        // Depois de o Blinky sair do sitio tem de ficar um espaço vazio atrás
-                        emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case 'I':
-                        inkyPos = new Position(x, y);
-                        emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case 'P':
-                        pinkyPos = new Position(x, y);
-                        emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case 'K':
-                        clydePos = new Position(x, y);
-                        emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case '$':
-                        PowerPellet powerPellet = new PowerPellet(x, y);
-                        powerPellets.add(powerPellet);
-                        mapComponents.add(powerPellet);
-                        break;
-                    case 'M':
-                        pacManposition = new Position(x, y);
-                        emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case 'g':
-                        Gate gate = new Gate(x, y);
-                        gates.add(gate);
-                        mapComponents.add(gate);
-                        break;
-                    case 'x':
-                        unturnable.add(new Position(x, y));
-                        emptySpace = new EmptySpace(x, y);
-                        emptySpaces.add(emptySpace);
-                        mapComponents.add(emptySpace);
-                        break;
-                    case 'o':
-                        unturnable.add(new Position(x, y));
-                        coin = new Coin(x, y);
-                        coins.add(coin);
-                        mapComponents.add(coin);
-                        break;
-                    case 'Q':
-                        pinkyTarget = new Position(x, y - 3);
-                        wall = new Wall(x, y);
-                        walls.add(wall);
-                        mapComponents.add(wall);
-                        break;
-                    case 'W':
-                        blinkyTarget = new Position(x, y - 3);
-                        wall = new Wall(x, y);
-                        walls.add(wall);
-                        mapComponents.add(wall);
-                        break;
-                    case 'A':
-                        clydeTarget = new Position(x, y + 1);
-                        wall = new Wall(x, y);
-                        walls.add(wall);
-                        mapComponents.add(wall);
-                        break;
-                    case 'S':
-                        inkyTarget = new Position(x, y + 1);
-                        wall = new Wall(x, y);
-                        walls.add(wall);
-                        mapComponents.add(wall);
-                        break;
-                    case 'T':
-                        Moveable.xValueTP = x;
-                        break;
+            if (!highScoreRead) {
+                this.highScore = Integer.parseInt(string);
+                highScoreRead = true;
+            } else {
+                x = 0;
+                for (char ch : string.toCharArray()) {
+                    switch (ch) {
+                        case '#':
+                            Wall wall = new Wall(x, y);
+                            walls.add(wall);
+                            mapComponents.add(wall);
+                            break;
+                        case 'e':
+                            EmptySpace emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case 'c':
+                            Coin coin = new Coin(x, y);
+                            coins.add(coin);
+                            mapComponents.add(coin);
+                            break;
+                        case 'B':
+                            blinkyPos = new Position(x, y);
+                            // Depois de o Blinky sair do sitio tem de ficar um espaço vazio atrás
+                            emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case 'I':
+                            inkyPos = new Position(x, y);
+                            emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case 'P':
+                            pinkyPos = new Position(x, y);
+                            emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case 'K':
+                            clydePos = new Position(x, y);
+                            emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case '$':
+                            PowerPellet powerPellet = new PowerPellet(x, y);
+                            powerPellets.add(powerPellet);
+                            mapComponents.add(powerPellet);
+                            break;
+                        case 'M':
+                            pacManposition = new Position(x, y);
+                            emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case 'g':
+                            Gate gate = new Gate(x, y);
+                            gates.add(gate);
+                            mapComponents.add(gate);
+                            break;
+                        case 'x':
+                            unturnable.add(new Position(x, y));
+                            emptySpace = new EmptySpace(x, y);
+                            emptySpaces.add(emptySpace);
+                            mapComponents.add(emptySpace);
+                            break;
+                        case 'o':
+                            unturnable.add(new Position(x, y));
+                            coin = new Coin(x, y);
+                            coins.add(coin);
+                            mapComponents.add(coin);
+                            break;
+                        case 'Q':
+                            pinkyTarget = new Position(x, y - 3);
+                            wall = new Wall(x, y);
+                            walls.add(wall);
+                            mapComponents.add(wall);
+                            break;
+                        case 'W':
+                            blinkyTarget = new Position(x, y - 3);
+                            wall = new Wall(x, y);
+                            walls.add(wall);
+                            mapComponents.add(wall);
+                            break;
+                        case 'A':
+                            clydeTarget = new Position(x, y + 1);
+                            wall = new Wall(x, y);
+                            walls.add(wall);
+                            mapComponents.add(wall);
+                            break;
+                        case 'S':
+                            inkyTarget = new Position(x, y + 1);
+                            wall = new Wall(x, y);
+                            walls.add(wall);
+                            mapComponents.add(wall);
+                            break;
+                        case 'T':
+                            Moveable.xValueTP = x;
+                            break;
+                    }
+                    x++;
                 }
-                x++;
+                y++;
             }
-            y++;
         }
         Blinky blinky = new Blinky(blinkyPos, blinkyTarget);
         mapComponents.add(blinky);
@@ -168,6 +176,10 @@ public class MapReader {
 
     public PacMan startingPacMan() {
         return new PacMan(pacManposition);
+    }
+
+    public int getHighScore() {
+        return highScore;
     }
 
     public Map getMap() {

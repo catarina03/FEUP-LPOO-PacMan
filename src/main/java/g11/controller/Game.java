@@ -9,6 +9,9 @@ import g11.view.Gui;
 import g11.view.guis.GuiSquare;
 import g11.view.MoveEnumeration;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class Game {
@@ -30,7 +33,6 @@ public class Game {
     public Game(Gui gui) {
         this.gui = gui;
         gameState = new GameStatePresentation(this);
-        //gameState = new GameStateEndScreen(this, false);
     }
 
     public void changeGameState(GameState gameState) {
@@ -167,6 +169,4 @@ public class Game {
         } while (!close);
         gui.close();
     }
-
 }
-
