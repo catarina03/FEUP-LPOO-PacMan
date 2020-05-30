@@ -15,11 +15,9 @@ import g11.model.elements.map.*;
 import g11.view.ModelDraw;
 
 public class ModelDrawSquare implements ModelDraw {
-    private Screen screen;
     private TextGraphics graphics;
 
     public ModelDrawSquare(Screen screen) {
-        this.screen = screen;
         this.graphics = screen.newTextGraphics();
     }
 
@@ -59,7 +57,6 @@ public class ModelDrawSquare implements ModelDraw {
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '>');
                 break;
         }
-        graphics.enableModifiers(SGR.BOLD);
     }
 
 

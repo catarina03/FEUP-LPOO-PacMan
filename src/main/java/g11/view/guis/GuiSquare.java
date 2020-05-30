@@ -17,8 +17,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class GuiSquare extends Gui {
-    private ModelDrawSquare modelDraw;
-
     public GuiSquare() {
         try {
             File fontfile = new File(getClass().getClassLoader().getResource("square.ttf").getFile());
@@ -50,7 +48,6 @@ public class GuiSquare extends Gui {
     }
 
     public GuiSquare(int no) {
-        // TODO modificar esta função
         try {
             TerminalSize terminalsize = new TerminalSize(50, 36);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
@@ -189,14 +186,25 @@ public class GuiSquare extends Gui {
         graphics.putString(3, 0, "1UP   HIGH SCORE   2UP", SGR.BOLD);
         graphics.putString(5, 1, "00", SGR.BOLD);
         graphics.putString(0, 35, "CREDIT 2", SGR.BOLD);
+        graphics.putString(11, 26, "10 PTS", SGR.BOLD);
+        graphics.putString(11, 27, "50 PTS", SGR.BOLD);
 
-        if (i == 0) {
-            graphics.putString(6, 10, "> Continue", SGR.BOLD);
-            graphics.putString(6, 11, "  Exit", SGR.BOLD);
-        } else {
-            graphics.putString(6, 10, "  Continue", SGR.BOLD);
-            graphics.putString(6, 11, "> Exit", SGR.BOLD);
-        }
+        graphics.putString(9, 10, "Continue", SGR.BOLD);
+        graphics.putString(9, 12, "Exit", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        if (i == 0) graphics.putString(7, 10, ">", SGR.BOLD);
+        else graphics.putString(7, 12, ">", SGR.BOLD);
+
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
+        graphics.putString(9, 26, ".", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+        graphics.putString(9, 27, "*", SGR.BOLD);
+
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+        graphics.putString(3, 33, "@ 1980 MIDWAY MFG. CO.", SGR.BOLD);
 
         getScreen().refresh();
     }

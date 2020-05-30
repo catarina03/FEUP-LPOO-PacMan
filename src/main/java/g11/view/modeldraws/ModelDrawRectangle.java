@@ -1,5 +1,6 @@
 package g11.view.modeldraws;
 
+import g11.model.GhostStateEnumeration;
 import g11.model.elements.*;
 import g11.model.GameData;
 import com.googlecode.lanterna.SGR;
@@ -15,11 +16,9 @@ import g11.model.elements.map.*;
 import g11.view.ModelDraw;
 
 public class ModelDrawRectangle implements ModelDraw {
-    private Screen screen;
     private TextGraphics graphics;
 
     public ModelDrawRectangle(Screen screen) {
-        this.screen = screen;
         this.graphics = screen.newTextGraphics();
     }
 
@@ -60,8 +59,6 @@ public class ModelDrawRectangle implements ModelDraw {
                 graphics.setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
                 break;
         }
-        graphics.setForegroundColor(TextColor.ANSI.WHITE);
-        graphics.enableModifiers(SGR.BOLD);
     }
 
 
@@ -71,49 +68,51 @@ public class ModelDrawRectangle implements ModelDraw {
         graphics.putString(9, 1, "SCORE", SGR.BOLD);
         graphics.putString(29, 1, "HI-SCORE", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.WHITE);
-        graphics.putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        graphics.putString(31, 2, "10000", SGR.BOLD);
+        graphics.putString(13 - String.valueOf(gameData.getGameStats().getScore()).length(), 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        graphics.putString(31, 2, String.valueOf(gameData.getGameStats().getHighScore()), SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.putString(9, 34, "00000", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(35, 34, "o", SGR.BOLD);
-
-
-        // Uncomment to see Targets in Chase mode
-        /* graphics.setForegroundColor(TextColor.ANSI.CYAN);
-        graphics.putString(gameData.getGhosts().get(1).getTarget().getX(), gameData.getGhosts().get(1).getTarget().getY(), "x", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.ANSI.RED);
-        graphics.putString(gameData.getGhosts().get(0).getTarget().getX(), gameData.getGhosts().get(0).getTarget().getY(), "x", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-        graphics.putString(gameData.getGhosts().get(2).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "x", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-        graphics.putString(gameData.getGhosts().get(3).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "x", SGR.BOLD);*/
     }
 
     public void drawGhost(GameData gameData) {
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
         for (Ghost element : gameData.getGhosts()) {
-            if (element instanceof Blinky) {
-                graphics.setForegroundColor(TextColor.ANSI.RED);
-                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-            }
-            if (element instanceof Clyde) {
-                graphics.setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-            }
-            if (element instanceof Inky) {
-                graphics.setForegroundColor(TextColor.ANSI.CYAN);
-                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
-            }
-            if (element instanceof Pinky) {
-                graphics.setForegroundColor(TextColor.ANSI.MAGENTA);
-                graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+            if (element.getState() == GhostStateEnumeration.EATEN || element.getState() == GhostStateEnumeration.ENTERINGHOUSE) {
+                graphics.setForegroundColor(TextColor.ANSI.WHITE);
+                graphics.setCharacter(element.getX(), element.getY(), '\"');
+            } else {
+                if (element instanceof Blinky) {
+                    if (element.getState() == GhostStateEnumeration.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+                    graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+                }
+                if (element instanceof Clyde) {
+                    if (element.getState() == GhostStateEnumeration.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+                    graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+                }
+                if (element instanceof Inky) {
+                    if (element.getState() == GhostStateEnumeration.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+                    graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+                }
+                if (element instanceof Pinky) {
+                    if (element.getState() == GhostStateEnumeration.FRIGHTENED)
+                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
+                    else graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
+                    graphics.setCharacter(element.getX(), element.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+                }
             }
         }
     }
 
     public void drawCherry(MapComponent element) {
-        graphics.setForegroundColor(TextColor.ANSI.RED);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
         graphics.setCharacter(element.getX(), element.getY(), Symbols.CLUB);
     }
 
@@ -123,8 +122,8 @@ public class ModelDrawRectangle implements ModelDraw {
     }
 
     public void drawCoin(MapComponent element) {
-        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.enableModifiers(SGR.BOLD);
         graphics.setCharacter(element.getX(), element.getY(), Symbols.BULLET);
     }
