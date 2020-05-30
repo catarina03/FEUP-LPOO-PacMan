@@ -7,8 +7,8 @@ public class GameStats {
     int eatenCoins;
     int eatenPP;
 
-    public GameStats(int highScore) {
-        this.highScore = highScore;
+    public GameStats(int hScore) {
+        this.highScore = hScore;
         this.score = 0;
         this.eatenCoins = 0;
         this.eatenGhosts = 0;
@@ -33,10 +33,6 @@ public class GameStats {
 
     public int getHighScore() {
         return highScore;
-    }
-
-    public void setHighScore(int highScore) {
-        this.highScore = highScore;
     }
 
     public void incrementEatenCoins() {

@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class Game {
     private boolean running;
     private boolean winner;
-    private int numberActivePP;
     private int ticks;
     private int eatenGhosts;
+    private int highScore;
 
     private Gui gui;
     private GameData gameData;
@@ -32,7 +32,11 @@ public class Game {
 
     public Game(Gui gui) {
         this.gui = gui;
-        gameState = new GameStatePresentation(this);
+        this.gameState = new GameStatePresentation(this);
+
+        ReadFile readFile = (gui instanceof GuiSquare) ? new ReadFile("mapv1.txt") : new ReadFile("mapv2.txt");
+        ArrayList<String> lines = readFile.fileContent();
+        this.highScore = Integer.parseInt(lines.get(0));
     }
 
     public void changeGameState(GameState gameState) {
@@ -67,8 +71,12 @@ public class Game {
         this.winner = winner;
     }
 
-    public void setNumberActivePP(int numberActivePP) {
-        this.numberActivePP = numberActivePP;
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 
     public GameData getGameData() {
@@ -120,7 +128,6 @@ public class Game {
                 ghostController.update(gameData, step, elapsedTime);
             if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
                 if (ghostController.getGhostState() instanceof GhostStateFrightened) {
-                    // TODO acresentar score dependendo do fantasma
                     // acrescentar numero de fantasmas comidos neste state de frightened
                     eatenGhosts++;
                     gameData.getGameStats().incrementEatenGhosts(eatenGhosts);
@@ -167,6 +174,23 @@ public class Game {
         do {
             close = gameState.execute(gui);
         } while (!close);
+        saveHighScore();
         gui.close();
+    }
+
+    private void saveHighScore() throws FileNotFoundException, UnsupportedEncodingException {
+        String fileName = (gui instanceof GuiSquare) ? "mapv1.txt" : "mapv2.txt";
+
+        ReadFile readFile = new ReadFile(fileName);
+        ArrayList<String> contents = readFile.fileContent();
+
+        PrintWriter writer = new PrintWriter("./src/main/resources/" + fileName, "UTF-8");
+        writer.println(highScore);
+        for (int i = 1; i < contents.size(); i++) {
+            writer.printf(contents.get(i));
+            if (i != contents.size() - 1)
+                writer.printf("%n");
+        }
+        writer.close();
     }
 }

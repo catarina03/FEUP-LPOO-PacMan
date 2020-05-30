@@ -65,15 +65,8 @@ public class GameStateRun extends GameState {
             if (elapsed < 50) Thread.sleep(50 - elapsed);
         }
 
-        System.out.println("Score: " + game.getGameData().getGameStats().getScore());
-        System.out.println("Previous HighScore: " + game.getGameData().getGameStats().getHighScore());
-
-        if (game.getGameData().getGameStats().getScore() > game.getGameData().getGameStats().getHighScore())
-            game.getGameData().getGameStats().setHighScore(game.getGameData().getGameStats().getScore());
-
-        System.out.println("Previous New HighScore: " + game.getGameData().getGameStats().getHighScore());
-
-        saveHighScore(gui);
+        if (game.getGameData().getGameStats().getScore() > game.getHighScore())
+            game.setHighScore(game.getGameData().getGameStats().getScore());
 
         game.changeGameState(new GameStateEndScreen(game, game.getWinner()));
         return false;
@@ -88,19 +81,12 @@ public class GameStateRun extends GameState {
         game.setLastmove(MoveEnumeration.LEFT);
         game.setCchecker(new CollisionChecker());
 
-        MapReader mapReader;
-        if (gui instanceof GuiSquare)
-            mapReader = new MapReader(new ReadFile("mapv1.txt"));
-        else
-            mapReader = new MapReader(new ReadFile("mapv2.txt"));
+        MapReader mapReader = (gui instanceof GuiSquare) ? new MapReader(new ReadFile("mapv1.txt")) : new MapReader(new ReadFile("mapv2.txt"));
 
-        System.out.println("getHighScore - " + mapReader.getHighScore());
-        game.setGameData(new GameData(new GameStats(mapReader.getHighScore()),
+        game.setGameData(new GameData(new GameStats(game.getHighScore()),
                 mapReader.startingPacMan(),
                 mapReader.ghostList(),
                 mapReader.getMap()));
-
-        game.setNumberActivePP(game.getGameData().getMap().getPowerPellets().size());
 
         ArrayList<GhostController> ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostController(false, game.getGameData().getGhosts().get(0), new TargetStrategyBlinky(), 0));
@@ -133,21 +119,5 @@ public class GameStateRun extends GameState {
         } while (keyType != KeyType.Enter);
 
         return option == 1;
-    }
-
-    private void saveHighScore(Gui gui) throws FileNotFoundException, UnsupportedEncodingException {
-        String fileName = (gui instanceof GuiSquare) ? "mapv1.txt" : "mapv2.txt";
-
-        ReadFile readFile = (gui instanceof GuiSquare) ? new ReadFile(fileName) : new ReadFile(fileName);
-        ArrayList<String> contents = readFile.fileContent();
-
-        PrintWriter writer = new PrintWriter("./src/main/resources/" + fileName, "UTF-8");
-        writer.println(game.getGameData().getGameStats().getHighScore());
-        for (int i = 1; i < contents.size(); i++) {
-            writer.printf(contents.get(i));
-            if (i != contents.size() - 1)
-                writer.printf("%n");
-        }
-        writer.close();
     }
 }
