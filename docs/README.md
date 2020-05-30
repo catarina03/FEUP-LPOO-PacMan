@@ -125,7 +125,7 @@ public void determineState(long elapsedtime, GhostState ghostState){
 
 Um óbvio _code smell_ e uma fonte de bugs que só conseguimos resolver assim que implementamos o **State Pattern**. 
 
-Um dos bugs que nos acompanhou enquanto estavamos a implementar os Ghosts acontecia quando um _Ghost_ tentava sair da _Ghost House_ e assim que saía, voltava a entrar e ficava preso. Após implementar o **State Pattern** ficou mais evidente o que causava este comportamentoe e tornou-se facilmente resolúvel.
+Um dos bugs que nos acompanhou enquanto estavamos a implementar os Ghosts acontecia quando um _Ghost_ tentava sair da _Ghost House_ e assim que saía, voltava a entrar e ficava preso. Após implementar o **State Pattern** ficou mais evidente o que causava este comportamento e tornou-se facilmente resolúvel.
 
 #### Implementation
 ![](https://i.imgur.com/B4QsZVj.png)
@@ -278,7 +278,7 @@ Isto possibilitou separar as 3 partes da criação de uma _frame_ e definir uma 
 - O jogo pode correr demasiado devagar. Para máquinas menos capazes, um ciclo pode demorar mais millisegundos a processar do que o esperado, fazendo com que o jogo abrande em certos casos. 
 
 ## Code Smells
-### 1 Bloaters - Large CLass
+### 1. Bloaters - Large CLass
 A meio do Projeto apercebemo-nos que só tinhamos uma classe **Control** que tratava de todo o jogo. Esta tinha demasiados métodos e cada método era demasiado comprido.
 
 **Solution**: Extract Class
@@ -287,100 +287,45 @@ A partir de uma só classe foi possível criar **3** classes: CollisionChecker, 
 
 ![](https://i.imgur.com/IohGNNh.png)
 
-### 2. Comments
-Os controladores são a parte que vai receber mais trabalho na segunda fase deste projeto, mas por enquanto estão complicados de entender, para isso há métodos que têm demasiados comentários que vão ter de ser removidos antes da entrega final, temos como exemplo o método update do controlador principal:
+### 2. If Statements / Switch Statements
+
+Como lidamos com 4 Orientações constantemente (processar comandos, verificar colisões) houve muitas partes de código que conseguimos simplificar e retirar muitos _if's_ repetidos ou até remover _switch cases_. Como exemplo adicionamos ao _enum_ [Orientation](../src/test/java/g11/model/OrientationENUMTest.java) um método que retorna todas as Orientações disponiveis e com isto foi possivel simplificar o seguinte pedaço de código
 
 ```java
- private void update(GameData gameData) {
-        // Can Pacman move to next position?
-            // Pacman's next position?
-            // Is a wall in the position pacman is about to move to?
-        // yes -> update position
-        // no  -> don't update
-        if (!checkWallColison(pacManNextPosition())){
-            coinColison(gameData.getPacMan().getPosition());
-            gameData.update();
+for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {
+            if (emptySpace.getPosition().equals(ghost.getPosition().up())) {
+                if (ghost.getOrientation().getOpposite() != UP) {
+                    returning.add(UP);
+                }
+            } else if (emptySpace.getPosition().equals(ghost.getPosition().down())) {
+                if (ghost.getOrientation().getOpposite() != DOWN) {
+                    returning.add(DOWN);
+                }
+            } else if (emptySpace.getPosition().equals(ghost.getPosition().left())) {
+                if (ghost.getOrientation().getOpposite() != LEFT) {
+                    returning.add(LEFT);
+                }
+            } else if (emptySpace.getPosition().equals(ghost.getPosition().right())) {
+                if (ghost.getOrientation().getOpposite() != RIGHT) {
+                    returning.add(RIGHT);
+                }
+            }
         }
-    }
 ```
-
-e o método run, também de Game:
 ```java
-   public void run() throws IOException {
-        long startTime = System.currentTimeMillis();
-        boolean alreadyin = false;
-        // ciclo de jogo
-        while(true) {
-            // Ler Esc para sair de ciclo
-            KeyStroke keyStroke = screen.pollInput();
-            if(keyStroke != null ){
-                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF) {break;}
-                else{processKey(keyStroke);
-                    //pacMan.moveDirection();}
-            }
-            //Detetar keystrokes de setas e mudar direção de pacman
-            // taxa de atualização a cada meio segundo
-            if ((System.currentTimeMillis() - startTime) % 250 == 0){
-                // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
-                if (!alreadyin){
-                    System.out.println(System.currentTimeMillis() - startTime);
-                    pacMan.moveDirection();
-                    draw();
-                    alreadyin = true;}
-            }
-            else{
-                // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
-                alreadyin = false;
+for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {
+            for (OrientationEnumeration ori : OrientationEnumeration.allOptions()) {
+                if (emptySpace.getPosition().equals(ghost.getPosition(ori))) {
+                    if (ghost.getOrientationEnumeration().getOpposite() != ori)
+                        returning.add(ori);
+                }
             }
         }
-        if (screen != null)
-            screen.close();
-    }
 ```
-### 3. Switch Statements
-Na classe [Gui.java](../src/main/java/g11/view/Gui.java) é declarado um enum: `public enum MOVE {UP, DOWN, LEFT, RIGHT, ESC}`, tal como em [Orientation.java](../src/main/java/g11/model/Orientation.java): `public enum Orientation {UP, DOWN, LEFT, RIGHT}` .
-
-Devido a estes enums surgem ao longo do programa switch cases para selecionar o que fazer dependendo do valor de uma variável enum:
-
-Em [checkWallCollision() e orientationToMove()](../src/main/java/g11/controller/CollisionChecker.java):
-```java
-switch (direction){
-    case UP:
-        pacmannextpos = gameData.getPacMan().getPosition().up();
-        break;
-    case DOWN:
-        pacmannextpos = gameData.getPacMan().getPosition().down();
-        break;
-    case LEFT:
-        pacmannextpos = gameData.getPacMan().getPosition().left();
-        break;
-    case RIGHT:
-        pacmannextpos = gameData.getPacMan().getPosition().right();
-        break;
-}
-...
-switch (orientationEnumeration){
-            case UP:
-                return Gui.MOVE.UP;
-            case DOWN:
-                return Gui.MOVE.DOWN;
-            case LEFT:
-                return Gui.MOVE.LEFT;
-            case RIGHT:
-                return Gui.MOVE.RIGHT;
-        }
-        return Gui.MOVE.ESC;
-```
-
-Mesmo sendo necessários e executando simples operações podem ser considerados um _code smell_ caso comecem a ser demasiado proeminentes ao longo do código. 
-
-**Solution**: Replace Type Code with Subclasses
-
-O refactoring **Replace Type Code with Subclasses** já foi usado para criar a classe [Moveable](../src/main/java/g11/model/elements/Moveable.java) para esta ser a única que será a _parent class_ dos objetos móveis e com isto [Pacman](../src/main/java/g11/model/elements/PacMan.java) e os futuros Ghosts apenas precisam de fazer _extend_ a esta classe.
-
-![](https://i.imgur.com/k07Y7nn.png)
 
 ## Testing
+
+// TODO Link to mutation testing report.
 
 ![Code Coverage](https://i.imgur.com/ZikaxRv.png)
 
