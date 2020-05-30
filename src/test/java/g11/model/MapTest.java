@@ -1,6 +1,10 @@
 package g11.model;
 
 import g11.model.elements.*;
+import g11.model.elements.map.Coin;
+import g11.model.elements.map.EmptySpace;
+import g11.model.elements.map.PowerPellet;
+import g11.model.elements.map.Wall;
 import org.junit.Test;
 import org.mockito.Mockito;
 

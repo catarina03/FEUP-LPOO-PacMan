@@ -11,5 +11,5 @@ public abstract class GameState {
         this.game = game;
     }
 
-    public abstract Boolean execute(Gui gui) throws Throwable;
+    public abstract boolean execute(Gui gui) throws Throwable;
 }

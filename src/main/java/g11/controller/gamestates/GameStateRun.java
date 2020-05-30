@@ -6,13 +6,20 @@ import g11.controller.Game;
 import g11.controller.MapReader;
 import g11.controller.ReadFile;
 import g11.controller.ghosts.*;
+import g11.controller.ghosts.strategies.TargetStrategyBlinky;
+import g11.controller.ghosts.strategies.TargetStrategyClyde;
+import g11.controller.ghosts.strategies.TargetStrategyInky;
+import g11.controller.ghosts.strategies.TargetStrategyPinky;
 import g11.model.GameData;
 import g11.model.GameStats;
 import g11.view.Gui;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.guis.GuiSquare;
+import g11.view.MoveEnumeration;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class GameStateRun extends GameState {
@@ -22,7 +29,7 @@ public class GameStateRun extends GameState {
     }
 
     @Override
-    public Boolean execute(Gui gui) throws Throwable {
+    public boolean execute(Gui gui) throws Throwable {
 
         initialize(gui);
 
@@ -33,9 +40,9 @@ public class GameStateRun extends GameState {
             long current = System.currentTimeMillis();
 
             // process input
-            MoveENUM temp = gui.getMove();
+            MoveEnumeration temp = gui.getMove();
             if (temp != null) game.setLastmove(temp);
-            Boolean pause = game.processKey(game.getLastmove());
+            boolean pause = game.processKey(game.getLastmove());
 
             if (pause){
                 long starOfPause = System.currentTimeMillis();
@@ -58,6 +65,9 @@ public class GameStateRun extends GameState {
             if (elapsed < 50) Thread.sleep(50 - elapsed);
         }
 
+        if (game.getGameData().getGameStats().getScore() > game.getHighScore())
+            game.setHighScore(game.getGameData().getGameStats().getScore());
+
         game.changeGameState(new GameStateEndScreen(game, game.getWinner()));
         return false;
     }
@@ -68,21 +78,15 @@ public class GameStateRun extends GameState {
         game.setRunning(true);
         game.setWinner(false);
 
-        game.setLastmove(MoveENUM.LEFT);
+        game.setLastmove(MoveEnumeration.LEFT);
         game.setCchecker(new CollisionChecker());
 
-        MapReader mapReader;
-        if (gui instanceof GuiSquare)
-            mapReader = new MapReader(new ReadFile("mapv1.txt"));
-        else
-            mapReader = new MapReader(new ReadFile("mapv2.txt"));
+        MapReader mapReader = (gui instanceof GuiSquare) ? new MapReader(new ReadFile("mapv1.txt")) : new MapReader(new ReadFile("mapv2.txt"));
 
-        game.setGameData(new GameData(new GameStats(0),
+        game.setGameData(new GameData(new GameStats(game.getHighScore()),
                 mapReader.startingPacMan(),
                 mapReader.ghostList(),
                 mapReader.getMap()));
-
-        game.setNumberActivePP(game.getGameData().getMap().getPowerPellets().size());
 
         ArrayList<GhostController> ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostController(false, game.getGameData().getGhosts().get(0), new TargetStrategyBlinky(), 0));
@@ -98,7 +102,7 @@ public class GameStateRun extends GameState {
         gui.draw(game.getGameData());
     }
 
-    public Boolean pauseScreen(Gui gui) throws IOException {
+    public boolean pauseScreen(Gui gui) throws IOException {
         int option = 0;
         gui.pauseScreen(option);
         KeyType keyType;
@@ -116,5 +120,4 @@ public class GameStateRun extends GameState {
 
         return option == 1;
     }
-
 }

@@ -1,30 +1,28 @@
 package g11.model.elements;
 
-import g11.model.OrientationENUM;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
-
-import java.util.ArrayList;
 
 public abstract class Moveable extends MapComponent {
     public static int xValueTP;
-    OrientationENUM orientationENUM;
+    OrientationEnumeration orientationEnumeration;
 
     public Moveable(int x, int y) {
         super(x, y);
-        this.orientationENUM = OrientationENUM.LEFT;
+        this.orientationEnumeration = OrientationEnumeration.LEFT;
     }
 
     public Moveable(Position position) {
         super(position);
-        this.orientationENUM = OrientationENUM.LEFT;
+        this.orientationEnumeration = OrientationEnumeration.LEFT;
     }
 
-    public OrientationENUM getOrientationENUM() {
-        return orientationENUM;
+    public OrientationEnumeration getOrientationEnumeration() {
+        return orientationEnumeration;
     }
 
-    public void setOrientationENUM(OrientationENUM or) {
-        this.orientationENUM = or;
+    public void setOrientationEnumeration(OrientationEnumeration or) {
+        this.orientationEnumeration = or;
     }
 
     public void moveUp() {
@@ -44,7 +42,7 @@ public abstract class Moveable extends MapComponent {
     }
 
     public void moveDirection() {
-        switch (orientationENUM) {
+        switch (orientationEnumeration) {
             case UP:
                 moveUp();
                 break;

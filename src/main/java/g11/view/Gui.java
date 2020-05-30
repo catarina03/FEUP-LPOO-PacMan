@@ -55,22 +55,22 @@ public abstract class Gui {
         return screen.readInput();
     }
 
-    public MoveENUM getMove() throws IOException {
+    public MoveEnumeration getMove() throws IOException {
         // Ler Esc para sair de ciclo
         KeyStroke keyStroke = screen.pollInput();
         if (keyStroke != null) {
             switch (keyStroke.getKeyType()) {
                 case ArrowUp:
-                    return MoveENUM.UP;
+                    return MoveEnumeration.UP;
                 case ArrowDown:
-                    return MoveENUM.DOWN;
+                    return MoveEnumeration.DOWN;
                 case ArrowLeft:
-                    return MoveENUM.LEFT;
+                    return MoveEnumeration.LEFT;
                 case ArrowRight:
-                    return MoveENUM.RIGHT;
+                    return MoveEnumeration.RIGHT;
                 case Escape:
                 case EOF:
-                    return MoveENUM.ESC;
+                    return MoveEnumeration.ESC;
                 default:
                     return null;
             }
@@ -96,7 +96,7 @@ public abstract class Gui {
 
     public abstract void inicialScreen() throws IOException;
 
-    public abstract void endScreen(Boolean winner, GameStats gameStats) throws IOException;
+    public abstract void endScreen(boolean winner, GameStats gameStats) throws IOException;
 
     public abstract void pauseScreen(int i) throws IOException;
 }

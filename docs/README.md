@@ -1,21 +1,23 @@
-# LPOO_11 - PacMan
+# LPOO_11 - Pac-Man
 
-O objetivo deste projeto é recriar um jogo PacMan clássico usando o terminal Lanterna em Java.
+O objetivo deste projeto é recriar um jogo PacMan clássico (1980) usando o terminal Lanterna em Java.
+
+Este projeto foi desenvolvido por André Gomes (up201806224@fe.up.pt) e Catarina Fernandes (up201806610@fe.up.pt) para a Unidade Curricular LPOO 2019/2020.
 
 ## Implemented Features:
-- **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal.
-- **Leitura de mapas** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt e apresentar esse mapa no ecrã.
-- **Movimento do Pac-man** - O PacMan está sempre em movimento constante dependendo da sua direção, apenas parando quando vai contra uma parede. É possível alterar a sua posição com as setas do teclado. 
-- **Buffer de movimentos** - Antes de chegar a uma curva o *player* pode premir uma tecla para alterar a direção e o PacMan alterará a sua posição assim que conseguir.
-- **Colisão com paredes** - O PacMan não consegue passar pelas paredes, só consegue andar em sítios com fundo preto.
+- **Terminal do jogo** - Usando um *Screen* do Lanterna temos uma visão do mapa original do PacMan usando apenas caracteres de terminal. Também implementamos uma GUI que usufrui de uma _font_ quadrada para o jogo ser mais apelativo.
+- **Leitura de mapas e highscore** - O jogo consegue ler um mapa formatado a partir de um ficheiro txt, juntamente com o _High Score_ e apresentar essa informação no ecrã. 2 Mapas/Gui's foram implementados.
+- **Movimento do Pac-man** - O Pac-Man está sempre em movimento constante dependendo da sua direção, apenas parando quando vai contra uma parede. É possível alterar a sua posição com as setas do teclado. 
+- **Buffer de movimentos** - Antes de chegar a uma curva o *player* pode premir uma tecla para alterar a direção e o PacMan alterará a sua posição assim que conseguir. Não é possivel virar o Pac-Man contra uma das paredes quando este está num corredor.
+- **Colisão com paredes** - O PacMan não consegue passar pelas paredes, só consegue andar em sítios com fundo preto e não consegue entrar na _Ghost House_ a partir dos portões.
 - **Colisão com moedas** - Ao tocar numa moeda o PacMan retira essa moeda do mapa e o score é aumentado em 1.
-
-![](res/pac-man_coins.gif)
-
-## Planned Features:
-- **Power Pellets** - Quando são comidas pelo Pac-man os fantasmas passam para "blue mode", ou seja, passam a poder ser comidos pelo Pac-man
+- **Power Pellets** - Quando são comidas pelo Pac-man os fantasmas passam para "Frightened Mode", ou seja, passam a poder ser comidos pelo Pac-man. O tempo de duração é de 8 segundos. Caso um fantasma esteja dentro da casa, ou após ser comido, não passará para "Frightened Mode" se o Pac-Man comer um Power Pellet. Cada Power Pellet vale 50 pontos.
 - **Continuidade do mapa** - Caso o Pac-man saia do limite do ecrã, ele reaparecerá no lado oposto
-- **Personalidade dos fantasmas** - Cada fantasma terá uma personalidade distinta relativamente à forma como persegue o PacMan.
+- **Ghosts** - Cada Fantasma tem a sua estratégia ou _personalidade_ relativamente à forma como vai atrás do Pac-Man. Podem se encontrar em vários estados e são independentes uns dos outros, mesmo usando a mesma classe de controlador.
+
+| GuiRectangle |  GuiSquare |
+|-----------|---------|
+| ![Rectangle2Gui](https://user-images.githubusercontent.com/54408098/83135136-50152100-a0dd-11ea-85fd-ee9061f9f32a.gif) | ![SquareGui](https://user-images.githubusercontent.com/54408098/83068272-02a69e80-a060-11ea-89ba-b911f54fb681.gif) |
 
 
 ## Design
@@ -28,12 +30,13 @@ Numa fase inicial do projeto, para ter um jogo funcional (a conseguir abrir uma 
 >
 > GoF, Design Patterns - Elements of Reusable Object-Oriented Software
 
-![](https://i.imgur.com/DduITpl.png) [Fig. 1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
+![](https://i.imgur.com/FLvkd0x.png) [Fig. 1](https://medium.com/totvsdevelopers/protheus-mvc-72901b7efc8a)
 
 Este padrão arquitetural é habitualmente usado para desenvolver programas que contenham uma interface para o utilizador e consiste em dividir uma aplicação em 3 partes:
 - O **Modelo** representa os dados do programa.
 - A **Vista** mostra os dados do **Modelo** e manda as ações do utilizador para o **Controlador**.
 - O **Controlador** fornece dados do **Modelo** à **Vista** e interpreta as ações do utilizador.
+  
 #### Implementation
 A estrutura do código está dividida de forma a haver 3 packages, cada package referente a um ponto do _MVC_ e uma classe _Application_ que serve como executável e que contém o método _main()_. Cada package de MVC tem dentro as classes referentes ao seu perfil.
 
@@ -41,42 +44,129 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 
 | [Controller Package](../src/main/java/g11/controller)  | [Model Package](../src/main/java/g11/model) | [View Package](../src/main/java/g11/view)  |
 |-------------|-------|-------|
-| ![](https://i.imgur.com/IohGNNh.png) | ![](https://i.imgur.com/nyhMT7H.png) | ![](https://i.imgur.com/CRAHbgJ.png) |
+| ![](https://i.imgur.com/BAGY5HX.png) | ![](https://i.imgur.com/h7Dv2fq.png) | ![](https://i.imgur.com/tNkfTU4.png) |
 
+|Package Structure|
+|---|
+|![](https://i.imgur.com/CeL7Aer.png)|
 
 #### Consequences
 - Divisão do código em packages e melhor organização
 - Independência entre módulos possibilita testar cada parte do MVC individualmente
+- Possibilidade de adicionar novas GUI's sem alterar os packages Model e Controller
 
-### 2. Factory Method
+
+### 2. State Pattern
 #### Problem in Context
-Será preciso criar ghosts que serão todos semelhantes, excepto a sua forma ao apresentar no ecrã e as suas _personalidades_ (o método que usam para perseguir o PacMan). Em vez de ter uma classe para cada Ghost e definirmos para cada ghost que controlador usará, criaremos uma classe **Creator** para os controladores de cada Ghost.
+Para os Ghosts era necessário uma forma de implementar os seus diferentes estados em que se podiam encontrar, juntamente com uma forma de alterar entre os seus estados de acordo com o tempo decorrido desde o inicio do jogo ou dependendo de outros fatores:
+![](https://user-images.githubusercontent.com/54408098/81789782-6081a500-94fc-11ea-972f-d5c8644032b4.png)
+[Fig. 2](https://youtu.be/ataGotQ7ir8?list=LLz1wiDr8PNRrbiUlvgHFBZA&t=57)
+
+Para o Game era necessário subdividir este também em diferentes estados para haver uma melhor organização entre o que apresentar no ecrã.
 #### The Pattern
-O padrão _Factory Method_ permite que se criem objetos sem especificar explicitamente a classe do objeto que se quer criar. Isto é feito ao chamar o método de fabrico da classe criadora em vez de chamar o construtor da classe do objeto que se pretende criar.
+
+Implementamos assim o **State Pattern** para satisfazer as condições acima. Este padrão permite alternar entre diferentes estados em _runtime_ a partir de diferentes subclasses de uma classe abstracta. Com isto conseguimos simplificar o entendimento do comportamente de cada Ghost e principalmente simplificar as transições entre cada state. Quando não tinhamos implementado os _Ghost States_ havia uma função que tomava todos os dados e determinava o estado de cada fantasmas:
+
+```java
+public void determineState(long elapsedtime, GhostState ghostState){
+        // TODO Ainda fica preso na Ghost House
+
+        // Caso fiquem presos dentro da casa em Chase ou Scatter
+        if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && isInsideHouse(ghost)) {
+            ghost.setState(GhostState.CHASE);
+            ghost.setTarget(new Position(13, 14));
+            setExitingHouse(true);
+        }
+        // Para não sairem e voltarem a entrar
+        if (ghost.getState() != GhostState.EATEN &&
+                ghost.getState() != GhostState.ENTERINGHOUSE &&
+                ghost.getState() != GhostState.FRIGHTENED &&
+                ghost.getPosition().equals(new Position(13, 14))) {
+            setExitingHouse(false);
+            ghost.setState(setStatetime(elapsedtime));
+        } else {
+            // Houve colisão, Ou é comido ou acaba jogo
+            if (ghostState == GhostState.EATEN) {
+                if (ghost.getState() == GhostState.FRIGHTENED) {
+                    ghost.setState(GhostState.EATEN);
+                    setTicksToEndFrightened(0);
+                }
+            }
+            // Entra em FRIGHTENED
+            if (ghostState == GhostState.FRIGHTENED) {
+                // só põe frightened se não estiver EATEN, ENTERINGHOUSE, ou exiting
+                if (ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse()) {
+                    ghost.setState(GhostState.FRIGHTENED);
+                    setChangeOrientation(true);
+                    setTicksToEndFrightened(160);
+                }
+            }
+            // Se estiver em frightened, atualiza o tempo restante
+            if (getTicksToEndFrightened() > 0) {
+                setTicksToEndFrightened(getTicksToEndFrightened() - 1);
+            }
+            // Se acabar o Tempo e não estiver a meio de um dos outros passos passa para Chase, que depois é atualizado de acordo com o tempo em baixo
+            if (getTicksToEndFrightened() == 0 && ghost.getState() != GhostState.EATEN && ghost.getState() != GhostState.ENTERINGHOUSE && !isExitingHouse())
+                ghost.setState(setStatetime(elapsedtime));
+
+            // se estiver em STATE EATEN, não atualiza STATE que vem de ghostState
+            // se estiver em ENTERINGHOUSE, também não atualiza o seu state
+            // se estiver em FRIGHTENED, não atualiza com base no tempo
+            // se estiver a Sair da Casa, também não atualiza o seu state
+            if (ghost.getState() != GhostState.EATEN &&
+                    ghost.getState() != GhostState.ENTERINGHOUSE &&
+                    ghost.getState() != GhostState.FRIGHTENED &&
+                    !(isExitingHouse() && ghost.getState() == GhostState.CHASE))
+                ghost.setState(setStatetime(elapsedtime));
+        }
+    }
+```
+
+Um óbvio _code smell_ e uma fonte de bugs que só conseguimos resolver assim que implementamos o **State Pattern**.
 #### Implementation
-![](https://i.imgur.com/AAsRYrU.png)
-> **_NOTE:_**  Classes não têm links associados porque ainda vão ser criadas.
+![](https://i.imgur.com/PSA69ED.png)
+- [GhostController](../src/main/java/g11/controller/ghosts/GhostController.java)
+- [GhostState](../src/main/java/g11/controller/ghosts/GhostState.java)
+- [GhostStateChase](../src/main/java/g11/controller/ghosts/states/GhostStateChase.java)
+- [GhostStateScatter](../src/main/java/g11/controller/ghosts/states/GhostStateScatter.java)
+- [GhostStateFrightened](../src/main/java/g11/controller/ghosts/states/GhostStateFrightened.java)
+
+![](https://i.imgur.com/i4qQpxZ.png)
+- [Game](../src/main/java/g11/controller/Game.java)
+- [GameState](../src/main/java/g11/controller/gamestates/GameState.java)
+- [GameStatePresentation](../src/main/java/g11/controller/gamestates/GameStatePresentation.java)
+- [GameStateReady](../src/main/java/g11/controller/gamestates/GameStateReady.java)
+- [GameStateRun](../src/main/java/g11/controller/gamestates/GameStateRun.java)
+
+
 #### Consequences
-Ao aplicar este _design pattern_ torna-se mais fácil definir a personalidade para cada Ghost e a criação de controladores especificos para cada Ghost.
+- Classes obedecem ao _Single Responsability Principle_ cada estado fica com o seu comportamento
+- _Open/Closed Principle_ também é obedecido, é possivel adicionar mais states aos Ghosts, é possivel verificar isto no código já que para além dos estados representados na Fig.2, também implementamos estados extra : [GhostStateEnteringHouse](../src/main/java/g11/controller/ghosts/states/GhostStateEnteringHouse.java) e [GhostStateEnteringHouse](../src/main/java/g11/controller/ghosts/states/GhostStateExitingHouse.java).
 
 ### 3. Strategy 
 #### Problem in Context
-Seguindo o _design pattern_ acima apresentado, iremos implementar o DP _Strategy_ para que quando seja preciso atualizar o **Model** a partir dos controladores de _Ghosts_, o controlador principal não tenha de se preocupar com qual controlador é que está a lidar.
+Cada Ghost tem a sua forma de perseguir o Pac-Man e era preciso distinguir para cada Ghost a sua _personalidade_
+ 
 #### The Pattern
-O objetivo deste DP é encapsular algoritmos e fazê-los permutáveis para poder processar um a um. Conseguimos captar a partir da classe abstrata o comum a todas as subclasses e com isto podemos implementar os detalhes apenas nas classes derivadas.
+Aqui entra o **Strategy Pattern** que vem servir como uma forma de dar a cada Ghost a sua estratégia.
 
-Com este DP também tocamos no **Open-Closed Principle** já que _GhostController_ fica aberto para extensão mas fechado para modificação, apenas aplicável ás subclasses. 
 #### Implementation
-![](https://i.imgur.com/4QbkouQ.png)
+![](https://i.imgur.com/f64KgZa.png)
+- [GhostState](../src/main/java/g11/controller/ghosts/GhostState.java)
+- [TargetStrategy](../src/main/java/g11/controller/ghosts/TargetStrategy.java)
+- [TargetStrategyBlinky](../src/main/java/g11/controller/ghosts/strategies/TargetStrategyBlinky.java)
+- [TargetStrategyInky](../src/main/java/g11/controller/ghosts/strategies/TargetStrategyInky.java)
+- [TargetStrategyClyde](../src/main/java/g11/controller/ghosts/strategies/TargetStrategyClyde.java)
+- [TargetStrategyPinky](../src/main/java/g11/controller/ghosts/strategies/TargetStrategyPinky.java)
 
-> **_NOTE:_**  Classes não têm links associados porque ainda vão ser criadas. Excepto [Game](../src/main/java/g11/controller/Game.java).
 
 #### Consequences
-- Facilidade para adicionar mais controladores 
-- Facilidade para executar _update()_ para cada controlador
+- O _Open/Closed Principle_ é obedecido, o que permite acrescentar mais estratégias.
+- Possivel mudar estratégias em _runtime_.
+- Isolação da implementação de cada algoritmo de perseguição.
 
 ## Code Smells
-### 1. Bloaters - Large CLass
+### 1 Bloaters - Large CLass
 A meio do Projeto apercebemo-nos que só tinhamos uma classe **Control** que tratava de todo o jogo. Esta tinha demasiados métodos e cada método era demasiado comprido.
 
 **Solution**: Extract Class
@@ -84,6 +174,7 @@ A meio do Projeto apercebemo-nos que só tinhamos uma classe **Control** que tra
 A partir de uma só classe foi possível criar **3** classes: CollisionChecker, MapReader e ReadFile. A class MapReader faz uso de ReadFile e a classe original Game faz uso de MapReader para, _you guessed it_, ler o mapa.
 
 ![](https://i.imgur.com/IohGNNh.png)
+
 ### 2. Comments
 Os controladores são a parte que vai receber mais trabalho na segunda fase deste projeto, mas por enquanto estão complicados de entender, para isso há métodos que têm demasiados comentários que vão ter de ser removidos antes da entrega final, temos como exemplo o método update do controlador principal:
 
@@ -156,7 +247,7 @@ switch (direction){
         break;
 }
 ...
-switch (orientationENUM){
+switch (orientationEnumeration){
             case UP:
                 return Gui.MOVE.UP;
             case DOWN:
@@ -173,7 +264,7 @@ Mesmo sendo necessários e executando simples operações podem ser considerados
 
 **Solution**: Replace Type Code with Subclasses
 
-O refactoring **Replace Type Code with Subclasses** já foi usado para criar a classe [Moveable](../src/main/java/g11/model/Elements/Moveable.java) para esta ser a única que será a _parent class_ dos objetos móveis e com isto [Pacman]() e os futuros Ghosts apenas precisam de fazer _extend_ a esta classe.
+O refactoring **Replace Type Code with Subclasses** já foi usado para criar a classe [Moveable](../src/main/java/g11/model/elements/Moveable.java) para esta ser a única que será a _parent class_ dos objetos móveis e com isto [Pacman](../src/main/java/g11/model/elements/PacMan.java) e os futuros Ghosts apenas precisam de fazer _extend_ a esta classe.
 
 ![](https://i.imgur.com/k07Y7nn.png)
 

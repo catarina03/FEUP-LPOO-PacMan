@@ -1,6 +1,11 @@
 package g11.model;
 
 import g11.model.elements.*;
+import g11.model.elements.ghosts.Blinky;
+import g11.model.elements.ghosts.Clyde;
+import g11.model.elements.ghosts.Inky;
+import g11.model.elements.ghosts.Pinky;
+import g11.model.elements.map.*;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -100,18 +105,18 @@ public class MapComponentTest {
         int y = r.nextInt();
 
         PacMan pacman = new PacMan(x, y);
-        assertEquals(pacman.getOrientationENUM(), OrientationENUM.LEFT);
+        assertEquals(pacman.getOrientationEnumeration(), OrientationEnumeration.LEFT);
 
-        pacman.setOrientationENUM(OrientationENUM.DOWN);
+        pacman.setOrientationEnumeration(OrientationEnumeration.DOWN);
         pacman.moveDirection();
         assertEquals(pacman.getY(), y + 1);
-        pacman.setOrientationENUM(OrientationENUM.RIGHT);
+        pacman.setOrientationEnumeration(OrientationEnumeration.RIGHT);
         pacman.moveDirection();
         assertEquals(pacman.getX(), x + 1);
-        pacman.setOrientationENUM(OrientationENUM.UP);
+        pacman.setOrientationEnumeration(OrientationEnumeration.UP);
         pacman.moveDirection();
         assertEquals(pacman.getY(), y);
-        pacman.setOrientationENUM(OrientationENUM.LEFT);
+        pacman.setOrientationEnumeration(OrientationEnumeration.LEFT);
         pacman.moveDirection();
         assertEquals(pacman.getX(), x);
     }

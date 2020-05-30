@@ -1,6 +1,7 @@
 package g11.model;
 
 import g11.model.elements.*;
+import g11.model.elements.map.*;
 
 import java.util.ArrayList;
 
