@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 public class GameStatsTest {
 
+    /*
     @Test
     public void GameStats() {
         Random r = new Random();
@@ -37,4 +38,6 @@ public class GameStatsTest {
         assertEquals(stats.getEatenPP() - times, 0);
         assertEquals(stats.getScore() - 50*times, previous);
     }
+
+     */
 }

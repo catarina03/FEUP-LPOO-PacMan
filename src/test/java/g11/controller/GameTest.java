@@ -1,19 +1,19 @@
 package g11.controller;
 
 import g11.model.elements.PacMan;
-import g11.model.elements.Wall;
+import g11.model.elements.map.Wall;
 import g11.model.GameData;
 import g11.model.Map;
 import g11.model.Position;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.Gui;
+import g11.view.MoveEnumeration;
+import g11.view.guis.GuiSquare;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static g11.view.MoveENUM.DOWN;
-import static g11.view.MoveENUM.LEFT;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -21,7 +21,8 @@ public class GameTest {
 
     @Test
     public void updateTest() throws Throwable {
-        Game game = new Game(); //Cria uma tela no GUI, dar fix
+        GuiSquare guiSquare = Mockito.mock(GuiSquare.class);
+        Game game = new Game(guiSquare); //Cria uma tela no GUI, dar fix
 
         GameData gameData = Mockito.mock(GameData.class);
         CollisionChecker collisionChecker = Mockito.mock(CollisionChecker.class);
@@ -54,9 +55,9 @@ public class GameTest {
 
     @Test
     public void processKeyTest() throws Throwable {
-        Game game = new Game();
-
         GuiSquare guiSquare = Mockito.mock(GuiSquare.class);
+        Game game = new Game(guiSquare);
+
         game.setGuiSquare(guiSquare);
         CollisionChecker collisionChecker = Mockito.mock(CollisionChecker.class);
         game.setCchecker(collisionChecker);
@@ -81,22 +82,22 @@ public class GameTest {
 
         game.setGameData(gameData);
 
-        assertEquals(false, game.processKey(MoveENUM.UP));
-        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveENUM.UP);
-        assertFalse(collisionChecker.checkWallCollision(gameData, MoveENUM.UP));
+        assertEquals(false, game.processKey(MoveEnumeration.UP));
+        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.UP);
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.UP));
 
-        assertEquals(false, game.processKey(MoveENUM.RIGHT));
-        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveENUM.RIGHT);
-        assertFalse(collisionChecker.checkWallCollision(gameData, MoveENUM.RIGHT));
+        assertEquals(false, game.processKey(MoveEnumeration.RIGHT));
+        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.RIGHT);
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.RIGHT));
 
-        assertEquals(false, game.processKey(MoveENUM.DOWN));
-        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, DOWN);
-        assertFalse(collisionChecker.checkWallCollision(gameData, DOWN));
+        assertEquals(false, game.processKey(MoveEnumeration.DOWN));
+        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.DOWN);
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.DOWN));
 
-        assertEquals(false, game.processKey(LEFT));
-        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveENUM.LEFT);
-        assertFalse(collisionChecker.checkWallCollision(gameData, LEFT));
+        assertEquals(false, game.processKey(MoveEnumeration.LEFT));
+        Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.LEFT);
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.LEFT));
 
-        assertEquals(true, game.processKey(MoveENUM.ESC));
+        assertEquals(true, game.processKey(MoveEnumeration.ESC));
     }
 }

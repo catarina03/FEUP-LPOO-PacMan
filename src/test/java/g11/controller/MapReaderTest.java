@@ -25,6 +25,7 @@ public class MapReaderTest {
         assertEquals(11, mapReader.startingPacMan().getY());
     }
 
+    /*
     @Test
     public void creationTest(){
         ReadFile readFile = Mockito.mock(ReadFile.class);
@@ -48,5 +49,7 @@ public class MapReaderTest {
         assertEquals(4, mapReader.getPacManposition().getX());
         assertEquals(4, mapReader.getPacManposition().getY());
     }
+
+     */
 }
 

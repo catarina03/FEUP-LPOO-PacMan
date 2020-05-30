@@ -1,7 +1,7 @@
 package g11.controller.gamestates;
 
 import g11.controller.Game;
-import g11.view.GuiSquare;
+import g11.view.Gui;
 
 
 public abstract class GameState {
@@ -11,5 +11,5 @@ public abstract class GameState {
         this.game = game;
     }
 
-    public abstract Boolean execute(GuiSquare guiSquare) throws Throwable;
+    public abstract boolean execute(Gui gui) throws Throwable;
 }

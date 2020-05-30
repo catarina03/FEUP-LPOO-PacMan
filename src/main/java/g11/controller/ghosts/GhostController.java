@@ -1,22 +1,27 @@
 package g11.controller.ghosts;
 
-import g11.model.OrientationENUM;
+import g11.controller.ghosts.states.GhostStateExitingHouse;
+import g11.controller.ghosts.states.GhostStateScatter;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
 import g11.model.elements.*;
 import g11.model.GameData;
+import g11.model.elements.ghosts.Blinky;
+import g11.model.elements.map.Coin;
+import g11.model.elements.map.EmptySpace;
+import g11.model.elements.map.Gate;
 
 import java.util.ArrayList;
 
-import static g11.model.OrientationENUM.*;
+import static g11.model.OrientationEnumeration.*;
 
 public class GhostController {
     Ghost ghost;
     private boolean accessingHouse; // está a sair da GhostHouse
     private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
-    private int ticksToEndFrightened;
-    private long timeToStart;
     private GhostState ghostState;
-    private TargetStrategy targetStrategy;
+    private final long timeToStart;
+    private final TargetStrategy targetStrategy;
 
 
     public GhostController(boolean accessingHouse, Ghost ghost, TargetStrategy targetStrategy, long timeToStart) {
@@ -30,7 +35,6 @@ public class GhostController {
         this.ghost = ghost;
         this.accessingHouse = accessingHouse;
         this.changeOrientation = false;
-        this.ticksToEndFrightened = 0;
     }
 
     public Ghost getGhost() {
@@ -39,23 +43,18 @@ public class GhostController {
     public boolean isAccessingHouse() {
         return accessingHouse;
     }
-
     public void setAccessingHouse(boolean accessingHouse) {
         this.accessingHouse = accessingHouse;
     }
-
     public boolean isChangeOrientation() {
         return changeOrientation;
     }
-
     public void setChangeOrientation(boolean changeOrientation) {
         this.changeOrientation = changeOrientation;
     }
-
     public TargetStrategy getTargetStrategy() {
         return targetStrategy;
     }
-
     public GhostState getGhostState() {
         return ghostState;
     }
@@ -70,36 +69,35 @@ public class GhostController {
      * @param gameData para obter info sobre os espaços vazios, paredes e gates
      * @return um Array com as orientações disponiveis
      */
-    public ArrayList<OrientationENUM> getAvailableOrientations(GameData gameData) {
-        ArrayList<OrientationENUM> returning = new ArrayList<>();
-        // se estiverem nos cruzamentos amarelos não podem mudar de direção
-        // TODO valores variam com mapa: v1 (12,14), (15,14), (12,26), (15,26) ; v2 (23,26), (26, 26), () e ()
-        if (ghost.getPosition().equals(new Position(12, 14)) ||
-                ghost.getPosition().equals(new Position(15, 14)) ||
-                ghost.getPosition().equals(new Position(12, 26)) ||
-                ghost.getPosition().equals(new Position(15, 26))) {
-            if (ghost.getOrientationENUM().getOpposite() != LEFT) {
-                returning.add(LEFT);
+    public ArrayList<OrientationEnumeration> getAvailableOrientations(GameData gameData) {
+        ArrayList<OrientationEnumeration> returning = new ArrayList<>();
+        // TODO se estiverem nos cruzamentos amarelos não podem mudar de direção
+
+        for (Position pos : gameData.getMap().getUnturnable()) {
+            if (ghost.getPosition().equals(pos)) {
+                if (ghost.getOrientationEnumeration().getOpposite() != LEFT) {
+                    returning.add(LEFT);
+                }
+                if (ghost.getOrientationEnumeration().getOpposite() != RIGHT) {
+                    returning.add(RIGHT);
+                }
+                return returning;
             }
-            if (ghost.getOrientationENUM().getOpposite() != RIGHT) {
-                returning.add(RIGHT);
-            }
-            return returning;
         }
 
         for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {
-            for (OrientationENUM ori : OrientationENUM.allOptions()) {
+            for (OrientationEnumeration ori : OrientationEnumeration.allOptions()) {
                 if (emptySpace.getPosition().equals(ghost.getPosition(ori))) {
-                    if (ghost.getOrientationENUM().getOpposite() != ori)
+                    if (ghost.getOrientationEnumeration().getOpposite() != ori)
                         returning.add(ori);
                 }
             }
         }
 
         for (Coin coin : gameData.getMap().getCoins()) {
-            for (OrientationENUM ori : OrientationENUM.allOptions()) {
+            for (OrientationEnumeration ori : OrientationEnumeration.allOptions()) {
                 if (coin.getPosition().equals(ghost.getPosition(ori))) {
-                    if (ghost.getOrientationENUM().getOpposite() != ori)
+                    if (ghost.getOrientationEnumeration().getOpposite() != ori)
                         returning.add(ori);
                 }
             }
@@ -109,12 +107,12 @@ public class GhostController {
         if (isAccessingHouse()) {
             for (Gate gate : gameData.getMap().getGates()) {
                 if (gate.getPosition().equals(ghost.getPosition().up())) {
-                    if (ghost.getOrientationENUM().getOpposite() != UP) {
+                    if (ghost.getOrientationEnumeration().getOpposite() != UP) {
                         returning.add(UP);
                     }
                 }
                 if (gate.getPosition().equals(ghost.getPosition().down())) {
-                    if (ghost.getOrientationENUM().getOpposite() != DOWN) {
+                    if (ghost.getOrientationEnumeration().getOpposite() != DOWN) {
                         returning.add(DOWN);
                     }
                 }
@@ -129,8 +127,8 @@ public class GhostController {
      * @param availableOris array com as orientações possiveis
      * @return A orientação para a qual mudar
      */
-    public OrientationENUM chooseOrientation(ArrayList<OrientationENUM> availableOris) {
-        OrientationENUM tochange = UP;
+    public OrientationEnumeration chooseOrientation(ArrayList<OrientationEnumeration> availableOris) {
+        OrientationEnumeration tochange = UP;
         double tempdistance;
         double minDistance = 1000.0, equaldistance = 1000.0;
         int i = 0, itosend = 0;
@@ -138,13 +136,13 @@ public class GhostController {
         if (availableOris.size() == 1)
             return availableOris.get(0);
         else {
-            for (OrientationENUM orientationENUM : availableOris) {
-                tempdistance = ghost.getPosition().nextPositionWithOrientation(orientationENUM).distance(ghost.getTarget());
+            for (OrientationEnumeration orientationEnumeration : availableOris) {
+                tempdistance = ghost.getPosition().nextPositionWithOrientation(orientationEnumeration).distance(ghost.getTarget());
                 if (tempdistance == minDistance) {
                     itosend = i;
                     equaldistance = minDistance;
                 } else if (tempdistance < minDistance) {
-                    tochange = orientationENUM;
+                    tochange = orientationEnumeration;
                     minDistance = tempdistance;
                 }
                 i++;
@@ -165,10 +163,10 @@ public class GhostController {
      * @param dist          a distancia minima
      * @return A orientação para a qual mudar
      */
-    private OrientationENUM chooseOrientationPriority(ArrayList<OrientationENUM> availableOris, int index, double dist) {
+    private OrientationEnumeration chooseOrientationPriority(ArrayList<OrientationEnumeration> availableOris, int index, double dist) {
         // index tem valor de uma orientação que tem distancia a target igual a outra orientação
-        OrientationENUM ori1 = availableOris.get(index);
-        OrientationENUM ori2 = UP;
+        OrientationEnumeration ori1 = availableOris.get(index);
+        OrientationEnumeration ori2 = UP;
         double tempdistance;
 
         if (availableOris.size() == 2)
@@ -176,7 +174,7 @@ public class GhostController {
         else {
             //encontrar ori2
             int i = 0;
-            for (OrientationENUM ori : availableOris) {
+            for (OrientationEnumeration ori : availableOris) {
                 tempdistance = ghost.getPosition().nextPositionWithOrientation(ori).distance(ghost.getTarget());
                 if (tempdistance == dist && i != index) {
                     ori2 = ori;

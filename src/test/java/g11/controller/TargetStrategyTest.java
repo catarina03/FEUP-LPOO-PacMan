@@ -1,8 +1,8 @@
 package g11.controller;
 
 import g11.controller.ghosts.TargetStrategy;
-import g11.controller.ghosts.TargetStrategyBlinky;
-import g11.controller.ghosts.TargetStrategyClyde;
+import g11.controller.ghosts.strategies.TargetStrategyBlinky;
+import g11.controller.ghosts.strategies.TargetStrategyClyde;
 import g11.model.GameData;
 import g11.model.Position;
 import g11.model.elements.PacMan;

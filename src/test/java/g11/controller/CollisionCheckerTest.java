@@ -2,16 +2,21 @@ package g11.controller;
 
 import g11.model.*;
 import g11.model.elements.*;
-import g11.view.GuiSquare;
+import g11.model.elements.map.Coin;
+import g11.model.elements.map.EmptySpace;
+import g11.model.elements.map.Wall;
+import g11.model.elements.map.Gate;
+import g11.model.elements.map.PowerPellet;
+import g11.view.guis.GuiSquare;
 
-import g11.view.MoveENUM;
+import g11.view.MoveEnumeration;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static g11.model.OrientationENUM.*;
+import static g11.model.OrientationEnumeration.*;
 import static org.junit.Assert.*;
 
 
@@ -47,7 +52,7 @@ public class CollisionCheckerTest {
         Map map = Mockito.mock(Map.class);
         PacMan pacman = Mockito.mock(PacMan.class);
         Mockito.when(pacman.getPosition()).thenReturn(new Position(10, 10));
-        Mockito.when(pacman.getOrientationENUM()).thenReturn(UP);
+        Mockito.when(pacman.getOrientationEnumeration()).thenReturn(UP);
 
         Wall wall1 = Mockito.mock(Wall.class);
         Mockito.when(wall1.getPosition()).thenReturn(new Position(11, 10));
@@ -70,24 +75,26 @@ public class CollisionCheckerTest {
         Mockito.when(gameData.getMap()).thenReturn(map);
         Mockito.when(gameData.getMap().getGates()).thenReturn(gates);
 
-        assertFalse(collisionChecker.checkWallCollision(gameData, MoveENUM.ESC));
-        assertFalse(collisionChecker.checkWallCollision(gameData, MoveENUM.UP));
-        assertTrue(collisionChecker.checkWallCollision(gameData, MoveENUM.RIGHT));
-        assertTrue(collisionChecker.checkWallCollision(gameData, MoveENUM.DOWN));
-        assertTrue(collisionChecker.checkWallCollision(gameData, MoveENUM.LEFT));
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.ESC));
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.UP));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveEnumeration.RIGHT));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveEnumeration.DOWN));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveEnumeration.LEFT));
     }
 
     @Test
     public void orientationToMoveTest() {
         CollisionChecker collisionChecker = new CollisionChecker();
-        OrientationENUM orientationENUM = UP;
-        assertEquals(MoveENUM.UP, collisionChecker.orientationToMove(orientationENUM));
-        orientationENUM = RIGHT;
-        assertEquals(MoveENUM.RIGHT, collisionChecker.orientationToMove(orientationENUM));
-        orientationENUM = DOWN;
-        assertEquals(MoveENUM.DOWN, collisionChecker.orientationToMove(orientationENUM));
-        orientationENUM = LEFT;
-        assertEquals(MoveENUM.LEFT, collisionChecker.orientationToMove(orientationENUM));
+
+        OrientationEnumeration orientationEnumeration = UP;
+        assertEquals(MoveEnumeration.UP, collisionChecker.orientationToMove(orientationEnumeration));
+        orientationEnumeration = RIGHT;
+        assertEquals(MoveEnumeration.RIGHT, collisionChecker.orientationToMove(orientationEnumeration));
+        orientationEnumeration = DOWN;
+        assertEquals(MoveEnumeration.DOWN, collisionChecker.orientationToMove(orientationEnumeration));
+        orientationEnumeration = LEFT;
+        assertEquals(MoveEnumeration.LEFT, collisionChecker.orientationToMove(orientationEnumeration));
+
     }
 
     @Test

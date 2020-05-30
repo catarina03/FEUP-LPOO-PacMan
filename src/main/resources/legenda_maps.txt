@@ -1,0 +1,19 @@
+# - parede
+c - coin
+e - empty space
+g - gate
+B - Blinky
+I - Inky
+P - Pinky
+K - Clyde
+M - Pac-Man
+$ - PowerPellet / Energizer
+x - lugar que não possibilita virar para cima, sem coins lá
+o - lugar que não possibilita virar para cima, com coins lá
+
+Q - Scatter target de Pinky
+W - Scatter target de Blinky
+A - Scatter target de Clyde
+S - Scatter Target de Inky
+
+T - lugar para teleport

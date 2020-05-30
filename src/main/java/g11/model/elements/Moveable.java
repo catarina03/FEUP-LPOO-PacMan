@@ -1,37 +1,28 @@
 package g11.model.elements;
 
-import g11.model.OrientationENUM;
+import g11.model.OrientationEnumeration;
 import g11.model.Position;
 
 public abstract class Moveable extends MapComponent {
-    OrientationENUM orientationENUM;
+    public static int xValueTP;
+    OrientationEnumeration orientationEnumeration;
 
     public Moveable(int x, int y) {
         super(x, y);
-        this.orientationENUM = OrientationENUM.LEFT;
-    }
-
-    public Moveable(int x, int y, OrientationENUM orientationENUM) {
-        super(x, y);
-        this.orientationENUM = orientationENUM;
+        this.orientationEnumeration = OrientationEnumeration.LEFT;
     }
 
     public Moveable(Position position) {
         super(position);
-        this.orientationENUM = OrientationENUM.LEFT;
+        this.orientationEnumeration = OrientationEnumeration.LEFT;
     }
 
-    public Moveable(Position position, OrientationENUM orientationENUM) {
-        super(position);
-        this.orientationENUM = OrientationENUM.LEFT;
+    public OrientationEnumeration getOrientationEnumeration() {
+        return orientationEnumeration;
     }
 
-    public OrientationENUM getOrientationENUM() {
-        return orientationENUM;
-    }
-
-    public void setOrientationENUM(OrientationENUM or) {
-        this.orientationENUM = or;
+    public void setOrientationEnumeration(OrientationEnumeration or) {
+        this.orientationEnumeration = or;
     }
 
     public void moveUp() {
@@ -43,15 +34,15 @@ public abstract class Moveable extends MapComponent {
     }
 
     public void moveRight() {
-        setX((getX() + 1) % 28);
+        setX((getX() + 1 > xValueTP) ? 0 : getX() + 1);
     }
 
     public void moveLeft() {
-        setX((getX() - 1 < 0) ? 27 : getX() - 1);
+        setX((getX() - 1 < 0) ? xValueTP : getX() - 1);
     }
 
     public void moveDirection() {
-        switch (orientationENUM) {
+        switch (orientationEnumeration) {
             case UP:
                 moveUp();
                 break;

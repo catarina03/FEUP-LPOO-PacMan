@@ -2,8 +2,8 @@ package g11.controller;
 
 import g11.model.*;
 import g11.model.elements.*;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.model.elements.map.*;
+import g11.view.MoveEnumeration;
 
 import java.util.ArrayList;
 
@@ -20,9 +20,9 @@ public class CollisionChecker {
      *
      * @return true in case of collision
      */
-    public boolean checkWallCollision(GameData gameData, MoveENUM direction) {
-        if (direction == MoveENUM.ESC)
-            direction = orientationToMove(gameData.getPacMan().getOrientationENUM());
+    public boolean checkWallCollision(GameData gameData, MoveEnumeration direction) {
+        if (direction == MoveEnumeration.ESC)
+            direction = orientationToMove(gameData.getPacMan().getOrientationEnumeration());
         Position pacmannextpos = new Position(0, 0);
         switch (direction) {
             case UP:
@@ -49,18 +49,18 @@ public class CollisionChecker {
         return false;
     }
 
-    public MoveENUM orientationToMove(OrientationENUM orientationENUM) {
-        switch (orientationENUM) {
+    public MoveEnumeration orientationToMove(OrientationEnumeration orientationEnumeration) {
+        switch (orientationEnumeration) {
             case UP:
-                return MoveENUM.UP;
+                return MoveEnumeration.UP;
             case DOWN:
-                return MoveENUM.DOWN;
+                return MoveEnumeration.DOWN;
             case LEFT:
-                return MoveENUM.LEFT;
+                return MoveEnumeration.LEFT;
             case RIGHT:
-                return MoveENUM.RIGHT;
+                return MoveEnumeration.RIGHT;
             default:
-                return MoveENUM.ESC;
+                return MoveEnumeration.ESC;
         }
     }
 

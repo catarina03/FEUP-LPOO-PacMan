@@ -7,9 +7,10 @@ import g11.controller.ghosts.*;
 import g11.model.GameData;
 import g11.model.GameStats;
 import g11.model.Map;
+import g11.model.elements.ghosts.*;
 import g11.model.elements.*;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.guis.GuiSquare;
+import g11.view.MoveEnumeration;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -18,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.ArgumentMatchers.*;
 
 public class GameStateTest {
     @Test
@@ -88,6 +89,7 @@ public class GameStateTest {
         assertEquals(false, gameStateRun.pauseScreen(guiSquare));
     }
 
+
     @Test
     public void GameStateRunExecute() throws Throwable {
         Game game = Mockito.mock(Game.class);
@@ -95,6 +97,7 @@ public class GameStateTest {
         Map map = Mockito.mock(Map.class);
         GuiSquare guiSquare = Mockito.mock(GuiSquare.class);
         KeyStroke keyStroke = Mockito.mock(KeyStroke.class);
+        GameStats gameStats = Mockito.mock(GameStats.class);
 
         Blinky blinky = Mockito.mock(Blinky.class);
         Inky inky = Mockito.mock(Inky.class);
@@ -110,31 +113,40 @@ public class GameStateTest {
         Mockito.when(game.getGameData()).thenReturn(gameData);
         Mockito.when(gameData.getMap()).thenReturn(map);
         Mockito.when(gameData.getGhosts()).thenReturn(ghosts);
-        Mockito.when(guiSquare.getMove()).thenReturn(MoveENUM.UP);
+        Mockito.when(guiSquare.getMove()).thenReturn(MoveEnumeration.UP);
+        Mockito.when(game.getHighScore()).thenReturn(100);
+        Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
+        Mockito.when(gameStats.getScore()).thenReturn(101);
 
         GameStateRun gameStateRun = new GameStateRun(game);
 
-        assertEquals(false, gameStateRun.execute(guiSquare));
+        assertFalse(gameStateRun.execute(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(1)).getMove();
         Mockito.verify(game, Mockito.times(1)).setLastmove(guiSquare.getMove());
         Mockito.verify(game, Mockito.times(1)).processKey(game.getLastmove());
         Mockito.verify(game, Mockito.times(1)).update(eq(gameData), eq(0), Mockito.anyLong());
         Mockito.verify(guiSquare, Mockito.times(3)).draw(gameData);
-        Mockito.verify(game, Mockito.times(1)).changeGameState(any(GameStateEndScreen.class));
+        Mockito.verify(game, Mockito.times(1)).changeGameState(any(GameStateEndScreen.class));;
+        Mockito.verify(gameStats, Mockito.times(2)).getScore();
+        Mockito.verify(game, Mockito.times(2)).getHighScore();
+        Mockito.verify(game, Mockito.times(1)).setHighScore(anyInt());
 
         Mockito.when(game.getRunning()).thenReturn(true);
-        Mockito.when(guiSquare.getMove()).thenReturn(MoveENUM.ESC);
-        Mockito.when(game.getLastmove()).thenReturn(MoveENUM.ESC);
-        Mockito.when(game.processKey(any(MoveENUM.class))).thenReturn(true);
+        Mockito.when(guiSquare.getMove()).thenReturn(MoveEnumeration.ESC);
+        Mockito.when(game.getLastmove()).thenReturn(MoveEnumeration.ESC);
+        Mockito.when(game.processKey(any(MoveEnumeration.class))).thenReturn(true);
         Mockito.when(keyStroke.getKeyType()).thenReturn(KeyType.Enter).thenReturn(KeyType.ArrowDown).thenReturn(KeyType.Enter);
         Mockito.when(guiSquare.getKeyStroke()).thenReturn(keyStroke);
+        Mockito.when(gameStats.getScore()).thenReturn(90);
 
-        assertEquals(false, gameStateRun.execute(guiSquare));
+        assertFalse(gameStateRun.execute(guiSquare));
 
         Mockito.verify(game, Mockito.times(1)).setLastmove(null);
         Mockito.verify(game, Mockito.times(1)).changeGameState(any(GameStatePresentation.class));
     }
+
+
 
     @Test
     public void GameStateEndScreen() throws Throwable {

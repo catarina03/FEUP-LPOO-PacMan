@@ -1,13 +1,15 @@
 package g11.model;
 
 public class GameStats {
+    int highScore;
     int score;
     int eatenGhosts;
     int eatenCoins;
     int eatenPP;
 
-    public GameStats(int initialscore) {
-        this.score = initialscore;
+    public GameStats(int hScore) {
+        this.highScore = hScore;
+        this.score = 0;
         this.eatenCoins = 0;
         this.eatenGhosts = 0;
         this.eatenPP = 0;
@@ -29,6 +31,9 @@ public class GameStats {
         return eatenPP;
     }
 
+    public int getHighScore() {
+        return highScore;
+    }
 
     public void incrementEatenCoins() {
         this.eatenCoins = eatenCoins + 1;

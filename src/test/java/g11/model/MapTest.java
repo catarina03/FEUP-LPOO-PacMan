@@ -1,6 +1,11 @@
 package g11.model;
 
 import g11.model.elements.*;
+import g11.model.elements.map.Coin;
+import g11.model.elements.map.EmptySpace;
+import g11.model.elements.map.PowerPellet;
+import g11.model.elements.map.Wall;
+import g11.model.elements.map.Gate;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -60,7 +65,9 @@ public class MapTest {
         components.add(g1);
         components.add(g2);
 
-        Map gameMap = new Map(map, walls, emptySpaces, coins, powerPellet, gates, components);
+        ArrayList<Position> unturnable = new ArrayList<>();
+
+        Map gameMap = new Map(map, walls, emptySpaces, coins, powerPellet, gates, components, unturnable);
 
         assertEquals(gameMap.getMap(), map);
         assertEquals(gameMap.getWalls(), walls);
@@ -121,7 +128,9 @@ public class MapTest {
         components.add(g1);
         components.add(g2);
 
-        Map gameMap = new Map(map, walls, emptySpaces, coins, powerPellet, gates, components);
+        ArrayList<Position> unturnable = new ArrayList<>();
+
+        Map gameMap = new Map(map, walls, emptySpaces, coins, powerPellet, gates, components, unturnable);
 
         ArrayList<String> new_map = new ArrayList<>();
         String s3 = "#Mce#";

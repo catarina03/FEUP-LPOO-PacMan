@@ -24,6 +24,6 @@ public class ReadFileTest {
 
         ReadFile readFile = new ReadFile(map);
         ArrayList result = readFile.fileContent();
-        assertEquals(31, result.size());
+        assertEquals(32, result.size());
     }
 }

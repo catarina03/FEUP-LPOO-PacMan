@@ -1,6 +1,7 @@
 package g11.model;
 
 import g11.model.elements.*;
+import g11.model.elements.map.*;
 
 import java.util.ArrayList;
 
@@ -12,8 +13,9 @@ public class Map {
     private ArrayList<PowerPellet> powerPellets;
     private ArrayList<Gate> gates;
     private ArrayList<MapComponent> mapComponents;
+    private ArrayList<Position> unturnable;
 
-    public Map(ArrayList<String> map, ArrayList<Wall> walls, ArrayList<EmptySpace> emptySpaces, ArrayList<Coin> coins, ArrayList<PowerPellet> powerPellets, ArrayList<Gate> gates ,ArrayList<MapComponent> mapComponents) {
+    public Map(ArrayList<String> map, ArrayList<Wall> walls, ArrayList<EmptySpace> emptySpaces, ArrayList<Coin> coins, ArrayList<PowerPellet> powerPellets, ArrayList<Gate> gates, ArrayList<MapComponent> mapComponents, ArrayList<Position> unturnable) {
         this.map = map;
         this.walls = walls;
         this.emptySpaces = emptySpaces;
@@ -21,6 +23,7 @@ public class Map {
         this.powerPellets = powerPellets;
         this.gates = gates;
         this.mapComponents = mapComponents;
+        this.unturnable = unturnable;
     }
 
     public ArrayList<MapComponent> getMapComponents() {
@@ -47,7 +50,13 @@ public class Map {
         return powerPellets;
     }
 
-    public ArrayList<Gate> getGates() { return gates; }
+    public ArrayList<Gate> getGates() {
+        return gates;
+    }
+
+    public ArrayList<Position> getUnturnable() {
+        return unturnable;
+    }
 
     public void setEmptySpaces(ArrayList<EmptySpace> emptySpaces) {
         this.emptySpaces = emptySpaces;
@@ -73,5 +82,11 @@ public class Map {
         this.powerPellets = powerPellets;
     }
 
-    public void setGates(ArrayList<Gate> gates) { this.gates = gates; }
+    public void setGates(ArrayList<Gate> gates) {
+        this.gates = gates;
+    }
+
+    public void setUnturnable(ArrayList<Position> unturnable) {
+        this.unturnable = unturnable;
+    }
 }

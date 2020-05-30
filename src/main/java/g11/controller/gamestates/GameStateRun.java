@@ -6,12 +6,20 @@ import g11.controller.Game;
 import g11.controller.MapReader;
 import g11.controller.ReadFile;
 import g11.controller.ghosts.*;
+import g11.controller.ghosts.strategies.TargetStrategyBlinky;
+import g11.controller.ghosts.strategies.TargetStrategyClyde;
+import g11.controller.ghosts.strategies.TargetStrategyInky;
+import g11.controller.ghosts.strategies.TargetStrategyPinky;
 import g11.model.GameData;
 import g11.model.GameStats;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.Gui;
+import g11.view.guis.GuiSquare;
+import g11.view.MoveEnumeration;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class GameStateRun extends GameState {
@@ -21,9 +29,9 @@ public class GameStateRun extends GameState {
     }
 
     @Override
-    public Boolean execute(GuiSquare guiSquare) throws Throwable {
+    public boolean execute(Gui gui) throws Throwable {
 
-        initialize(guiSquare);
+        initialize(gui);
 
         long startTime = System.currentTimeMillis();
         int step = 0;
@@ -32,13 +40,13 @@ public class GameStateRun extends GameState {
             long current = System.currentTimeMillis();
 
             // process input
-            MoveENUM temp = guiSquare.getMove();
+            MoveEnumeration temp = gui.getMove();
             if (temp != null) game.setLastmove(temp);
-            Boolean pause = game.processKey(game.getLastmove());
+            boolean pause = game.processKey(game.getLastmove());
 
             if (pause){
                 long starOfPause = System.currentTimeMillis();
-                if (pauseScreen(guiSquare)){
+                if (pauseScreen(gui)) {
                     game.changeGameState(new GameStatePresentation(game));
                     return false;
                 }
@@ -50,34 +58,35 @@ public class GameStateRun extends GameState {
             game.update(game.getGameData(), step, System.currentTimeMillis() - startTime);
 
             // render
-            guiSquare.draw(game.getGameData());
+            gui.draw(game.getGameData());
 
             step++;
             long elapsed = System.currentTimeMillis() - current;
             if (elapsed < 50) Thread.sleep(50 - elapsed);
         }
 
+        if (game.getGameData().getGameStats().getScore() > game.getHighScore())
+            game.setHighScore(game.getGameData().getGameStats().getScore());
+
         game.changeGameState(new GameStateEndScreen(game, game.getWinner()));
         return false;
     }
 
-    private void initialize(GuiSquare guiSquare) throws Throwable {
+    private void initialize(Gui gui) throws Throwable {
         // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
         // o Pacman a cada 200 ms
         game.setRunning(true);
         game.setWinner(false);
 
-        game.setLastmove(MoveENUM.LEFT);
+        game.setLastmove(MoveEnumeration.LEFT);
         game.setCchecker(new CollisionChecker());
 
-        MapReader mapReader = new MapReader(new ReadFile("mapv1.txt"));
+        MapReader mapReader = (gui instanceof GuiSquare) ? new MapReader(new ReadFile("mapv1.txt")) : new MapReader(new ReadFile("mapv2.txt"));
 
-        game.setGameData(new GameData(new GameStats(0),
+        game.setGameData(new GameData(new GameStats(game.getHighScore()),
                 mapReader.startingPacMan(),
                 mapReader.ghostList(),
                 mapReader.getMap()));
-
-        game.setNumberActivePP(game.getGameData().getMap().getPowerPellets().size());
 
         ArrayList<GhostController> ghostControllers = new ArrayList<>();
         ghostControllers.add(new GhostController(false, game.getGameData().getGhosts().get(0), new TargetStrategyBlinky(), 0));
@@ -87,21 +96,21 @@ public class GameStateRun extends GameState {
         game.setGhostControllers(ghostControllers);
 
         // Starting Sequence
-        guiSquare.draw(game.getGameData());
-        guiSquare.readyScreen();
+        gui.draw(game.getGameData());
+        gui.readyScreen();
         Thread.sleep(3000);
-        guiSquare.draw(game.getGameData());
+        gui.draw(game.getGameData());
     }
 
-    public Boolean pauseScreen(GuiSquare guiSquare) throws IOException {
+    public boolean pauseScreen(Gui gui) throws IOException {
         int option = 0;
-        guiSquare.pauseScreen(option);
+        gui.pauseScreen(option);
         KeyType keyType;
         do {
-            keyType = guiSquare.getKeyStroke().getKeyType();
-            if (keyType == KeyType.ArrowDown || keyType == KeyType.ArrowUp){
+            keyType = gui.getKeyStroke().getKeyType();
+            if (keyType == KeyType.ArrowDown || keyType == KeyType.ArrowUp) {
                 option = Math.abs(option - 1);
-                guiSquare.pauseScreen(option);
+                gui.pauseScreen(option);
             }
             if (keyType == KeyType.Escape || keyType == KeyType.EOF) {
                 game.changeGameState(new GameStateReady(game));
@@ -111,5 +120,4 @@ public class GameStateRun extends GameState {
 
         return option == 1;
     }
-
 }

@@ -2,32 +2,41 @@ package g11.controller;
 
 import g11.controller.gamestates.*;
 import g11.controller.ghosts.*;
+import g11.controller.ghosts.states.GhostStateEaten;
+import g11.controller.ghosts.states.GhostStateFrightened;
 import g11.model.*;
-import g11.view.GuiSquare;
-import g11.view.MoveENUM;
+import g11.view.Gui;
+import g11.view.guis.GuiSquare;
+import g11.view.MoveEnumeration;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class Game {
-    private Boolean running;
-    private Boolean winner;
-    private int numberActivePP;
+    private boolean running;
+    private boolean winner;
     private int ticks;
     private int eatenGhosts;
+    private int highScore;
 
-    private GuiSquare guiSquare;
+    private Gui gui;
     private GameData gameData;
     private CollisionChecker cchecker;
     private GameState gameState;
 
-    private MoveENUM lastmove;
+    private MoveEnumeration lastmove;
     private ArrayList<GhostController> ghostControllers;
 
 
-    public Game() {
-        guiSquare = new GuiSquare();
-        gameState = new GameStatePresentation(this);
-        //gameState = new GameStateEndScreen(this, false);
+    public Game(Gui gui) {
+        this.gui = gui;
+        this.gameState = new GameStatePresentation(this);
+
+        ReadFile readFile = (gui instanceof GuiSquare) ? new ReadFile("mapv1.txt") : new ReadFile("mapv2.txt");
+        ArrayList<String> lines = readFile.fileContent();
+        this.highScore = Integer.parseInt(lines.get(0));
     }
 
     public void changeGameState(GameState gameState) {
@@ -39,42 +48,46 @@ public class Game {
     }
 
     public void setGuiSquare(GuiSquare guiSquare) {
-        this.guiSquare = guiSquare;
+        this.gui = guiSquare;
     }
 
     public void setGameData(GameData gameData) {
         this.gameData = gameData;
     }
 
-    public Boolean getRunning() {
+    public boolean getRunning() {
         return running;
     }
 
-    public void setRunning(Boolean running) {
+    public void setRunning(boolean running) {
         this.running = running;
     }
 
-    public Boolean getWinner() {
+    public boolean getWinner() {
         return winner;
     }
 
-    public void setWinner(Boolean winner) {
+    public void setWinner(boolean winner) {
         this.winner = winner;
     }
 
-    public void setNumberActivePP(int numberActivePP) {
-        this.numberActivePP = numberActivePP;
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 
     public GameData getGameData() {
         return gameData;
     }
 
-    public MoveENUM getLastmove() {
+    public MoveEnumeration getLastmove() {
         return lastmove;
     }
 
-    public void setLastmove(MoveENUM lastmove) {
+    public void setLastmove(MoveEnumeration lastmove) {
         this.lastmove = lastmove;
     }
 
@@ -99,7 +112,7 @@ public class Game {
             winner = true;
         }
 
-        if (!cchecker.checkWallCollision(gameData, MoveENUM.ESC) && step % 4 == 0)
+        if (!cchecker.checkWallCollision(gameData, MoveEnumeration.ESC) && step % 4 == 0)
             gameData.getPacMan().moveDirection();
 
         // Detect Ghost collision with Pac-Man
@@ -109,18 +122,17 @@ public class Game {
         ghostCollisionAndUpdate(step, elapsedTime, true);
     }
 
-    public void ghostCollisionAndUpdate(int step, long elapsedTime, Boolean update) {
+    public void ghostCollisionAndUpdate(int step, long elapsedTime, boolean update) {
         for (GhostController ghostController : ghostControllers) {
             if (update)
                 ghostController.update(gameData, step, elapsedTime);
             if (cchecker.collide(ghostController.getGhost().getPosition(), gameData.getPacMan().getPosition())) {
                 if (ghostController.getGhostState() instanceof GhostStateFrightened) {
-                    // TODO acresentar score dependendo do fantasma
                     // acrescentar numero de fantasmas comidos neste state de frightened
                     eatenGhosts++;
                     gameData.getGameStats().incrementEatenGhosts(eatenGhosts);
                     ghostController.changeState(new GhostStateEaten(ghostController, ghostController.getTargetStrategy(), ghostController.getGhostState().getActivePPs()));
-                    ghostController.getGhost().setState(GhostStateENUM.EATEN);
+                    ghostController.getGhost().setState(GhostStateEnumeration.EATEN);
                 } else if (!(ghostController.getGhostState() instanceof GhostStateEaten)) {
                     running = false;
                     winner = false;
@@ -129,27 +141,27 @@ public class Game {
         }
     }
 
-    public Boolean processKey(MoveENUM move) throws Throwable {
+    public boolean processKey(MoveEnumeration move) {
         if (move != null) {
             switch (move) {
                 case ESC:
                     return true;
                 case UP:
                     // check if can change position
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.UP))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.UP);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.UP))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.UP);
                     break;
                 case DOWN:
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.DOWN))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.DOWN);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.DOWN))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.DOWN);
                     break;
                 case LEFT:
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.LEFT))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.LEFT);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.LEFT))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.LEFT);
                     break;
                 case RIGHT:
-                    if (!cchecker.checkWallCollision(gameData, MoveENUM.RIGHT))
-                        gameData.getPacMan().setOrientationENUM(OrientationENUM.RIGHT);
+                    if (!cchecker.checkWallCollision(gameData, MoveEnumeration.RIGHT))
+                        gameData.getPacMan().setOrientationEnumeration(OrientationEnumeration.RIGHT);
                     break;
             }
             return false;
@@ -158,12 +170,27 @@ public class Game {
     }
 
     public void start() throws Throwable {
-        Boolean close;
+        boolean close;
         do {
-            close = gameState.execute(guiSquare);
+            close = gameState.execute(gui);
         } while (!close);
-        guiSquare.close();
+        saveHighScore();
+        gui.close();
     }
 
-}
+    private void saveHighScore() throws FileNotFoundException, UnsupportedEncodingException {
+        String fileName = (gui instanceof GuiSquare) ? "mapv1.txt" : "mapv2.txt";
 
+        ReadFile readFile = new ReadFile(fileName);
+        ArrayList<String> contents = readFile.fileContent();
+
+        PrintWriter writer = new PrintWriter("./src/main/resources/" + fileName, "UTF-8");
+        writer.println(highScore);
+        for (int i = 1; i < contents.size(); i++) {
+            writer.printf(contents.get(i));
+            if (i != contents.size() - 1)
+                writer.printf("%n");
+        }
+        writer.close();
+    }
+}
