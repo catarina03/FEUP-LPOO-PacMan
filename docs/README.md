@@ -59,6 +59,7 @@ A estrutura do código está dividida de forma a haver 3 packages, cada package 
 ### 2. State Pattern
 #### Problem in Context
 Para os Ghosts era necessário uma forma de implementar os seus diferentes estados em que se podiam encontrar, juntamente com uma forma de alterar entre os seus estados de acordo com o tempo decorrido desde o inicio do jogo ou dependendo de outros fatores:
+
 ![](https://user-images.githubusercontent.com/54408098/81789782-6081a500-94fc-11ea-972f-d5c8644032b4.png)
 [Fig. 2](https://youtu.be/ataGotQ7ir8?list=LLz1wiDr8PNRrbiUlvgHFBZA&t=57)
 
@@ -122,16 +123,19 @@ public void determineState(long elapsedtime, GhostState ghostState){
     }
 ```
 
-Um óbvio _code smell_ e uma fonte de bugs que só conseguimos resolver assim que implementamos o **State Pattern**.
+Um óbvio _code smell_ e uma fonte de bugs que só conseguimos resolver assim que implementamos o **State Pattern**. 
+
+Um dos bugs que nos acompanhou enquanto estavamos a implementar os Ghosts acontecia quando um _Ghost_ tentava sair da _Ghost House_ e assim que saía, voltava a entrar e ficava preso. Após implementar o **State Pattern** ficou mais evidente o que causava este comportamentoe e tornou-se facilmente resolúvel.
+
 #### Implementation
-![](https://i.imgur.com/PSA69ED.png)
+![](https://i.imgur.com/B4QsZVj.png)
 - [GhostController](../src/main/java/g11/controller/ghosts/GhostController.java)
 - [GhostState](../src/main/java/g11/controller/ghosts/GhostState.java)
 - [GhostStateChase](../src/main/java/g11/controller/ghosts/states/GhostStateChase.java)
 - [GhostStateScatter](../src/main/java/g11/controller/ghosts/states/GhostStateScatter.java)
 - [GhostStateFrightened](../src/main/java/g11/controller/ghosts/states/GhostStateFrightened.java)
 
-![](https://i.imgur.com/i4qQpxZ.png)
+![](https://i.imgur.com/GnmdJlS.png)
 - [Game](../src/main/java/g11/controller/Game.java)
 - [GameState](../src/main/java/g11/controller/gamestates/GameState.java)
 - [GameStatePresentation](../src/main/java/g11/controller/gamestates/GameStatePresentation.java)
@@ -140,18 +144,18 @@ Um óbvio _code smell_ e uma fonte de bugs que só conseguimos resolver assim qu
 
 
 #### Consequences
-- Classes obedecem ao _Single Responsability Principle_ cada estado fica com o seu comportamento
-- _Open/Closed Principle_ também é obedecido, é possivel adicionar mais states aos Ghosts, é possivel verificar isto no código já que para além dos estados representados na Fig.2, também implementamos estados extra : [GhostStateEnteringHouse](../src/main/java/g11/controller/ghosts/states/GhostStateEnteringHouse.java) e [GhostStateEnteringHouse](../src/main/java/g11/controller/ghosts/states/GhostStateExitingHouse.java).
+- Classes obedecem ao _Single Responsability Principle_; Cada estado fica com o seu comportamento.
+- O _Open/Closed Principle_ também é obedecido já que é possivel adicionar mais states aos Ghosts. Podemos verificar isto no código já que para além dos estados representados na Fig.2, também implementamos estados extra : [GhostStateEnteringHouse](../src/main/java/g11/controller/ghosts/states/GhostStateEnteringHouse.java) e [GhostStateExitingHouse](../src/main/java/g11/controller/ghosts/states/GhostStateExitingHouse.java).
 
 ### 3. Strategy 
 #### Problem in Context
-Cada Ghost tem a sua forma de perseguir o Pac-Man e era preciso distinguir para cada Ghost a sua _personalidade_
+Para evitar que os _Ghosts_ fiquem uns em cima dos outros quando estiverem a perseguir o Pac-Man, [Toru Iwatani](https://en.wikipedia.org/wiki/Toru_Iwatani) decidiu dar a cada _Ghost_ uma "personalidade", fornecendo para cada _Ghost_ uma maneira diferentes de perseguir o Pac-man. Diferente do _Design Pattern_ acima, estas personalidades não são alteradas em _runtime_ para cada Ghost. Com isto em mente decidimos aplicar o **Strategy Pattern**.
  
 #### The Pattern
-Aqui entra o **Strategy Pattern** que vem servir como uma forma de dar a cada Ghost a sua estratégia.
+Este padrão comportamental deixa-nos definir uma família de algoritmos, pondo cada um numa classe separada. Uma classe "context" terá como atributo um campo para guardar uma referência a uma destas estratégias e com isto foi possível resolver o problema de cada Ghost ter uma "personalidade" diferente.
 
 #### Implementation
-![](https://i.imgur.com/f64KgZa.png)
+![](https://i.imgur.com/UwMuoMB.png)
 - [GhostState](../src/main/java/g11/controller/ghosts/GhostState.java)
 - [TargetStrategy](../src/main/java/g11/controller/ghosts/TargetStrategy.java)
 - [TargetStrategyBlinky](../src/main/java/g11/controller/ghosts/strategies/TargetStrategyBlinky.java)
@@ -162,8 +166,116 @@ Aqui entra o **Strategy Pattern** que vem servir como uma forma de dar a cada Gh
 
 #### Consequences
 - O _Open/Closed Principle_ é obedecido, o que permite acrescentar mais estratégias.
-- Possivel mudar estratégias em _runtime_.
+- É possivel mudar estratégias em _runtime_ (não aplicável ao nosso projeto, mas poderá ser usado no futuro).
 - Isolação da implementação de cada algoritmo de perseguição.
+
+### 4. Game Loop 
+
+#### Problem in Context
+Qualquer jogo tem de ter um _Loop_ principal, não sendo o Pac-Man uma exceção. Para isto tivemos que refazer o nosso loop original tendo em conta um [_Design Pattern_ existente](https://gameprogrammingpatterns.com/game-loop.html).
+
+#### The Pattern
+Do Link acima decidimos usar a opção **Fixed time step with synchronization**:
+```java
+while (true)
+{
+  double start = getCurrentTime();
+  processInput();
+  update();
+  render();
+
+  sleep(start + MS_PER_FRAME - getCurrentTime());
+}
+```
+Isto possibilitou separar as 3 partes da criação de uma _frame_ e definir uma _framerate_ mais estável do que o que tinhamos anteriormente.
+
+#### Implementation
+
+<table>
+<thead>
+  <tr>
+    <th>Before</th>
+    <th>After</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>
+
+    public void run() throws IOException {
+        long startTime = System.currentTimeMillis();
+        boolean alreadyin = false;
+        // ciclo de jogo
+        while(true) {
+            // Ler Esc para sair de ciclo
+            KeyStroke keyStroke = screen.pollInput();
+            if(keyStroke != null ){
+                if(keyStroke.getKeyType() == KeyType.Escape || keyStroke.getKeyType() == KeyType.EOF) {break;}
+                else{processKey(keyStroke);
+                    //pacMan.moveDirection();}
+            }
+            //Detetar keystrokes de setas e mudar direção de pacman
+            // taxa de atualização a cada meio segundo
+            if ((System.currentTimeMillis() - startTime) % 250 == 0){
+                // como entra mais do que uma vez a cada milissegundo, só vai atualizar uma vez
+                if (!alreadyin){
+                    System.out.println(System.currentTimeMillis() - startTime);
+                    pacMan.moveDirection();
+                    draw();
+                    alreadyin = true;}
+            }
+            else{
+                // assim que sair do milissegundo em que dá refresh, avisa que pode dar refresh outra vez
+                alreadyin = false;
+            }
+        }
+        if (screen != null)
+            screen.close();
+    }
+</td>
+    <td>
+
+    while (game.getRunning()) {
+            long current = System.currentTimeMillis();
+
+            // process input
+            MoveEnumeration temp = gui.getMove();
+            if (temp != null) game.setLastmove(temp);
+            boolean pause = game.processKey(game.getLastmove());
+
+            if (pause){
+                long starOfPause = System.currentTimeMillis();
+                if (pauseScreen(gui)) {
+                    game.changeGameState(new GameStatePresentation(game));
+                    return false;
+                }
+                startTime = startTime + (System.currentTimeMillis() - starOfPause);
+                game.setLastmove(null);
+            }
+
+            // update
+            game.update(game.getGameData(), step, System.currentTimeMillis() - startTime);
+
+            // render
+            gui.draw(game.getGameData());
+
+            step++;
+            long elapsed = System.currentTimeMillis() - current;
+            if (elapsed < 50) Thread.sleep(50 - elapsed);
+        }
+</td>
+  </tr>
+</tbody>
+</table>
+
+- [GameStateRun](../src/main/java/g11/controller/gamestates/GameStateRun.java)
+
+#### Consequences
+
+- Simplicidade de código e atualização organizada.
+- _Power-friendly_. Como só atualizamos o jogo a um passo constante, tiramos muita carga do CPU. Este é um dos pontos menos importantes já que o nosso Pac-Man não precisa de muitos recursos.
+- O jogo não se atualiza demasiado depressa. Com a taxa de atualização constante não é possivel que máquinas melhores corram o jogo mais rápido.
+- O jogo pode correr demasiado devagar. Para máquinas menos capazes, um ciclo pode demorar mais millisegundos a processar do que o esperado, fazendo com que o jogo abrande em certos casos. 
 
 ## Code Smells
 ### 1 Bloaters - Large CLass
@@ -282,3 +394,5 @@ O refactoring **Replace Type Code with Subclasses** já foi usado para criar a c
 Quando à divisão do trabalho foram criados ao longo desta primeira parte vários [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) para cada ponto a trabalhar e cada elemento do grupo foi implementando melhorias, refactorings, testes ou funcionalidades do jogo em branches separados que depois ficavam sujeitos a [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls) e eram implementados no master. Até agora o trabalho foi bem organizado e dividido entre os membros do grupo, tendo ambos feito um esforço semelhante para a concretização do projeto.
 - André Gomes: 50 %
 - Catarina Fernades: 50 %
+
+![](https://s7.gifyu.com/images/Progress.gif)
