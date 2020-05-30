@@ -289,7 +289,7 @@ A partir de uma só classe foi possível criar **3** classes: CollisionChecker, 
 
 ### 2. If Statements / Switch Statements
 
-Como lidamos com 4 Orientações constantemente (processar comandos, verificar colisões) houve muitas partes de código que conseguimos simplificar e retirar muitos _if's_ repetidos ou até remover _switch cases_. Como exemplo adicionamos ao _enum_ [Orientation](../src/test/java/g11/model/OrientationENUMTest.java) um método que retorna todas as Orientações disponiveis e com isto foi possivel simplificar o seguinte pedaço de código
+Como lidamos com 4 Orientações constantemente (processar comandos, verificar colisões) houve muitas partes de código que conseguimos simplificar e retirar muitos _if's_ repetidos ou até remover _switch cases_. Como exemplo adicionamos ao _enum_ [Orientation](../src/main/java/g11/model/OrientationEnumeration.java) um método que retorna todas as Orientações disponiveis e com isto foi possivel simplificar o seguinte pedaço de código
 
 ```java
 for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {
@@ -322,6 +322,35 @@ for (EmptySpace emptySpace : gameData.getMap().getEmptySpaces()) {
             }
         }
 ```
+
+### 3. Long Parameter List
+
+O mapa é composto por diversos elementos, cada um com a usa posição e forma de desenhar. Para passar toda a informação de uma vez para a gui e para conseguir ler o mapa do ficheiro _.txt_ para uma única classe foi criada a classe [Map](../src/main/java/g11/model/Map.java):
+
+```java
+public class Map {
+    private ArrayList<String> map;
+    private ArrayList<Wall> walls;
+    private ArrayList<EmptySpace> emptySpaces;
+    private ArrayList<Coin> coins;
+    private ArrayList<PowerPellet> powerPellets;
+    private ArrayList<Gate> gates;
+    private ArrayList<MapComponent> mapComponents;
+    private ArrayList<Position> unturnable;
+
+    public Map(ArrayList<String> map, ArrayList<Wall> walls, ArrayList<EmptySpace> emptySpaces, ArrayList<Coin> coins, ArrayList<PowerPellet> powerPellets, ArrayList<Gate> gates, ArrayList<MapComponent> mapComponents, ArrayList<Position> unturnable) {
+        this.map = map;
+        this.walls = walls;
+        this.emptySpaces = emptySpaces;
+        this.coins = coins;
+        this.powerPellets = powerPellets;
+        this.gates = gates;
+        this.mapComponents = mapComponents;
+        this.unturnable = unturnable;
+    }
+```
+
+O custo de ter a simplicidade de apenas passar uma classe para a gui é de sofrermos do smell **Long Parameter List**.
 
 ## Testing
 
