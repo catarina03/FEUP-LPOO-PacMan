@@ -15,8 +15,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
 
 public class GameStateTest {
@@ -30,13 +29,13 @@ public class GameStateTest {
         Mockito.when(guiSquare.getKeyStroke()).thenReturn(k);
         Mockito.when(k.getKeyType()).thenReturn(KeyType.ArrowDown);
 
-        assertEquals(false, presentation.execute(guiSquare));
+        assertFalse(presentation.execute(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(1)).presentationScreen();
         Mockito.verify(k, Mockito.times(1)).getKeyType();
 
         Mockito.when(k.getKeyType()).thenReturn(KeyType.EOF);
-        assertEquals(true, presentation.execute(guiSquare));
+        assertTrue(presentation.execute(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(2)).presentationScreen();
         Mockito.verify(k, Mockito.times(2)).getKeyType();
@@ -52,13 +51,13 @@ public class GameStateTest {
         Mockito.when(guiSquare.getKeyStroke()).thenReturn(k);
         Mockito.when(k.getKeyType()).thenReturn(KeyType.ArrowDown);
 
-        assertEquals(false, ready.execute(guiSquare));
+        assertFalse(ready.execute(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(1)).inicialScreen();
         Mockito.verify(k, Mockito.times(1)).getKeyType();
 
         Mockito.when(k.getKeyType()).thenReturn(KeyType.EOF);
-        assertEquals(false, ready.execute(guiSquare));
+        assertFalse(ready.execute(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(2)).inicialScreen();
         Mockito.verify(k, Mockito.times(2)).getKeyType();
@@ -75,7 +74,7 @@ public class GameStateTest {
 
         GameStateRun gameStateRun = new GameStateRun(game);
 
-        assertEquals(true, gameStateRun.pauseScreen(guiSquare));
+        assertTrue(gameStateRun.pauseScreen(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(1)).pauseScreen(0);
         Mockito.verify(keyStroke, Mockito.times(2)).getKeyType();
@@ -83,7 +82,7 @@ public class GameStateTest {
 
         Mockito.when(keyStroke.getKeyType()).thenReturn(KeyType.EOF);
 
-        assertEquals(false, gameStateRun.pauseScreen(guiSquare));
+        assertFalse(gameStateRun.pauseScreen(guiSquare));
     }
 
 
@@ -106,7 +105,7 @@ public class GameStateTest {
         ghosts.add(pinky);
         ghosts.add(clyde);
 
-        Mockito.when(game.getRunning()).thenReturn(true).thenReturn(false);
+        Mockito.when(game.isRunning()).thenReturn(true).thenReturn(false);
         Mockito.when(game.getGameData()).thenReturn(gameData);
         Mockito.when(gameData.getMap()).thenReturn(map);
         Mockito.when(gameData.getGhosts()).thenReturn(ghosts);
@@ -124,12 +123,12 @@ public class GameStateTest {
         Mockito.verify(game, Mockito.times(1)).processKey(game.getLastmove());
         Mockito.verify(game, Mockito.times(1)).update(eq(gameData), eq(0), Mockito.anyLong());
         Mockito.verify(guiSquare, Mockito.times(3)).draw(gameData);
-        Mockito.verify(game, Mockito.times(1)).changeGameState(any(GameStateEndScreen.class));;
+        Mockito.verify(game, Mockito.times(1)).changeGameState(any(GameStateEndScreen.class));
         Mockito.verify(gameStats, Mockito.times(2)).getScore();
         Mockito.verify(game, Mockito.times(2)).getHighScore();
         Mockito.verify(game, Mockito.times(1)).setHighScore(anyInt());
 
-        Mockito.when(game.getRunning()).thenReturn(true);
+        Mockito.when(game.isRunning()).thenReturn(true);
         Mockito.when(guiSquare.getMove()).thenReturn(MoveEnumeration.ESC);
         Mockito.when(game.getLastmove()).thenReturn(MoveEnumeration.ESC);
         Mockito.when(game.processKey(any(MoveEnumeration.class))).thenReturn(true);
@@ -160,13 +159,13 @@ public class GameStateTest {
         Mockito.when(guiSquare.getKeyStroke()).thenReturn(k);
         Mockito.when(k.getKeyType()).thenReturn(KeyType.ArrowDown);
 
-        assertEquals(false, endScreen.execute(guiSquare));
+        assertFalse(endScreen.execute(guiSquare));
 
         Mockito.verify(guiSquare, Mockito.times(1)).endScreen(true, gameStats);
         Mockito.verify(k, Mockito.times(1)).getKeyType();
 
         Mockito.when(k.getKeyType()).thenReturn(KeyType.Escape);
 
-        assertEquals(true, endScreen.execute(guiSquare));
+        assertTrue(endScreen.execute(guiSquare));
     }
 }

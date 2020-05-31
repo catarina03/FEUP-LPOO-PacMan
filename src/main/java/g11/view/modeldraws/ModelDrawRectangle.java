@@ -61,7 +61,6 @@ public class ModelDrawRectangle implements ModelDraw {
         }
     }
 
-
     public void drawGameStats(GameData gameData) {
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);

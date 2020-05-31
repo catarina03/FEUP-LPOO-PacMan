@@ -12,5 +12,4 @@ public class Clyde extends Ghost {
     public Clyde(Position ghostPosition, Position scatterTarget) {
         super(ghostPosition, scatterTarget, OrientationEnumeration.UP);
     }
-
 }

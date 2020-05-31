@@ -7,8 +7,7 @@ import g11.model.Position;
 public abstract class Ghost extends Moveable {
     private Position target;
     private GhostStateEnumeration state;
-    private Position scatterTarget;
-
+    private final Position scatterTarget;
 
     public Ghost(Position ghostPosition, Position scatterTarget, OrientationEnumeration orientationEnumeration) {
         super(ghostPosition);

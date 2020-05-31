@@ -29,7 +29,6 @@ public class Game {
     private MoveEnumeration lastmove;
     private ArrayList<GhostController> ghostControllers;
 
-
     public Game(Gui gui) {
         this.gui = gui;
         this.gameState = new GameStatePresentation(this);
@@ -39,65 +38,37 @@ public class Game {
         this.highScore = Integer.parseInt(lines.get(0));
     }
 
-    public void changeGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
+    public boolean isRunning() { return running; }
 
-    public void setCchecker(CollisionChecker cchecker) {
-        this.cchecker = cchecker;
-    }
+    public boolean isWinner() { return winner; }
 
-    public void setGuiSquare(GuiSquare guiSquare) {
-        this.gui = guiSquare;
-    }
+    public void setRunning(boolean running) { this.running = running; }
 
-    public void setGameData(GameData gameData) {
-        this.gameData = gameData;
-    }
+    public void setWinner(boolean winner) { this.winner = winner; }
 
-    public boolean getRunning() {
-        return running;
-    }
+    public void setTicks(int ticks) { this.ticks = ticks; }
 
-    public void setRunning(boolean running) {
-        this.running = running;
-    }
+    public int getHighScore() { return highScore; }
 
-    public boolean getWinner() {
-        return winner;
-    }
+    public void setGui(Gui gui) { this.gui = gui; }
 
-    public void setWinner(boolean winner) {
-        this.winner = winner;
-    }
+    public void setHighScore(int highScore) { this.highScore = highScore; }
 
-    public int getHighScore() {
-        return highScore;
-    }
+    public GameData getGameData() { return gameData; }
 
-    public void setHighScore(int highScore) {
-        this.highScore = highScore;
-    }
+    public void setGameData(GameData gameData) { this.gameData = gameData; }
 
-    public GameData getGameData() {
-        return gameData;
-    }
+    public void setCchecker(CollisionChecker cchecker) { this.cchecker = cchecker; }
 
-    public MoveEnumeration getLastmove() {
-        return lastmove;
-    }
+    public MoveEnumeration getLastmove() { return lastmove; }
 
-    public void setLastmove(MoveEnumeration lastmove) {
-        this.lastmove = lastmove;
-    }
+    public void setLastmove(MoveEnumeration lastmove) { this.lastmove = lastmove; }
 
     public void setGhostControllers(ArrayList<GhostController> ghostControllers) { this.ghostControllers = ghostControllers; }
 
-    public void setTicks(int ticks) {
-        this.ticks = ticks;
-    }
+    public void changeGameState(GameState gameState) { this.gameState = gameState; }
 
-
+    
     public void update(GameData gameData, int step, long elapsedTime) {
         this.gameData = cchecker.updateFoodCollison(gameData, this);
 

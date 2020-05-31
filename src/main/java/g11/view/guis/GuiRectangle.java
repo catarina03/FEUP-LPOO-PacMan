@@ -11,7 +11,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import g11.model.GameStats;
 import g11.view.Gui;
 import g11.view.modeldraws.ModelDrawRectangle;
-import g11.view.modeldraws.ModelDrawSquare;
 
 import java.io.IOException;
 
@@ -22,7 +21,6 @@ public class GuiRectangle extends Gui {
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
             Terminal terminal = terminalFactory.createTerminal();
 
-            setTerminal(terminal);
             setScreen(new TerminalScreen(terminal));
 
             startScreen();

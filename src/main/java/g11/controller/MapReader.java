@@ -23,7 +23,6 @@ public class MapReader {
     private final ArrayList<Ghost> ghosts;
     private final ArrayList<Position> unturnable;
     private Position pacManposition;
-    private int highScore;
 
     public MapReader(ReadFile readFile) {
         map = new ArrayList<>();
@@ -46,7 +45,6 @@ public class MapReader {
         map = readFile.fileContent();
         for (String string : map) {
             if (!highScoreRead) {
-                this.highScore = Integer.parseInt(string);
                 highScoreRead = true;
             } else {
                 x = 0;
@@ -178,9 +176,7 @@ public class MapReader {
         return new PacMan(pacManposition);
     }
 
-    public Map getMap() {
-        return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents, unturnable);
-    }
+    public Map getMap() { return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents, unturnable); }
 
     public List<Ghost> ghostList() {
         return ghosts;

@@ -362,7 +362,7 @@ O custo de ter a simplicidade de apenas passar uma classe para a gui é de sofre
 
 ![PiTest](https://i.imgur.com/CukfIXQ.png)
 
-> **_NOTE:_**  Para PiTest não estamos a ter em conta os testes de [Gui](../src/test/java/g11/view/GuiTest.java) e de [Game](../src/test/java/g11/controller/GameTest.java) pois ambos abrem um _Screen_ que faz com que `gradlew pitest` origine um **Build Error**
+### Not Tested
 
 ## Self-Evaluation
 Quando à divisão do trabalho foram criados ao longo desta primeira parte vários [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) para cada ponto a trabalhar e cada elemento do grupo foi implementando melhorias, refactorings, testes ou funcionalidades do jogo em branches separados que depois ficavam sujeitos a [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls) e eram implementados no master. Até agora o trabalho foi bem organizado e dividido entre os membros do grupo, tendo ambos feito um esforço semelhante para a concretização do projeto.

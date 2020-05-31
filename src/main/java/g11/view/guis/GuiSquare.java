@@ -37,12 +37,10 @@ public class GuiSquare extends Gui {
             defaultTerminalFactory.setInitialTerminalSize(terminalsize);
             Terminal defterminal = defaultTerminalFactory.createTerminal();
 
-            setTerminal(defterminal);
             setScreen(new TerminalScreen(defterminal));
 
             startScreen();
         } catch (IOException | FontFormatException | IllegalArgumentException e) {
-            //Handle exception
             e.printStackTrace();
         }
         setModelDraw(new ModelDrawSquare(getScreen()));

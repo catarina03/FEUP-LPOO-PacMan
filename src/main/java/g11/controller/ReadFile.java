@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class ReadFile {
-    private File file;
+    private final File file;
 
     // get file from classpath, resources folder
     public ReadFile(String fileName) {
@@ -17,18 +17,14 @@ public class ReadFile {
         } else {
             file = new File(resource.getFile());
         }
-
     }
 
     public ArrayList<String> fileContent() {
         ArrayList<String> arrayList = new ArrayList<>();
         try (FileReader reader = new FileReader(file);
              BufferedReader br = new BufferedReader(reader)) {
-
             String line;
-            while ((line = br.readLine()) != null) {
-                arrayList.add(line);
-            }
+            while ((line = br.readLine()) != null) { arrayList.add(line); }
         } catch (IOException e) {
             e.printStackTrace();
         }

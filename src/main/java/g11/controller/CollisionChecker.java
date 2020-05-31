@@ -15,7 +15,7 @@ public class CollisionChecker {
     /**
      * - If you want to check if PacMan will colide with a wall in the next iteration in case he moves forward
      * you call this function with Gui.MOVE ESC
-     * - If you want to check if PacMan can make a turn (change in orientation) without coliding with a wall and getting
+     * - If you want to check if PacMan can make a turn (change in orientation) without colliding with a wall and getting
      * stuck you pass in Gui.MOVE the direction to which PacMan is trying to turn
      *
      * @return true in case of collision

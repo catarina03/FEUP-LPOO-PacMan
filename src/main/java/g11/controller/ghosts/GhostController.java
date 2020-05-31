@@ -18,7 +18,7 @@ import static g11.model.OrientationEnumeration.*;
 public class GhostController {
     Ghost ghost;
     private boolean accessingHouse; // está a sair da GhostHouse
-    private boolean changeOrientation;  // true quando tiver que alterar orientação no proximo calculateAndStep()
+    private boolean changeOrientation;  // true quando tiver que alterar orientação no próximo calculateAndStep()
     private GhostState ghostState;
     private final long timeToStart;
     private final TargetStrategy targetStrategy;
@@ -75,8 +75,6 @@ public class GhostController {
      */
     public ArrayList<OrientationEnumeration> getAvailableOrientations(GameData gameData) {
         ArrayList<OrientationEnumeration> returning = new ArrayList<>();
-        // TODO se estiverem nos cruzamentos amarelos não podem mudar de direção
-
         for (Position pos : gameData.getMap().getUnturnable()) {
             if (ghost.getPosition().equals(pos)) {
                 if (ghost.getOrientationEnumeration().getOpposite() != LEFT) {

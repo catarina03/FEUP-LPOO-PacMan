@@ -4,7 +4,6 @@ import com.googlecode.lanterna.input.KeyType;
 import g11.controller.Game;
 import g11.view.Gui;
 
-
 public class GameStatePresentation extends GameState {
     public GameStatePresentation(Game game) {
         super(game);

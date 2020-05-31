@@ -2,7 +2,6 @@ package g11.view;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.terminal.Terminal;
 import g11.model.GameData;
 import g11.model.GameStats;
 import g11.model.elements.MapComponent;
@@ -10,13 +9,8 @@ import g11.model.elements.MapComponent;
 import java.io.IOException;
 
 public abstract class Gui {
-    private Terminal terminal;
     private Screen screen;
     private ModelDraw modelDraw;
-
-    public void setTerminal(Terminal terminal) {
-        this.terminal = terminal;
-    }
 
     public Screen getScreen() {
         return screen;
@@ -35,7 +29,6 @@ public abstract class Gui {
         screen.startScreen();             // screens must be started
         screen.doResizeIfNecessary();     // resize screen if necessary
     }
-
 
     public void close() throws Throwable {
         if (screen != null) {
