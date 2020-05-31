@@ -13,6 +13,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GhostStateFrightened extends GhostState {
     int ticksToEnd;
 
+    public void setTicksToEnd(int ticksToEnd) {
+        this.ticksToEnd = ticksToEnd;
+    }
+
     public GhostStateFrightened(GhostController ghostController, TargetStrategy targetStrategy, int powerPellets) {
         super(ghostController, targetStrategy, powerPellets);
         this.ticksToEnd = 160;

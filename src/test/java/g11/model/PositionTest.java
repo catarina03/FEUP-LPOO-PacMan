@@ -8,11 +8,6 @@ import static org.junit.Assert.*;
 
 public class PositionTest {
 
-    /*
-    * Random r = new Random();
-	* return r.nextInt((max - min) + 1) + min;
-    */
-
     @Test
     public void PositionValuesCreation() {
         Random r = new Random();
@@ -20,8 +15,8 @@ public class PositionTest {
         int y = r.nextInt((20) + 1);
 
         Position position = new Position(x,y);
-        assertEquals(x, position.getX());
-        assertEquals(y, position.getY());
+        assertEquals(position.getX(), x);
+        assertEquals(position.getY(), y);
     }
 
     @Test
@@ -50,6 +45,14 @@ public class PositionTest {
         assertEquals(positionChange.getX(), new_x);
         assertEquals(positionChange.getY(), new_y);
 
+        OrientationEnumeration orientation = OrientationEnumeration.UP;
+        assertEquals(position.nextPositionWithOrientation(orientation), positionup);
+        orientation = OrientationEnumeration.DOWN;
+        assertEquals(position.nextPositionWithOrientation(orientation), positiondown);
+        orientation = OrientationEnumeration.RIGHT;
+        assertEquals(position.nextPositionWithOrientation(orientation), positionright);
+        orientation = OrientationEnumeration.LEFT;
+        assertEquals(position.nextPositionWithOrientation(orientation), positionleft);
     }
 
     @Test
@@ -80,5 +83,6 @@ public class PositionTest {
 
         assertNotEquals(position1, position2);
         assertEquals(position1, position3);
+        assertEquals(position1.distance(position3), position3.distance(position1), 0.0);
     }
 }

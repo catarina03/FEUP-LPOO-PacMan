@@ -16,27 +16,22 @@ import g11.view.Gui;
 import g11.view.guis.GuiSquare;
 import g11.view.MoveEnumeration;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class GameStateRun extends GameState {
-
     public GameStateRun(Game game) {
         super(game);
     }
 
     @Override
     public boolean execute(Gui gui) throws Throwable {
-
         initialize(gui);
 
         long startTime = System.currentTimeMillis();
         int step = 0;
 
-        while (game.getRunning()) {
+        while (game.isRunning()) {
             long current = System.currentTimeMillis();
 
             // process input
@@ -68,13 +63,11 @@ public class GameStateRun extends GameState {
         if (game.getGameData().getGameStats().getScore() > game.getHighScore())
             game.setHighScore(game.getGameData().getGameStats().getScore());
 
-        game.changeGameState(new GameStateEndScreen(game, game.getWinner()));
+        game.changeGameState(new GameStateEndScreen(game, game.isWinner()));
         return false;
     }
 
     private void initialize(Gui gui) throws Throwable {
-        // Os Ghosts atualizam a cada 200 ms em Scatter e Chase; 250 em Frightened; 150 em Eaten
-        // o Pacman a cada 200 ms
         game.setRunning(true);
         game.setWinner(false);
 

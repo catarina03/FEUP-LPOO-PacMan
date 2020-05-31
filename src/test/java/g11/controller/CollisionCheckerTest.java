@@ -5,15 +5,18 @@ import g11.model.elements.*;
 import g11.model.elements.map.Coin;
 import g11.model.elements.map.EmptySpace;
 import g11.model.elements.map.Wall;
-import g11.view.guis.GuiSquare;
+import g11.model.elements.map.Gate;
+import g11.model.elements.map.PowerPellet;
 
+import g11.view.MoveEnumeration;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 import static g11.model.OrientationEnumeration.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
 
 public class CollisionCheckerTest {
 
@@ -36,8 +39,8 @@ public class CollisionCheckerTest {
         Mockito.when(pacman.getPosition()).thenReturn(pos1);
         Mockito.when(emptySpace.getPosition()).thenReturn(pos2);
 
-        assertEquals(true, collisionChecker.collide(pacman.getPosition(), wall.getPosition()));
-        assertEquals(false, collisionChecker.collide(pacman.getPosition(), emptySpace.getPosition()));
+        assertTrue(collisionChecker.collide(pacman.getPosition(), wall.getPosition()));
+        assertFalse(collisionChecker.collide(pacman.getPosition(), emptySpace.getPosition()));
     }
 
     @Test
@@ -60,67 +63,97 @@ public class CollisionCheckerTest {
         walls.add(wall2);
         walls.add(wall3);
 
+        Gate gate = Mockito.mock(Gate.class);
+        Mockito.when(gate.getPosition()).thenReturn(new Position(12, 12));
+        ArrayList<Gate> gates = new ArrayList<>();
+        gates.add(gate);
+
         Mockito.when(map.getWalls()).thenReturn(walls);
         Mockito.when(gameData.getPacMan()).thenReturn(pacman);
         Mockito.when(gameData.getMap()).thenReturn(map);
+        Mockito.when(gameData.getMap().getGates()).thenReturn(gates);
 
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.ESC));
-        assertEquals(false, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.UP));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.RIGHT));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.DOWN));
-        assertEquals(true, collisionChecker.checkWallCollision(gameData, GuiSquare.MOVE.LEFT));
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.ESC));
+        assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.UP));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveEnumeration.RIGHT));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveEnumeration.DOWN));
+        assertTrue(collisionChecker.checkWallCollision(gameData, MoveEnumeration.LEFT));
     }
 
     @Test
     public void orientationToMoveTest() {
         CollisionChecker collisionChecker = new CollisionChecker();
+
         OrientationEnumeration orientationEnumeration = UP;
-        assertEquals(GuiSquare.MOVE.UP, collisionChecker.orientationToMove(orientationEnumeration));
+        assertEquals(MoveEnumeration.UP, collisionChecker.orientationToMove(orientationEnumeration));
         orientationEnumeration = RIGHT;
-        assertEquals(GuiSquare.MOVE.RIGHT, collisionChecker.orientationToMove(orientationEnumeration));
+        assertEquals(MoveEnumeration.RIGHT, collisionChecker.orientationToMove(orientationEnumeration));
         orientationEnumeration = DOWN;
-        assertEquals(GuiSquare.MOVE.DOWN, collisionChecker.orientationToMove(orientationEnumeration));
+        assertEquals(MoveEnumeration.DOWN, collisionChecker.orientationToMove(orientationEnumeration));
         orientationEnumeration = LEFT;
-        assertEquals(GuiSquare.MOVE.LEFT, collisionChecker.orientationToMove(orientationEnumeration));
+        assertEquals(MoveEnumeration.LEFT, collisionChecker.orientationToMove(orientationEnumeration));
+
     }
 
-
     @Test
-    public void updateCoinCollisionTest(){ //NEEDS FIXING
+    public void updateFoodCollisionTest(){
         CollisionChecker collisionChecker = new CollisionChecker();
-
-        GameData gameData = Mockito.mock(GameData.class);
-        Map map = Mockito.mock(Map.class);
-        PacMan pacman = Mockito.mock(PacMan.class);
-        GameStats gameStats = Mockito.mock(GameStats.class);
 
         Position position = Mockito.mock(Position.class);
         Mockito.when(position.getX()).thenReturn(10);
         Mockito.when(position.getY()).thenReturn(11);
+
+        Position position2 = Mockito.mock(Position.class);
+        Mockito.when(position2.getX()).thenReturn(12);
+        Mockito.when(position2.getY()).thenReturn(12);
+
+        GameData gameData = Mockito.mock(GameData.class);
+        Game game = Mockito.mock(Game.class);
+
+        Map map = Mockito.mock(Map.class);
+        Mockito.when(gameData.getMap()).thenReturn(map);
+
+        PacMan pacman = Mockito.mock(PacMan.class);
+        Mockito.when(pacman.getPosition()).thenReturn(position);
+        Mockito.when(gameData.getPacMan()).thenReturn(pacman);
+
+        GameStats gameStats = Mockito.mock(GameStats.class);
+        Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
+
+        ArrayList<MapComponent> mapComponents = new ArrayList<>();
+
         Coin coin = Mockito.mock(Coin.class);
         Mockito.when(coin.getPosition()).thenReturn(position);
         ArrayList<Coin> coins = new ArrayList<>();
         coins.add(coin);
-        ArrayList<EmptySpace> emptySpaces = new ArrayList<>();
-        emptySpaces.clear();
-        ArrayList<MapComponent> mapComponents = new ArrayList<>();
         mapComponents.add(coin);
-        int score = 0;
-        gameStats.setScore(score);
-
-        Mockito.when(pacman.getPosition()).thenReturn(position);
         Mockito.when(map.getCoins()).thenReturn(coins);
+
+        PowerPellet powerPellet = Mockito.mock(PowerPellet.class);
+        Mockito.when(powerPellet.getPosition()).thenReturn(position2);
+        ArrayList<PowerPellet> powerPellets = new ArrayList<>();
+        powerPellets.add(powerPellet);
+        mapComponents.add(powerPellet);
+        Mockito.when(map.getPowerPellets()).thenReturn(powerPellets);
+
+        ArrayList<EmptySpace> emptySpaces = new ArrayList<>();
         Mockito.when(map.getEmptySpaces()).thenReturn(emptySpaces);
         Mockito.when(map.getMapComponents()).thenReturn(mapComponents);
-        Mockito.when(gameData.getPacMan()).thenReturn(pacman);
-        Mockito.when(gameData.getMap()).thenReturn(map);
-        Mockito.when(gameData.getGameStats()).thenReturn(gameStats);
 
-        GameData result = collisionChecker.updateCoinCollison(gameData);
+        collisionChecker.updateFoodCollison(gameData, game);
 
-        assertEquals(0, result.getMap().getCoins().size());
-        assertEquals(1, result.getMap().getEmptySpaces().size());
-        assertEquals(1, result.getMap().getMapComponents().size());
-        Mockito.verify(gameStats, Mockito.times(1)).setScore(gameStats.getScore() + 1);
+        Mockito.verify(map, Mockito.times(1)).setCoins(coins);
+        Mockito.verify(gameStats, Mockito.times(1)).incrementEatenCoins();
+
+        Mockito.when(pacman.getPosition()).thenReturn(position2);
+
+        collisionChecker.updateFoodCollison(gameData, game);
+
+        Mockito.verify(map, Mockito.times(1)).setPowerPellets(powerPellets);
+        Mockito.verify(gameStats, Mockito.times(1)).incrementEatenPP();
+
+        Mockito.verify(map, Mockito.times(2)).setEmptySpaces(emptySpaces);
+        Mockito.verify(map, Mockito.times(2)).setMapComponents(mapComponents);
+        Mockito.verify(gameData, Mockito.times(2)).setGameStats(gameStats);
     }
 }

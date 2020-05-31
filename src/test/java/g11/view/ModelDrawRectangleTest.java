@@ -1,5 +1,6 @@
 package g11.view;
 
+import g11.model.GhostStateEnumeration;
 import g11.model.elements.*;
 import g11.model.GameData;
 import g11.model.GameStats;
@@ -35,7 +36,7 @@ public class ModelDrawRectangleTest {
         Mockito.when(cherry.getY()).thenReturn(10);
 
         modelDrawRectangle.drawElement(cherry);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FF1400"));
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(cherry.getX(), cherry.getY(), Symbols.CLUB);
     }
 
@@ -67,10 +68,27 @@ public class ModelDrawRectangleTest {
         Mockito.when(coin.getY()).thenReturn(30);
 
         modelDrawRectangle.drawElement(coin);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
         Mockito.verify(graphics, Mockito.times(1)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(coin.getX(), coin.getY(), Symbols.BULLET);
+    }
+
+    @Test
+    public void drawGate(){
+        Screen screen = Mockito.mock(Screen.class);
+        TextGraphics graphics = Mockito.mock(TextGraphics.class);
+        ModelDrawRectangle modelDrawRectangle = new ModelDrawRectangle(screen);
+        modelDrawRectangle.setGraphics(graphics);
+
+        MapComponent gate = Mockito.mock(Gate.class);
+        Mockito.when(gate.getX()).thenReturn(30);
+        Mockito.when(gate.getY()).thenReturn(30);
+
+        modelDrawRectangle.drawElement(gate);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
+        Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
+        Mockito.verify(graphics, Mockito.times(1)).putString(gate.getX(), gate.getY(), "-", SGR.BOLD);
     }
 
     @Test
@@ -115,40 +133,65 @@ public class ModelDrawRectangleTest {
         GameData gameData = Mockito.mock(GameData.class);
         modelDrawRectangle.setGraphics(graphics);
 
-        MapComponent blinky = Mockito.mock(Blinky.class);
+        Blinky blinky = Mockito.mock(Blinky.class);
         Mockito.when(blinky.getX()).thenReturn(60);
         Mockito.when(blinky.getY()).thenReturn(60);
+        Mockito.when(blinky.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        MapComponent inky = Mockito.mock(Inky.class);
+        Inky inky = Mockito.mock(Inky.class);
         Mockito.when(inky.getX()).thenReturn(70);
         Mockito.when(inky.getY()).thenReturn(70);
+        Mockito.when(inky.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        MapComponent clyde = Mockito.mock(Clyde.class);
+        Clyde clyde = Mockito.mock(Clyde.class);
         Mockito.when(clyde.getX()).thenReturn(80);
         Mockito.when(clyde.getY()).thenReturn(80);
+        Mockito.when(clyde.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        MapComponent pinky = Mockito.mock(Pinky.class);
+        Pinky pinky = Mockito.mock(Pinky.class);
         Mockito.when(pinky.getX()).thenReturn(90);
         Mockito.when(pinky.getY()).thenReturn(90);
+        Mockito.when(pinky.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        List<Ghost> ghostList = new ArrayList<>();
-        ghostList.add((Ghost) blinky);
-        ghostList.add((Ghost) inky);
-        ghostList.add((Ghost) clyde);
-        ghostList.add((Ghost) pinky);
-        Mockito.when(gameData.getGhosts()).thenReturn(ghostList);
+        ArrayList<Ghost> ghosts = new ArrayList<>();
+        ghosts.add(blinky);
+        ghosts.add(inky);
+        ghosts.add(clyde);
+        ghosts.add(pinky);
+
+        Mockito.when(gameData.getGhosts()).thenReturn(ghosts);
 
         modelDrawRectangle.drawGhost(gameData);
 
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.MAGENTA);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+
+        Mockito.when(blinky.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+        Mockito.when(inky.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+        Mockito.when(clyde.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+        Mockito.when(pinky.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+
+        modelDrawRectangle.drawGhost(gameData);
+        Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.ANSI.BLUE);
+
+        Mockito.when(blinky.getState()).thenReturn(GhostStateEnumeration.EATEN);
+        Mockito.when(inky.getState()).thenReturn(GhostStateEnumeration.EATEN);
+        Mockito.when(clyde.getState()).thenReturn(GhostStateEnumeration.EATEN);
+        Mockito.when(pinky.getState()).thenReturn(GhostStateEnumeration.EATEN);
+
+        modelDrawRectangle.drawGhost(gameData);
+        Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.ANSI.WHITE);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), '\"');
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), '\"');
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), '\"');
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), '\"');
     }
 
     @Test
@@ -169,8 +212,8 @@ public class ModelDrawRectangleTest {
         Mockito.verify(graphics, Mockito.times(1)).putString(9, 1, "SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(29, 1, "HI-SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
-        Mockito.verify(graphics, Mockito.times(1)).putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).putString(31, 2, "10000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(13 - String.valueOf(gameData.getGameStats().getScore()).length(), 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(31, 2, String.valueOf(gameData.getGameStats().getHighScore()), SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
         Mockito.verify(graphics, Mockito.times(1)).putString(9, 34, "00000", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(35, 34, "o", SGR.BOLD);
@@ -186,26 +229,25 @@ public class ModelDrawRectangleTest {
 
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDrawRectangle modelDrawRectangle = new ModelDrawRectangle(screen);
-        modelDrawRectangle.setGraphics(graphics);
+        ModelDrawRectangle modelDraw = new ModelDrawRectangle(screen);
+        modelDraw.setGraphics(graphics);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.UP);
-        modelDrawRectangle.drawPacMan(gameData);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
-        Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
+        modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.RIGHT);
-        modelDrawRectangle.drawPacMan(gameData);
+        modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.DOWN);
-        modelDrawRectangle.drawPacMan(gameData);
+        modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.LEFT);
-        modelDrawRectangle.drawPacMan(gameData);
+        modelDraw.drawPacMan(gameData);
+        Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.Factory.fromString("#FFF100"));
+        Mockito.verify(graphics, Mockito.times(4)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
     }
 }

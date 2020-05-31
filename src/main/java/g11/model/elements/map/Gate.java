@@ -1,6 +1,5 @@
 package g11.model.elements.map;
 
-import g11.model.Position;
 import g11.model.elements.Fixed;
 
 public class Gate extends Fixed {

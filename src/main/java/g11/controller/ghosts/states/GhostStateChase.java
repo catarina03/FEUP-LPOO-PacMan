@@ -22,7 +22,6 @@ public class GhostStateChase extends GhostState {
             ghostController.setChangeOrientation(true);
             ghostController.changeState(new GhostStateFrightened(ghostController, targetStrategy, activePPs));
         }
-
         if (isScatterTime(elapsedTime)) {
             ghostController.setChangeOrientation(true);
             ghostController.changeState(new GhostStateScatter(ghostController, targetStrategy, activePPs));

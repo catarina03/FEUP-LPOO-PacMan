@@ -13,7 +13,7 @@ public class Map {
     private ArrayList<PowerPellet> powerPellets;
     private ArrayList<Gate> gates;
     private ArrayList<MapComponent> mapComponents;
-    private ArrayList<Position> unturnable;
+    private final ArrayList<Position> unturnable;
 
     public Map(ArrayList<String> map, ArrayList<Wall> walls, ArrayList<EmptySpace> emptySpaces, ArrayList<Coin> coins, ArrayList<PowerPellet> powerPellets, ArrayList<Gate> gates, ArrayList<MapComponent> mapComponents, ArrayList<Position> unturnable) {
         this.map = map;
@@ -84,9 +84,5 @@ public class Map {
 
     public void setGates(ArrayList<Gate> gates) {
         this.gates = gates;
-    }
-
-    public void setUnturnable(ArrayList<Position> unturnable) {
-        this.unturnable = unturnable;
     }
 }

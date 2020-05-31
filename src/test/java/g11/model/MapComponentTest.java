@@ -1,10 +1,7 @@
 package g11.model;
 
 import g11.model.elements.*;
-import g11.model.elements.ghosts.Blinky;
-import g11.model.elements.ghosts.Clyde;
 import g11.model.elements.ghosts.Inky;
-import g11.model.elements.ghosts.Pinky;
 import g11.model.elements.map.*;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -16,25 +13,49 @@ import static org.junit.Assert.assertEquals;
 public class MapComponentTest {
 
     @Test
-    public void GhostCreation() {
+    public void GhostTest() {
         Random r = new Random();
-        int x = r.nextInt();
-        int y = r.nextInt();
+        int x = r.nextInt(50);
+        int y = r.nextInt(50);
+        int xMapLimit = r.nextInt();
 
-        Inky inky = new Inky(x, y);
-        Blinky blinky = new Blinky(x, y);
-        Clyde clyde = new Clyde(x, y);
-        Pinky pinky = new Pinky(x, y);
+        Moveable.xValueTP = xMapLimit;
 
-        assertEquals(inky.getX(), x);
-        assertEquals(inky.getY(), y);
-        assertEquals(blinky.getX(), x);
-        assertEquals(blinky.getY(), y);
-        assertEquals(clyde.getX(), x);
-        assertEquals(clyde.getY(), y);
-        assertEquals(pinky.getX(), x);
-        assertEquals(pinky.getY(), y);
+        Position positionRandom = Mockito.mock(Position.class);
+        Mockito.when(positionRandom.getX()).thenReturn(x);
+        Mockito.when(positionRandom.getY()).thenReturn(y);
+
+        Position position = Mockito.mock(Position.class);
+        Mockito.when(position.getX()).thenReturn(0);
+        Mockito.when(position.getY()).thenReturn(0);
+
+        Inky inky = new Inky(position, positionRandom);
+
+        inky.setOrientationEnumeration(OrientationEnumeration.LEFT);
+        inky.setX(0);
+        inky.setY(5);
+        inky.moveDirection();
+        assertEquals(xMapLimit, inky.getX());
+
+        inky.setOrientationEnumeration(OrientationEnumeration.RIGHT);
+        inky.setX(xMapLimit);
+        inky.setY(5);
+        inky.moveDirection();
+        assertEquals(0, inky.getX());
+
+        inky.setOrientationEnumeration(OrientationEnumeration.UP);
+        inky.setX(5);
+        inky.setY(3);
+        inky.moveDirection();
+        assertEquals(33, inky.getY());
+
+        inky.setOrientationEnumeration(OrientationEnumeration.DOWN);
+        inky.setX(5);
+        inky.setY(33);
+        inky.moveDirection();
+        assertEquals(3, inky.getY());
     }
+
 
     @Test
     public void FixedCreation() {
@@ -47,6 +68,7 @@ public class MapComponentTest {
         PowerPellet powerPellet = new PowerPellet(x, y);
         Wall wall = new Wall(x, y);
         Coin coin = new Coin(x, y);
+        Gate gate = new Gate(x, y);
 
         assertEquals(cherry.getX(), x);
         assertEquals(cherry.getY(), y);
@@ -58,6 +80,8 @@ public class MapComponentTest {
         assertEquals(wall.getY(), y);
         assertEquals(coin.getX(), x);
         assertEquals(coin.getY(), y);
+        assertEquals(gate.getX(), x);
+        assertEquals(gate.getY(), y);
     }
 
     @Test
@@ -98,26 +122,25 @@ public class MapComponentTest {
         assertEquals(another_pacman.getPosition(), new_pos);
     }
 
+
     @Test
-    public void PacManMovement() {
-        Random r = new Random();
-        int x = r.nextInt();
-        int y = r.nextInt();
+    public void MapComponentMovement(){
+        Position position = Mockito.mock(Position.class);
+        Mockito.when(position.getX()).thenReturn(5);
+        Mockito.when(position.getY()).thenReturn(10);
 
-        PacMan pacman = new PacMan(x, y);
-        assertEquals(pacman.getOrientationEnumeration(), OrientationEnumeration.LEFT);
+        PacMan pacMan = new PacMan(position);
 
-        pacman.setOrientationEnumeration(OrientationEnumeration.DOWN);
-        pacman.moveDirection();
-        assertEquals(pacman.getY(), y + 1);
-        pacman.setOrientationEnumeration(OrientationEnumeration.RIGHT);
-        pacman.moveDirection();
-        assertEquals(pacman.getX(), x + 1);
-        pacman.setOrientationEnumeration(OrientationEnumeration.UP);
-        pacman.moveDirection();
-        assertEquals(pacman.getY(), y);
-        pacman.setOrientationEnumeration(OrientationEnumeration.LEFT);
-        pacman.moveDirection();
-        assertEquals(pacman.getX(), x);
+        pacMan.getPosition(OrientationEnumeration.DOWN);
+        Mockito.verify(position, Mockito.times(1)).down();
+
+        pacMan.getPosition(OrientationEnumeration.UP);
+        Mockito.verify(position, Mockito.times(1)).up();
+
+        pacMan.getPosition(OrientationEnumeration.LEFT);
+        Mockito.verify(position, Mockito.times(1)).left();
+
+        pacMan.getPosition(OrientationEnumeration.RIGHT);
+        Mockito.verify(position, Mockito.times(1)).right();
     }
 }
