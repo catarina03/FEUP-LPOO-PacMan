@@ -395,7 +395,7 @@ Alojamos em fast.io os 3 _reports_ gerados:
   - constructor - Inicializa o ecrã, impossibilitando PiTest
 
 ## Self-Evaluation
-Tal como na primeira parte deste projeto houve uma organização do trabalho a fazer com o auxilio de [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) que eram tratados a partir de [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls). Ao contrário da primeira entrega, tivemos também que trabalhar para projetos de outras unidades curriculares em simultâneo com o desenvolvimento deste trabalho, o que fez com que um dos membros não se encontrasse tão disponível para dividir o esforço de forma igual, mas após as restantes entregues fez o seu serviço. 
+Tal como na primeira parte deste projeto houve uma organização do trabalho a fazer com o auxilio de [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) que eram tratados a partir de [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls). Ao contrário da primeira entrega, tivemos também que trabalhar para projetos de outras unidades curriculares em simultâneo com o desenvolvimento deste trabalho, o que fez com que um dos membros não se encontrasse tão disponível para dividir o esforço de forma igual, mas após as restantes entregas fez o seu serviço. 
 
 Para verificar melhor o esforço dedicado por cada elemento é possível verificar nos Issues/Pull Requestes referenciados acima quem ficou _Assigned_ para cada etapa e a sua contribuição em concreto.
 
