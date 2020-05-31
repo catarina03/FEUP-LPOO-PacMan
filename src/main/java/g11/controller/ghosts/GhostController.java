@@ -59,6 +59,10 @@ public class GhostController {
         return ghostState;
     }
 
+    public void setGhostState(GhostState ghostState) {
+        this.ghostState = ghostState;
+    }
+
     public void changeState(GhostState ghostState) {
         this.ghostState = ghostState;
     }
