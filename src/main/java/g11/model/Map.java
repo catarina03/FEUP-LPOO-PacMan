@@ -85,8 +85,4 @@ public class Map {
     public void setGates(ArrayList<Gate> gates) {
         this.gates = gates;
     }
-
-    public void setUnturnable(ArrayList<Position> unturnable) {
-        this.unturnable = unturnable;
-    }
 }

@@ -72,39 +72,6 @@ public class ModelDrawSquare implements ModelDraw {
         graphics.putString(3, 34, ">>>>>", SGR.BOLD);
         graphics.setForegroundColor(TextColor.ANSI.RED);
         graphics.putString(20, 34, "o", SGR.BOLD);
-
-        // Descomentar para ver Targets em ação
-        /*graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
-        graphics.putString(gameData.getGhosts().get(0).getTarget().getX(), gameData.getGhosts().get(0).getTarget().getY(), "X", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
-        graphics.putString(gameData.getGhosts().get(1).getTarget().getX(), gameData.getGhosts().get(1).getTarget().getY(), "X", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
-        graphics.putString(gameData.getGhosts().get(2).getTarget().getX(), gameData.getGhosts().get(2).getTarget().getY(), "X", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
-        graphics.putString(gameData.getGhosts().get(3).getTarget().getX(), gameData.getGhosts().get(3).getTarget().getY(), "X", SGR.BOLD);*/
-
-        /*graphics.setForegroundColor(TextColor.Factory.fromString("#FF1400"));
-        graphics.putString(gameData.getGhosts().get(0).getScatterTarget().getX(), gameData.getGhosts().get(0).getScatterTarget().getY(), "X", SGR.BOLD);
-        graphics.putString(gameData.getGhosts().get(0).getScatterTarget().getX(), gameData.getGhosts().get(0).getScatterTarget().getY() + 3, "X", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
-        graphics.putString(gameData.getGhosts().get(1).getScatterTarget().getX(), gameData.getGhosts().get(1).getScatterTarget().getY(), "X", SGR.BOLD);
-        graphics.putString(gameData.getGhosts().get(1).getScatterTarget().getX(), gameData.getGhosts().get(1).getScatterTarget().getY()-1, "X", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
-        graphics.putString(gameData.getGhosts().get(2).getScatterTarget().getX(), gameData.getGhosts().get(2).getScatterTarget().getY(), "X", SGR.BOLD);
-        graphics.putString(gameData.getGhosts().get(2).getScatterTarget().getX(), gameData.getGhosts().get(2).getScatterTarget().getY() + 3, "X", SGR.BOLD);
-        graphics.setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
-        graphics.putString(gameData.getGhosts().get(3).getScatterTarget().getX(), gameData.getGhosts().get(3).getScatterTarget().getY(), "X", SGR.BOLD);
-        graphics.putString(gameData.getGhosts().get(3).getScatterTarget().getX(), gameData.getGhosts().get(3).getScatterTarget().getY() - 1, "X", SGR.BOLD);
-*/
-        /*graphics.setForegroundColor(TextColor.ANSI.RED);
-        graphics.putString(12, 14, "X", SGR.BOLD);
-        graphics.putString(15, 14, "X", SGR.BOLD);
-        graphics.putString(12, 26, "O", SGR.BOLD);
-        graphics.putString(15, 26, "O", SGR.BOLD);
-
-        graphics.setForegroundColor(TextColor.ANSI.CYAN);
-        graphics.putString(0, 17, "<", SGR.BOLD);
-        graphics.putString(27, 17, ">", SGR.BOLD);*/
     }
 
     public void drawGhost(GameData gameData){
