@@ -399,5 +399,5 @@ Tal como na primeira parte deste projeto houve uma organização do trabalho a f
 
 Para verificar melhor o esforço dedicado por cada elemento é possível verificar nos Issues/Pull Requestes referenciados acima quem ficou _Assigned_ para cada etapa e a sua contribuição em concreto.
 
-- André Gomes: 65 %
-- Catarina Fernades: 35 %
+- André Gomes: 55 %
+- Catarina Fernades: 45 %
