@@ -17,7 +17,7 @@ Este projeto foi desenvolvido por André Gomes (up201806224@fe.up.pt) e Catarina
 
 | GuiRectangle |  GuiSquare |
 |-----------|---------|
-| ![Rectangle2Gui](https://user-images.githubusercontent.com/54408098/83135136-50152100-a0dd-11ea-85fd-ee9061f9f32a.gif) | ![SquareGui](https://user-images.githubusercontent.com/54408098/83068272-02a69e80-a060-11ea-89ba-b911f54fb681.gif) |
+| ![Rectangle](https://user-images.githubusercontent.com/54408098/83360650-b5d20900-a37a-11ea-9eac-4cea47de97ce.gif) | ![Square](https://user-images.githubusercontent.com/54408098/83360656-c4b8bb80-a37a-11ea-80e0-aeff3f44f0eb.gif) |
 
 
 ## Design
@@ -354,19 +354,52 @@ O custo de ter a simplicidade de apenas passar uma classe para a gui é de sofre
 
 ## Testing
 
-// TODO Link to mutation testing report.
+![Code Coverage](https://i.imgur.com/UDpgm0R.png)
 
-![Code Coverage](https://i.imgur.com/ZikaxRv.png)
+![Unit Testing](https://i.imgur.com/nL0t0uI.png)
 
-![Unit Testing](https://i.imgur.com/hYZc5SR.png)
+![PiTest](https://i.imgur.com/uQ82mh5.png)
 
-![PiTest](https://i.imgur.com/CukfIXQ.png)
+Alojamos em fast.io os 3 _reports_ gerados: 
+- [Code Coverage](https://testcoverage.imfast.io/)
+- [Unit Testing](https://tests.imfast.io/)
+- [PiTest](https://pitests.imfast.io/)
 
-### Not Tested
+> [Link](../docs/reports/pitest/202005312016) to Mutation testing report
+
+###  Not Tested
+#### Controller
+- Game
+  - Setters e Getters
+  - update() - São apenas usados métodos já testados
+  - ghostCollisionAndUpdate() - São apenas usados métodos já testados
+  - saveHighScore()
+- ReadFile
+  - getFile()
+- GhostController
+  - Setters e Getters
+#### Model
+- Map
+  - getUnturnable()
+- Ghost
+  - Setters e Getters
+- Moveable
+  - getOrientationEnumeration()
+#### View
+- Gui
+  - startScreen() - inicializa o ecrã, impossibilitando PiTest
+  - getKeyStroke()
+- GuiSquare
+  - constructor - Inicializa o ecrã, impossibilitando PiTest
+- GuiRectangle
+  - constructor - Inicializa o ecrã, impossibilitando PiTest
 
 ## Self-Evaluation
-Quando à divisão do trabalho foram criados ao longo desta primeira parte vários [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) para cada ponto a trabalhar e cada elemento do grupo foi implementando melhorias, refactorings, testes ou funcionalidades do jogo em branches separados que depois ficavam sujeitos a [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls) e eram implementados no master. Até agora o trabalho foi bem organizado e dividido entre os membros do grupo, tendo ambos feito um esforço semelhante para a concretização do projeto.
-- André Gomes: 50 %
-- Catarina Fernades: 50 %
+Tal como na primeira parte deste projeto houve uma organização do trabalho a fazer com o auxilio de [Issues](https://github.com/FEUP-LPOO/lpoo-2020-g11/issues) que eram tratados a partir de [Pull Requests](https://github.com/FEUP-LPOO/lpoo-2020-g11/pulls). Ao contrário da primeira entrega, tivemos também que trabalhar para projetos de outras unidades curriculares em simultâneo com o desenvolvimento deste trabalho, o que fez com que um dos membros não se encontrasse tão disponível para dividir o esforço de forma igual, mas após as restantes entregues fez o seu serviço. 
+
+Para verificar melhor o esforço dedicado por cada elemento é possível verificar nos Issues/Pull Requestes referenciados acima quem ficou _Assigned_ para cada etapa e a sua contribuição em concreto.
+
+- André Gomes: 65 %
+- Catarina Fernades: 35 %
 
 ![](https://s7.gifyu.com/images/Progress.gif)

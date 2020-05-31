@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CollisionChecker</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">g11.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CollisionChecker (g11.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CollisionChecker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,7%
+  </span>
+  <span class="absValue">
+    (58/ 60)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CollisionChecker$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878$auxiliary$5WBLagM1</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878$auxiliary$9ozXMXMl</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878$auxiliary$dY9WfvNx</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878$auxiliary$i7hEAGXs</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878$auxiliary$XQdKVAbQ</td>
+  </tr>
+  <tr>
+    <td class="name">CollisionChecker$MockitoMock$812122878$auxiliary$YdsmM92p</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,8%
+  </span>
+  <span class="absValue">
+    (60/ 62)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package g11.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import g11.model.*;
+<i>4</i>&nbsp;import g11.model.elements.*;
+<i>5</i>&nbsp;import g11.model.elements.map.*;
+<i>6</i>&nbsp;import g11.view.MoveEnumeration;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.ArrayList;
+<i>9</i>&nbsp;
+<b class="fc"><i>10</i>&nbsp;public class CollisionChecker {</b>
+<i>11</i>&nbsp;    public boolean collide(Position poselem1, Position poselem2){
+<b class="fc"><i>12</i>&nbsp;        return poselem1.equals(poselem2);</b>
+<i>13</i>&nbsp;    }
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * - If you want to check if PacMan will colide with a wall in the next iteration in case he moves forward
+<i>17</i>&nbsp;     * you call this function with Gui.MOVE ESC
+<i>18</i>&nbsp;     * - If you want to check if PacMan can make a turn (change in orientation) without colliding with a wall and getting
+<i>19</i>&nbsp;     * stuck you pass in Gui.MOVE the direction to which PacMan is trying to turn
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @return true in case of collision
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    public boolean checkWallCollision(GameData gameData, MoveEnumeration direction) {
+<b class="fc"><i>24</i>&nbsp;        if (direction == MoveEnumeration.ESC)</b>
+<b class="fc"><i>25</i>&nbsp;            direction = orientationToMove(gameData.getPacMan().getOrientationEnumeration());</b>
+<b class="fc"><i>26</i>&nbsp;        Position pacmannextpos = new Position(0, 0);</b>
+<b class="fc"><i>27</i>&nbsp;        switch (direction) {</b>
+<i>28</i>&nbsp;            case UP:
+<b class="fc"><i>29</i>&nbsp;                pacmannextpos = gameData.getPacMan().getPosition().up();</b>
+<b class="fc"><i>30</i>&nbsp;                break;</b>
+<i>31</i>&nbsp;            case DOWN:
+<b class="fc"><i>32</i>&nbsp;                pacmannextpos = gameData.getPacMan().getPosition().down();</b>
+<b class="fc"><i>33</i>&nbsp;                break;</b>
+<i>34</i>&nbsp;            case LEFT:
+<b class="fc"><i>35</i>&nbsp;                pacmannextpos = gameData.getPacMan().getPosition().left();</b>
+<b class="fc"><i>36</i>&nbsp;                break;</b>
+<i>37</i>&nbsp;            case RIGHT:
+<b class="fc"><i>38</i>&nbsp;                pacmannextpos = gameData.getPacMan().getPosition().right();</b>
+<i>39</i>&nbsp;                break;
+<i>40</i>&nbsp;        }
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;        ArrayList&lt;Wall&gt; walls = gameData.getMap().getWalls();</b>
+<b class="fc"><i>43</i>&nbsp;        for (Wall wall : walls) {</b>
+<b class="fc"><i>44</i>&nbsp;            if (collide(wall.getPosition(), pacmannextpos)) return true;</b>
+<b class="fc"><i>45</i>&nbsp;        }</b>
+<b class="fc"><i>46</i>&nbsp;        for (Gate gate : gameData.getMap().getGates()) {</b>
+<b class="fc"><i>47</i>&nbsp;            if (collide(gate.getPosition(), pacmannextpos)) return true;</b>
+<b class="fc"><i>48</i>&nbsp;        }</b>
+<b class="fc"><i>49</i>&nbsp;        return false;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public MoveEnumeration orientationToMove(OrientationEnumeration orientationEnumeration) {
+<b class="fc"><i>53</i>&nbsp;        switch (orientationEnumeration) {</b>
+<i>54</i>&nbsp;            case UP:
+<b class="fc"><i>55</i>&nbsp;                return MoveEnumeration.UP;</b>
+<i>56</i>&nbsp;            case DOWN:
+<b class="fc"><i>57</i>&nbsp;                return MoveEnumeration.DOWN;</b>
+<i>58</i>&nbsp;            case LEFT:
+<b class="fc"><i>59</i>&nbsp;                return MoveEnumeration.LEFT;</b>
+<i>60</i>&nbsp;            case RIGHT:
+<b class="fc"><i>61</i>&nbsp;                return MoveEnumeration.RIGHT;</b>
+<i>62</i>&nbsp;            default:
+<b class="nc"><i>63</i>&nbsp;                return MoveEnumeration.ESC;</b>
+<i>64</i>&nbsp;        }
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public GameData updateFoodCollison(GameData gameData, Game game) {
+<b class="fc"><i>68</i>&nbsp;        ArrayList&lt;Coin&gt; coins = gameData.getMap().getCoins();</b>
+<b class="fc"><i>69</i>&nbsp;        ArrayList&lt;PowerPellet&gt; powerPellets = gameData.getMap().getPowerPellets();</b>
+<b class="fc"><i>70</i>&nbsp;        Fixed toremove = null;</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        for (Coin coin : coins) {</b>
+<b class="fc"><i>73</i>&nbsp;            if (collide(coin.getPosition(), gameData.getPacMan().getPosition())) {</b>
+<b class="fc"><i>74</i>&nbsp;                toremove = coin;</b>
+<b class="fc"><i>75</i>&nbsp;                break;</b>
+<i>76</i>&nbsp;            }
+<b class="nc"><i>77</i>&nbsp;        }</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        for (PowerPellet powerPellet : powerPellets) {</b>
+<b class="fc"><i>80</i>&nbsp;            if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){</b>
+<b class="fc"><i>81</i>&nbsp;                toremove = powerPellet;</b>
+<b class="fc"><i>82</i>&nbsp;                break;</b>
+<i>83</i>&nbsp;            }
+<b class="fc"><i>84</i>&nbsp;        }</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;        if (toremove != null) {</b>
+<b class="fc"><i>87</i>&nbsp;            ArrayList&lt;EmptySpace&gt; emptySpace = gameData.getMap().getEmptySpaces();</b>
+<b class="fc"><i>88</i>&nbsp;            ArrayList&lt;MapComponent&gt; components = gameData.getMap().getMapComponents();</b>
+<b class="fc"><i>89</i>&nbsp;            GameStats stats = gameData.getGameStats();</b>
+<b class="fc"><i>90</i>&nbsp;            emptySpace.add(new EmptySpace(toremove.getX(), toremove.getY()));</b>
+<b class="fc"><i>91</i>&nbsp;            if (toremove instanceof Coin){</b>
+<b class="fc"><i>92</i>&nbsp;                coins.remove(toremove);</b>
+<b class="fc"><i>93</i>&nbsp;                components.remove(toremove);</b>
+<b class="fc"><i>94</i>&nbsp;                gameData.getMap().setCoins(coins);</b>
+<b class="fc"><i>95</i>&nbsp;                gameData.getGameStats().incrementEatenCoins();</b>
+<i>96</i>&nbsp;            }
+<b class="fc"><i>97</i>&nbsp;            if (toremove instanceof PowerPellet) {</b>
+<b class="fc"><i>98</i>&nbsp;                powerPellets.remove(toremove);</b>
+<b class="fc"><i>99</i>&nbsp;                components.remove(toremove);</b>
+<b class="fc"><i>100</i>&nbsp;                gameData.getMap().setPowerPellets(powerPellets);</b>
+<b class="fc"><i>101</i>&nbsp;                gameData.getGameStats().incrementEatenPP();</b>
+<b class="fc"><i>102</i>&nbsp;                game.setTicks(160);</b>
+<i>103</i>&nbsp;            }
+<i>104</i>&nbsp;
+<b class="fc"><i>105</i>&nbsp;            gameData.getMap().setEmptySpaces(emptySpace);</b>
+<b class="fc"><i>106</i>&nbsp;            gameData.getMap().setMapComponents(components);</b>
+<b class="fc"><i>107</i>&nbsp;            gameData.setGameStats(stats);</b>
+<i>108</i>&nbsp;        }
+<b class="fc"><i>109</i>&nbsp;        return gameData;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-31 20:15</div>
+</div>
+</body>
+</html>

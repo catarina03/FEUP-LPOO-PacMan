@@ -1,0 +1,193 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Ghost</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">g11.model.elements</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Ghost (g11.model.elements)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Ghost</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    46,2%
+  </span>
+  <span class="absValue">
+    (6/ 13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$0AP35bbP</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$0gPijxTp</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$7q6sd44j</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$Bakhq7Ok</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$Bn63y10z</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$bQ728reh</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$ChmdWjFx</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$cKMPp4Mm</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$dt96WVJl</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$FEXSk7qs</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$FlDw0jGu</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$gf4Wiv0P</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$gpweDkBM</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$jrn0coHr</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$lfUUDj3S</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$lmImao9d</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$LwTTFbR2</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$s8f3dIS1</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$Wr8FvFtC</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$xNZEeQFz</td>
+  </tr>
+  <tr>
+    <td class="name">Ghost$MockitoMock$1198111544$auxiliary$Z6zMd34j</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    46,2%
+  </span>
+  <span class="absValue">
+    (6/ 13)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package g11.model.elements;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import g11.model.GhostStateEnumeration;
+<i>4</i>&nbsp;import g11.model.OrientationEnumeration;
+<i>5</i>&nbsp;import g11.model.Position;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public abstract class Ghost extends Moveable {
+<i>8</i>&nbsp;    private Position target;
+<i>9</i>&nbsp;    private GhostStateEnumeration state;
+<i>10</i>&nbsp;    private final Position scatterTarget;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    public Ghost(Position ghostPosition, Position scatterTarget, OrientationEnumeration orientationEnumeration) {
+<b class="fc"><i>13</i>&nbsp;        super(ghostPosition);</b>
+<b class="fc"><i>14</i>&nbsp;        this.scatterTarget = scatterTarget;</b>
+<b class="fc"><i>15</i>&nbsp;        this.orientationEnumeration = orientationEnumeration;</b>
+<b class="fc"><i>16</i>&nbsp;        this.target = new Position(0, 0);</b>
+<b class="fc"><i>17</i>&nbsp;        this.state = GhostStateEnumeration.CHASE;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public Position getTarget() {
+<b class="nc"><i>21</i>&nbsp;        return target;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public void setTarget(Position target) {
+<b class="nc"><i>25</i>&nbsp;        this.target = target;</b>
+<b class="nc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;    public Position getScatterTarget() { return scatterTarget; }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public GhostStateEnumeration getState() {
+<b class="nc"><i>31</i>&nbsp;        return state;</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public void setState(GhostStateEnumeration state) {
+<b class="nc"><i>35</i>&nbsp;        this.state = state;</b>
+<b class="nc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-31 20:15</div>
+</div>
+</body>
+</html>
