@@ -50,7 +50,6 @@ public class GuiSquare extends Gui {
 
     public GuiSquare(Screen screen) {
         setScreen(screen);
-        setModelDraw(new ModelDrawSquare(screen));
     }
 
     public void readyScreen() throws IOException {

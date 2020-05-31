@@ -35,7 +35,6 @@ public class GuiRectangle extends Gui {
 
     public GuiRectangle(Screen screen) {
         setScreen(screen);
-        setModelDraw(new ModelDrawSquare(screen));
     }
 
     @Override
