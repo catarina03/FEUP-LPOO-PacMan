@@ -11,6 +11,7 @@ import g11.model.elements.map.EmptySpace;
 import g11.model.elements.map.PowerPellet;
 import g11.model.elements.map.Wall;
 import g11.view.guis.GuiRectangle;
+import g11.view.guis.GuiRectangle;
 import g11.view.modeldraws.ModelDrawRectangle;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -20,65 +21,57 @@ import java.util.ArrayList;
 
 import static com.googlecode.lanterna.input.KeyType.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class GuiRectangleTest {
 
     @Test
     public void close() throws Throwable {
-        GuiRectangle guiRectangle = new GuiRectangle(1);
         Screen screen = Mockito.mock(Screen.class);
-        guiRectangle.setScreen(screen);
+        GuiRectangle guiRectangle = new GuiRectangle(screen);
 
         guiRectangle.close();
         Mockito.verify(screen, Mockito.times(1)).close();
     }
 
-    /*
     @Test
     public void getMove() throws IOException {
-        GuiRectangle guiRectangle = new GuiRectangle(1);
         Screen screen = Mockito.mock(Screen.class);
-        guiRectangle.setScreen(screen);
+        GuiRectangle guiRectangle = new GuiRectangle(screen);
 
         screen.pollInput();
-        assertEquals(null, guiRectangle.getMove());
+        assertNull(guiRectangle.getMove());
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowUp));
-<<<<<<< HEAD:src/test/java/g11/view/GuiTest.java
-        assertEquals(Gui.MoveENUM.UP, gui.getMove());
-=======
-        assertEquals(GuiRectangle.MOVE.UP, guiRectangle.getMove());
->>>>>>> master:src/test/java/g11/view/GuiRectangleTest.java
+        assertEquals(MoveEnumeration.UP, guiRectangle.getMove());
         Mockito.verify(screen, Mockito.times(3)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowDown));
-        assertEquals(GuiRectangle.MOVE.DOWN, guiRectangle.getMove());
+        assertEquals(MoveEnumeration.DOWN, guiRectangle.getMove());
         Mockito.verify(screen, Mockito.times(4)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowRight));
-        assertEquals(GuiRectangle.MOVE.RIGHT, guiRectangle.getMove());
+        assertEquals(MoveEnumeration.RIGHT, guiRectangle.getMove());
         Mockito.verify(screen, Mockito.times(5)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowLeft));
-        assertEquals(GuiRectangle.MOVE.LEFT, guiRectangle.getMove());
+        assertEquals(MoveEnumeration.LEFT, guiRectangle.getMove());
         Mockito.verify(screen, Mockito.times(6)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(Escape));
-        assertEquals(GuiRectangle.MOVE.ESC, guiRectangle.getMove());
+        assertEquals(MoveEnumeration.ESC, guiRectangle.getMove());
         Mockito.verify(screen, Mockito.times(7)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(Backspace));
-        assertEquals(null, guiRectangle.getMove());
+        assertNull(guiRectangle.getMove());
         Mockito.verify(screen, Mockito.times(8)).pollInput();
     }
 
-     */
 
     @Test
     public void draw() throws Throwable {
-        GuiRectangle guiRectangle = new GuiRectangle(1);
         Screen screen = Mockito.mock(Screen.class);
-        guiRectangle.setScreen(screen);
+        GuiRectangle guiRectangle = new GuiRectangle(screen);
         GameData gameData = Mockito.mock(GameData.class);
         GameStats gameStats = Mockito.mock(GameStats.class);
         ModelDrawRectangle modelDrawRectangle = Mockito.mock(ModelDrawRectangle.class);
@@ -112,6 +105,5 @@ public class GuiRectangleTest {
         Mockito.verify(modelDrawRectangle, Mockito.times(1)).drawGameStats(gameData);
         Mockito.verify(screen, Mockito.times(1)).refresh();
     }
-
 
 }

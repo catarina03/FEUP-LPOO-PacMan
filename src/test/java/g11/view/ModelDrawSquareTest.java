@@ -190,7 +190,6 @@ public class ModelDrawSquareTest {
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
     }
 
-    /*
     @Test
     public void drawGameStats(){
         GameData gameData = Mockito.mock(GameData.class);
@@ -209,16 +208,14 @@ public class ModelDrawSquareTest {
         Mockito.verify(graphics, Mockito.times(1)).putString(3, 1, "SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(15, 1, "HI-SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
-        Mockito.verify(graphics, Mockito.times(1)).putString(7, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).putString(17, 2, "10000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(8 - String.valueOf(gameData.getGameStats().getScore()).length(), 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(17, 2, String.valueOf(gameData.getGameStats().getHighScore()), SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
-        Mockito.verify(graphics, Mockito.times(1)).putString(3, 34, "00000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(3, 34, ">>>>>", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(20, 34, "o", SGR.BOLD);
     }
 
-     */
 
-    /*
     @Test
     public void drawPacman(){
         PacMan pacman = Mockito.mock(PacMan.class);
@@ -247,9 +244,8 @@ public class ModelDrawSquareTest {
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.LEFT);
         modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.Factory.fromString("#FFF100"));
-        Mockito.verify(graphics, Mockito.times(8)).enableModifiers(SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(4)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), '>');
     }
 
-     */
 }

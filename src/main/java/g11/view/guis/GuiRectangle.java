@@ -4,12 +4,14 @@ import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import g11.model.GameStats;
 import g11.view.Gui;
 import g11.view.modeldraws.ModelDrawRectangle;
+import g11.view.modeldraws.ModelDrawSquare;
 
 import java.io.IOException;
 
@@ -31,21 +33,9 @@ public class GuiRectangle extends Gui {
         setModelDraw(new ModelDrawRectangle(getScreen()));
     }
 
-    public GuiRectangle(int no) {
-        try {
-            TerminalSize terminalsize = new TerminalSize(50, 36);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            Terminal terminal = terminalFactory.createTerminal();
-            setTerminal(terminal);
-            setScreen(new TerminalScreen(terminal));
-
-            getScreen().close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        setModelDraw(new ModelDrawRectangle(getScreen()));
-
+    public GuiRectangle(Screen screen) {
+        setScreen(screen);
+        setModelDraw(new ModelDrawSquare(screen));
     }
 
     @Override
