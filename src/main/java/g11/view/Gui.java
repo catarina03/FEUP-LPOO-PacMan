@@ -14,10 +14,6 @@ public abstract class Gui {
     private Screen screen;
     private ModelDraw modelDraw;
 
-    public Terminal getTerminal() {
-        return terminal;
-    }
-
     public void setTerminal(Terminal terminal) {
         this.terminal = terminal;
     }
@@ -28,10 +24,6 @@ public abstract class Gui {
 
     public void setScreen(Screen screen) {
         this.screen = screen;
-    }
-
-    public ModelDraw getModelDraw() {
-        return modelDraw;
     }
 
     public void setModelDraw(ModelDraw modelDraw) {

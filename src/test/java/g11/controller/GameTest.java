@@ -13,14 +13,12 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class GameTest {
 
     @Test
-    public void updateTest() throws Throwable {
+    public void updateTest() {
         GuiSquare guiSquare = Mockito.mock(GuiSquare.class);
         Game game = new Game(guiSquare); //Cria uma tela no GUI, dar fix
 
@@ -54,7 +52,7 @@ public class GameTest {
     }
 
     @Test
-    public void processKeyTest() throws Throwable {
+    public void processKeyTest() {
         GuiSquare guiSquare = Mockito.mock(GuiSquare.class);
         Game game = new Game(guiSquare);
 
@@ -82,22 +80,22 @@ public class GameTest {
 
         game.setGameData(gameData);
 
-        assertEquals(false, game.processKey(MoveEnumeration.UP));
+        assertFalse(game.processKey(MoveEnumeration.UP));
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.UP);
         assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.UP));
 
-        assertEquals(false, game.processKey(MoveEnumeration.RIGHT));
+        assertFalse(game.processKey(MoveEnumeration.RIGHT));
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.RIGHT);
         assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.RIGHT));
 
-        assertEquals(false, game.processKey(MoveEnumeration.DOWN));
+        assertFalse(game.processKey(MoveEnumeration.DOWN));
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.DOWN);
         assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.DOWN));
 
-        assertEquals(false, game.processKey(MoveEnumeration.LEFT));
+        assertFalse(game.processKey(MoveEnumeration.LEFT));
         Mockito.verify(collisionChecker, Mockito.times(1)).checkWallCollision(gameData, MoveEnumeration.LEFT);
         assertFalse(collisionChecker.checkWallCollision(gameData, MoveEnumeration.LEFT));
 
-        assertEquals(true, game.processKey(MoveEnumeration.ESC));
+        assertTrue(game.processKey(MoveEnumeration.ESC));
     }
 }

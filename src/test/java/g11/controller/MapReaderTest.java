@@ -25,13 +25,13 @@ public class MapReaderTest {
         assertEquals(11, mapReader.startingPacMan().getY());
     }
 
-    /*
     @Test
     public void creationTest(){
         ReadFile readFile = Mockito.mock(ReadFile.class);
         File file = Mockito.mock(File.class);
 
         ArrayList<String> fileContent = new ArrayList<>();
+        fileContent.add("100");
         fileContent.add("#eccBI#");
         fileContent.add("#$PKMg");
         Mockito.when(readFile.fileContent()).thenReturn(fileContent);
@@ -49,7 +49,5 @@ public class MapReaderTest {
         assertEquals(4, mapReader.getPacManposition().getX());
         assertEquals(4, mapReader.getPacManposition().getY());
     }
-
-     */
 }
 

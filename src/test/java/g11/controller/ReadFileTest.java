@@ -23,7 +23,7 @@ public class ReadFileTest {
         String map = "mapv2.txt";
 
         ReadFile readFile = new ReadFile(map);
-        ArrayList result = readFile.fileContent();
+        ArrayList<String> result = readFile.fileContent();
         assertEquals(32, result.size());
     }
 }

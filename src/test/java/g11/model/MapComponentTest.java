@@ -1,5 +1,6 @@
 package g11.model;
 
+import com.sun.javafx.fxml.expression.ExpressionValue;
 import g11.model.elements.*;
 import g11.model.elements.ghosts.Blinky;
 import g11.model.elements.ghosts.Clyde;
@@ -15,12 +16,14 @@ import static org.junit.Assert.assertEquals;
 
 public class MapComponentTest {
 
-/*
     @Test
     public void GhostTest() {
         Random r = new Random();
-        int x = r.nextInt();
-        int y = r.nextInt();
+        int x = r.nextInt(50);
+        int y = r.nextInt(50);
+        int xMapLimit = r.nextInt();
+
+        Moveable.xValueTP = xMapLimit;
 
         Position positionRandom = Mockito.mock(Position.class);
         Mockito.when(positionRandom.getX()).thenReturn(x);
@@ -31,38 +34,32 @@ public class MapComponentTest {
         Mockito.when(position.getY()).thenReturn(0);
 
         Inky inky = new Inky(position, positionRandom);
-        Blinky blinky = new Blinky(position, positionRandom);
-        Clyde clyde = new Clyde(position, positionRandom);
-        Pinky pinky = new Pinky(position, positionRandom);
 
         inky.setOrientationEnumeration(OrientationEnumeration.LEFT);
         inky.setX(0);
         inky.setY(5);
-        //Mockito.when(position.getX()).thenReturn(0);
-        //Mockito.when(position.getY()).thenReturn(5);
         inky.moveDirection();
-        assertEquals(27, inky.getX());
+        assertEquals(xMapLimit, inky.getX());
 
         inky.setOrientationEnumeration(OrientationEnumeration.RIGHT);
-        Mockito.when(position.getX()).thenReturn(27);
-        Mockito.when(position.getY()).thenReturn(5);
+        inky.setX(xMapLimit);
+        inky.setY(5);
         inky.moveDirection();
         assertEquals(0, inky.getX());
 
         inky.setOrientationEnumeration(OrientationEnumeration.UP);
-        Mockito.when(position.getX()).thenReturn(20);
-        Mockito.when(position.getY()).thenReturn(3);
+        inky.setX(5);
+        inky.setY(3);
         inky.moveDirection();
         assertEquals(33, inky.getY());
 
         inky.setOrientationEnumeration(OrientationEnumeration.DOWN);
-        Mockito.when(position.getX()).thenReturn(33);
-        Mockito.when(position.getY()).thenReturn(5);
+        inky.setX(5);
+        inky.setY(33);
         inky.moveDirection();
         assertEquals(3, inky.getY());
     }
 
- */
 
     @Test
     public void FixedCreation() {
