@@ -14,8 +14,6 @@ import g11.model.elements.map.EmptySpace;
 import g11.model.elements.map.PowerPellet;
 import g11.model.elements.map.Wall;
 import g11.view.guis.GuiRectangle;
-import g11.view.guis.GuiRectangle;
-import g11.view.guis.GuiRectangle;
 import g11.view.modeldraws.ModelDrawRectangle;
 import org.junit.Test;
 import org.mockito.Mockito;

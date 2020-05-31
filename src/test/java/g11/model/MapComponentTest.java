@@ -1,11 +1,7 @@
 package g11.model;
 
-import com.sun.javafx.fxml.expression.ExpressionValue;
 import g11.model.elements.*;
-import g11.model.elements.ghosts.Blinky;
-import g11.model.elements.ghosts.Clyde;
 import g11.model.elements.ghosts.Inky;
-import g11.model.elements.ghosts.Pinky;
 import g11.model.elements.map.*;
 import org.junit.Test;
 import org.mockito.Mockito;

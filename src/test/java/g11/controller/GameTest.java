@@ -5,7 +5,6 @@ import g11.model.elements.map.Wall;
 import g11.model.GameData;
 import g11.model.Map;
 import g11.model.Position;
-import g11.view.Gui;
 import g11.view.MoveEnumeration;
 import g11.view.guis.GuiSquare;
 import org.junit.Test;

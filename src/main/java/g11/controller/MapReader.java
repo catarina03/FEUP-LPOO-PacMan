@@ -178,10 +178,6 @@ public class MapReader {
         return new PacMan(pacManposition);
     }
 
-    public int getHighScore() {
-        return highScore;
-    }
-
     public Map getMap() {
         return new Map(map, walls, emptySpaces, coins, powerPellets, gates, mapComponents, unturnable);
     }

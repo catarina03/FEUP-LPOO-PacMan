@@ -3,7 +3,6 @@ package g11.controller;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import g11.controller.gamestates.*;
-import g11.controller.ghosts.*;
 import g11.model.GameData;
 import g11.model.GameStats;
 import g11.model.Map;
@@ -12,10 +11,8 @@ import g11.model.elements.*;
 import g11.view.guis.GuiSquare;
 import g11.view.MoveEnumeration;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;

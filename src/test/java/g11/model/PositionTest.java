@@ -1,7 +1,6 @@
 package g11.model;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.Random;
 

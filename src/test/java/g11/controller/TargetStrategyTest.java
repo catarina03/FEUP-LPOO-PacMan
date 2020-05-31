@@ -1,6 +1,5 @@
 package g11.controller;
 
-import g11.controller.ghosts.TargetStrategy;
 import g11.controller.ghosts.strategies.TargetStrategyBlinky;
 import g11.controller.ghosts.strategies.TargetStrategyClyde;
 import g11.controller.ghosts.strategies.TargetStrategyInky;
@@ -14,7 +13,6 @@ import g11.model.elements.ghosts.Blinky;
 import g11.model.elements.ghosts.Clyde;
 import g11.model.elements.ghosts.Inky;
 import g11.model.elements.ghosts.Pinky;
-import javafx.geometry.Pos;
 import org.junit.Test;
 import org.mockito.Mockito;
 

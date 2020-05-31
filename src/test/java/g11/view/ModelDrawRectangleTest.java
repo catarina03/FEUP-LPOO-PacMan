@@ -15,7 +15,6 @@ import g11.model.elements.ghosts.Inky;
 import g11.model.elements.ghosts.Pinky;
 import g11.model.elements.map.*;
 import g11.view.modeldraws.ModelDrawRectangle;
-import g11.view.modeldraws.ModelDrawRectangle;
 import org.junit.Test;
 import org.mockito.Mockito;
 

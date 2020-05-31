@@ -1,10 +1,6 @@
 package g11.controller;
 
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
