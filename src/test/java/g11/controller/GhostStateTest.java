@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 public class GhostStateTest {
 
@@ -289,6 +290,87 @@ public class GhostStateTest {
 
         ghostStateExitingHouse.update(gameData, 1, 0);
 
+        Mockito.verify(ghostController, Mockito.times(1)).changeState(any(GhostStateChase.class));
+    }
+
+    @Test
+    public void GhostStateFrightenedUpdate(){
+        GameData gameData = Mockito.mock(GameData.class);
+        Map map = Mockito.mock(Map.class);
+        PowerPellet powerPellet = Mockito.mock(PowerPellet.class);
+        GhostController ghostController = Mockito.mock(GhostController.class);
+        TargetStrategy targetStrategy = Mockito.mock(TargetStrategy.class);
+        Inky inky = Mockito.mock(Inky.class);
+        Position position1 = Mockito.mock(Position.class);
+        Position position2 = Mockito.mock(Position.class);
+        Gate gate1 = Mockito.mock(Gate.class);
+        Gate gate2 = Mockito.mock(Gate.class);
+        GhostStateFrightened ghostStateFrightened = new GhostStateFrightened(ghostController, targetStrategy, 2);
+
+        ArrayList<PowerPellet> powerPellets = new ArrayList<>();
+        powerPellets.add(powerPellet);
+
+        ArrayList<Gate> gates = new ArrayList<>();
+        gates.add(gate1);
+        gates.add(gate2);
+
+        ghostStateFrightened.setTicksToEnd(51);
+        Mockito.when(position2.getX()).thenReturn(5);
+        Mockito.when(position2.getY()).thenReturn(6);
+        Mockito.when(position1.getX()).thenReturn(5);
+        Mockito.when(position1.getY()).thenReturn(7);
+        Mockito.when(position1.up()).thenReturn(position2);
+        Mockito.when(gameData.getMap()).thenReturn(map);
+        Mockito.when(map.getGates()).thenReturn(gates);
+        Mockito.when(inky.getPosition()).thenReturn(position2);
+        Mockito.when(gate1.getPosition()).thenReturn(position1);
+        Mockito.when(map.getPowerPellets()).thenReturn(powerPellets);
+        Mockito.when(ghostController.getGhost()).thenReturn(inky);
+        Mockito.when(ghostController.getTargetStrategy()).thenReturn(targetStrategy);
+        ghostStateFrightened.setActivePPs(2);
+
+        ghostStateFrightened.update(gameData, 1, 1);
+
+        Mockito.verify(inky, Mockito.times(1)).setState(GhostStateEnumeration.CHASE);
+        assertEquals(ghostStateFrightened.getActivePPs(), 1);
+
+        ghostStateFrightened.setTicksToEnd(41);
+        ghostStateFrightened.update(gameData, 1, 1);
+
+        Mockito.verify(inky, Mockito.times(1)).setState(GhostStateEnumeration.FRIGHTENED);
+
+        ghostStateFrightened.setTicksToEnd(1);
+        ghostStateFrightened.update(gameData, 1, 1);
+
+        Mockito.verify(inky, Mockito.times(2)).setState(GhostStateEnumeration.CHASE);
+        Mockito.verify(ghostController, Mockito.times(1)).changeState(any(GhostStateChase.class));
+    }
+
+    @Test
+    public void GhostStateScatterUpdate(){
+        GameData gameData = Mockito.mock(GameData.class);
+        Map map = Mockito.mock(Map.class);
+        PowerPellet powerPellet = Mockito.mock(PowerPellet.class);
+        GhostController ghostController = Mockito.mock(GhostController.class);
+        TargetStrategy targetStrategy = Mockito.mock(TargetStrategy.class);
+        Inky inky = Mockito.mock(Inky.class);
+        GhostStateScatter ghostStateScatter = new GhostStateScatter(ghostController, targetStrategy, 2);
+
+        ArrayList<PowerPellet> powerPellets = new ArrayList<>();
+        powerPellets.add(powerPellet);
+
+        Mockito.when(gameData.getMap()).thenReturn(map);
+        Mockito.when(map.getPowerPellets()).thenReturn(powerPellets);
+        Mockito.when(ghostController.getGhost()).thenReturn(inky);
+        ghostStateScatter.setActivePPs(2);
+
+        ghostStateScatter.update(gameData, 1, 0);
+
+        Mockito.verify(inky, Mockito.times(1)).setState(GhostStateEnumeration.FRIGHTENED);
+        Mockito.verify(ghostController, Mockito.times(2)).setChangeOrientation(true);
+        Mockito.verify(ghostController, Mockito.times(1)).changeState(any(GhostStateFrightened.class));
+        assertTrue(ghostStateScatter.isScatterTime(1));
+        assertEquals(1, ghostStateScatter.getActivePPs());
         Mockito.verify(ghostController, Mockito.times(1)).changeState(any(GhostStateChase.class));
     }
 }
