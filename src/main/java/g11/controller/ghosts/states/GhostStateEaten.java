@@ -15,8 +15,7 @@ public class GhostStateEaten extends GhostState {
 
     @Override
     public void update(GameData gameData, int step, long elapsedTime) {
-        if (ghostController.getGhost().getPosition().equals(gameData.getMap().getGates().get(0).getPosition().up()) ||
-                ghostController.getGhost().getPosition().equals(gameData.getMap().getGates().get(1).getPosition().up())) {
+        if (ghostController.getGhost().getPosition().equals(gameData.getMap().getGates().get(0).getPosition().up()) || ghostController.getGhost().getPosition().equals(gameData.getMap().getGates().get(1).getPosition().up())) {
             ghostController.changeState(new GhostStateEnteringHouse(ghostController, ghostController.getTargetStrategy(), activePPs));
             ghostController.setAccessingHouse(true);
         }
