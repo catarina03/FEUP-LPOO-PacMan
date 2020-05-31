@@ -16,7 +16,6 @@ import g11.model.elements.map.Wall;
 import g11.view.guis.GuiSquare;
 import g11.view.modeldraws.ModelDrawSquare;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -24,60 +23,56 @@ import java.util.ArrayList;
 
 import static com.googlecode.lanterna.input.KeyType.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class GuiSquareTest {
 
     @Test
     public void close() throws Throwable {
-        GuiSquare guiSquare = new GuiSquare(1);
         Screen screen = Mockito.mock(Screen.class);
-        guiSquare.setScreen(screen);
+        GuiSquare guiSquare = new GuiSquare(screen);
 
         guiSquare.close();
         Mockito.verify(screen, Mockito.times(1)).close();
     }
 
-    /*
     @Test
     public void getMove() throws IOException {
-        GuiSquare guiSquare = new GuiSquare(1);
         Screen screen = Mockito.mock(Screen.class);
-        guiSquare.setScreen(screen);
+        GuiSquare guiSquare = new GuiSquare(screen);
 
         screen.pollInput();
-        assertEquals(null, guiSquare.getMove());
+        assertNull(guiSquare.getMove());
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowUp));
-        assertEquals(GuiSquare.MOVE.UP, guiSquare.getMove());
+        assertEquals(MoveEnumeration.UP, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(3)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowDown));
-        assertEquals(GuiSquare.MOVE.DOWN, guiSquare.getMove());
+        assertEquals(MoveEnumeration.DOWN, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(4)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowRight));
-        assertEquals(GuiSquare.MOVE.RIGHT, guiSquare.getMove());
+        assertEquals(MoveEnumeration.RIGHT, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(5)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(ArrowLeft));
-        assertEquals(GuiSquare.MOVE.LEFT, guiSquare.getMove());
+        assertEquals(MoveEnumeration.LEFT, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(6)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(Escape));
-        assertEquals(GuiSquare.MOVE.ESC, guiSquare.getMove());
+        assertEquals(MoveEnumeration.ESC, guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(7)).pollInput();
 
         Mockito.when(screen.pollInput()).thenReturn(new KeyStroke(Backspace));
-        assertEquals(null, guiSquare.getMove());
+        assertNull(guiSquare.getMove());
         Mockito.verify(screen, Mockito.times(8)).pollInput();
     }
-     */
 
     @Test
     public void draw() throws Throwable {
-        GuiSquare guiSquare = new GuiSquare(1);
         Screen screen = Mockito.mock(Screen.class);
-        guiSquare.setScreen(screen);
+        GuiSquare guiSquare = new GuiSquare(screen);
         GameData gameData = Mockito.mock(GameData.class);
         GameStats gameStats = Mockito.mock(GameStats.class);
         ModelDrawSquare modelDraw = Mockito.mock(ModelDrawSquare.class);
@@ -112,15 +107,17 @@ public class GuiSquareTest {
         Mockito.verify(screen, Mockito.times(1)).refresh();
     }
 
-    /*
     @Test
     public void presentationScreen() throws IOException {
         Screen screen = Mockito.mock(Screen.class);
+        GuiSquare guiSquare = new GuiSquare(screen);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
 
+        Mockito.when(screen.newTextGraphics()).thenReturn(graphics);
 
+        guiSquare.presentationScreen();
 
-        Mockito.verify(screen, Mockito.times(1)).clear();;
+        Mockito.verify(screen, Mockito.times(1)).clear();
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
 
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
@@ -157,6 +154,5 @@ public class GuiSquareTest {
         Mockito.verify(screen, Mockito.times(1)).refresh();
     }
 
-     */
 
 }

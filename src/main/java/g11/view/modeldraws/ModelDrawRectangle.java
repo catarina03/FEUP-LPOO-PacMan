@@ -43,7 +43,7 @@ public class ModelDrawRectangle implements ModelDraw {
 
     public void drawPacMan(GameData gameData) {
         graphics.setBackgroundColor(TextColor.ANSI.BLACK);
-        graphics.setForegroundColor(TextColor.ANSI.YELLOW);
+        graphics.setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         graphics.enableModifiers(SGR.BOLD);
         switch (gameData.getPacMan().getOrientationEnumeration()) {
             case UP:

@@ -3,6 +3,7 @@ package g11.view.guis;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.swing.*;
 import g11.model.GameStats;
 import com.googlecode.lanterna.TerminalSize;
@@ -47,21 +48,9 @@ public class GuiSquare extends Gui {
         setModelDraw(new ModelDrawSquare(getScreen()));
     }
 
-    public GuiSquare(int no) {
-        try {
-            TerminalSize terminalsize = new TerminalSize(50, 36);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalsize);
-            Terminal terminal = terminalFactory.createTerminal();
-
-            setTerminal(terminal);
-            setScreen(new TerminalScreen(terminal));
-
-            getScreen().close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        setModelDraw(new ModelDrawSquare(getScreen()));
+    public GuiSquare(Screen screen) {
+        setScreen(screen);
+        setModelDraw(new ModelDrawSquare(screen));
     }
 
     public void readyScreen() throws IOException {

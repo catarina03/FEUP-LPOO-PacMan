@@ -15,6 +15,7 @@ import g11.model.elements.ghosts.Inky;
 import g11.model.elements.ghosts.Pinky;
 import g11.model.elements.map.*;
 import g11.view.modeldraws.ModelDrawRectangle;
+import g11.view.modeldraws.ModelDrawRectangle;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -23,7 +24,6 @@ import java.util.List;
 
 public class ModelDrawRectangleTest {
 
-    /*
     @Test
     public void drawCherry() {
         Screen screen = Mockito.mock(Screen.class);
@@ -36,7 +36,7 @@ public class ModelDrawRectangleTest {
         Mockito.when(cherry.getY()).thenReturn(10);
 
         modelDrawRectangle.drawElement(cherry);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FF1400"));
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(cherry.getX(), cherry.getY(), Symbols.CLUB);
     }
 
@@ -68,7 +68,7 @@ public class ModelDrawRectangleTest {
         Mockito.when(coin.getY()).thenReturn(30);
 
         modelDrawRectangle.drawElement(coin);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFF100"));
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
         Mockito.verify(graphics, Mockito.times(1)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(coin.getX(), coin.getY(), Symbols.BULLET);
@@ -159,10 +159,10 @@ public class ModelDrawRectangleTest {
         modelDrawRectangle.drawGhost(gameData);
 
         Mockito.verify(graphics, Mockito.times(1)).setBackgroundColor(TextColor.ANSI.BLACK);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.RED);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.CYAN);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFA500"));
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.MAGENTA);
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FF1400"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#00F9FF"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC55B"));
+        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.Factory.fromString("#FFC2FF"));
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
@@ -187,8 +187,8 @@ public class ModelDrawRectangleTest {
         Mockito.verify(graphics, Mockito.times(1)).putString(9, 1, "SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(29, 1, "HI-SCORE", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
-        Mockito.verify(graphics, Mockito.times(1)).putString(13, 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
-        Mockito.verify(graphics, Mockito.times(1)).putString(31, 2, "10000", SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(13 - String.valueOf(gameData.getGameStats().getScore()).length(), 2, String.valueOf(gameData.getGameStats().getScore()), SGR.BOLD);
+        Mockito.verify(graphics, Mockito.times(1)).putString(31, 2, String.valueOf(gameData.getGameStats().getHighScore()), SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
         Mockito.verify(graphics, Mockito.times(1)).putString(9, 34, "00000", SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).putString(35, 34, "o", SGR.BOLD);
@@ -204,28 +204,25 @@ public class ModelDrawRectangleTest {
 
         Screen screen = Mockito.mock(Screen.class);
         TextGraphics graphics = Mockito.mock(TextGraphics.class);
-        ModelDrawRectangle modelDrawRectangle = new ModelDrawRectangle(screen);
-        modelDrawRectangle.setGraphics(graphics);
+        ModelDrawRectangle modelDraw = new ModelDrawRectangle(screen);
+        modelDraw.setGraphics(graphics);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.UP);
-        modelDrawRectangle.drawPacMan(gameData);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.YELLOW);
-        Mockito.verify(graphics, Mockito.times(2)).enableModifiers(SGR.BOLD);
+        modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_UP);
-        Mockito.verify(graphics, Mockito.times(1)).setForegroundColor(TextColor.ANSI.WHITE);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.RIGHT);
-        modelDrawRectangle.drawPacMan(gameData);
+        modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_RIGHT);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.DOWN);
-        modelDrawRectangle.drawPacMan(gameData);
+        modelDraw.drawPacMan(gameData);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_DOWN);
 
         Mockito.when(pacman.getOrientationEnumeration()).thenReturn(OrientationEnumeration.LEFT);
-        modelDrawRectangle.drawPacMan(gameData);
+        modelDraw.drawPacMan(gameData);
+        Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.Factory.fromString("#FFF100"));
+        Mockito.verify(graphics, Mockito.times(4)).enableModifiers(SGR.BOLD);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(gameData.getPacMan().getX(), gameData.getPacMan().getY(), Symbols.ARROW_LEFT);
     }
-
-     */
 }
