@@ -401,5 +401,3 @@ Para verificar melhor o esforço dedicado por cada elemento é possível verific
 
 - André Gomes: 65 %
 - Catarina Fernades: 35 %
-
-![](https://s7.gifyu.com/images/Progress.gif)
