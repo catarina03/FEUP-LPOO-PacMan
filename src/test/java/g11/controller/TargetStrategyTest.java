@@ -4,6 +4,7 @@ import g11.controller.ghosts.TargetStrategy;
 import g11.controller.ghosts.strategies.TargetStrategyBlinky;
 import g11.controller.ghosts.strategies.TargetStrategyClyde;
 import g11.controller.ghosts.strategies.TargetStrategyInky;
+import g11.controller.ghosts.strategies.TargetStrategyPinky;
 import g11.model.GameData;
 import g11.model.OrientationEnumeration;
 import g11.model.Position;
@@ -128,5 +129,46 @@ public class TargetStrategyTest {
 
         assertEquals(result.getX(), 2 * (pacMan.getPosition().getX() + 2) - blinky.getPosition().getX());
         assertEquals(result.getY(), 2 * (pacMan.getPosition().getY()) - blinky.getPosition().getY());
+    }
+
+    @Test
+    public void Pinky(){
+        GameData gameData = Mockito.mock(GameData.class);
+        PacMan pacMan = Mockito.mock(PacMan.class);
+        Position position = Mockito.mock(Position.class);
+        Position result = Mockito.mock(Position.class);
+        TargetStrategyPinky targetStrategyPinky = new TargetStrategyPinky();
+
+        Mockito.when(position.getX()).thenReturn(5);
+        Mockito.when(position.getY()).thenReturn(6);
+        Mockito.when(pacMan.getPosition()).thenReturn(position);
+        Mockito.when(gameData.getPacMan()).thenReturn(pacMan);
+        Mockito.when(pacMan.getOrientationEnumeration()).thenReturn(OrientationEnumeration.UP);
+
+        result = targetStrategyPinky.getTarget(gameData);
+
+        assertEquals(result.getX(), pacMan.getPosition().getX() - 4);
+        assertEquals(result.getY(), pacMan.getPosition().getY() - 4);
+
+        Mockito.when(pacMan.getOrientationEnumeration()).thenReturn(OrientationEnumeration.DOWN);
+
+        result = targetStrategyPinky.getTarget(gameData);
+
+        assertEquals(result.getX(), pacMan.getPosition().getX());
+        assertEquals(result.getY(), pacMan.getPosition().getY() + 4);
+
+        Mockito.when(pacMan.getOrientationEnumeration()).thenReturn(OrientationEnumeration.LEFT);
+
+        result = targetStrategyPinky.getTarget(gameData);
+
+        assertEquals(result.getX(), pacMan.getPosition().getX() - 4);
+        assertEquals(result.getY(), pacMan.getPosition().getY());
+
+        Mockito.when(pacMan.getOrientationEnumeration()).thenReturn(OrientationEnumeration.RIGHT);
+
+        result = targetStrategyPinky.getTarget(gameData);
+
+        assertEquals(result.getX(), pacMan.getPosition().getX() + 4);
+        assertEquals(result.getY(), pacMan.getPosition().getY());
     }
 }
