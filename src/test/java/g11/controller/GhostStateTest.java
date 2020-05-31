@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.configuration.injection.MockInjection;
 
 import java.util.ArrayList;
 
@@ -457,6 +458,62 @@ public class GhostStateTest {
     }
 
     @Test
+    public void GhostStateFrightenedCalculateAndStep() {
+        GhostController ghostController = Mockito.mock(GhostController.class);
+        Inky inky = Mockito.mock(Inky.class);
+        TargetStrategy targetStrategy = Mockito.mock(TargetStrategy.class);
+        GameData gameData = Mockito.mock(GameData.class);
+        Position position = Mockito.mock(Position.class);
+        Position position2 = Mockito.mock(Position.class);
+        Gate gate1 = Mockito.mock(Gate.class);
+        Gate gate2 = Mockito.mock(Gate.class);
+        Map map = Mockito.mock(Map.class);
+        GhostStateFrightened ghostStateFrightened = new GhostStateFrightened(ghostController, targetStrategy, 1);
+
+        ArrayList<Gate> gates = new ArrayList<>();
+        gates.add(gate1);
+        gates.add(gate2);
+
+        ArrayList<OrientationEnumeration> orientationEnumerations = new ArrayList<>();
+        OrientationEnumeration up = OrientationEnumeration.UP;
+        OrientationEnumeration down = OrientationEnumeration.DOWN;
+        OrientationEnumeration left = OrientationEnumeration.LEFT;
+        OrientationEnumeration right = OrientationEnumeration.RIGHT;
+        orientationEnumerations.add(up);
+        orientationEnumerations.add(down);
+        orientationEnumerations.add(left);
+        orientationEnumerations.add(right);
+
+        Mockito.when(ghostController.getAvailableOrientations(gameData)).thenReturn(orientationEnumerations);
+        Mockito.when(map.getGates()).thenReturn(gates);
+        Mockito.when(gate1.getPosition()).thenReturn(position2);
+        Mockito.when(position2.up()).thenReturn(position);
+        Mockito.when(ghostController.getGhost()).thenReturn(inky);
+        Mockito.when(ghostController.isChangeOrientation()).thenReturn(true);
+        Mockito.when(inky.getOrientationEnumeration()).thenReturn(left);
+        Mockito.when(position2.getX()).thenReturn(5);
+        Mockito.when(position2.getX()).thenReturn(5);
+        Mockito.when(position.getX()).thenReturn(5);
+        Mockito.when(position.getX()).thenReturn(4);
+        Mockito.when(gameData.getMap()).thenReturn(map);
+        Mockito.when(ghostController.chooseOrientation(orientationEnumerations)).thenReturn(OrientationEnumeration.LEFT);
+        Mockito.when(targetStrategy.getTarget(gameData)).thenReturn(position);
+
+        ghostStateFrightened.calculateAndStep(gameData, 5);
+
+        Mockito.verify(inky, Mockito.times(1)).setOrientationEnumeration(OrientationEnumeration.RIGHT);
+        Mockito.verify(ghostController, Mockito.times(1)).setChangeOrientation(false);
+        Mockito.verify(inky, Mockito.times(1)).moveDirection();
+
+        Mockito.when(ghostController.isChangeOrientation()).thenReturn(false);
+
+        ghostStateFrightened.calculateAndStep(gameData, 5);
+
+        Mockito.verify(ghostController, Mockito.times(1)).getAvailableOrientations(gameData);
+        Mockito.verify(inky, Mockito.times(2)).setOrientationEnumeration(any(OrientationEnumeration.class));
+    }
+
+    @Test
     public void GhostStateScatterUpdate(){
         GameData gameData = Mockito.mock(GameData.class);
         Map map = Mockito.mock(Map.class);
@@ -482,5 +539,61 @@ public class GhostStateTest {
         assertTrue(ghostStateScatter.isScatterTime(1));
         assertEquals(1, ghostStateScatter.getActivePPs());
         Mockito.verify(ghostController, Mockito.times(1)).changeState(any(GhostStateChase.class));
+    }
+
+    @Test
+    public void GhostStateScatterCalculateAndStep() {
+        GhostController ghostController = Mockito.mock(GhostController.class);
+        Inky inky = Mockito.mock(Inky.class);
+        TargetStrategy targetStrategy = Mockito.mock(TargetStrategy.class);
+        GameData gameData = Mockito.mock(GameData.class);
+        Position position = Mockito.mock(Position.class);
+        Position position2 = Mockito.mock(Position.class);
+        Gate gate1 = Mockito.mock(Gate.class);
+        Gate gate2 = Mockito.mock(Gate.class);
+        Map map = Mockito.mock(Map.class);
+        GhostStateScatter ghostStateScatter = new GhostStateScatter(ghostController, targetStrategy, 1);
+
+        ArrayList<Gate> gates = new ArrayList<>();
+        gates.add(gate1);
+        gates.add(gate2);
+
+        ArrayList<OrientationEnumeration> orientationEnumerations = new ArrayList<>();
+        OrientationEnumeration up = OrientationEnumeration.UP;
+        OrientationEnumeration down = OrientationEnumeration.DOWN;
+        OrientationEnumeration left = OrientationEnumeration.LEFT;
+        OrientationEnumeration right = OrientationEnumeration.RIGHT;
+        orientationEnumerations.add(up);
+        orientationEnumerations.add(down);
+        orientationEnumerations.add(left);
+        orientationEnumerations.add(right);
+
+        Mockito.when(ghostController.getAvailableOrientations(gameData)).thenReturn(orientationEnumerations);
+        Mockito.when(map.getGates()).thenReturn(gates);
+        Mockito.when(gate1.getPosition()).thenReturn(position2);
+        Mockito.when(position2.up()).thenReturn(position);
+        Mockito.when(ghostController.getGhost()).thenReturn(inky);
+        Mockito.when(ghostController.isChangeOrientation()).thenReturn(true);
+        Mockito.when(inky.getOrientationEnumeration()).thenReturn(left);
+        Mockito.when(position2.getX()).thenReturn(5);
+        Mockito.when(position2.getX()).thenReturn(5);
+        Mockito.when(position.getX()).thenReturn(5);
+        Mockito.when(position.getX()).thenReturn(4);
+        Mockito.when(gameData.getMap()).thenReturn(map);
+        Mockito.when(ghostController.chooseOrientation(orientationEnumerations)).thenReturn(OrientationEnumeration.LEFT);
+        Mockito.when(targetStrategy.getTarget(gameData)).thenReturn(position);
+
+        ghostStateScatter.calculateAndStep(gameData, 4);
+
+        Mockito.verify(inky, Mockito.times(1)).setOrientationEnumeration(OrientationEnumeration.RIGHT);
+        Mockito.verify(ghostController, Mockito.times(1)).setChangeOrientation(false);
+        Mockito.verify(inky, Mockito.times(1)).moveDirection();
+
+        Mockito.when(ghostController.isChangeOrientation()).thenReturn(false);
+
+        ghostStateScatter.calculateAndStep(gameData, 4);
+
+        Mockito.verify(ghostController, Mockito.times(1)).getAvailableOrientations(gameData);
+        Mockito.verify(inky, Mockito.times(2)).setOrientationEnumeration(any(OrientationEnumeration.class));
     }
 }
