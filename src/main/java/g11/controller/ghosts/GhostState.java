@@ -17,6 +17,10 @@ public abstract class GhostState {
         return activePPs;
     }
 
+    public void setActivePPs(int activePPs) {
+        this.activePPs = activePPs;
+    }
+
     public abstract void update(GameData gameData, int step, long elapsedTime);
 
     public abstract void calculateAndStep(GameData gameData, int step);
