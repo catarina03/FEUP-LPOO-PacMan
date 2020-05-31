@@ -91,9 +91,7 @@ public class Game {
         this.lastmove = lastmove;
     }
 
-    public void setGhostControllers(ArrayList<GhostController> ghostControllers) {
-        this.ghostControllers = ghostControllers;
-    }
+    public void setGhostControllers(ArrayList<GhostController> ghostControllers) { this.ghostControllers = ghostControllers; }
 
     public void setTicks(int ticks) {
         this.ticks = ticks;

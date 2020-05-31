@@ -68,26 +68,26 @@ public class CollisionChecker {
         ArrayList<Coin> coins = gameData.getMap().getCoins();
         ArrayList<PowerPellet> powerPellets = gameData.getMap().getPowerPellets();
         Fixed toremove = null;
+
         for (Coin coin : coins) {
             if (collide(coin.getPosition(), gameData.getPacMan().getPosition())) {
                 toremove = coin;
                 break;
             }
         }
+
         for (PowerPellet powerPellet : powerPellets) {
             if (collide(powerPellet.getPosition(), gameData.getPacMan().getPosition())){
                 toremove = powerPellet;
                 break;
             }
         }
+
         if (toremove != null) {
             ArrayList<EmptySpace> emptySpace = gameData.getMap().getEmptySpaces();
             ArrayList<MapComponent> components = gameData.getMap().getMapComponents();
             GameStats stats = gameData.getGameStats();
-
             emptySpace.add(new EmptySpace(toremove.getX(), toremove.getY()));
-            //components.abj dd(new EmptySpace(toremove.getX(), toremove.getY()));
-
             if (toremove instanceof Coin){
                 coins.remove(toremove);
                 components.remove(toremove);

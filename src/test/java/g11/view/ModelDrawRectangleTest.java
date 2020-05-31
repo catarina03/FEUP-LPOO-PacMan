@@ -1,5 +1,6 @@
 package g11.view;
 
+import g11.model.GhostStateEnumeration;
 import g11.model.elements.*;
 import g11.model.GameData;
 import g11.model.GameStats;
@@ -132,28 +133,33 @@ public class ModelDrawRectangleTest {
         GameData gameData = Mockito.mock(GameData.class);
         modelDrawRectangle.setGraphics(graphics);
 
-        MapComponent blinky = Mockito.mock(Blinky.class);
+        Blinky blinky = Mockito.mock(Blinky.class);
         Mockito.when(blinky.getX()).thenReturn(60);
         Mockito.when(blinky.getY()).thenReturn(60);
+        Mockito.when(blinky.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        MapComponent inky = Mockito.mock(Inky.class);
+        Inky inky = Mockito.mock(Inky.class);
         Mockito.when(inky.getX()).thenReturn(70);
         Mockito.when(inky.getY()).thenReturn(70);
+        Mockito.when(inky.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        MapComponent clyde = Mockito.mock(Clyde.class);
+        Clyde clyde = Mockito.mock(Clyde.class);
         Mockito.when(clyde.getX()).thenReturn(80);
         Mockito.when(clyde.getY()).thenReturn(80);
+        Mockito.when(clyde.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        MapComponent pinky = Mockito.mock(Pinky.class);
+        Pinky pinky = Mockito.mock(Pinky.class);
         Mockito.when(pinky.getX()).thenReturn(90);
         Mockito.when(pinky.getY()).thenReturn(90);
+        Mockito.when(pinky.getState()).thenReturn(GhostStateEnumeration.CHASE);
 
-        List<Ghost> ghostList = new ArrayList<>();
-        ghostList.add((Ghost) blinky);
-        ghostList.add((Ghost) inky);
-        ghostList.add((Ghost) clyde);
-        ghostList.add((Ghost) pinky);
-        Mockito.when(gameData.getGhosts()).thenReturn(ghostList);
+        ArrayList<Ghost> ghosts = new ArrayList<>();
+        ghosts.add(blinky);
+        ghosts.add(inky);
+        ghosts.add(clyde);
+        ghosts.add(pinky);
+
+        Mockito.when(gameData.getGhosts()).thenReturn(ghosts);
 
         modelDrawRectangle.drawGhost(gameData);
 
@@ -166,6 +172,26 @@ public class ModelDrawRectangleTest {
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
         Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), Symbols.TRIANGLE_UP_POINTING_BLACK);
+
+        Mockito.when(blinky.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+        Mockito.when(inky.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+        Mockito.when(clyde.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+        Mockito.when(pinky.getState()).thenReturn(GhostStateEnumeration.FRIGHTENED);
+
+        modelDrawRectangle.drawGhost(gameData);
+        Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.ANSI.BLUE);
+
+        Mockito.when(blinky.getState()).thenReturn(GhostStateEnumeration.EATEN);
+        Mockito.when(inky.getState()).thenReturn(GhostStateEnumeration.EATEN);
+        Mockito.when(clyde.getState()).thenReturn(GhostStateEnumeration.EATEN);
+        Mockito.when(pinky.getState()).thenReturn(GhostStateEnumeration.EATEN);
+
+        modelDrawRectangle.drawGhost(gameData);
+        Mockito.verify(graphics, Mockito.times(4)).setForegroundColor(TextColor.ANSI.WHITE);
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(blinky.getX(), blinky.getY(), '\"');
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(inky.getX(), inky.getY(), '\"');
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(clyde.getX(), clyde.getY(), '\"');
+        Mockito.verify(graphics, Mockito.times(1)).setCharacter(pinky.getX(), pinky.getY(), '\"');
     }
 
     @Test
